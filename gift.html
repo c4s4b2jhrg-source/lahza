@@ -2,7 +2,6 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta
@@ -22,9 +21,7 @@
 href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Marhey:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap"
 rel="stylesheet">
 
-
 <style>
-
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -37,15 +34,9 @@ html,body{
 }
 
 body{
-
   overflow:hidden;
-
   color:#fff;
-
-  font-family:
-  "Noto Kufi Arabic",
-  sans-serif;
-
+  font-family:"Noto Kufi Arabic",sans-serif;
   background:
   radial-gradient(
     circle at 50% -10%,
@@ -53,48 +44,24 @@ body{
     #190b12 35%,
     #08070a 72%
   );
-
 }
-
-
-/* THEMES */
 
 body.romantic{
-
   --accent:#ff6296;
-
   --accentLight:#ffc1d5;
-
-  --accentSoft:
-  rgba(255,98,150,.12);
-
-  --line:
-  rgba(255,160,190,.17);
-
-  --card:
-  rgba(255,255,255,.055);
-
+  --accentSoft:rgba(255,98,150,.12);
+  --line:rgba(255,160,190,.17);
+  --card:rgba(255,255,255,.055);
   --muted:#91878e;
-
 }
 
-
 body.midnight{
-
   --accent:#9c8cff;
   --accentLight:#ddd7ff;
-
-  --accentSoft:
-  rgba(156,140,255,.12);
-
-  --line:
-  rgba(180,170,255,.18);
-
-  --card:
-  rgba(255,255,255,.05);
-
+  --accentSoft:rgba(156,140,255,.12);
+  --line:rgba(180,170,255,.18);
+  --card:rgba(255,255,255,.05);
   --muted:#9691a8;
-
   background:
   radial-gradient(
     circle at 50% -10%,
@@ -102,26 +69,15 @@ body.midnight{
     #10101d 43%,
     #07070a 75%
   );
-
 }
 
-
 body.sunset{
-
   --accent:#ff9874;
   --accentLight:#ffd1b9;
-
-  --accentSoft:
-  rgba(255,152,116,.12);
-
-  --line:
-  rgba(255,180,145,.18);
-
-  --card:
-  rgba(255,255,255,.055);
-
+  --accentSoft:rgba(255,152,116,.12);
+  --line:rgba(255,180,145,.18);
+  --card:rgba(255,255,255,.055);
   --muted:#9b8983;
-
   background:
   radial-gradient(
     circle at 50% -10%,
@@ -129,26 +85,15 @@ body.sunset{
     #211015 42%,
     #080708 74%
   );
-
 }
 
-
 body.minimal{
-
   --accent:#fff;
   --accentLight:#ededed;
-
-  --accentSoft:
-  rgba(255,255,255,.08);
-
-  --line:
-  rgba(255,255,255,.13);
-
-  --card:
-  rgba(255,255,255,.045);
-
+  --accentSoft:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.13);
+  --card:rgba(255,255,255,.045);
   --muted:#909090;
-
   background:
   radial-gradient(
     circle at 50% -10%,
@@ -156,11 +101,7 @@ body.minimal{
     #101010 45%,
     #060606 76%
   );
-
 }
-
-
-/* BACKGROUND */
 
 .background{
   position:fixed;
@@ -215,74 +156,38 @@ body.minimal{
   }
 }
 
-
-/* LOGO */
-
 .topLogo{
-
   position:fixed;
-
-  top:max(
-    18px,
-    env(safe-area-inset-top)
-  );
-
+  top:max(18px,env(safe-area-inset-top));
   left:50%;
-
   transform:translateX(-50%);
-
   z-index:20;
-
   color:rgba(255,255,255,.5);
-
   font-size:13px;
-
   font-weight:800;
-
   letter-spacing:2px;
-
 }
 
 .topLogo span{
   color:var(--accent);
 }
 
-
-/* SCREENS */
-
 .screen{
-
   position:fixed;
-
   inset:0;
-
   display:none;
-
   align-items:center;
-
   justify-content:center;
-
   overflow-y:auto;
-
   padding:
-  max(
-    78px,
-    calc(env(safe-area-inset-top) + 60px)
-  )
+  max(78px,calc(env(safe-area-inset-top) + 60px))
   17px
-  max(
-    40px,
-    calc(env(safe-area-inset-bottom) + 25px)
-  );
-
+  max(40px,calc(env(safe-area-inset-bottom) + 25px));
   opacity:0;
-
   transform:scale(.985);
-
   transition:
   opacity .55s ease,
   transform .55s ease;
-
 }
 
 .screen.active{
@@ -300,9 +205,6 @@ body.minimal{
   text-align:center;
 }
 
-
-/* LOADING */
-
 .loadingHeart{
   font-size:52px;
   color:var(--accent);
@@ -319,32 +221,18 @@ body.minimal{
   font-size:12px;
 }
 
-
-/* COMMON */
-
 .sceneIcon{
-
   width:68px;
   height:68px;
-
   border-radius:22px;
-
   margin:0 auto 15px;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   background:var(--accentSoft);
-
   border:1px solid var(--line);
-
   color:var(--accentLight);
-
   font-size:29px;
-
 }
 
 .sceneTitle{
@@ -353,80 +241,51 @@ body.minimal{
 }
 
 .sceneSubtitle{
-
   margin:8px auto 22px;
-
   color:var(--muted);
-
   line-height:1.8;
-
   max-width:420px;
-
   font-size:12px;
-
 }
 
 .glassCard{
-
   width:min(100%,530px);
-
   margin:auto;
-
   padding:25px 19px;
-
   border-radius:29px;
-
   border:1px solid var(--line);
-
   background:
   linear-gradient(
     145deg,
     rgba(255,255,255,.065),
     rgba(255,255,255,.025)
   );
-
   backdrop-filter:blur(20px);
-
 }
 
 .nextButton{
-
   width:min(100%,390px);
-
   margin-top:27px;
-
   padding:16px 20px;
-
   border:0;
-
   border-radius:19px;
-
   color:#fff;
-
   background:
   linear-gradient(
     135deg,
     var(--accent),
     #ff477f
   );
-
   font-family:inherit;
-
   font-size:14px;
-
   font-weight:900;
-
   cursor:pointer;
-
 }
 
 .minimal .nextButton{
   color:#050505;
   background:white;
 }
-
-
-/* NAME */
 
 .giftMiniText{
   color:var(--muted);
@@ -435,26 +294,18 @@ body.minimal{
 }
 
 .nameFrame{
-
   position:relative;
-
   width:min(100%,470px);
-
   margin:auto;
-
   padding:34px 20px;
-
   border-radius:29px;
-
   border:1px solid var(--line);
-
   background:
   linear-gradient(
     145deg,
     rgba(255,255,255,.075),
     rgba(255,255,255,.025)
   );
-
 }
 
 .nameFrame:before{
@@ -478,25 +329,14 @@ body.minimal{
 }
 
 .receiverName{
-
   position:relative;
-
   font-family:"Aref Ruqaa",serif;
-
   font-size:clamp(36px,9vw,52px);
-
   font-weight:700;
-
   line-height:1.5;
-
   overflow-wrap:anywhere;
-
   color:var(--accentLight);
-
 }
-
-
-/* MESSAGE FONTS */
 
 .messageQuote{
   color:var(--accent);
@@ -505,17 +345,11 @@ body.minimal{
 }
 
 .messageText{
-
   white-space:pre-wrap;
-
   overflow-wrap:anywhere;
-
   color:white;
-
   font-size:clamp(22px,5.8vw,31px);
-
   line-height:2;
-
 }
 
 .font-normal{
@@ -539,24 +373,14 @@ body.minimal{
   font-size:clamp(19px,5vw,27px);
 }
 
-
-/* MUSIC */
-
 .musicDisc{
-
   width:115px;
   height:115px;
-
   margin:0 auto 20px;
-
   border-radius:50%;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   background:
   radial-gradient(
     circle,
@@ -566,9 +390,7 @@ body.minimal{
     rgba(255,255,255,.1) 43% 45%,
     #090909 46%
   );
-
   border:1px solid var(--line);
-
 }
 
 .musicDisc.spinning{
@@ -580,57 +402,34 @@ body.minimal{
 }
 
 .musicDisc span{
-
   width:32px;
   height:32px;
-
   border-radius:50%;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   background:var(--accent);
-
 }
 
 .audioControl{
-
   display:flex;
-
   align-items:center;
-
   gap:13px;
-
   border:1px solid var(--line);
-
   background:rgba(0,0,0,.18);
-
   padding:14px;
-
   border-radius:20px;
-
 }
 
 .audioPlay{
-
   width:55px;
   height:55px;
-
   flex:0 0 55px;
-
   border:0;
-
   border-radius:50%;
-
   background:white;
-
   color:#111;
-
   font-size:18px;
-
 }
 
 .audioDetails{
@@ -649,19 +448,12 @@ body.minimal{
 }
 
 .youtubeBox iframe{
-
   display:block;
-
   width:100%;
-
   aspect-ratio:16/9;
-
   border:0;
-
   border-radius:19px;
-
   background:#000;
-
 }
 
 .youtubeNote{
@@ -678,9 +470,6 @@ body.minimal{
   background:#000;
 }
 
-
-/* PHOTO */
-
 .photoStage{
   width:100%;
   display:flex;
@@ -688,19 +477,11 @@ body.minimal{
 }
 
 .photoContainer{
-
   position:relative;
-
   overflow:hidden;
-
   background:#050505;
-
   transition:.3s;
-
 }
-
-
-/* size */
 
 .photoContainer.medium{
   width:min(100%,310px);
@@ -716,9 +497,6 @@ body.minimal{
   width:100%;
   height:min(62vh,580px);
 }
-
-
-/* frames */
 
 .photoContainer.soft{
   border-radius:25px;
@@ -747,21 +525,13 @@ body.minimal{
 }
 
 .photoSlide{
-
   position:absolute;
-
   inset:0;
-
   opacity:0;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
-  transition:opacity 1.4s ease;
-
+  transition:opacity .9s ease;
 }
 
 .photoContainer.glass .photoSlide{
@@ -791,12 +561,12 @@ body.minimal{
 }
 
 .photoSlide.active img{
-  animation:photoZoom 7s linear forwards;
+  animation:photoZoom 3s linear forwards;
 }
 
 @keyframes photoZoom{
   from{transform:scale(1)}
-  to{transform:scale(1.04)}
+  to{transform:scale(1.035)}
 }
 
 .photoCounter{
@@ -813,60 +583,34 @@ body.minimal{
 }
 
 .photoArrow{
-
   width:47px;
   height:47px;
-
   border-radius:50%;
-
   border:1px solid var(--line);
-
   color:#fff;
-
   background:rgba(255,255,255,.05);
-
   font-size:19px;
-
 }
 
-
-/* DATE */
-
 .counterGrid{
-
   display:grid;
-
-  grid-template-columns:
-  repeat(3,1fr);
-
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
-
 }
 
 .timeBox{
-
   padding:15px 5px;
-
   border-radius:18px;
-
   border:1px solid var(--line);
-
   background:rgba(0,0,0,.16);
-
 }
 
 .timeNumber{
-
   display:block;
-
   color:var(--accentLight);
-
   font-size:clamp(23px,6vw,32px);
-
   font-weight:900;
-
   direction:ltr;
-
 }
 
 .timeLabel{
@@ -880,23 +624,12 @@ body.minimal{
   font-size:10px;
 }
 
-
-/* SENDER */
-
 .senderName{
-
   position:relative;
-
   font-family:"Aref Ruqaa",serif;
-
   color:var(--accentLight);
-
   font-size:clamp(38px,9vw,53px);
-
 }
-
-
-/* END */
 
 .endHeart{
   font-size:52px;
@@ -904,23 +637,14 @@ body.minimal{
 }
 
 .shareButton{
-
   width:min(100%,390px);
-
   margin-top:22px;
-
   padding:15px;
-
   border-radius:18px;
-
   border:1px solid var(--line);
-
   background:rgba(255,255,255,.05);
-
   color:white;
-
   font-family:inherit;
-
 }
 
 .footer{
@@ -929,19 +653,11 @@ body.minimal{
   font-size:9px;
 }
 
-
-/* LOCK */
-
 .lockBox{
-
   padding:30px 20px;
-
   border:1px solid var(--line);
-
   border-radius:28px;
-
   background:var(--card);
-
 }
 
 .lockBox p{
@@ -949,28 +665,14 @@ body.minimal{
   line-height:1.8;
 }
 
-
-/* DOTS */
-
 .progressDots{
-
   position:fixed;
-
-  bottom:max(
-    13px,
-    env(safe-area-inset-bottom)
-  );
-
+  bottom:max(13px,env(safe-area-inset-bottom));
   left:50%;
-
   transform:translateX(-50%);
-
   z-index:30;
-
   display:flex;
-
   gap:5px;
-
 }
 
 .progressDot{
@@ -986,9 +688,6 @@ body.minimal{
   background:var(--accent);
 }
 
-
-/* HEARTS */
-
 .particles{
   position:fixed;
   inset:0;
@@ -997,40 +696,31 @@ body.minimal{
 }
 
 .particle{
-
   position:absolute;
-
   bottom:-30px;
-
   color:var(--accent);
-
   animation:particleFly 3.2s ease-out forwards;
-
 }
 
 @keyframes particleFly{
-
   0%{
     opacity:0;
     transform:translateY(0);
   }
 
-  15%{opacity:.8}
+  15%{
+    opacity:.8;
+  }
 
   100%{
     opacity:0;
     transform:translateY(-110vh) rotate(25deg);
   }
-
 }
-
 </style>
-
 </head>
 
-
 <body class="romantic">
-
 
 <div class="background">
   <div class="lightOrb one"></div>
@@ -1038,24 +728,21 @@ body.minimal{
   <div id="stars" class="stars"></div>
 </div>
 
-
 <div class="topLogo">
   LAHZA <span>♡</span>
 </div>
 
-
 <div id="particles" class="particles"></div>
 
 <div
-id="progressDots"
-class="progressDots"
-style="display:none">
+  id="progressDots"
+  class="progressDots"
+  style="display:none">
 </div>
 
-
 <section
-id="loadingScreen"
-class="screen active visible">
+  id="loadingScreen"
+  class="screen active visible">
 
   <div class="screenInner">
 
@@ -1071,10 +758,9 @@ class="screen active visible">
 
 </section>
 
-
 <section
-id="lockedScreen"
-class="screen">
+  id="lockedScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1098,10 +784,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="nameScreen"
-class="screen">
+  id="nameScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1120,15 +805,15 @@ class="screen">
       </div>
 
       <div
-      id="receiverName"
-      class="receiverName">
+        id="receiverName"
+        class="receiverName">
       </div>
 
     </div>
 
     <button
-    class="nextButton"
-    onclick="nextStep()">
+      class="nextButton"
+      onclick="nextStep()">
 
       ابدأ اللحظة ♡
 
@@ -1138,10 +823,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="musicScreen"
-class="screen">
+  id="musicScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1160,23 +844,20 @@ class="screen">
     <div class="glassCard">
 
       <div
-      id="musicDisc"
-      class="musicDisc">
-
+        id="musicDisc"
+        class="musicDisc">
         <span>♪</span>
-
       </div>
 
-
       <div
-      id="audioArea"
-      style="display:none">
+        id="audioArea"
+        style="display:none">
 
         <div class="audioControl">
 
           <button
-          id="audioPlay"
-          class="audioPlay">
+            id="audioPlay"
+            class="audioPlay">
             ▶
           </button>
 
@@ -1187,12 +868,12 @@ class="screen">
             </strong>
 
             <input
-            id="audioProgress"
-            class="progress"
-            type="range"
-            min="0"
-            max="100"
-            value="0">
+              id="audioProgress"
+              class="progress"
+              type="range"
+              min="0"
+              max="100"
+              value="0">
 
           </div>
 
@@ -1200,39 +881,36 @@ class="screen">
 
       </div>
 
-
       <div
-      id="youtubeArea"
-      class="youtubeBox"
-      style="display:none">
+        id="youtubeArea"
+        class="youtubeBox"
+        style="display:none">
       </div>
 
-
       <div
-      id="videoArea"
-      style="display:none">
+        id="videoArea"
+        style="display:none">
 
         <video
-        id="giftVideo"
-        class="videoPlayer"
-        controls
-        playsinline>
+          id="giftVideo"
+          class="videoPlayer"
+          controls
+          playsinline>
         </video>
 
       </div>
 
-
       <audio
-      id="giftAudio"
-      preload="metadata"
-      playsinline>
+        id="giftAudio"
+        preload="metadata"
+        playsinline>
       </audio>
 
     </div>
 
     <button
-    class="nextButton"
-    onclick="nextStep()">
+      class="nextButton"
+      onclick="nextStep()">
 
       كمل الهدية ♡
 
@@ -1242,10 +920,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="messageScreen"
-class="screen">
+  id="messageScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1268,15 +945,15 @@ class="screen">
       </div>
 
       <div
-      id="messageText"
-      class="messageText font-normal">
+        id="messageText"
+        class="messageText font-normal">
       </div>
 
     </div>
 
     <button
-    class="nextButton"
-    onclick="nextStep()">
+      class="nextButton"
+      onclick="nextStep()">
 
       كمل ♡
 
@@ -1286,10 +963,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="photosScreen"
-class="screen">
+  id="photosScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1310,30 +986,30 @@ class="screen">
       <div class="photoStage">
 
         <div
-        id="photoContainer"
-        class="photoContainer medium soft fit-contain">
+          id="photoContainer"
+          class="photoContainer medium soft fit-contain">
         </div>
 
       </div>
 
       <div
-      id="photoCounter"
-      class="photoCounter">
+        id="photoCounter"
+        class="photoCounter">
       </div>
 
       <div
-      id="photoControls"
-      class="photoControls">
+        id="photoControls"
+        class="photoControls">
 
         <button
-        class="photoArrow"
-        onclick="previousPhoto()">
+          class="photoArrow"
+          onclick="previousPhoto()">
           ›
         </button>
 
         <button
-        class="photoArrow"
-        onclick="nextPhoto()">
+          class="photoArrow"
+          onclick="nextPhoto()">
           ‹
         </button>
 
@@ -1342,8 +1018,8 @@ class="screen">
     </div>
 
     <button
-    class="nextButton"
-    onclick="nextStep()">
+      class="nextButton"
+      onclick="nextStep()">
 
       كمل ♡
 
@@ -1353,10 +1029,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="dateScreen"
-class="screen">
+  id="dateScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1409,15 +1084,15 @@ class="screen">
       </div>
 
       <div
-      id="originalDate"
-      class="originalDate">
+        id="originalDate"
+        class="originalDate">
       </div>
 
     </div>
 
     <button
-    class="nextButton"
-    onclick="nextStep()">
+      class="nextButton"
+      onclick="nextStep()">
 
       كمل ♡
 
@@ -1427,10 +1102,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="senderScreen"
-class="screen">
+  id="senderScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1449,15 +1123,15 @@ class="screen">
       </div>
 
       <div
-      id="senderName"
-      class="senderName">
+        id="senderName"
+        class="senderName">
       </div>
 
     </div>
 
     <button
-    class="nextButton"
-    onclick="nextStep()">
+      class="nextButton"
+      onclick="nextStep()">
 
       النهاية ♡
 
@@ -1467,10 +1141,9 @@ class="screen">
 
 </section>
 
-
 <section
-id="endScreen"
-class="screen">
+  id="endScreen"
+  class="screen">
 
   <div class="screenInner">
 
@@ -1487,8 +1160,8 @@ class="screen">
     </div>
 
     <button
-    id="shareButton"
-    class="shareButton">
+      id="shareButton"
+      class="shareButton">
       مشاركة اللحظة ♡
     </button>
 
@@ -1500,9 +1173,7 @@ class="screen">
 
 </section>
 
-
 <script>
-
 const SUPABASE_URL =
 "https://ltuyfewachzbazunuxmd.supabase.co";
 
@@ -1515,47 +1186,29 @@ window.supabase.createClient(
   SUPABASE_KEY
 );
 
-
 let screens = [];
-
 let currentStep = 0;
-
 let photos = [];
-
 let photoIndex = 0;
-
 let photoTimer = null;
-
 let objectURLs = [];
-
 let mediaType = "none";
-
 let dateValue = null;
-
 let dateTimer = null;
-
-
-/* INIT */
 
 async function init(){
 
   createStars();
-
 
   const token =
   new URLSearchParams(
     location.search
   ).get("token");
 
-
   if(!token){
-
     showLocked();
-
     return;
-
   }
-
 
   try{
 
@@ -1570,7 +1223,6 @@ async function init(){
       }
     );
 
-
     if(
       error
       ||
@@ -1580,63 +1232,45 @@ async function init(){
     ){
 
       console.error(error);
-
       showLocked();
-
       return;
-
     }
-
 
     const gift =
     data[0];
-
 
     setTheme(
       gift.theme
     );
 
-
     fillGift(
       gift
     );
-
 
     applyPhotoStyle(
       gift
     );
 
-
     await Promise.all([
-
       loadPhotos(
         gift.photos
       ),
-
       loadMedia(
         gift.audio_url
       )
-
     ]);
 
-
     buildSteps();
-
     showFirstGiftScreen();
-
 
   }catch(error){
 
     console.error(error);
-
     showLocked();
 
   }
 
 }
-
-
-/* THEME */
 
 function setTheme(theme){
 
@@ -1646,7 +1280,6 @@ function setTheme(theme){
     "sunset",
     "minimal"
   );
-
 
   if(
     [
@@ -1667,9 +1300,6 @@ function setTheme(theme){
 
 }
 
-
-/* CONTENT */
-
 function fillGift(gift){
 
   document.getElementById("receiverName").textContent =
@@ -1677,22 +1307,18 @@ function fillGift(gift){
   ||
   "شخص مميز";
 
-
   document.getElementById("senderName").textContent =
   gift.sender
   ||
   "شخص يفكر فيك";
 
-
   const message =
   document.getElementById("messageText");
-
 
   message.textContent =
   gift.message
   ||
   "هاللحظة انصنعت لك ♡";
-
 
   const fonts = [
     "normal",
@@ -1702,7 +1328,6 @@ function fillGift(gift){
     "marhey"
   ];
 
-
   const selectedFont =
   fonts.includes(gift.message_font)
   ?
@@ -1710,27 +1335,22 @@ function fillGift(gift){
   :
   "normal";
 
-
   message.className =
   "messageText font-"
   +
   selectedFont;
-
 
   if(gift.gift_date){
 
     dateValue =
     gift.gift_date;
 
-
     document.getElementById("originalDate").textContent =
     "منذ "
     +
     formatDate(gift.gift_date);
 
-
     updateCounter();
-
 
     dateTimer =
     setInterval(
@@ -1742,14 +1362,12 @@ function fillGift(gift){
 
 }
 
-
-/* PHOTO STYLE */
-
 function applyPhotoStyle(gift){
 
   const container =
-  document.getElementById("photoContainer");
-
+  document.getElementById(
+    "photoContainer"
+  );
 
   const frames = [
     "soft",
@@ -1758,19 +1376,16 @@ function applyPhotoStyle(gift){
     "glass"
   ];
 
-
   const sizes = [
     "medium",
     "large",
     "full"
   ];
 
-
   const fits = [
     "contain",
     "cover"
   ];
-
 
   const frame =
   frames.includes(gift.photo_frame)
@@ -1779,7 +1394,6 @@ function applyPhotoStyle(gift){
   :
   "soft";
 
-
   const size =
   sizes.includes(gift.photo_size)
   ?
@@ -1787,14 +1401,12 @@ function applyPhotoStyle(gift){
   :
   "medium";
 
-
   const fit =
   fits.includes(gift.photo_fit)
   ?
   gift.photo_fit
   :
   "contain";
-
 
   container.className =
   "photoContainer "
@@ -1811,15 +1423,11 @@ function applyPhotoStyle(gift){
 
 }
 
-
-/* STEPS */
-
 function buildSteps(){
 
   screens = [
     document.getElementById("nameScreen")
   ];
-
 
   if(mediaType!=="none"){
 
@@ -1829,11 +1437,9 @@ function buildSteps(){
 
   }
 
-
   screens.push(
     document.getElementById("messageScreen")
   );
-
 
   if(photos.length){
 
@@ -1843,7 +1449,6 @@ function buildSteps(){
 
   }
 
-
   if(dateValue){
 
     screens.push(
@@ -1852,35 +1457,39 @@ function buildSteps(){
 
   }
 
-
   screens.push(
     document.getElementById("senderScreen"),
     document.getElementById("endScreen")
   );
 
-
   createDots();
 
 }
 
-
 function showFirstGiftScreen(){
 
   const loading =
-  document.getElementById("loadingScreen");
+  document.getElementById(
+    "loadingScreen"
+  );
 
-  loading.classList.remove("visible");
-
+  loading.classList.remove(
+    "visible"
+  );
 
   setTimeout(()=>{
 
-    loading.classList.remove("active");
+    loading.classList.remove(
+      "active"
+    );
 
     currentStep=0;
 
     showScreen(0);
 
-    document.getElementById("progressDots").style.display =
+    document.getElementById(
+      "progressDots"
+    ).style.display =
     "flex";
 
     celebrate(15);
@@ -1889,42 +1498,47 @@ function showFirstGiftScreen(){
 
 }
 
-
 function showScreen(index){
 
   screens.forEach(screen=>{
 
-    screen.classList.remove("visible");
-    screen.classList.remove("active");
+    screen.classList.remove(
+      "visible"
+    );
+
+    screen.classList.remove(
+      "active"
+    );
 
   });
-
 
   const target =
   screens[index];
 
-
-  target.classList.add("active");
-
+  target.classList.add(
+    "active"
+  );
 
   target.scrollTop=0;
-
 
   requestAnimationFrame(()=>{
 
     requestAnimationFrame(()=>{
 
-      target.classList.add("visible");
+      target.classList.add(
+        "visible"
+      );
 
     });
 
   });
 
-
   updateDots();
 
-
-  if(target.id==="photosScreen"){
+  if(
+    target.id ===
+    "photosScreen"
+  ){
 
     startPhotoTimer();
 
@@ -1936,7 +1550,6 @@ function showScreen(index){
 
 }
 
-
 function nextStep(){
 
   if(
@@ -1946,18 +1559,20 @@ function nextStep(){
     return;
   }
 
-
   const current =
   screens[currentStep];
 
-  current.classList.remove("visible");
-
+  current.classList.remove(
+    "visible"
+  );
 
   setTimeout(()=>{
 
     currentStep++;
 
-    showScreen(currentStep);
+    showScreen(
+      currentStep
+    );
 
     celebrate(6);
 
@@ -1965,21 +1580,21 @@ function nextStep(){
 
 }
 
-
-/* DOTS */
-
 function createDots(){
 
   const box =
-  document.getElementById("progressDots");
+  document.getElementById(
+    "progressDots"
+  );
 
   box.innerHTML="";
-
 
   screens.forEach(()=>{
 
     const dot =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
     dot.className =
     "progressDot";
@@ -1990,31 +1605,37 @@ function createDots(){
 
 }
 
-
 function updateDots(){
 
-  document.querySelectorAll(".progressDot")
-  .forEach((dot,index)=>{
+  document
+  .querySelectorAll(
+    ".progressDot"
+  )
+  .forEach(
+    (dot,index)=>{
 
-    dot.classList.toggle(
-      "active",
-      index===currentStep
-    );
+      dot.classList.toggle(
+        "active",
+        index===currentStep
+      );
 
-  });
+    }
+  );
 
 }
 
 
-/* PHOTOS */
+/* الصور تُحمّل بالضبط بنفس ترتيب المصفوفة المحفوظة */
 
 async function loadPhotos(photoData){
 
   let paths =
   photoData;
 
-
-  if(typeof paths==="string"){
+  if(
+    typeof paths ===
+    "string"
+  ){
 
     try{
 
@@ -2029,15 +1650,22 @@ async function loadPhotos(photoData){
 
   }
 
-
-  if(!Array.isArray(paths)){
+  if(
+    !Array.isArray(paths)
+  ){
     return;
   }
 
-
   const container =
-  document.getElementById("photoContainer");
+  document.getElementById(
+    "photoContainer"
+  );
 
+  /*
+    مهم:
+    for...of يحافظ على ترتيب
+    الصور المخزن في Supabase
+  */
 
   for(const path of paths){
 
@@ -2052,42 +1680,47 @@ async function loadPhotos(photoData){
       .from("gift-media")
       .download(path);
 
-
       if(error){
 
         console.error(error);
-
         continue;
 
       }
 
-
       const url =
-      URL.createObjectURL(data);
+      URL.createObjectURL(
+        data
+      );
 
       objectURLs.push(url);
 
-
       const slide =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
       slide.className =
       "photoSlide";
 
-
       const img =
-      document.createElement("img");
+      document.createElement(
+        "img"
+      );
 
       img.src =
       url;
 
+      slide.appendChild(
+        img
+      );
 
-      slide.appendChild(img);
+      container.appendChild(
+        slide
+      );
 
-      container.appendChild(slide);
-
-      photos.push(slide);
-
+      photos.push(
+        slide
+      );
 
     }catch(error){
 
@@ -2097,77 +1730,90 @@ async function loadPhotos(photoData){
 
   }
 
+  if(
+    photos.length
+  ){
 
-  if(photos.length){
-
-    photos[0].classList.add("active");
+    photos[0]
+    .classList
+    .add("active");
 
     updatePhotoCounter();
 
   }
 
+  if(
+    photos.length <= 1
+  ){
 
-  if(photos.length<=1){
-
-    document.getElementById("photoControls").style.display =
+    document.getElementById(
+      "photoControls"
+    ).style.display =
     "none";
 
   }
 
 }
 
-
 function showPhoto(index){
 
-  if(!photos.length){
+  if(
+    !photos.length
+  ){
     return;
   }
 
-
-  photos[photoIndex].classList.remove("active");
-
+  photos[
+    photoIndex
+  ].classList.remove(
+    "active"
+  );
 
   photoIndex =
   (
-    index + photos.length
+    index
+    +
+    photos.length
   )
   %
   photos.length;
 
-
-  photos[photoIndex].classList.add("active");
+  photos[
+    photoIndex
+  ].classList.add(
+    "active"
+  );
 
   updatePhotoCounter();
 
 }
 
-
 function nextPhoto(){
 
   showPhoto(
-    photoIndex+1
+    photoIndex + 1
   );
 
   restartPhotoTimer();
 
 }
-
 
 function previousPhoto(){
 
   showPhoto(
-    photoIndex-1
+    photoIndex - 1
   );
 
   restartPhotoTimer();
 
 }
 
-
 function updatePhotoCounter(){
 
-  document.getElementById("photoCounter").textContent =
-  (photoIndex+1)
+  document.getElementById(
+    "photoCounter"
+  ).textContent =
+  (photoIndex + 1)
   +
   " / "
   +
@@ -2176,47 +1822,52 @@ function updatePhotoCounter(){
 }
 
 
+/* تبديل الصور كل 3 ثواني */
+
 function startPhotoTimer(){
 
   stopPhotoTimer();
 
-
-  if(photos.length<=1){
+  if(
+    photos.length <= 1
+  ){
     return;
   }
-
 
   photoTimer =
   setInterval(()=>{
 
     showPhoto(
-      photoIndex+1
+      photoIndex + 1
     );
 
-  },6500);
+  },3000);
 
 }
-
 
 function stopPhotoTimer(){
 
   if(photoTimer){
 
-    clearInterval(photoTimer);
+    clearInterval(
+      photoTimer
+    );
 
-    photoTimer=null;
+    photoTimer =
+    null;
 
   }
 
 }
-
 
 function restartPhotoTimer(){
 
   if(
     screens[currentStep]
     &&
-    screens[currentStep].id==="photosScreen"
+    screens[currentStep].id
+    ===
+    "photosScreen"
   ){
 
     startPhotoTimer();
@@ -2234,8 +1885,11 @@ async function loadMedia(value){
     return;
   }
 
-
-  if(value.startsWith("youtube:")){
+  if(
+    value.startsWith(
+      "youtube:"
+    )
+  ){
 
     mediaType =
     "youtube";
@@ -2250,8 +1904,11 @@ async function loadMedia(value){
 
   }
 
-
-  if(value.startsWith("external:")){
+  if(
+    value.startsWith(
+      "external:"
+    )
+  ){
 
     setupExternal(
       value.substring(
@@ -2263,15 +1920,17 @@ async function loadMedia(value){
 
   }
 
-
   let type =
   "audio";
 
   let path =
   value;
 
-
-  if(value.startsWith("storage-audio:")){
+  if(
+    value.startsWith(
+      "storage-audio:"
+    )
+  ){
 
     type =
     "audio";
@@ -2283,8 +1942,11 @@ async function loadMedia(value){
 
   }
 
-
-  if(value.startsWith("storage-video:")){
+  if(
+    value.startsWith(
+      "storage-video:"
+    )
+  ){
 
     type =
     "video";
@@ -2296,7 +1958,6 @@ async function loadMedia(value){
 
   }
 
-
   const {
     data,
     error
@@ -2306,60 +1967,75 @@ async function loadMedia(value){
   .from("gift-media")
   .download(path);
 
-
   if(error){
 
     console.error(error);
-
     return;
 
   }
 
-
   const url =
-  URL.createObjectURL(data);
+  URL.createObjectURL(
+    data
+  );
 
-  objectURLs.push(url);
+  objectURLs.push(
+    url
+  );
 
+  if(
+    type ===
+    "video"
+  ){
 
-  if(type==="video"){
-
-    setupVideo(url);
+    setupVideo(
+      url
+    );
 
   }else{
 
-    setupAudio(url);
+    setupAudio(
+      url
+    );
 
   }
 
 }
-
 
 function setupAudio(url){
 
   mediaType =
   "audio";
 
-
   const audio =
-  document.getElementById("giftAudio");
+  document.getElementById(
+    "giftAudio"
+  );
 
   const play =
-  document.getElementById("audioPlay");
+  document.getElementById(
+    "audioPlay"
+  );
 
   const progress =
-  document.getElementById("audioProgress");
+  document.getElementById(
+    "audioProgress"
+  );
 
   const status =
-  document.getElementById("audioStatus");
+  document.getElementById(
+    "audioStatus"
+  );
 
   const disc =
-  document.getElementById("musicDisc");
+  document.getElementById(
+    "musicDisc"
+  );
 
-
-  document.getElementById("audioArea").style.display =
+  document.getElementById(
+    "audioArea"
+  ).style.display =
   "block";
-
 
   audio.src =
   url;
@@ -2367,10 +2043,11 @@ function setupAudio(url){
   audio.volume =
   .85;
 
-
   play.onclick=()=>{
 
-    if(audio.paused){
+    if(
+      audio.paused
+    ){
 
       audio.play();
 
@@ -2382,88 +2059,103 @@ function setupAudio(url){
 
   };
 
+  audio.addEventListener(
+    "play",
+    ()=>{
 
-  audio.addEventListener("play",()=>{
+      play.textContent =
+      "❚❚";
 
-    play.textContent =
-    "❚❚";
+      status.textContent =
+      "الأغنية شغالة ♡";
 
-    status.textContent =
-    "الأغنية شغالة ♡";
+      disc.classList.add(
+        "spinning"
+      );
 
-    disc.classList.add("spinning");
-
-  });
-
-
-  audio.addEventListener("pause",()=>{
-
-    play.textContent =
-    "▶";
-
-    status.textContent =
-    "الأغنية متوقفة";
-
-    disc.classList.remove("spinning");
-
-  });
-
-
-  audio.addEventListener("timeupdate",()=>{
-
-    if(!audio.duration){
-      return;
     }
+  );
 
+  audio.addEventListener(
+    "pause",
+    ()=>{
 
-    progress.value =
-    (
-      audio.currentTime
-      /
-      audio.duration
-    )
-    *
-    100;
+      play.textContent =
+      "▶";
 
-  });
+      status.textContent =
+      "الأغنية متوقفة";
 
+      disc.classList.remove(
+        "spinning"
+      );
 
-  progress.addEventListener("input",()=>{
-
-    if(!audio.duration){
-      return;
     }
+  );
 
+  audio.addEventListener(
+    "timeupdate",
+    ()=>{
 
-    audio.currentTime =
-    (
-      progress.value
-      /
-      100
-    )
-    *
-    audio.duration;
+      if(
+        !audio.duration
+      ){
+        return;
+      }
 
-  });
+      progress.value =
+      (
+        audio.currentTime
+        /
+        audio.duration
+      )
+      *
+      100;
+
+    }
+  );
+
+  progress.addEventListener(
+    "input",
+    ()=>{
+
+      if(
+        !audio.duration
+      ){
+        return;
+      }
+
+      audio.currentTime =
+      (
+        progress.value
+        /
+        100
+      )
+      *
+      audio.duration;
+
+    }
+  );
 
 }
-
 
 function setupYouTube(id){
 
   mediaType =
   "youtube";
 
-
   const box =
-  document.getElementById("youtubeArea");
+  document.getElementById(
+    "youtubeArea"
+  );
 
   box.style.display =
   "block";
 
-
   const iframe =
-  document.createElement("iframe");
+  document.createElement(
+    "iframe"
+  );
 
   iframe.src =
   "https://www.youtube.com/embed/"
@@ -2472,19 +2164,20 @@ function setupYouTube(id){
   +
   "?playsinline=1&rel=0";
 
-
   iframe.allow =
   "accelerometer; autoplay; encrypted-media; picture-in-picture";
 
   iframe.allowFullscreen =
   true;
 
-
-  box.appendChild(iframe);
-
+  box.appendChild(
+    iframe
+  );
 
   const note =
-  document.createElement("div");
+  document.createElement(
+    "div"
+  );
 
   note.className =
   "youtubeNote";
@@ -2492,30 +2185,35 @@ function setupYouTube(id){
   note.textContent =
   "التشغيل والإعلانات داخل المشغل من YouTube.";
 
-  box.appendChild(note);
+  box.appendChild(
+    note
+  );
 
 }
-
 
 function setupVideo(url){
 
   mediaType =
   "video";
 
-  document.getElementById("videoArea").style.display =
+  document.getElementById(
+    "videoArea"
+  ).style.display =
   "block";
 
-  document.getElementById("giftVideo").src =
+  document.getElementById(
+    "giftVideo"
+  ).src =
   url;
 
 }
 
-
 function setupExternal(url){
 
   const clean =
-  url.split("?")[0].toLowerCase();
-
+  url
+  .split("?")[0]
+  .toLowerCase();
 
   if(
     clean.endsWith(".mp4")
@@ -2525,29 +2223,33 @@ function setupExternal(url){
     clean.endsWith(".webm")
   ){
 
-    setupVideo(url);
+    setupVideo(
+      url
+    );
 
   }else{
 
-    setupAudio(url);
+    setupAudio(
+      url
+    );
 
   }
 
 }
 
 
-/* COUNTER */
+/* DATE */
 
 function updateCounter(){
 
-  if(!dateValue){
+  if(
+    !dateValue
+  ){
     return;
   }
 
-
   const p =
   dateValue.split("-");
-
 
   const start =
   new Date(
@@ -2557,24 +2259,19 @@ function updateCounter(){
     0,0,0
   );
 
-
   const now =
   new Date();
 
-
   let cursor =
   new Date(start);
-
 
   let years =
   now.getFullYear()
   -
   cursor.getFullYear();
 
-
   let yearCursor =
   new Date(cursor);
-
 
   yearCursor.setFullYear(
     cursor.getFullYear()
@@ -2582,8 +2279,9 @@ function updateCounter(){
     years
   );
 
-
-  if(yearCursor>now){
+  if(
+    yearCursor > now
+  ){
 
     years--;
 
@@ -2598,10 +2296,8 @@ function updateCounter(){
 
   }
 
-
   cursor =
   yearCursor;
-
 
   let months =
   (
@@ -2618,10 +2314,8 @@ function updateCounter(){
     cursor.getMonth()
   );
 
-
   let monthCursor =
   new Date(cursor);
-
 
   monthCursor.setMonth(
     cursor.getMonth()
@@ -2629,8 +2323,9 @@ function updateCounter(){
     months
   );
 
-
-  if(monthCursor>now){
+  if(
+    monthCursor > now
+  ){
 
     months--;
 
@@ -2645,73 +2340,76 @@ function updateCounter(){
 
   }
 
-
   const remaining =
   now - monthCursor;
 
-
   const totalSeconds =
   Math.floor(
-    remaining/1000
+    remaining / 1000
   );
-
 
   const days =
   Math.floor(
-    totalSeconds/86400
+    totalSeconds / 86400
   );
-
 
   const hours =
   Math.floor(
     (
-      totalSeconds%86400
+      totalSeconds % 86400
     )
     /
     3600
   );
 
-
   const minutes =
   Math.floor(
     (
-      totalSeconds%3600
+      totalSeconds % 3600
     )
     /
     60
   );
 
-
   const seconds =
-  totalSeconds%60;
+  totalSeconds % 60;
 
-
-  document.getElementById("years").textContent =
+  document.getElementById(
+    "years"
+  ).textContent =
   years;
 
-  document.getElementById("months").textContent =
+  document.getElementById(
+    "months"
+  ).textContent =
   months;
 
-  document.getElementById("days").textContent =
+  document.getElementById(
+    "days"
+  ).textContent =
   days;
 
-  document.getElementById("hours").textContent =
+  document.getElementById(
+    "hours"
+  ).textContent =
   hours;
 
-  document.getElementById("minutes").textContent =
+  document.getElementById(
+    "minutes"
+  ).textContent =
   minutes;
 
-  document.getElementById("seconds").textContent =
+  document.getElementById(
+    "seconds"
+  ).textContent =
   seconds;
 
 }
-
 
 function formatDate(value){
 
   const p =
   value.split("-");
-
 
   const months = [
     "يناير",
@@ -2728,13 +2426,14 @@ function formatDate(value){
     "ديسمبر"
   ];
 
-
   return (
     Number(p[2])
     +
     " "
     +
-    months[Number(p[1])-1]
+    months[
+      Number(p[1]) - 1
+    ]
     +
     " "
     +
@@ -2749,43 +2448,64 @@ function formatDate(value){
 function createStars(){
 
   const box =
-  document.getElementById("stars");
+  document.getElementById(
+    "stars"
+  );
 
-
-  for(let i=0;i<22;i++){
+  for(
+    let i=0;
+    i<22;
+    i++
+  ){
 
     const star =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
     star.className =
     "star";
 
     star.style.left =
-    Math.random()*100+"%";
+    Math.random()*100
+    +
+    "%";
 
     star.style.top =
-    Math.random()*100+"%";
+    Math.random()*100
+    +
+    "%";
 
     star.style.animationDelay =
-    Math.random()*3+"s";
+    Math.random()*3
+    +
+    "s";
 
-    box.appendChild(star);
+    box.appendChild(
+      star
+    );
 
   }
 
 }
 
-
 function celebrate(count){
 
   const box =
-  document.getElementById("particles");
+  document.getElementById(
+    "particles"
+  );
 
-
-  for(let i=0;i<count;i++){
+  for(
+    let i=0;
+    i<count;
+    i++
+  ){
 
     const particle =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
     particle.className =
     "particle";
@@ -2798,16 +2518,27 @@ function celebrate(count){
     "♡";
 
     particle.style.left =
-    Math.random()*100+"%";
+    Math.random()*100
+    +
+    "%";
 
     particle.style.fontSize =
-    (12+Math.random()*14)+"px";
+    (
+      12
+      +
+      Math.random()*14
+    )
+    +
+    "px";
 
     particle.style.animationDelay =
-    Math.random()*.4+"s";
+    Math.random()*.4
+    +
+    "s";
 
-    box.appendChild(particle);
-
+    box.appendChild(
+      particle
+    );
 
     setTimeout(
       ()=>particle.remove(),
@@ -2821,22 +2552,30 @@ function celebrate(count){
 
 /* SHARE */
 
-document.getElementById("shareButton")
+document
+.getElementById(
+  "shareButton"
+)
 .addEventListener(
   "click",
   async ()=>{
 
     try{
 
-      if(navigator.share){
+      if(
+        navigator.share
+      ){
 
         await navigator.share({
 
-          title:"لحظة خاصة ♡",
+          title:
+          "لحظة خاصة ♡",
 
-          text:"عندك لحظة خاصة تنتظرك ♡",
+          text:
+          "عندك لحظة خاصة تنتظرك ♡",
 
-          url:location.href
+          url:
+          location.href
 
         });
 
@@ -2863,24 +2602,34 @@ document.getElementById("shareButton")
 function showLocked(){
 
   const loading =
-  document.getElementById("loadingScreen");
+  document.getElementById(
+    "loadingScreen"
+  );
 
-  loading.classList.remove("visible");
-
+  loading.classList.remove(
+    "visible"
+  );
 
   setTimeout(()=>{
 
-    loading.classList.remove("active");
+    loading.classList.remove(
+      "active"
+    );
 
     const locked =
-    document.getElementById("lockedScreen");
+    document.getElementById(
+      "lockedScreen"
+    );
 
-    locked.classList.add("active");
-
+    locked.classList.add(
+      "active"
+    );
 
     requestAnimationFrame(()=>{
 
-      locked.classList.add("visible");
+      locked.classList.add(
+        "visible"
+      );
 
     });
 
@@ -2889,7 +2638,7 @@ function showLocked(){
 }
 
 
-/* CLEAN */
+/* CLEANUP */
 
 window.addEventListener(
   "beforeunload",
@@ -2897,24 +2646,26 @@ window.addEventListener(
 
     stopPhotoTimer();
 
-
     if(dateTimer){
 
-      clearInterval(dateTimer);
+      clearInterval(
+        dateTimer
+      );
 
     }
 
-
     objectURLs.forEach(
-      URL.revokeObjectURL
+      url=>{
+        try{
+          URL.revokeObjectURL(url);
+        }catch{}
+      }
     );
 
   }
 );
 
-
 init();
-
 </script>
 
 </body>
