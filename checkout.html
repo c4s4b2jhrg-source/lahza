@@ -7,20 +7,24 @@
 <title>الدفع | LAHZA</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
 body{
   margin:0;
   min-height:100vh;
   background:
-    radial-gradient(circle at top right,rgba(255,79,135,.13),transparent 30%),
+    radial-gradient(circle at top right,rgba(255,79,135,.15),transparent 35%),
     #08080f;
   color:white;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
 header{
-  max-width:760px;
+  width:100%;
+  max-width:720px;
   margin:auto;
   padding:20px;
   display:flex;
@@ -33,7 +37,9 @@ header{
   font-weight:900;
 }
 
-.logo span{color:#ff4f87}
+.logo span{
+  color:#ff4f87;
+}
 
 .back{
   color:#999;
@@ -47,23 +53,28 @@ header{
 main{
   width:min(92%,620px);
   margin:auto;
-  padding:15px 0 60px;
+  padding:10px 0 60px;
 }
 
 .title{
   text-align:center;
-  margin:15px 0 28px;
+  margin:20px 0 28px;
+}
+
+.title .icon{
+  font-size:50px;
+  margin-bottom:12px;
 }
 
 .title h1{
-  margin:0 0 9px;
+  margin:0 0 10px;
   font-size:32px;
 }
 
 .title p{
   margin:0;
   color:#777;
-  line-height:1.7;
+  line-height:1.8;
 }
 
 .card{
@@ -77,15 +88,15 @@ main{
 .cardTitle{
   font-size:16px;
   font-weight:900;
-  margin-bottom:16px;
+  margin-bottom:15px;
 }
 
 .row{
   display:flex;
   justify-content:space-between;
-  gap:20px;
+  gap:15px;
   padding:12px 0;
-  border-bottom:1px solid #202029;
+  border-bottom:1px solid #22222b;
 }
 
 .row:last-child{
@@ -98,91 +109,131 @@ main{
 
 .row strong{
   text-align:left;
+  overflow-wrap:anywhere;
 }
 
-.priceBox{
+.orderNumber{
+  color:#ff6d9c;
+}
+
+.total{
+  margin-top:15px;
+  padding-top:16px;
+  border-top:1px solid #292934;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding-top:16px;
-  margin-top:8px;
-  border-top:1px solid #282832;
 }
 
-.priceBox span{
-  color:#999;
+.total span{
+  color:#aaa;
 }
 
 .price{
-  font-size:27px;
-  font-weight:900;
   color:#ff6596;
+  font-size:28px;
+  font-weight:900;
+}
+
+.steps{
+  display:grid;
+  gap:11px;
+}
+
+.step{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:14px;
+  border-radius:15px;
+  background:#0c0c12;
+  border:1px solid #25252f;
+}
+
+.stepNumber{
+  min-width:31px;
+  height:31px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ff4f87;
+  font-weight:900;
+}
+
+.stepText strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.stepText small{
+  color:#777;
+  line-height:1.7;
+}
+
+.warning{
+  padding:14px;
+  border-radius:15px;
+  background:rgba(255,174,0,.07);
+  border:1px solid rgba(255,174,0,.20);
+  color:#d9b874;
+  font-size:13px;
+  line-height:1.8;
+  margin-bottom:14px;
 }
 
 .secure{
   padding:14px;
   border-radius:15px;
-  background:rgba(76,175,80,.08);
-  border:1px solid rgba(76,175,80,.18);
-  color:#9dd8a0;
+  background:rgba(47,187,93,.07);
+  border:1px solid rgba(47,187,93,.18);
+  color:#8bd39f;
   font-size:13px;
-  line-height:1.7;
+  line-height:1.8;
   margin-bottom:14px;
 }
 
-.paymentMethods{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.method{
-  padding:17px 10px;
-  border-radius:16px;
-  background:#0c0c12;
-  border:1px solid #292934;
-  color:white;
-  font-weight:800;
-  text-align:center;
-}
-
-.payButton{
+.whatsapp{
   width:100%;
   border:0;
-  margin-top:16px;
   padding:17px;
   border-radius:16px;
-  background:linear-gradient(135deg,#ff3474,#ff6999);
   color:white;
+  background:#25D366;
   font-size:17px;
   font-weight:900;
   cursor:pointer;
 }
 
-.payButton:disabled{
-  opacity:.45;
+.whatsapp:disabled{
+  opacity:.4;
   cursor:not-allowed;
 }
 
 .note{
+  margin-top:13px;
   text-align:center;
   color:#666;
   font-size:12px;
-  line-height:1.7;
-  margin-top:14px;
+  line-height:1.8;
 }
 
 .error{
   display:none;
-  padding:14px;
-  margin-bottom:14px;
+  margin-bottom:15px;
+  padding:15px;
   border-radius:15px;
   background:rgba(255,60,80,.10);
   border:1px solid rgba(255,60,80,.25);
-  color:#ff8395;
-  line-height:1.7;
+  color:#ff8294;
+  line-height:1.8;
 }
 
+@media(max-width:480px){
+  .title h1{
+    font-size:28px;
+  }
+}
 </style>
 </head>
 
@@ -195,18 +246,27 @@ main{
 
 <main>
 
-  <div class="title">
-    <h1>آخر خطوة 🤍</h1>
-    <p>راجع طلبك، وبعد الدفع تنفتح هديتك.</p>
-  </div>
+  <section class="title">
+    <div class="icon">💳</div>
+    <h1>باقي الدفع وبس</h1>
+    <p>
+      بعد الدفع أرسل لنا الإثبات على واتساب،
+      وبعد التأكد من العملية نجهز رابط هديتك.
+    </p>
+  </section>
 
   <div id="errorBox" class="error">
-    ما لقينا بيانات الهدية. ارجع وصمّم الهدية أول.
+    ما لقينا بيانات الهدية. ارجع وصمّم هديتك أول 🤍
   </div>
 
-  <div class="card">
+  <section class="card">
 
-    <div class="cardTitle">🎁 ملخص الهدية</div>
+    <div class="cardTitle">🎁 ملخص طلبك</div>
+
+    <div class="row">
+      <span>رقم الطلب</span>
+      <strong class="orderNumber" id="orderNumber">—</strong>
+    </div>
 
     <div class="row">
       <span>إلى</span>
@@ -228,44 +288,72 @@ main{
       <strong id="theme">—</strong>
     </div>
 
-    <div class="priceBox">
+    <div class="total">
       <span>الإجمالي</span>
       <div class="price" id="price">—</div>
     </div>
 
-  </div>
+  </section>
 
   <div class="secure">
-    🔒 الهدية ما تنفتح وما ينشأ رابطها النهائي إلا بعد تأكيد الدفع.
+    🔒 الهدية ما تنفتح قبل تأكيد الدفع. بعد ما نتأكد من التحويل، يتم تجهيز رابط الهدية.
   </div>
 
-  <div class="card">
+  <section class="card">
 
-    <div class="cardTitle">💳 طريقة الدفع</div>
+    <div class="cardTitle">كيف تكمل الطلب؟</div>
 
-    <div class="paymentMethods">
-      <div class="method">BenefitPay</div>
-      <div class="method">بطاقة بنكية</div>
-      <div class="method">Apple Pay</div>
-      <div class="method">BENEFIT</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="stepNumber">1</div>
+        <div class="stepText">
+          <strong>جهّز طلبك</strong>
+          <small>تأكد من الباقة والمبلغ ورقم الطلب الموجود فوق.</small>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="stepNumber">2</div>
+        <div class="stepText">
+          <strong>ادفع</strong>
+          <small>حوّل المبلغ بالطريقة المتفق عليها مع LAHZA.</small>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="stepNumber">3</div>
+        <div class="stepText">
+          <strong>أرسل الإثبات</strong>
+          <small>اضغط الزر تحت، وبيفتح واتساب برسالة طلبك جاهزة.</small>
+        </div>
+      </div>
+
     </div>
 
-    <button
-      id="payButton"
-      class="payButton"
-      onclick="startPayment()">
-      ادفع وكمل هديتك ♡
-    </button>
+  </section>
 
-    <div class="note">
-      زر الدفع بنربطه ببوابة الدفع الحقيقية في الخطوة الجاية.
-    </div>
+  <div class="warning">
+    ⚠️ الضغط على «أرسلت الدفع» ما يعتبر تأكيد دفع. لازم يتم التحقق من وصول المبلغ أولًا.
+  </div>
 
+  <button
+    id="whatsappButton"
+    class="whatsapp"
+    type="button"
+    onclick="sendToWhatsApp()">
+    أرسلت الدفع — إرسال الإثبات عبر واتساب
+  </button>
+
+  <div class="note">
+    بعد فتح واتساب، أرفق صورة إثبات التحويل وأرسل الرسالة.
   </div>
 
 </main>
 
 <script>
+
+const WHATSAPP_NUMBER = "97333021058";
 
 const occasionNames = {
   love:"حب ❤️",
@@ -293,8 +381,9 @@ const themeNames = {
 };
 
 /*
-غيّر الأسعار من هني وقت ما تبي
+غيّر الأسعار من هنا إذا احتجت
 */
+
 const prices = {
   mini:1.900,
   moment:2.900,
@@ -304,72 +393,155 @@ const prices = {
 let giftData = null;
 
 try{
+
   giftData =
     JSON.parse(
       localStorage.getItem("lahzaGift")
     );
+
 }catch(error){
+
   giftData = null;
+
 }
 
-const payButton =
-  document.getElementById("payButton");
 
-if(!giftData || !giftData.receiver || !giftData.message){
+/* رقم طلب ثابت لنفس الطلب */
 
-  document.getElementById("errorBox")
-    .style.display = "block";
+let orderNumber =
+  localStorage.getItem("lahzaOrderNumber");
 
-  payButton.disabled = true;
+if(!orderNumber){
+
+  const random =
+    Math.floor(
+      1000 + Math.random() * 9000
+    );
+
+  orderNumber =
+    "LHZ-" +
+    Date.now()
+    .toString()
+    .slice(-6) +
+    "-" +
+    random;
+
+  localStorage.setItem(
+    "lahzaOrderNumber",
+    orderNumber
+  );
+
+}
+
+
+const whatsappButton =
+  document.getElementById(
+    "whatsappButton"
+  );
+
+
+if(
+  !giftData ||
+  !giftData.receiver ||
+  !giftData.message
+){
+
+  document
+  .getElementById("errorBox")
+  .style.display = "block";
+
+  whatsappButton.disabled = true;
 
 }else{
 
-  document.getElementById("receiver")
-    .textContent =
+  document
+  .getElementById("orderNumber")
+  .textContent =
+    orderNumber;
+
+
+  document
+  .getElementById("receiver")
+  .textContent =
     giftData.receiver;
 
-  document.getElementById("occasion")
-    .textContent =
+
+  document
+  .getElementById("occasion")
+  .textContent =
     occasionNames[giftData.occasion] ||
     giftData.occasion ||
     "—";
 
-  document.getElementById("plan")
-    .textContent =
+
+  document
+  .getElementById("plan")
+  .textContent =
     planNames[giftData.plan] ||
     giftData.plan ||
     "Mini";
 
-  document.getElementById("theme")
-    .textContent =
+
+  document
+  .getElementById("theme")
+  .textContent =
     themeNames[giftData.theme] ||
     giftData.theme ||
     "Romantic";
 
-  const price =
+
+  const amount =
     prices[giftData.plan] ||
     prices.mini;
 
-  document.getElementById("price")
-    .textContent =
-    price.toFixed(3) + " د.ب";
+
+  document
+  .getElementById("price")
+  .textContent =
+    amount.toFixed(3) +
+    " د.ب";
+
 }
 
 
-/*
-مهم:
-حالياً ما نفتح gift.html من هذا الزر.
-الدفع الحقيقي هو اللي لازم يؤكد العملية أول.
-*/
+/* فتح واتساب */
 
-function startPayment(){
+function sendToWhatsApp(){
 
   if(!giftData){
     return;
   }
 
-  alert(
-    "الحين نربط هذا الزر ببوابة الدفع الحقيقية، وبعد نجاح الدفع فقط تنفتح الهدية."
+  const amount =
+    prices[giftData.plan] ||
+    prices.mini;
+
+
+  const message =
+
+`السلام عليكم LAHZA 🤍
+
+أرسلت دفع طلب هدية.
+
+رقم الطلب: ${orderNumber}
+اسم المستلم: ${giftData.receiver}
+المناسبة: ${occasionNames[giftData.occasion] || giftData.occasion || "—"}
+الباقة: ${planNames[giftData.plan] || giftData.plan || "Mini"}
+المبلغ: ${amount.toFixed(3)} د.ب
+
+سأرفق إثبات الدفع الآن 📎`;
+
+
+  const url =
+    "https://wa.me/" +
+    WHATSAPP_NUMBER +
+    "?text=" +
+    encodeURIComponent(message);
+
+
+  window.open(
+    url,
+    "_blank"
   );
 
 }
