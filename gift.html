@@ -1,74 +1,170 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08070b">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta
+  name="theme-color"
+  content="#09070b">
+
 <title>لحظة خاصة ♡ | LAHZA</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com">
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Kufi+Arabic:wght@400;600;700;800;900&display=swap"
+  rel="stylesheet">
+
+
 <style>
+
+/* =========================
+   GENERAL
+========================= */
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html{
-  scroll-behavior:smooth;
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  overflow-x:hidden;
+  overflow:hidden;
   color:#fff;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#08070b;
+  font-family:"Noto Kufi Arabic",sans-serif;
+
+  background:
+  radial-gradient(
+    circle at 50% -10%,
+    #441529 0%,
+    #190b12 35%,
+    #08070a 72%
+  );
 }
+
 
 /* =========================
    THEMES
 ========================= */
 
 body.romantic{
-  --accent:#ff5d91;
-  --accent2:#ffc0d4;
-  --soft:rgba(255,93,145,.13);
-  --border:rgba(255,150,185,.15);
 
-  background:
-  radial-gradient(circle at 50% 0,#421225 0,#17090f 36%,#08070b 72%);
+  --accent:#ff6296;
+
+  --accentLight:#ffc1d5;
+
+  --accentSoft:
+  rgba(255,98,150,.12);
+
+  --line:
+  rgba(255,160,190,.17);
+
+  --card:
+  rgba(255,255,255,.055);
+
+  --muted:#91878e;
 }
+
 
 body.midnight{
-  --accent:#a78fff;
-  --accent2:#ddd4ff;
-  --soft:rgba(145,120,255,.13);
-  --border:rgba(180,165,255,.15);
+
+  --accent:#9c8cff;
+
+  --accentLight:#ddd7ff;
+
+  --accentSoft:
+  rgba(156,140,255,.12);
+
+  --line:
+  rgba(180,170,255,.18);
+
+  --card:
+  rgba(255,255,255,.05);
+
+  --muted:#9691a8;
 
   background:
-  radial-gradient(circle at 50% 0,#292555 0,#101020 40%,#07070c 75%);
+  radial-gradient(
+    circle at 50% -10%,
+    #29254f,
+    #10101d 43%,
+    #07070a 75%
+  );
 }
+
 
 body.sunset{
-  --accent:#ff956c;
-  --accent2:#ffd0ad;
-  --soft:rgba(255,145,100,.13);
-  --border:rgba(255,180,140,.15);
+
+  --accent:#ff9874;
+
+  --accentLight:#ffd1b9;
+
+  --accentSoft:
+  rgba(255,152,116,.12);
+
+  --line:
+  rgba(255,180,145,.18);
+
+  --card:
+  rgba(255,255,255,.055);
+
+  --muted:#9b8983;
 
   background:
-  radial-gradient(circle at 50% 0,#66303d 0,#211017 40%,#08070b 75%);
+  radial-gradient(
+    circle at 50% -10%,
+    #60313d,
+    #211015 42%,
+    #080708 74%
+  );
 }
 
+
 body.minimal{
-  --accent:#fff;
-  --accent2:#ddd;
-  --soft:rgba(255,255,255,.07);
-  --border:rgba(255,255,255,.12);
+
+  --accent:#ffffff;
+
+  --accentLight:#ededed;
+
+  --accentSoft:
+  rgba(255,255,255,.08);
+
+  --line:
+  rgba(255,255,255,.13);
+
+  --card:
+  rgba(255,255,255,.045);
+
+  --muted:#909090;
 
   background:
-  radial-gradient(circle at top,#242424,#0d0d0d 55%,#060606);
+  radial-gradient(
+    circle at 50% -10%,
+    #262626,
+    #101010 45%,
+    #060606 76%
+  );
 }
 
 
@@ -76,62 +172,160 @@ body.minimal{
    BACKGROUND
 ========================= */
 
-.bg{
+.background{
   position:fixed;
   inset:0;
-  pointer-events:none;
   overflow:hidden;
+  pointer-events:none;
 }
 
-.orb{
+.lightOrb{
   position:absolute;
   border-radius:50%;
-  filter:blur(90px);
+  filter:blur(100px);
 }
 
-.orb.one{
+.lightOrb.one{
+  width:330px;
+  height:330px;
+
+  top:-150px;
+  right:-100px;
+
+  background:var(--accent);
+
+  opacity:.14;
+}
+
+.lightOrb.two{
   width:300px;
   height:300px;
-  right:-130px;
-  top:50px;
-  background:var(--accent);
-  opacity:.13;
-}
 
-.orb.two{
-  width:260px;
-  height:260px;
-  left:-130px;
-  top:60%;
-  background:var(--accent2);
+  bottom:-170px;
+  left:-120px;
+
+  background:var(--accentLight);
+
   opacity:.06;
 }
 
 
+.stars{
+  position:absolute;
+  inset:0;
+}
+
+.star{
+  position:absolute;
+
+  width:3px;
+  height:3px;
+
+  border-radius:50%;
+
+  background:white;
+
+  opacity:.25;
+
+  animation:
+  starGlow 3s infinite ease-in-out;
+}
+
+@keyframes starGlow{
+
+  50%{
+    opacity:.7;
+    transform:scale(1.5);
+  }
+
+}
+
+
 /* =========================
-   PAGE
+   TOP LOGO
 ========================= */
 
-.page{
-  position:relative;
-  width:min(91%,680px);
-  margin:auto;
+.topLogo{
+  position:fixed;
+
+  top:max(
+    18px,
+    env(safe-area-inset-top)
+  );
+
+  left:50%;
+
+  transform:
+  translateX(-50%);
+
+  z-index:20;
+
+  color:rgba(255,255,255,.5);
+
+  font-size:13px;
+
+  font-weight:800;
+
+  letter-spacing:2px;
+}
+
+.topLogo span{
+  color:var(--accent);
+}
+
+
+/* =========================
+   SCREEN
+========================= */
+
+.screen{
+  position:fixed;
+
+  inset:0;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  overflow-y:auto;
 
   padding:
-  max(28px,env(safe-area-inset-top))
-  0
-  max(50px,env(safe-area-inset-bottom));
+  max(78px,calc(env(safe-area-inset-top) + 60px))
+  20px
+  max(35px,calc(env(safe-area-inset-bottom) + 20px));
+
+  opacity:0;
+
+  transform:scale(.985);
+
+  transition:
+  opacity .7s ease,
+  transform .7s ease;
 }
 
-.logo{
+
+.screen.active{
+  display:flex;
+}
+
+
+.screen.visible{
+  opacity:1;
+  transform:scale(1);
+}
+
+
+.screenInner{
+  width:min(
+    100%,
+    620px
+  );
+
+  margin:auto;
+
   text-align:center;
-  font-size:29px;
-  font-weight:950;
-  margin-bottom:25px;
-}
-
-.logo span{
-  color:var(--accent);
 }
 
 
@@ -139,24 +333,30 @@ body.minimal{
    LOADING
 ========================= */
 
-.centerScreen{
-  min-height:72vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.loadingHeart{
+  font-size:52px;
+
+  color:var(--accent);
+
+  animation:
+  beat 1.25s infinite ease-in-out;
 }
 
-.loadingHeart{
-  font-size:46px;
-  color:var(--accent);
-  animation:beat 1.2s infinite;
+.loadingText{
+  margin-top:18px;
+
+  color:var(--muted);
+
+  font-size:13px;
 }
+
 
 @keyframes beat{
+
   50%{
-    transform:scale(1.18);
+    transform:scale(1.16);
   }
+
 }
 
 
@@ -164,190 +364,553 @@ body.minimal{
    LOCKED
 ========================= */
 
-#locked{
-  display:none;
+.lockBox{
+  padding:35px 22px;
+
+  border:1px solid var(--line);
+
+  border-radius:32px;
+
+  background:var(--card);
+
+  backdrop-filter:blur(18px);
 }
 
-.lockCard{
-  width:100%;
-  padding:40px 22px;
-  border-radius:30px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.09);
+.lockIcon{
+  font-size:45px;
 }
 
-.lockCard .icon{
-  font-size:52px;
+.lockBox h2{
+  margin:
+  18px
+  0
+  10px;
 }
 
-.lockCard h1{
-  margin:15px 0 8px;
-}
+.lockBox p{
+  color:var(--muted);
 
-.lockCard p{
+  line-height:1.9;
+
   margin:0;
-  color:#817a83;
-  line-height:1.8;
 }
 
 
 /* =========================
-   CLOSED GIFT
+   NAME PAGE
 ========================= */
 
-#closed{
-  display:none;
+.giftMiniText{
+  color:var(--muted);
+
+  font-size:13px;
+
+  margin-bottom:22px;
 }
 
-.closedInside{
-  width:100%;
-}
 
-.pre{
-  color:#a097a1;
-  font-size:16px;
-}
+.nameFrame{
 
-.closedName{
-  font-size:clamp(40px,11vw,64px);
-  font-weight:950;
-  margin:10px 0 27px;
-  overflow-wrap:anywhere;
-}
-
-.closedName span{
-  background:linear-gradient(135deg,#fff,var(--accent2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.envelopeArea{
   position:relative;
-  height:190px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+
+  width:min(
+    100%,
+    470px
+  );
+
+  margin:auto;
+
+  padding:
+  38px
+  24px;
+
+  border-radius:30px;
+
+  border:
+  1px solid
+  var(--line);
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.075),
+    rgba(255,255,255,.025)
+  );
+
+  backdrop-filter:
+  blur(24px);
+
+  box-shadow:
+  0 25px 80px
+  rgba(0,0,0,.28);
 }
 
-.glow{
+
+.nameFrame::before{
+
+  content:"";
+
   position:absolute;
-  width:150px;
-  height:150px;
-  border-radius:50%;
-  background:var(--accent);
-  filter:blur(45px);
-  opacity:.17;
-  animation:glow 2s infinite ease-in-out;
+
+  inset:8px;
+
+  border-radius:23px;
+
+  border:
+  1px solid
+  rgba(255,255,255,.055);
+
+  pointer-events:none;
 }
 
-.envelope{
+
+.nameDecor{
+  color:var(--accent);
+
+  font-size:20px;
+
+  margin-bottom:13px;
+}
+
+
+.nameLabel{
+  color:var(--muted);
+
+  font-size:12px;
+
+  margin-bottom:6px;
+}
+
+
+.receiverName{
+
   position:relative;
-  font-size:100px;
-  animation:float 3s infinite ease-in-out;
+
+  font-family:
+  "Aref Ruqaa",
+  serif;
+
+  font-size:
+  clamp(
+    38px,
+    9vw,
+    55px
+  );
+
+  line-height:1.4;
+
+  font-weight:700;
+
+  overflow-wrap:anywhere;
+
+  background:
+  linear-gradient(
+    135deg,
+    #fff,
+    var(--accentLight)
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:
+  transparent;
 }
 
-@keyframes glow{
-  50%{
-    transform:scale(1.2);
-    opacity:.25;
-  }
+
+.smallHeart{
+  margin-top:13px;
+
+  color:var(--accent);
+
+  opacity:.9;
 }
 
-@keyframes float{
-  50%{
-    transform:translateY(-9px) rotate(-2deg);
-  }
+
+/* =========================
+   COMMON CARD
+========================= */
+
+.glassCard{
+
+  width:min(
+    100%,
+    520px
+  );
+
+  margin:auto;
+
+  border-radius:30px;
+
+  border:
+  1px solid
+  var(--line);
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.065),
+    rgba(255,255,255,.025)
+  );
+
+  backdrop-filter:
+  blur(25px);
+
+  box-shadow:
+  0 28px 90px
+  rgba(0,0,0,.26);
+
+  padding:
+  28px
+  21px;
 }
 
-.closedText{
-  color:#a39ba4;
-  line-height:1.8;
-  margin:16px 0 23px;
+
+/* =========================
+   TITLES
+========================= */
+
+.sceneIcon{
+  width:72px;
+
+  height:72px;
+
+  margin:
+  0
+  auto
+  17px;
+
+  border-radius:23px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:30px;
+
+  color:var(--accentLight);
+
+  background:var(--accentSoft);
+
+  border:
+  1px solid
+  var(--line);
 }
 
-.openBtn{
-  width:min(100%,350px);
+
+.sceneTitle{
+  margin:0;
+
+  font-size:
+  clamp(
+    22px,
+    5.5vw,
+    30px
+  );
+}
+
+
+.sceneSubtitle{
+  margin:
+  9px
+  auto
+  24px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:13px;
+
+  max-width:420px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.nextButton{
+
+  width:min(
+    100%,
+    390px
+  );
+
+  margin-top:29px;
+
+  padding:
+  16px
+  20px;
+
   border:0;
-  border-radius:21px;
-  padding:18px;
+
+  border-radius:20px;
+
   color:white;
-  background:linear-gradient(135deg,var(--accent),#ff477e);
-  font-size:18px;
-  font-weight:950;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--accent),
+    #ff477f
+  );
+
+  font-family:inherit;
+
+  font-size:15px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  box-shadow:
+  0 12px 35px
+  rgba(255,70,125,.13);
+
+  transition:
+  transform .18s ease;
+}
+
+
+.nextButton:active{
+  transform:scale(.97);
+}
+
+
+.midnight .nextButton{
+  background:
+  linear-gradient(
+    135deg,
+    #7764ff,
+    #9e8fff
+  );
+}
+
+
+.minimal .nextButton{
+  color:#080808;
+  background:#fff;
+}
+
+
+.secondaryButton{
+
+  margin-top:12px;
+
+  padding:
+  12px
+  18px;
+
+  border-radius:17px;
+
+  border:
+  1px solid
+  var(--line);
+
+  background:
+  rgba(255,255,255,.04);
+
+  color:white;
+
+  font-family:inherit;
+
   cursor:pointer;
 }
 
-.midnight .openBtn{
-  background:linear-gradient(135deg,#725cff,#a990ff);
-}
-
-.minimal .openBtn{
-  background:white;
-  color:#090909;
-}
-
 
 /* =========================
-   STORY
+   MUSIC
 ========================= */
 
-#story{
-  display:none;
-}
+.musicDisc{
 
-.part{
-  opacity:0;
-  transform:translateY(32px) scale(.985);
+  width:120px;
+  height:120px;
 
-  transition:
-  opacity 1.3s ease,
-  transform 1.3s cubic-bezier(.2,.8,.2,1);
-}
+  margin:
+  5px
+  auto
+  22px;
 
-.part.show{
-  opacity:1;
-  transform:none;
-}
+  border-radius:50%;
 
-
-/* =========================
-   INTRO
-========================= */
-
-.intro{
-  min-height:65vh;
   display:flex;
+
   align-items:center;
+
   justify-content:center;
-  text-align:center;
+
+  background:
+  radial-gradient(
+    circle,
+    #101010 0 17%,
+    var(--accentSoft) 18% 20%,
+    #111 21% 42%,
+    rgba(255,255,255,.08) 43% 45%,
+    #0c0c0c 46%
+  );
+
+  border:
+  1px solid
+  var(--line);
+
+  box-shadow:
+  0 0 60px
+  var(--accentSoft);
 }
 
-.introSmall{
-  color:#a69da7;
-  font-size:16px;
+
+.musicDisc.spinning{
+  animation:
+  spinDisc 4s linear infinite;
 }
 
-.receiver{
-  font-size:clamp(49px,13vw,76px);
-  font-weight:950;
-  margin:12px 0 17px;
-  overflow-wrap:anywhere;
+
+@keyframes spinDisc{
+  to{
+    transform:rotate(360deg);
+  }
 }
 
-.receiver span{
-  background:linear-gradient(135deg,#fff,var(--accent2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+
+.musicDisc span{
+
+  width:32px;
+  height:32px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:var(--accent);
+
+  color:#fff;
+
+  font-size:14px;
 }
 
-.occasion{
-  display:inline-block;
-  padding:11px 20px;
-  border-radius:100px;
-  color:var(--accent2);
-  background:var(--soft);
-  border:1px solid var(--border);
-  font-weight:850;
+
+.audioControl{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+  padding:15px;
+
+  border-radius:20px;
+
+  background:
+  rgba(0,0,0,.18);
+
+  border:
+  1px solid
+  var(--line);
+}
+
+
+.audioPlay{
+
+  width:55px;
+  height:55px;
+
+  flex:
+  0 0
+  55px;
+
+  border:0;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  color:#090909;
+
+  font-size:19px;
+
+  cursor:pointer;
+}
+
+
+.audioDetails{
+  flex:1;
+  text-align:right;
+}
+
+
+.audioDetails strong{
+  display:block;
+
+  margin-bottom:5px;
+}
+
+
+.audioDetails span{
+  color:var(--muted);
+
+  font-size:11px;
+}
+
+
+.progress{
+
+  width:100%;
+
+  accent-color:
+  var(--accent);
+}
+
+
+.youtubeBox{
+  width:100%;
+}
+
+
+.youtubeBox iframe{
+
+  display:block;
+
+  width:100%;
+
+  aspect-ratio:16/9;
+
+  border:0;
+
+  border-radius:20px;
+
+  background:#000;
+}
+
+
+.youtubeNote{
+
+  margin-top:12px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  line-height:1.7;
+}
+
+
+.videoPlayer{
+
+  width:100%;
+
+  max-height:55vh;
+
+  border-radius:20px;
+
+  background:#000;
 }
 
 
@@ -355,44 +918,42 @@ body.minimal{
    MESSAGE
 ========================= */
 
-.messageSection{
-  padding:70px 0;
-}
+.messageQuote{
 
-.tiny{
-  text-align:center;
-  color:#807981;
-  font-size:13px;
-  margin-bottom:15px;
-}
+  font-family:
+  "Aref Ruqaa",
+  serif;
 
-.messageCard{
-  position:relative;
-  overflow:hidden;
-  padding:40px 24px;
-  border-radius:31px;
-  text-align:center;
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--border);
-  backdrop-filter:blur(22px);
-}
-
-.quote{
-  position:absolute;
-  right:18px;
-  top:-35px;
-  font-family:Georgia,serif;
-  font-size:140px;
   color:var(--accent);
-  opacity:.055;
+
+  font-size:40px;
+
+  line-height:1;
+
+  margin-bottom:8px;
 }
 
-.message{
-  position:relative;
+
+.messageText{
+
   white-space:pre-wrap;
+
   overflow-wrap:anywhere;
-  font-size:clamp(21px,5.5vw,29px);
+
+  font-family:
+  "Aref Ruqaa",
+  serif;
+
+  font-size:
+  clamp(
+    24px,
+    6vw,
+    32px
+  );
+
   line-height:2;
+
+  color:#fff;
 }
 
 
@@ -400,260 +961,206 @@ body.minimal{
    PHOTOS
 ========================= */
 
-.memories{
-  display:none;
-  padding:65px 0;
-}
+.photoContainer{
 
-.memoriesHeader{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.memoriesHeader small{
-  color:#817a82;
-}
-
-.memoriesHeader h2{
-  margin:7px 0 0;
-  font-size:27px;
-}
-
-.photoStage{
   position:relative;
-  overflow:hidden;
-  border-radius:32px;
-  min-height:350px;
-  background:#050506;
-  border:1px solid var(--border);
-}
 
-.slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:opacity 1.8s ease;
-}
-
-.slide.active{
-  position:relative;
-  opacity:1;
-  z-index:2;
-}
-
-.slide img{
   width:100%;
-  min-height:350px;
-  max-height:600px;
-  display:block;
+
+  min-height:320px;
+
+  max-height:60vh;
+
+  overflow:hidden;
+
+  border-radius:25px;
+
+  background:#050505;
+
+  border:
+  1px solid
+  var(--line);
+}
+
+
+.photoSlide{
+
+  position:absolute;
+
+  inset:0;
+
+  opacity:0;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  transition:
+  opacity 1.5s ease;
+}
+
+
+.photoSlide.active{
+  opacity:1;
+}
+
+
+.photoSlide img{
+
+  width:100%;
+
+  height:100%;
+
+  min-height:320px;
+
+  max-height:60vh;
+
   object-fit:contain;
 }
 
-.slide.active img{
-  animation:photoMotion 7s linear forwards;
+
+.photoSlide.active img{
+
+  animation:
+  photoZoom
+  7s
+  linear
+  forwards;
 }
 
-@keyframes photoMotion{
+
+@keyframes photoZoom{
+
   from{
     transform:scale(1);
   }
 
   to{
-    transform:scale(1.055);
+    transform:scale(1.045);
   }
+
 }
 
-.counter{
+
+.photoCounter{
+
   margin-top:13px;
-  text-align:center;
-  color:#706a72;
-  font-size:12px;
+
+  color:var(--muted);
+
+  font-size:11px;
 }
 
 
-/* =========================
-   DATE
-========================= */
+.photoControls{
 
-.dateSection{
-  display:none;
-  padding:65px 0;
-  text-align:center;
-}
+  margin-top:13px;
 
-.dateHeart{
-  color:var(--accent);
-  font-size:35px;
-}
-
-.dateLabel{
-  color:#817a82;
-  margin-top:10px;
-  font-size:13px;
-}
-
-.dateValue{
-  margin-top:8px;
-  font-size:26px;
-  font-weight:900;
-  color:var(--accent2);
-}
-
-
-/* =========================
-   MEDIA
-========================= */
-
-.mediaSection{
-  display:none;
-  padding:60px 0;
-}
-
-.musicCard{
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.05);
-  border-radius:26px;
-  overflow:hidden;
-}
-
-.musicTrigger{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#fff;
-  padding:18px;
   display:flex;
-  align-items:center;
-  gap:14px;
-  text-align:right;
+
+  justify-content:center;
+
+  gap:9px;
+}
+
+
+.photoArrow{
+
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  border:
+  1px solid
+  var(--line);
+
+  background:
+  rgba(255,255,255,.05);
+
+  color:#fff;
+
+  font-size:20px;
+
   cursor:pointer;
 }
 
-.musicIcon{
-  width:60px;
-  height:60px;
-  flex:0 0 60px;
-  border-radius:19px;
-  background:var(--soft);
-  color:var(--accent2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-}
-
-.musicInfo{
-  flex:1;
-  min-width:0;
-}
-
-.musicInfo small{
-  color:#807982;
-}
-
-.musicInfo strong{
-  display:block;
-  margin-top:4px;
-  font-size:16px;
-}
-
-.playCircle{
-  width:48px;
-  height:48px;
-  flex:0 0 48px;
-  border-radius:50%;
-  background:#fff;
-  color:#090909;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:19px;
-}
-
-.youtubeWrap{
-  display:none;
-  padding:0 14px 14px;
-}
-
-.youtubeFrame{
-  display:block;
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  border-radius:19px;
-  background:#000;
-}
-
-.videoWrap{
-  display:none;
-}
-
-.videoWrap video{
-  width:100%;
-  max-height:540px;
-  border-radius:25px;
-  background:#000;
-}
-
-audio{
-  display:none;
-}
-
 
 /* =========================
-   MUSIC OPENING
+   DATE COUNTER
 ========================= */
 
-.musicOpening{
-  display:none;
-  min-height:72vh;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.counterGrid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(
+    3,
+    1fr
+  );
+
+  gap:10px;
 }
 
-.musicOpening.showOpening{
-  display:flex;
+
+.timeBox{
+
+  padding:
+  17px
+  7px;
+
+  border-radius:20px;
+
+  background:
+  rgba(0,0,0,.16);
+
+  border:
+  1px solid
+  var(--line);
 }
 
-.musicOpeningInner{
-  width:100%;
+
+.timeNumber{
+
+  display:block;
+
+  color:var(--accentLight);
+
+  font-size:
+  clamp(
+    24px,
+    6vw,
+    34px
+  );
+
+  font-weight:900;
+
+  direction:ltr;
 }
 
-.musicOpeningIcon{
-  width:110px;
-  height:110px;
-  margin:auto;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--soft);
-  border:1px solid var(--border);
-  font-size:42px;
-  color:var(--accent2);
-  animation:musicPulse 1.8s infinite ease-in-out;
+
+.timeLabel{
+
+  display:block;
+
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:10px;
 }
 
-@keyframes musicPulse{
-  50%{
-    transform:scale(1.08);
-    box-shadow:0 0 45px var(--soft);
-  }
-}
 
-.musicOpening h2{
-  margin:24px 0 8px;
-  font-size:28px;
-}
+.originalDate{
 
-.musicOpening p{
-  margin:0;
-  color:#8d858e;
-  line-height:1.8;
+  margin-top:21px;
+
+  color:var(--muted);
+
+  font-size:11px;
 }
 
 
@@ -661,26 +1168,23 @@ audio{
    SENDER
 ========================= */
 
-.senderSection{
-  padding:70px 0 25px;
-  text-align:center;
-}
+.senderName{
 
-.senderSmall{
-  color:#817a82;
-}
+  font-family:
+  "Aref Ruqaa",
+  serif;
 
-.senderHeart{
-  font-size:28px;
-  color:var(--accent);
-  margin:13px;
-}
+  font-size:
+  clamp(
+    39px,
+    10vw,
+    58px
+  );
 
-.sender{
-  margin-top:8px;
-  color:var(--accent2);
-  font-size:35px;
-  font-weight:950;
+  line-height:1.4;
+
+  color:var(--accentLight);
+
   overflow-wrap:anywhere;
 }
 
@@ -689,448 +1193,832 @@ audio{
    END
 ========================= */
 
-.end{
-  padding:35px 0;
-  text-align:center;
+.endHeart{
+
+  font-size:55px;
+
+  color:var(--accent);
+
+  margin-bottom:18px;
 }
 
-.share{
-  padding:14px 22px;
-  border-radius:17px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
+
+.shareButton{
+
+  width:min(
+    100%,
+    390px
+  );
+
+  padding:
+  15px
+  18px;
+
+  margin-top:25px;
+
+  border-radius:19px;
+
+  border:
+  1px solid
+  var(--line);
+
+  background:
+  rgba(255,255,255,.055);
+
   color:white;
-  font:inherit;
+
+  font-family:inherit;
+
+  font-weight:800;
+
   cursor:pointer;
 }
 
+
 .footer{
-  margin-top:50px;
-  color:#514b53;
-  font-size:13px;
+
+  margin-top:38px;
+
+  color:
+  rgba(255,255,255,.25);
+
+  font-size:10px;
 }
 
 
 /* =========================
-   CELEBRATION
+   PROGRESS DOTS
 ========================= */
 
-.celebration{
+.progressDots{
+
+  position:fixed;
+
+  bottom:max(
+    14px,
+    env(safe-area-inset-bottom)
+  );
+
+  left:50%;
+
+  transform:
+  translateX(-50%);
+
+  z-index:30;
+
+  display:flex;
+
+  gap:6px;
+}
+
+
+.progressDot{
+
+  width:5px;
+  height:5px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,.18);
+
+  transition:
+  .3s ease;
+}
+
+
+.progressDot.active{
+
+  width:20px;
+
+  border-radius:10px;
+
+  background:
+  var(--accent);
+}
+
+
+/* =========================
+   HEART PARTICLES
+========================= */
+
+.particles{
   position:fixed;
   inset:0;
   pointer-events:none;
-  overflow:hidden;
-  z-index:100;
+  z-index:50;
 }
 
-.fly{
+.particle{
+
   position:absolute;
-  bottom:-35px;
+
+  bottom:-30px;
+
   color:var(--accent);
-  animation:fly 3.2s ease-out forwards;
+
+  animation:
+  particleFly
+  3.3s
+  ease-out
+  forwards;
 }
 
-@keyframes fly{
+
+@keyframes particleFly{
+
   0%{
     opacity:0;
-    transform:translateY(0) scale(.5);
+    transform:
+    translateY(0)
+    scale(.5);
   }
 
   15%{
-    opacity:1;
+    opacity:.8;
   }
 
   100%{
     opacity:0;
-    transform:translateY(-110vh) scale(1.3) rotate(30deg);
-  }
-}
 
-@media(max-width:520px){
-
-  .photoStage{
-    min-height:280px;
-  }
-
-  .slide img{
-    min-height:280px;
-  }
-
-  .messageCard{
-    padding:35px 19px;
+    transform:
+    translateY(-110vh)
+    rotate(25deg)
+    scale(1.25);
   }
 
 }
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(
+  max-width:420px
+){
+
+  .screen{
+    padding-left:17px;
+    padding-right:17px;
+  }
+
+  .glassCard{
+    padding:
+    25px
+    17px;
+  }
+
+  .counterGrid{
+    gap:7px;
+  }
+
+  .timeBox{
+    padding:
+    14px
+    4px;
+  }
+
+}
+
 </style>
+
 </head>
 
 
 <body class="romantic">
 
-<div class="bg">
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-</div>
 
-<div id="celebration" class="celebration"></div>
+<div class="background">
 
+  <div class="lightOrb one"></div>
 
-<main class="page">
+  <div class="lightOrb two"></div>
 
-<div class="logo">
-  <span>♡</span> LAHZA
+  <div id="stars" class="stars"></div>
+
 </div>
 
 
-<!-- LOADING -->
+<div class="topLogo">
 
-<section id="loading" class="centerScreen">
+  LAHZA
+  <span>♡</span>
 
-  <div>
+</div>
+
+
+<div
+  id="particles"
+  class="particles">
+</div>
+
+
+<div
+  id="progressDots"
+  class="progressDots"
+  style="display:none">
+</div>
+
+
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<section
+  id="loadingScreen"
+  class="screen active visible">
+
+  <div class="screenInner">
 
     <div class="loadingHeart">
       ♡
     </div>
 
-    <p style="color:#777">
+    <div class="loadingText">
       نجهز لحظتك...
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- LOCKED -->
-
-<section id="locked" class="centerScreen">
-
-  <div class="lockCard">
-
-    <div class="icon">
-      🔒
     </div>
 
-    <h1>
-      الهدية غير متاحة بعد
-    </h1>
+  </div>
 
-    <p>
-      ممكن يكون الدفع تحت المراجعة
-      أو الرابط غير صحيح.
-    </p>
+</section>
+
+
+
+<!-- =========================
+     LOCKED
+========================= -->
+
+<section
+  id="lockedScreen"
+  class="screen">
+
+  <div class="screenInner">
+
+    <div class="lockBox">
+
+      <div class="lockIcon">
+        🔒
+      </div>
+
+      <h2>
+        الهدية مو متاحة للحين
+      </h2>
+
+      <p>
+        ممكن الدفع تحت المراجعة
+        أو رابط الهدية غير صحيح.
+      </p>
+
+    </div>
 
   </div>
 
 </section>
 
 
-<!-- CLOSED -->
 
-<section id="closed" class="centerScreen">
+<!-- =========================
+     NAME
+========================= -->
 
-  <div class="closedInside">
+<section
+  id="nameScreen"
+  class="screen giftStep">
 
-    <div class="pre">
+  <div class="screenInner">
+
+    <div class="giftMiniText">
       فيه لحظة انصنعت مخصوص لك
     </div>
 
-    <div class="closedName">
-      إلى
-      <span id="closedReceiver"></span>
-    </div>
+    <div class="nameFrame">
 
-    <div class="envelopeArea">
-
-      <div class="glow"></div>
-
-      <div class="envelope">
-        💌
+      <div class="nameDecor">
+        ✦ ♡ ✦
       </div>
 
-    </div>
-
-    <div class="closedText">
-      لا تستعجل...<br>
-      افتحها وخلك مع اللحظة ♡
-    </div>
-
-    <button
-      id="openBtn"
-      class="openBtn">
-
-      افتح هديتك ♡
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- MUSIC OPENING -->
-
-<section
-  id="musicOpening"
-  class="musicOpening">
-
-  <div class="musicOpeningInner">
-
-    <div class="musicOpeningIcon">
-      ♪
-    </div>
-
-    <h2>
-      أغنية هاللحظة ♡
-    </h2>
-
-    <p>
-      خلي الموسيقى تبدأ...
-      <br>
-      وبعدها تبدأ الحكاية.
-    </p>
-
-    <div
-      id="youtubeOpening"
-      style="display:none;margin-top:22px">
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- STORY -->
-
-<section id="story">
-
-
-<!-- INTRO -->
-
-<section
-  id="intro"
-  class="intro part">
-
-  <div>
-
-    <div class="introSmall">
-      هذه اللحظة انصنعت إلى
-    </div>
-
-    <div class="receiver">
-
-      <span id="receiver"></span>
-      ♡
-
-    </div>
-
-    <div
-      id="occasion"
-      class="occasion">
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- MESSAGE -->
-
-<section
-  id="messagePart"
-  class="messageSection part">
-
-  <div class="tiny">
-    فيه كلام لازم يوصلك...
-  </div>
-
-  <div class="messageCard">
-
-    <div class="quote">
-      “
-    </div>
-
-    <div
-      id="message"
-      class="message">
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- PHOTOS -->
-
-<section
-  id="memories"
-  class="memories part">
-
-  <div class="memoriesHeader">
-
-    <small>
-      وبعض اللحظات ما تحتاج كلام
-    </small>
-
-    <h2>
-      ذكرياتكم ♡
-    </h2>
-
-  </div>
-
-  <div
-    id="photoStage"
-    class="photoStage">
-  </div>
-
-  <div
-    id="counter"
-    class="counter">
-  </div>
-
-</section>
-
-
-<!-- DATE -->
-
-<section
-  id="datePart"
-  class="dateSection part">
-
-  <div class="dateHeart">
-    ♡
-  </div>
-
-  <div class="dateLabel">
-    تاريخ له معنى
-  </div>
-
-  <div
-    id="giftDate"
-    class="dateValue">
-  </div>
-
-</section>
-
-
-<!-- MEDIA -->
-
-<section
-  id="mediaPart"
-  class="mediaSection part">
-
-  <div
-    id="musicCard"
-    class="musicCard">
-
-    <button
-      id="musicTrigger"
-      class="musicTrigger">
-
-      <div class="musicIcon">
-        ♪
-      </div>
-
-      <div class="musicInfo">
-
-        <small>
-          أغنية هاللحظة
-        </small>
-
-        <strong id="musicText">
-          الأغنية شغالة ♡
-        </strong>
-
+      <div class="nameLabel">
+        إلى
       </div>
 
       <div
-        id="playIcon"
-        class="playCircle">
-        ❚❚
+        id="receiverName"
+        class="receiverName">
       </div>
+
+      <div class="smallHeart">
+        ♡
+      </div>
+
+    </div>
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      ابدأ اللحظة ♡
 
     </button>
 
-    <div
-      id="youtubeWrap"
-      class="youtubeWrap">
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     MUSIC
+========================= -->
+
+<section
+  id="musicScreen"
+  class="screen giftStep">
+
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ♪
+    </div>
+
+    <h2 class="sceneTitle">
+      أغنية هاللحظة
+    </h2>
+
+    <div class="sceneSubtitle">
+      شغّلها وخلك مع اللحظة...
+      وبعدها كمل وقت ما تبي ♡
+    </div>
+
+
+    <div class="glassCard">
+
+      <div
+        id="musicDisc"
+        class="musicDisc">
+
+        <span>
+          ♪
+        </span>
+
+      </div>
+
+
+      <!-- AUDIO -->
+
+      <div
+        id="audioArea"
+        style="display:none">
+
+        <div class="audioControl">
+
+          <button
+            id="audioPlay"
+            class="audioPlay">
+
+            ▶
+
+          </button>
+
+
+          <div class="audioDetails">
+
+            <strong id="audioStatus">
+              اضغط تشغيل
+            </strong>
+
+            <input
+              id="audioProgress"
+              class="progress"
+              type="range"
+              min="0"
+              max="100"
+              value="0">
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- YOUTUBE -->
+
+      <div
+        id="youtubeArea"
+        class="youtubeBox"
+        style="display:none">
+      </div>
+
+
+      <!-- VIDEO -->
+
+      <div
+        id="videoArea"
+        style="display:none">
+
+        <video
+          id="giftVideo"
+          class="videoPlayer"
+          controls
+          playsinline>
+        </video>
+
+      </div>
+
+
+      <audio
+        id="giftAudio"
+        preload="metadata"
+        playsinline>
+      </audio>
+
+    </div>
+
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل الهدية ♡
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     MESSAGE
+========================= -->
+
+<section
+  id="messageScreen"
+  class="screen giftStep">
+
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ♡
+    </div>
+
+    <h2 class="sceneTitle">
+      فيه كلام لك
+    </h2>
+
+    <div class="sceneSubtitle">
+      اقرأه على راحتك
+    </div>
+
+
+    <div class="glassCard">
+
+      <div class="messageQuote">
+        ❝
+      </div>
+
+      <div
+        id="messageText"
+        class="messageText">
+      </div>
+
+    </div>
+
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل ♡
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     PHOTOS
+========================= -->
+
+<section
+  id="photosScreen"
+  class="screen giftStep">
+
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ✦
+    </div>
+
+    <h2 class="sceneTitle">
+      لحظات ما تنسى
+    </h2>
+
+    <div class="sceneSubtitle">
+      بعض الصور فيها كلام أكثر من ألف رسالة
+    </div>
+
+
+    <div class="glassCard">
+
+      <div
+        id="photoContainer"
+        class="photoContainer">
+      </div>
+
+
+      <div
+        id="photoCounter"
+        class="photoCounter">
+      </div>
+
+
+      <div
+        id="photoControls"
+        class="photoControls">
+
+        <button
+          class="photoArrow"
+          onclick="previousPhoto()">
+
+          ›
+
+        </button>
+
+
+        <button
+          class="photoArrow"
+          onclick="nextPhoto()">
+
+          ‹
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل ♡
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     DATE
+========================= -->
+
+<section
+  id="dateScreen"
+  class="screen giftStep">
+
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ⏳
+    </div>
+
+    <h2 class="sceneTitle">
+      ومن هاليوم...
+    </h2>
+
+    <div class="sceneSubtitle">
+      كل هالوقت مر، واللحظة للحين لها معنى ♡
+    </div>
+
+
+    <div class="glassCard">
+
+      <div class="counterGrid">
+
+        <div class="timeBox">
+
+          <span
+            id="years"
+            class="timeNumber">
+
+            0
+
+          </span>
+
+          <span class="timeLabel">
+            سنة
+          </span>
+
+        </div>
+
+
+        <div class="timeBox">
+
+          <span
+            id="months"
+            class="timeNumber">
+
+            0
+
+          </span>
+
+          <span class="timeLabel">
+            شهر
+          </span>
+
+        </div>
+
+
+        <div class="timeBox">
+
+          <span
+            id="days"
+            class="timeNumber">
+
+            0
+
+          </span>
+
+          <span class="timeLabel">
+            يوم
+          </span>
+
+        </div>
+
+
+        <div class="timeBox">
+
+          <span
+            id="hours"
+            class="timeNumber">
+
+            0
+
+          </span>
+
+          <span class="timeLabel">
+            ساعة
+          </span>
+
+        </div>
+
+
+        <div class="timeBox">
+
+          <span
+            id="minutes"
+            class="timeNumber">
+
+            0
+
+          </span>
+
+          <span class="timeLabel">
+            دقيقة
+          </span>
+
+        </div>
+
+
+        <div class="timeBox">
+
+          <span
+            id="seconds"
+            class="timeNumber">
+
+            0
+
+          </span>
+
+          <span class="timeLabel">
+            ثانية
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="originalDate"
+        class="originalDate">
+      </div>
+
+    </div>
+
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل ♡
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     SENDER
+========================= -->
+
+<section
+  id="senderScreen"
+  class="screen giftStep">
+
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ♡
+    </div>
+
+    <div class="sceneSubtitle">
+      وهاللحظة كلها كانت من
+    </div>
+
+
+    <div class="nameFrame">
+
+      <div class="nameDecor">
+        ♡
+      </div>
+
+      <div
+        id="senderName"
+        class="senderName">
+      </div>
+
+    </div>
+
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      النهاية ♡
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     END
+========================= -->
+
+<section
+  id="endScreen"
+  class="screen giftStep">
+
+  <div class="screenInner">
+
+    <div class="endHeart">
+      ♡
+    </div>
+
+    <h2 class="sceneTitle">
+      بعض الهدايا تنفتح...
+    </h2>
+
+    <div class="sceneSubtitle">
+      وبعضها تنحفظ بالقلب.
+    </div>
+
+
+    <button
+      id="shareButton"
+      class="shareButton">
+
+      مشاركة اللحظة ♡
+
+    </button>
+
+
+    <div class="footer">
+      صنعت بواسطة LAHZA ♡
     </div>
 
   </div>
 
-
-  <div
-    id="videoWrap"
-    class="videoWrap">
-
-    <video
-      id="giftVideo"
-      controls
-      playsinline>
-    </video>
-
-  </div>
-
-
-  <audio
-    id="giftAudio"
-    preload="auto"
-    playsinline>
-  </audio>
-
 </section>
 
-
-<!-- SENDER -->
-
-<section
-  id="senderPart"
-  class="senderSection part">
-
-  <div class="senderSmall">
-    وفي النهاية...
-  </div>
-
-  <div class="senderHeart">
-    ♡
-  </div>
-
-  <div class="senderSmall">
-    هاللحظة كانت من
-  </div>
-
-  <div
-    id="sender"
-    class="sender">
-  </div>
-
-</section>
-
-
-<!-- END -->
-
-<section
-  id="endPart"
-  class="end part">
-
-  <button
-    id="shareBtn"
-    class="share">
-
-    مشاركة اللحظة ♡
-
-  </button>
-
-  <div class="footer">
-    صنعت بحب بواسطة LAHZA ♡
-  </div>
-
-</section>
-
-
-</section>
-
-</main>
 
 
 <script>
@@ -1141,6 +2029,7 @@ audio{
 
 const SUPABASE_URL =
 "https://ltuyfewachzbazunuxmd.supabase.co";
+
 
 const SUPABASE_KEY =
 "sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
@@ -1154,37 +2043,14 @@ window.supabase.createClient(
 
 
 /* =========================
-   OCCASIONS
-========================= */
-
-const occasionNames = {
-
-  love:"حب ❤️",
-
-  birthday:"عيد ميلاد 🎂",
-
-  friend:"صداقة 🫂",
-
-  friendship:"صداقة 🫂",
-
-  graduation:"تخرج 🎓",
-
-  sorry:"اعتذار 🤍",
-
-  apology:"اعتذار 🤍",
-
-  surprise:"لحظة خاصة ✨",
-
-  none:"لحظة خاصة ✨"
-
-};
-
-
-/* =========================
    VARIABLES
 ========================= */
 
-let slides = [];
+let screens = [];
+
+let currentStep = 0;
+
+let photos = [];
 
 let photoIndex = 0;
 
@@ -1192,16 +2058,13 @@ let photoTimer = null;
 
 let objectURLs = [];
 
-
 let mediaType = "none";
 
 let youtubeId = null;
 
-let audioReady = false;
+let dateValue = null;
 
-let videoReady = false;
-
-let youtubeStarted = false;
+let dateTimer = null;
 
 
 /* =========================
@@ -1209,6 +2072,9 @@ let youtubeStarted = false;
 ========================= */
 
 async function init(){
+
+  createStars();
+
 
   const token =
   new URLSearchParams(
@@ -1218,40 +2084,47 @@ async function init(){
 
   if(!token){
 
-    locked();
+    showLocked();
 
     return;
-
   }
 
 
   try{
 
-    const {data,error} =
+    const {
+      data,
+      error
+    } =
     await supabaseClient.rpc(
+
       "get_paid_gift",
+
       {
         p_token:token
       }
+
     );
 
 
     if(
-      error ||
-      !data ||
+      error
+      ||
+      !data
+      ||
       data.length === 0
     ){
 
       console.error(error);
 
-      locked();
+      showLocked();
 
       return;
-
     }
 
 
-    const gift = data[0];
+    const gift =
+    data[0];
 
 
     setTheme(
@@ -1259,7 +2132,7 @@ async function init(){
     );
 
 
-    fillGift(
+    fillText(
       gift
     );
 
@@ -1277,21 +2150,17 @@ async function init(){
     ]);
 
 
-    document
-    .getElementById("loading")
-    .style.display = "none";
+    buildSteps();
 
 
-    document
-    .getElementById("closed")
-    .style.display = "flex";
+    showFirstGiftScreen();
 
 
   }catch(error){
 
     console.error(error);
 
-    locked();
+    showLocked();
 
   }
 
@@ -1304,7 +2173,9 @@ async function init(){
 
 function setTheme(theme){
 
-  document.body.classList.remove(
+  document.body
+  .classList
+  .remove(
     "romantic",
     "midnight",
     "sunset",
@@ -1321,15 +2192,15 @@ function setTheme(theme){
     ].includes(theme)
   ){
 
-    document.body.classList.add(
-      theme
-    );
+    document.body
+    .classList
+    .add(theme);
 
   }else{
 
-    document.body.classList.add(
-      "romantic"
-    );
+    document.body
+    .classList
+    .add("romantic");
 
   }
 
@@ -1340,63 +2211,63 @@ function setTheme(theme){
    TEXT
 ========================= */
 
-function fillGift(gift){
+function fillText(gift){
 
-  const receiver =
-  gift.receiver ||
+  document
+  .getElementById(
+    "receiverName"
+  )
+  .textContent =
+  gift.receiver
+  ||
   "شخص مميز";
 
 
   document
-  .getElementById("closedReceiver")
+  .getElementById(
+    "messageText"
+  )
   .textContent =
-  receiver;
+  gift.message
+  ||
+  "هاللحظة انصنعت لك ♡";
 
 
   document
-  .getElementById("receiver")
+  .getElementById(
+    "senderName"
+  )
   .textContent =
-  receiver;
-
-
-  document
-  .getElementById("message")
-  .textContent =
-  gift.message ||
-  "هذه اللحظة انصنعت لك ♡";
-
-
-  document
-  .getElementById("sender")
-  .textContent =
-  gift.sender ||
+  gift.sender
+  ||
   "شخص يفكر فيك";
-
-
-  if(gift.occasion){
-
-    document
-    .getElementById("occasion")
-    .textContent =
-    occasionNames[gift.occasion] ||
-    gift.occasion;
-
-  }
 
 
   if(gift.gift_date){
 
-    document
-    .getElementById("datePart")
-    .style.display =
-    "block";
+    dateValue =
+    gift.gift_date;
 
 
     document
-    .getElementById("giftDate")
+    .getElementById(
+      "originalDate"
+    )
     .textContent =
-    formatDate(
+    "منذ "
+    +
+    formatOriginalDate(
       gift.gift_date
+    );
+
+
+    updateDateCounter();
+
+
+    dateTimer =
+    setInterval(
+      updateDateCounter,
+      1000
     );
 
   }
@@ -1405,35 +2276,215 @@ function fillGift(gift){
 
 
 /* =========================
-   PHOTOS
+   BUILD STEPS
 ========================= */
 
-async function loadPhotos(photos){
+function buildSteps(){
 
-  let paths =
-  photos;
+  screens = [
+
+    document.getElementById(
+      "nameScreen"
+    )
+
+  ];
 
 
   if(
-    typeof paths === "string"
+    mediaType !==
+    "none"
   ){
 
-    try{
+    screens.push(
 
-      paths =
-      JSON.parse(paths);
+      document.getElementById(
+        "musicScreen"
+      )
 
-    }catch{
-
-      paths = [];
-
-    }
+    );
 
   }
 
 
+  screens.push(
+
+    document.getElementById(
+      "messageScreen"
+    )
+
+  );
+
+
   if(
-    !Array.isArray(paths)
+    photos.length > 0
+  ){
+
+    screens.push(
+
+      document.getElementById(
+        "photosScreen"
+      )
+
+    );
+
+  }
+
+
+  if(dateValue){
+
+    screens.push(
+
+      document.getElementById(
+        "dateScreen"
+      )
+
+    );
+
+  }
+
+
+  screens.push(
+
+    document.getElementById(
+      "senderScreen"
+    ),
+
+    document.getElementById(
+      "endScreen"
+    )
+
+  );
+
+
+  createProgressDots();
+
+}
+
+
+/* =========================
+   SHOW FIRST
+========================= */
+
+function showFirstGiftScreen(){
+
+  const loading =
+  document.getElementById(
+    "loadingScreen"
+  );
+
+
+  loading.classList.remove(
+    "visible"
+  );
+
+
+  setTimeout(()=>{
+
+    loading.classList.remove(
+      "active"
+    );
+
+
+    currentStep =
+    0;
+
+
+    showScreen(
+      currentStep
+    );
+
+
+    document
+    .getElementById(
+      "progressDots"
+    )
+    .style.display =
+    "flex";
+
+
+    celebrate();
+
+
+  },450);
+
+}
+
+
+/* =========================
+   SCREEN CHANGE
+========================= */
+
+function showScreen(index){
+
+  screens.forEach(
+    screen=>{
+
+      screen.classList.remove(
+        "visible"
+      );
+
+      screen.classList.remove(
+        "active"
+      );
+
+    }
+  );
+
+
+  const target =
+  screens[index];
+
+
+  target.classList.add(
+    "active"
+  );
+
+
+  target.scrollTop =
+  0;
+
+
+  requestAnimationFrame(()=>{
+
+    requestAnimationFrame(()=>{
+
+      target.classList.add(
+        "visible"
+      );
+
+    });
+
+  });
+
+
+  updateDots();
+
+
+  if(
+    target.id ===
+    "photosScreen"
+  ){
+
+    startPhotoTimer();
+
+  }else{
+
+    stopPhotoTimer();
+
+  }
+
+}
+
+
+/* =========================
+   NEXT
+========================= */
+
+function nextStep(){
+
+  if(
+    currentStep >=
+    screens.length - 1
   ){
 
     return;
@@ -1441,9 +2492,144 @@ async function loadPhotos(photos){
   }
 
 
-  const stage =
-  document
-  .getElementById("photoStage");
+  const oldScreen =
+  screens[currentStep];
+
+
+  oldScreen.classList.remove(
+    "visible"
+  );
+
+
+  setTimeout(()=>{
+
+    currentStep++;
+
+
+    showScreen(
+      currentStep
+    );
+
+
+    celebrateSmall();
+
+
+  },400);
+
+}
+
+
+/* =========================
+   DOTS
+========================= */
+
+function createProgressDots(){
+
+  const box =
+  document.getElementById(
+    "progressDots"
+  );
+
+
+  box.innerHTML =
+  "";
+
+
+  screens.forEach(
+    ()=>{
+
+      const dot =
+      document.createElement(
+        "div"
+      );
+
+
+      dot.className =
+      "progressDot";
+
+
+      box.appendChild(
+        dot
+      );
+
+    }
+  );
+
+}
+
+
+function updateDots(){
+
+  const dots =
+  document.querySelectorAll(
+    ".progressDot"
+  );
+
+
+  dots.forEach(
+    (
+      dot,
+      index
+    )=>{
+
+      dot.classList.toggle(
+        "active",
+        index === currentStep
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   PHOTOS
+========================= */
+
+async function loadPhotos(photoData){
+
+  let paths =
+  photoData;
+
+
+  if(
+    typeof paths ===
+    "string"
+  ){
+
+    try{
+
+      paths =
+      JSON.parse(
+        paths
+      );
+
+    }catch{
+
+      paths =
+      [];
+
+    }
+
+  }
+
+
+  if(
+    !Array.isArray(
+      paths
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const container =
+  document.getElementById(
+    "photoContainer"
+  );
 
 
   for(
@@ -1452,19 +2638,27 @@ async function loadPhotos(photos){
 
     try{
 
-      const {data,error} =
+      const {
+        data,
+        error
+      } =
       await supabaseClient
       .storage
-      .from("gift-media")
-      .download(path);
+      .from(
+        "gift-media"
+      )
+      .download(
+        path
+      );
 
 
       if(error){
 
-        console.error(error);
+        console.error(
+          error
+        );
 
         continue;
-
       }
 
 
@@ -1486,7 +2680,7 @@ async function loadPhotos(photos){
 
 
       slide.className =
-      "slide";
+      "photoSlide";
 
 
       const img =
@@ -1500,7 +2694,7 @@ async function loadPhotos(photos){
 
 
       img.alt =
-      "ذكرى من الهدية";
+      "صورة من الهدية";
 
 
       slide.appendChild(
@@ -1508,12 +2702,12 @@ async function loadPhotos(photos){
       );
 
 
-      stage.appendChild(
+      container.appendChild(
         slide
       );
 
 
-      slides.push(
+      photos.push(
         slide
       );
 
@@ -1530,38 +2724,46 @@ async function loadPhotos(photos){
 
 
   if(
-    slides.length === 0
+    photos.length > 0
   ){
 
-    return;
+    photos[0]
+    .classList
+    .add(
+      "active"
+    );
+
+
+    updatePhotoCounter();
 
   }
 
 
-  document
-  .getElementById("memories")
-  .style.display =
-  "block";
+  if(
+    photos.length <= 1
+  ){
 
+    document
+    .getElementById(
+      "photoControls"
+    )
+    .style.display =
+    "none";
 
-  slides[0]
-  .classList
-  .add("active");
-
-
-  updateCounter();
+  }
 
 }
 
 
 /* =========================
-   PHOTO SLIDESHOW
+   PHOTO CHANGE
 ========================= */
 
-function startPhotos(){
+function showPhoto(index){
 
   if(
-    slides.length <= 1
+    photos.length ===
+    0
   ){
 
     return;
@@ -1569,11 +2771,77 @@ function startPhotos(){
   }
 
 
-  if(photoTimer){
+  photos[
+    photoIndex
+  ]
+  .classList
+  .remove(
+    "active"
+  );
 
-    clearInterval(
-      photoTimer
-    );
+
+  photoIndex =
+  (
+    index
+    +
+    photos.length
+  )
+  %
+  photos.length;
+
+
+  photos[
+    photoIndex
+  ]
+  .classList
+  .add(
+    "active"
+  );
+
+
+  updatePhotoCounter();
+
+}
+
+
+function nextPhoto(){
+
+  showPhoto(
+    photoIndex + 1
+  );
+
+
+  restartPhotoTimer();
+
+}
+
+
+function previousPhoto(){
+
+  showPhoto(
+    photoIndex - 1
+  );
+
+
+  restartPhotoTimer();
+
+}
+
+
+/* =========================
+   PHOTO TIMER
+========================= */
+
+function startPhotoTimer(){
+
+  stopPhotoTimer();
+
+
+  if(
+    photos.length <= 1
+  ){
+
+    return;
 
   }
 
@@ -1581,58 +2849,60 @@ function startPhotos(){
   photoTimer =
   setInterval(()=>{
 
-    slides[
-      photoIndex
-    ]
-    .classList
-    .remove("active");
-
-
-    photoIndex =
-    (
+    showPhoto(
       photoIndex + 1
-    )
-    %
-    slides.length;
-
-
-    slides[
-      photoIndex
-    ]
-    .classList
-    .add("active");
-
-
-    updateCounter();
-
+    );
 
   },6500);
 
 }
 
 
-function updateCounter(){
+function stopPhotoTimer(){
 
-  const counter =
-  document
-  .getElementById("counter");
+  if(photoTimer){
+
+    clearInterval(
+      photoTimer
+    );
 
 
-  if(
-    slides.length <= 1
-  ){
-
-    counter.textContent =
-    "";
-
-    return;
+    photoTimer =
+    null;
 
   }
 
+}
 
-  counter.textContent =
 
-  (photoIndex + 1)
+function restartPhotoTimer(){
+
+  if(
+    screens[currentStep]
+    &&
+    screens[currentStep].id
+    ===
+    "photosScreen"
+  ){
+
+    startPhotoTimer();
+
+  }
+
+}
+
+
+function updatePhotoCounter(){
+
+  document
+  .getElementById(
+    "photoCounter"
+  )
+  .textContent =
+
+  (
+    photoIndex + 1
+  )
 
   +
 
@@ -1640,13 +2910,13 @@ function updateCounter(){
 
   +
 
-  slides.length;
+  photos.length;
 
 }
 
 
 /* =========================
-   MEDIA LOAD
+   MEDIA
 ========================= */
 
 async function loadMedia(value){
@@ -1676,16 +2946,7 @@ async function loadMedia(value){
     );
 
 
-    document
-    .getElementById("mediaPart")
-    .style.display =
-    "block";
-
-
-    document
-    .getElementById("musicCard")
-    .style.display =
-    "block";
+    setupYouTube();
 
 
     return;
@@ -1719,7 +2980,7 @@ async function loadMedia(value){
 
   /* STORAGE */
 
-  let storageType =
+  let type =
   "audio";
 
 
@@ -1733,7 +2994,7 @@ async function loadMedia(value){
     )
   ){
 
-    storageType =
+    type =
     "audio";
 
 
@@ -1751,7 +3012,7 @@ async function loadMedia(value){
     )
   ){
 
-    storageType =
+    type =
     "video";
 
 
@@ -1765,11 +3026,18 @@ async function loadMedia(value){
 
   try{
 
-    const {data,error} =
+    const {
+      data,
+      error
+    } =
     await supabaseClient
     .storage
-    .from("gift-media")
-    .download(path);
+    .from(
+      "gift-media"
+    )
+    .download(
+      path
+    );
 
 
     if(error){
@@ -1795,7 +3063,7 @@ async function loadMedia(value){
 
 
     if(
-      storageType ===
+      type ===
       "video"
     ){
 
@@ -1824,7 +3092,7 @@ async function loadMedia(value){
 
 
 /* =========================
-   EXTERNAL MEDIA
+   EXTERNAL
 ========================= */
 
 function setupExternal(url){
@@ -1836,23 +3104,17 @@ function setupExternal(url){
 
 
   if(
-
     clean.endsWith(
       ".mp4"
     )
-
     ||
-
-    clean.endsWith(
-      ".webm"
-    )
-
-    ||
-
     clean.endsWith(
       ".mov"
     )
-
+    ||
+    clean.endsWith(
+      ".webm"
+    )
   ){
 
     setupVideo(
@@ -1880,13 +3142,42 @@ function setupAudio(url){
   "audio";
 
 
-  audioReady =
-  true;
+  document
+  .getElementById(
+    "audioArea"
+  )
+  .style.display =
+  "block";
 
 
   const audio =
-  document
-  .getElementById("giftAudio");
+  document.getElementById(
+    "giftAudio"
+  );
+
+
+  const button =
+  document.getElementById(
+    "audioPlay"
+  );
+
+
+  const status =
+  document.getElementById(
+    "audioStatus"
+  );
+
+
+  const slider =
+  document.getElementById(
+    "audioProgress"
+  );
+
+
+  const disc =
+  document.getElementById(
+    "musicDisc"
+  );
 
 
   audio.src =
@@ -1894,38 +3185,47 @@ function setupAudio(url){
 
 
   audio.volume =
-  .82;
+  .85;
 
 
   audio.load();
 
 
-  document
-  .getElementById("mediaPart")
-  .style.display =
-  "block";
+  button.addEventListener(
+    "click",
+    ()=>{
 
+      if(
+        audio.paused
+      ){
 
-  document
-  .getElementById("musicCard")
-  .style.display =
-  "block";
+        audio.play();
+
+      }else{
+
+        audio.pause();
+
+      }
+
+    }
+  );
 
 
   audio.addEventListener(
     "play",
     ()=>{
 
-      document
-      .getElementById("playIcon")
-      .textContent =
+      button.textContent =
       "❚❚";
 
 
-      document
-      .getElementById("musicText")
-      .textContent =
+      status.textContent =
       "الأغنية شغالة ♡";
+
+
+      disc.classList.add(
+        "spinning"
+      );
 
     }
   );
@@ -1935,18 +3235,150 @@ function setupAudio(url){
     "pause",
     ()=>{
 
-      document
-      .getElementById("playIcon")
-      .textContent =
+      button.textContent =
       "▶";
 
 
-      document
-      .getElementById("musicText")
-      .textContent =
-      "اضغط لتشغيل الأغنية ♡";
+      status.textContent =
+      "الأغنية متوقفة";
+
+
+      disc.classList.remove(
+        "spinning"
+      );
 
     }
+  );
+
+
+  audio.addEventListener(
+    "timeupdate",
+    ()=>{
+
+      if(
+        !audio.duration
+      ){
+
+        return;
+
+      }
+
+
+      slider.value =
+
+      (
+        audio.currentTime
+        /
+        audio.duration
+      )
+
+      *
+      100;
+
+    }
+  );
+
+
+  slider.addEventListener(
+    "input",
+    ()=>{
+
+      if(
+        !audio.duration
+      ){
+
+        return;
+
+      }
+
+
+      audio.currentTime =
+
+      (
+        slider.value
+        /
+        100
+      )
+
+      *
+      audio.duration;
+
+    }
+  );
+
+}
+
+
+/* =========================
+   YOUTUBE
+========================= */
+
+function setupYouTube(){
+
+  const area =
+  document.getElementById(
+    "youtubeArea"
+  );
+
+
+  area.style.display =
+  "block";
+
+
+  const iframe =
+  document.createElement(
+    "iframe"
+  );
+
+
+  iframe.src =
+
+  "https://www.youtube.com/embed/"
+
+  +
+
+  encodeURIComponent(
+    youtubeId
+  )
+
+  +
+
+  "?playsinline=1&rel=0";
+
+
+  iframe.allow =
+  "accelerometer; autoplay; encrypted-media; picture-in-picture";
+
+
+  iframe.allowFullscreen =
+  true;
+
+
+  iframe.title =
+  "أغنية الهدية";
+
+
+  area.appendChild(
+    iframe
+  );
+
+
+  const note =
+  document.createElement(
+    "div"
+  );
+
+
+  note.className =
+  "youtubeNote";
+
+
+  note.textContent =
+  "التشغيل والإعلانات داخل مشغل YouTube تكون من YouTube نفسه.";
+
+
+  area.appendChild(
+    note
   );
 
 }
@@ -1962,453 +3394,49 @@ function setupVideo(url){
   "video";
 
 
-  videoReady =
-  true;
+  document
+  .getElementById(
+    "videoArea"
+  )
+  .style.display =
+  "block";
 
 
   const video =
-  document
-  .getElementById("giftVideo");
+  document.getElementById(
+    "giftVideo"
+  );
 
 
   video.src =
   url;
 
-
-  document
-  .getElementById("mediaPart")
-  .style.display =
-  "block";
-
-
-  document
-  .getElementById("musicCard")
-  .style.display =
-  "none";
-
-
-  document
-  .getElementById("videoWrap")
-  .style.display =
-  "block";
-
 }
 
 
 /* =========================
-   OPEN GIFT
+   DATE COUNTER
 ========================= */
 
-document
-.getElementById("openBtn")
-.addEventListener(
-  "click",
-  async ()=>{
+function updateDateCounter(){
 
+  if(!dateValue){
 
-    celebrate();
-
-
-    document
-    .getElementById("closed")
-    .style.display =
-    "none";
-
-
-    /*
-      إذا فيه أغنية
-      نوري شاشة الأغنية أول
-    */
-
-    if(
-      mediaType === "audio"
-      ||
-      mediaType === "youtube"
-      ||
-      mediaType === "video"
-    ){
-
-      document
-      .getElementById("musicOpening")
-      .classList
-      .add("showOpening");
-
-    }
-
-
-    /* AUDIO */
-
-    if(audioReady){
-
-      try{
-
-        await document
-        .getElementById("giftAudio")
-        .play();
-
-      }catch(error){
-
-        console.log(
-          error
-        );
-
-      }
-
-    }
-
-
-    /* YOUTUBE */
-
-    else if(
-      mediaType === "youtube"
-      &&
-      youtubeId
-    ){
-
-      openYouTubeOpening();
-
-    }
-
-
-    /* VIDEO */
-
-    else if(videoReady){
-
-      try{
-
-        const video =
-        document
-        .getElementById("giftVideo");
-
-
-        video.muted =
-        false;
-
-
-        await video.play();
-
-      }catch(error){
-
-        console.log(
-          error
-        );
-
-      }
-
-    }
-
-
-    /*
-      نخلي الأغنية أول شيء
-      لمدة 3 ثواني
-    */
-
-    if(
-      mediaType !== "none"
-    ){
-
-      setTimeout(
-        startGiftStory,
-        3000
-      );
-
-    }else{
-
-      startGiftStory();
-
-    }
-
-  }
-);
-
-
-/* =========================
-   START STORY
-========================= */
-
-function startGiftStory(){
-
-  document
-  .getElementById("musicOpening")
-  .classList
-  .remove("showOpening");
-
-
-  document
-  .getElementById("story")
-  .style.display =
-  "block";
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-
-  playStory();
-
-}
-
-
-/* =========================
-   STORY TIMELINE
-========================= */
-
-function reveal(id){
-
-  const el =
-  document.getElementById(
-    id
-  );
-
-
-  if(el){
-
-    el.classList.add(
-      "show"
-    );
+    return;
 
   }
 
-}
 
+  const parts =
+  String(
+    dateValue
+  )
+  .split("-");
 
-function goTo(id){
-
-  const el =
-  document.getElementById(
-    id
-  );
-
-
-  if(el){
-
-    el.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
-  }
-
-}
-
-
-function playStory(){
-
-
-  /* الاسم */
-
-  setTimeout(()=>{
-
-    reveal(
-      "intro"
-    );
-
-  },500);
-
-
-  /* الرسالة */
-
-  setTimeout(()=>{
-
-    reveal(
-      "messagePart"
-    );
-
-
-    goTo(
-      "messagePart"
-    );
-
-  },4200);
-
-
-  let time =
-  8800;
-
-
-  /* الصور */
 
   if(
-    slides.length > 0
-  ){
-
-    setTimeout(()=>{
-
-      reveal(
-        "memories"
-      );
-
-
-      goTo(
-        "memories"
-      );
-
-
-      startPhotos();
-
-    },time);
-
-
-    time +=
-    7600;
-
-  }
-
-
-  /* التاريخ */
-
-  if(
-    document
-    .getElementById(
-      "datePart"
-    )
-    .style.display ===
-    "block"
-  ){
-
-    setTimeout(()=>{
-
-      reveal(
-        "datePart"
-      );
-
-
-      goTo(
-        "datePart"
-      );
-
-    },time);
-
-
-    time +=
-    4200;
-
-  }
-
-
-  /* الأغنية */
-
-  if(
-    document
-    .getElementById(
-      "mediaPart"
-    )
-    .style.display ===
-    "block"
-  ){
-
-    setTimeout(()=>{
-
-      reveal(
-        "mediaPart"
-      );
-
-    },time);
-
-
-    time +=
-    2600;
-
-  }
-
-
-  /* المرسل */
-
-  setTimeout(()=>{
-
-    reveal(
-      "senderPart"
-    );
-
-
-    goTo(
-      "senderPart"
-    );
-
-  },time);
-
-
-  /* النهاية */
-
-  setTimeout(()=>{
-
-    reveal(
-      "endPart"
-    );
-
-  },time + 2800);
-
-}
-
-
-/* =========================
-   MUSIC BUTTON
-========================= */
-
-document
-.getElementById("musicTrigger")
-.addEventListener(
-  "click",
-  ()=>{
-
-
-    /* AUDIO */
-
-    if(
-      mediaType ===
-      "audio"
-    ){
-
-      const audio =
-      document
-      .getElementById(
-        "giftAudio"
-      );
-
-
-      if(audio.paused){
-
-        audio.play();
-
-      }else{
-
-        audio.pause();
-
-      }
-
-
-      return;
-
-    }
-
-
-    /* YOUTUBE */
-
-    if(
-      mediaType ===
-      "youtube"
-      &&
-      youtubeId
-    ){
-
-      openYouTubePlayer();
-
-    }
-
-  }
-);
-
-
-/* =========================
-   YOUTUBE OPENING PLAYER
-========================= */
-
-function openYouTubeOpening(){
-
-  if(
-    youtubeStarted
+    parts.length !==
+    3
   ){
 
     return;
@@ -2416,81 +3444,30 @@ function openYouTubeOpening(){
   }
 
 
-  youtubeStarted =
-  true;
+  const start =
+  new Date(
 
+    Number(parts[0]),
 
-  const wrap =
-  document
-  .getElementById(
-    "youtubeOpening"
+    Number(parts[1]) - 1,
+
+    Number(parts[2]),
+
+    0,
+
+    0,
+
+    0
+
   );
 
 
-  wrap.style.display =
-  "block";
-
-
-  const iframe =
-  document.createElement(
-    "iframe"
-  );
-
-
-  iframe.className =
-  "youtubeFrame";
-
-
-  iframe.src =
-
-  "https://www.youtube.com/embed/"
-
-  +
-
-  encodeURIComponent(
-    youtubeId
-  )
-
-  +
-
-  "?autoplay=1&playsinline=1&rel=0";
-
-
-  iframe.allow =
-  "autoplay; encrypted-media; picture-in-picture";
-
-
-  iframe.allowFullscreen =
-  true;
-
-
-  iframe.title =
-  "أغنية الهدية";
-
-
-  wrap.appendChild(
-    iframe
-  );
-
-}
-
-
-/* =========================
-   YOUTUBE PLAYER INSIDE STORY
-========================= */
-
-function openYouTubePlayer(){
-
-  const wrap =
-  document
-  .getElementById(
-    "youtubeWrap"
-  );
+  const now =
+  new Date();
 
 
   if(
-    wrap.dataset.loaded ===
-    "yes"
+    start > now
   ){
 
     return;
@@ -2498,85 +3475,223 @@ function openYouTubePlayer(){
   }
 
 
-  wrap.dataset.loaded =
-  "yes";
+  /*
+    نحسب السنوات والشهور
+    بشكل تقويمي،
+    وبعدها الباقي
+    بالأيام والساعات.
+  */
 
 
-  wrap.style.display =
-  "block";
-
-
-  const iframe =
-  document.createElement(
-    "iframe"
+  let cursor =
+  new Date(
+    start
   );
 
 
-  iframe.className =
-  "youtubeFrame";
+  let years =
+  now.getFullYear()
+  -
+  cursor.getFullYear();
 
 
-  iframe.src =
+  let yearCursor =
+  new Date(
+    cursor
+  );
 
-  "https://www.youtube.com/embed/"
 
-  +
+  yearCursor.setFullYear(
+    cursor.getFullYear()
+    +
+    years
+  );
 
-  encodeURIComponent(
-    youtubeId
+
+  if(
+    yearCursor > now
+  ){
+
+    years--;
+
+    yearCursor =
+    new Date(
+      cursor
+    );
+
+    yearCursor.setFullYear(
+      cursor.getFullYear()
+      +
+      years
+    );
+
+  }
+
+
+  cursor =
+  yearCursor;
+
+
+  let months =
+
+  (
+    now.getFullYear()
+    -
+    cursor.getFullYear()
   )
 
+  *
+  12
+
   +
 
-  "?autoplay=1&playsinline=1&rel=0";
-
-
-  iframe.allow =
-  "autoplay; encrypted-media; picture-in-picture";
-
-
-  iframe.allowFullscreen =
-  true;
-
-
-  iframe.title =
-  "أغنية الهدية";
-
-
-  wrap.appendChild(
-    iframe
+  (
+    now.getMonth()
+    -
+    cursor.getMonth()
   );
 
 
-  document
-  .getElementById("playIcon")
-  .textContent =
-  "♪";
+  let monthCursor =
+  new Date(
+    cursor
+  );
+
+
+  monthCursor.setMonth(
+    cursor.getMonth()
+    +
+    months
+  );
+
+
+  if(
+    monthCursor > now
+  ){
+
+    months--;
+
+    monthCursor =
+    new Date(
+      cursor
+    );
+
+    monthCursor.setMonth(
+      cursor.getMonth()
+      +
+      months
+    );
+
+  }
+
+
+  const remaining =
+  now
+  -
+  monthCursor;
+
+
+  const totalSeconds =
+  Math.floor(
+    remaining
+    /
+    1000
+  );
+
+
+  const days =
+  Math.floor(
+    totalSeconds
+    /
+    86400
+  );
+
+
+  const hours =
+  Math.floor(
+    (
+      totalSeconds
+      %
+      86400
+    )
+    /
+    3600
+  );
+
+
+  const minutes =
+  Math.floor(
+    (
+      totalSeconds
+      %
+      3600
+    )
+    /
+    60
+  );
+
+
+  const seconds =
+  totalSeconds
+  %
+  60;
 
 
   document
-  .getElementById("musicText")
+  .getElementById(
+    "years"
+  )
   .textContent =
-  "استمتع بالأغنية ♡";
+  years;
 
 
-  setTimeout(()=>{
+  document
+  .getElementById(
+    "months"
+  )
+  .textContent =
+  months;
 
-    wrap.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
 
-  },250);
+  document
+  .getElementById(
+    "days"
+  )
+  .textContent =
+  days;
+
+
+  document
+  .getElementById(
+    "hours"
+  )
+  .textContent =
+  hours;
+
+
+  document
+  .getElementById(
+    "minutes"
+  )
+  .textContent =
+  minutes;
+
+
+  document
+  .getElementById(
+    "seconds"
+  )
+  .textContent =
+  seconds;
 
 }
 
 
 /* =========================
-   DATE FORMAT
+   ORIGINAL DATE
 ========================= */
 
-function formatDate(value){
+function formatOriginalDate(value){
 
   const p =
   String(value)
@@ -2584,7 +3699,8 @@ function formatDate(value){
 
 
   if(
-    p.length !== 3
+    p.length !==
+    3
   ){
 
     return value;
@@ -2621,48 +3737,37 @@ function formatDate(value){
   ];
 
 
-  const y =
-  Number(p[0]);
+  const year =
+  Number(
+    p[0]
+  );
 
 
-  const m =
-  Number(p[1]);
+  const month =
+  Number(
+    p[1]
+  );
 
 
-  const d =
-  Number(p[2]);
-
-
-  if(
-    m < 1
-    ||
-    m > 12
-  ){
-
-    return value;
-
-  }
+  const day =
+  Number(
+    p[2]
+  );
 
 
   return (
 
-    d
-
+    day
     +
-
     " "
-
     +
-
-    months[m - 1]
-
+    months[
+      month - 1
+    ]
     +
-
     " "
-
     +
-
-    y
+    year
 
   );
 
@@ -2670,39 +3775,52 @@ function formatDate(value){
 
 
 /* =========================
-   CELEBRATION
+   PARTICLES
 ========================= */
 
 function celebrate(){
 
-  const box =
-  document
-  .getElementById(
-    "celebration"
+  makeParticles(
+    18
   );
 
+}
 
-  box.innerHTML =
-  "";
+
+function celebrateSmall(){
+
+  makeParticles(
+    7
+  );
+
+}
+
+
+function makeParticles(count){
+
+  const box =
+  document.getElementById(
+    "particles"
+  );
 
 
   for(
     let i = 0;
-    i < 18;
+    i < count;
     i++
   ){
 
-    const item =
+    const particle =
     document.createElement(
       "div"
     );
 
 
-    item.className =
-    "fly";
+    particle.className =
+    "particle";
 
 
-    item.textContent =
+    particle.textContent =
     i % 4 === 0
     ?
     "✦"
@@ -2710,44 +3828,111 @@ function celebrate(){
     "♡";
 
 
-    item.style.left =
-    Math.random()
-    * 100
+    particle.style.left =
+    (
+      Math.random()
+      *
+      100
+    )
     +
     "%";
 
 
-    item.style.fontSize =
+    particle.style.fontSize =
     (
-      14
+      12
       +
       Math.random()
-      * 21
+      *
+      15
     )
     +
     "px";
 
 
-    item.style.animationDelay =
-    Math.random()
-    * .7
+    particle.style.animationDelay =
+    (
+      Math.random()
+      *
+      .45
+    )
     +
     "s";
 
 
     box.appendChild(
-      item
+      particle
     );
+
+
+    setTimeout(()=>{
+
+      particle.remove();
+
+    },4000);
 
   }
 
+}
 
-  setTimeout(()=>{
 
-    box.innerHTML =
-    "";
+/* =========================
+   STARS
+========================= */
 
-  },4000);
+function createStars(){
+
+  const box =
+  document.getElementById(
+    "stars"
+  );
+
+
+  for(
+    let i = 0;
+    i < 22;
+    i++
+  ){
+
+    const star =
+    document.createElement(
+      "div"
+    );
+
+
+    star.className =
+    "star";
+
+
+    star.style.left =
+    Math.random()
+    *
+    100
+    +
+    "%";
+
+
+    star.style.top =
+    Math.random()
+    *
+    100
+    +
+    "%";
+
+
+    star.style.animationDelay =
+    Math.random()
+    *
+    3
+    +
+    "s";
+
+
+    box.appendChild(
+      star
+    );
+
+  }
 
 }
 
@@ -2757,7 +3942,9 @@ function celebrate(){
 ========================= */
 
 document
-.getElementById("shareBtn")
+.getElementById(
+  "shareButton"
+)
 .addEventListener(
   "click",
   async ()=>{
@@ -2783,8 +3970,7 @@ document
 
       }else{
 
-        await navigator
-        .clipboard
+        await navigator.clipboard
         .writeText(
           location.href
         );
@@ -2806,36 +3992,46 @@ document
    LOCKED
 ========================= */
 
-function locked(){
+function showLocked(){
 
-  document
-  .getElementById("loading")
-  .style.display =
-  "none";
-
-
-  document
-  .getElementById("closed")
-  .style.display =
-  "none";
+  const loading =
+  document.getElementById(
+    "loadingScreen"
+  );
 
 
-  document
-  .getElementById("story")
-  .style.display =
-  "none";
+  loading.classList.remove(
+    "visible"
+  );
 
 
-  document
-  .getElementById("musicOpening")
-  .classList
-  .remove("showOpening");
+  setTimeout(()=>{
+
+    loading.classList.remove(
+      "active"
+    );
 
 
-  document
-  .getElementById("locked")
-  .style.display =
-  "flex";
+    const locked =
+    document.getElementById(
+      "lockedScreen"
+    );
+
+
+    locked.classList.add(
+      "active"
+    );
+
+
+    requestAnimationFrame(()=>{
+
+      locked.classList.add(
+        "visible"
+      );
+
+    });
+
+  },350);
 
 }
 
@@ -2848,10 +4044,13 @@ window.addEventListener(
   "beforeunload",
   ()=>{
 
-    if(photoTimer){
+    stopPhotoTimer();
+
+
+    if(dateTimer){
 
       clearInterval(
-        photoTimer
+        dateTimer
       );
 
     }
@@ -2880,4 +4079,5 @@ init();
 </script>
 
 </body>
+
 </html>
