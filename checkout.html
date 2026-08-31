@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#08080f">
+<title>الدفع | LAHZA</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top right,rgba(255,79,135,.13),transparent 30%),
+    #08080f;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+header{
+  max-width:760px;
+  margin:auto;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:900;
+}
+
+.logo span{color:#ff4f87}
+
+.back{
+  color:#999;
+  text-decoration:none;
+  background:#15151e;
+  padding:9px 14px;
+  border-radius:100px;
+  font-size:13px;
+}
+
+main{
+  width:min(92%,620px);
+  margin:auto;
+  padding:15px 0 60px;
+}
+
+.title{
+  text-align:center;
+  margin:15px 0 28px;
+}
+
+.title h1{
+  margin:0 0 9px;
+  font-size:32px;
+}
+
+.title p{
+  margin:0;
+  color:#777;
+  line-height:1.7;
+}
+
+.card{
+  background:#111118;
+  border:1px solid #25252f;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:14px;
+}
+
+.cardTitle{
+  font-size:16px;
+  font-weight:900;
+  margin-bottom:16px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:12px 0;
+  border-bottom:1px solid #202029;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.row span{
+  color:#777;
+}
+
+.row strong{
+  text-align:left;
+}
+
+.priceBox{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-top:16px;
+  margin-top:8px;
+  border-top:1px solid #282832;
+}
+
+.priceBox span{
+  color:#999;
+}
+
+.price{
+  font-size:27px;
+  font-weight:900;
+  color:#ff6596;
+}
+
+.secure{
+  padding:14px;
+  border-radius:15px;
+  background:rgba(76,175,80,.08);
+  border:1px solid rgba(76,175,80,.18);
+  color:#9dd8a0;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:14px;
+}
+
+.paymentMethods{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.method{
+  padding:17px 10px;
+  border-radius:16px;
+  background:#0c0c12;
+  border:1px solid #292934;
+  color:white;
+  font-weight:800;
+  text-align:center;
+}
+
+.payButton{
+  width:100%;
+  border:0;
+  margin-top:16px;
+  padding:17px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#ff3474,#ff6999);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.payButton:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.note{
+  text-align:center;
+  color:#666;
+  font-size:12px;
+  line-height:1.7;
+  margin-top:14px;
+}
+
+.error{
+  display:none;
+  padding:14px;
+  margin-bottom:14px;
+  border-radius:15px;
+  background:rgba(255,60,80,.10);
+  border:1px solid rgba(255,60,80,.25);
+  color:#ff8395;
+  line-height:1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="create.html" class="back">← رجوع</a>
+  <div class="logo">LAHZA <span>♡</span></div>
+</header>
+
+<main>
+
+  <div class="title">
+    <h1>آخر خطوة 🤍</h1>
+    <p>راجع طلبك، وبعد الدفع تنفتح هديتك.</p>
+  </div>
+
+  <div id="errorBox" class="error">
+    ما لقينا بيانات الهدية. ارجع وصمّم الهدية أول.
+  </div>
+
+  <div class="card">
+
+    <div class="cardTitle">🎁 ملخص الهدية</div>
+
+    <div class="row">
+      <span>إلى</span>
+      <strong id="receiver">—</strong>
+    </div>
+
+    <div class="row">
+      <span>المناسبة</span>
+      <strong id="occasion">—</strong>
+    </div>
+
+    <div class="row">
+      <span>الباقة</span>
+      <strong id="plan">—</strong>
+    </div>
+
+    <div class="row">
+      <span>الثيم</span>
+      <strong id="theme">—</strong>
+    </div>
+
+    <div class="priceBox">
+      <span>الإجمالي</span>
+      <div class="price" id="price">—</div>
+    </div>
+
+  </div>
+
+  <div class="secure">
+    🔒 الهدية ما تنفتح وما ينشأ رابطها النهائي إلا بعد تأكيد الدفع.
+  </div>
+
+  <div class="card">
+
+    <div class="cardTitle">💳 طريقة الدفع</div>
+
+    <div class="paymentMethods">
+      <div class="method">BenefitPay</div>
+      <div class="method">بطاقة بنكية</div>
+      <div class="method">Apple Pay</div>
+      <div class="method">BENEFIT</div>
+    </div>
+
+    <button
+      id="payButton"
+      class="payButton"
+      onclick="startPayment()">
+      ادفع وكمل هديتك ♡
+    </button>
+
+    <div class="note">
+      زر الدفع بنربطه ببوابة الدفع الحقيقية في الخطوة الجاية.
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+
+const occasionNames = {
+  love:"حب ❤️",
+  birthday:"عيد ميلاد 🎂",
+  friend:"صداقة 🫂",
+  friendship:"صداقة 🫂",
+  graduation:"تخرج 🎓",
+  sorry:"اعتذار 🥹",
+  apology:"اعتذار 🥹",
+  surprise:"بدون مناسبة 🎁",
+  none:"بدون مناسبة 🎁"
+};
+
+const planNames = {
+  mini:"Mini",
+  moment:"Moment",
+  forever:"Forever"
+};
+
+const themeNames = {
+  romantic:"Romantic ❤️",
+  midnight:"Midnight 🌙",
+  sunset:"Sunset ✨",
+  minimal:"Minimal 🤍"
+};
+
+/*
+غيّر الأسعار من هني وقت ما تبي
+*/
+const prices = {
+  mini:1.900,
+  moment:2.900,
+  forever:4.900
+};
+
+let giftData = null;
+
+try{
+  giftData =
+    JSON.parse(
+      localStorage.getItem("lahzaGift")
+    );
+}catch(error){
+  giftData = null;
+}
+
+const payButton =
+  document.getElementById("payButton");
+
+if(!giftData || !giftData.receiver || !giftData.message){
+
+  document.getElementById("errorBox")
+    .style.display = "block";
+
+  payButton.disabled = true;
+
+}else{
+
+  document.getElementById("receiver")
+    .textContent =
+    giftData.receiver;
+
+  document.getElementById("occasion")
+    .textContent =
+    occasionNames[giftData.occasion] ||
+    giftData.occasion ||
+    "—";
+
+  document.getElementById("plan")
+    .textContent =
+    planNames[giftData.plan] ||
+    giftData.plan ||
+    "Mini";
+
+  document.getElementById("theme")
+    .textContent =
+    themeNames[giftData.theme] ||
+    giftData.theme ||
+    "Romantic";
+
+  const price =
+    prices[giftData.plan] ||
+    prices.mini;
+
+  document.getElementById("price")
+    .textContent =
+    price.toFixed(3) + " د.ب";
+}
+
+
+/*
+مهم:
+حالياً ما نفتح gift.html من هذا الزر.
+الدفع الحقيقي هو اللي لازم يؤكد العملية أول.
+*/
+
+function startPayment(){
+
+  if(!giftData){
+    return;
+  }
+
+  alert(
+    "الحين نربط هذا الزر ببوابة الدفع الحقيقية، وبعد نجاح الدفع فقط تنفتح الهدية."
+  );
+
+}
+
+</script>
+
+</body>
+</html>
