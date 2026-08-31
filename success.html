@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لحظتك جاهزة ♡ | LAHZA</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    background:
+    radial-gradient(circle at top,#35101f,#0b0911 55%);
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:25px;
+}
+
+.box{
+    width:100%;
+    max-width:500px;
+    text-align:center;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    margin-bottom:55px;
+}
+
+.logo span{
+    color:#ff4f88;
+}
+
+.done{
+    font-size:65px;
+    margin-bottom:20px;
+}
+
+h1{
+    font-size:34px;
+    margin-bottom:12px;
+}
+
+.subtitle{
+    color:#999;
+    line-height:1.8;
+    margin-bottom:35px;
+}
+
+.linkBox{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    padding:18px;
+    border-radius:20px;
+    margin-bottom:15px;
+
+    word-break:break-all;
+    color:#ccc;
+    font-size:14px;
+}
+
+button,
+.preview{
+    width:100%;
+    border:none;
+    padding:17px;
+    border-radius:18px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:12px;
+}
+
+.copy{
+    background:linear-gradient(135deg,#ff176c,#ff5c91);
+    color:white;
+}
+
+.whatsapp{
+    background:#25D366;
+    color:white;
+}
+
+.preview{
+    display:block;
+    text-decoration:none;
+    background:white;
+    color:#151018;
+}
+
+.newGift{
+    background:transparent;
+    border:1px solid rgba(255,255,255,.15);
+    color:white;
+}
+
+.tip{
+    margin-top:35px;
+    padding:20px;
+    border-radius:18px;
+    background:rgba(255,255,255,.04);
+    color:#888;
+    font-size:14px;
+    line-height:1.8;
+}
+
+.brand{
+    margin-top:35px;
+    color:#555;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="logo">
+LAHZA <span>♡</span>
+</div>
+
+<div class="done">
+💌
+</div>
+
+<h1>
+لحظتك جاهزة!
+</h1>
+
+<p class="subtitle">
+انسخ الرابط وأرسله للشخص المميز.<br>
+أول ما يفتحه تبدأ المفاجأة ♡
+</p>
+
+<div class="linkBox" id="linkBox">
+جاري تجهيز الرابط...
+</div>
+
+<button class="copy" onclick="copyLink()">
+نسخ رابط الهدية 🔗
+</button>
+
+<button class="whatsapp" onclick="sendWhatsApp()">
+إرسال عبر واتساب
+</button>
+
+<a id="previewButton"
+   class="preview"
+   target="_blank">
+شاهد الهدية قبل الإرسال ♡
+</a>
+
+<button class="newGift"
+onclick="location.href='occasion.html'">
++ اصنع هدية ثانية
+</button>
+
+<div class="tip">
+💡 <strong>فكرة:</strong><br>
+لا تقول له وش داخل الرابط.<br>
+أرسل له: «سويت لك شيء.. افتحه لحالك 🤍»
+</div>
+
+<div class="brand">
+صنعت بحب بواسطة LAHZA ♡
+</div>
+
+</div>
+
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+
+/* بيانات الهدية */
+
+const receiver =
+params.get("receiver") || "";
+
+const occasion =
+params.get("occasion") || "";
+
+const message =
+params.get("message") || "";
+
+const sender =
+params.get("sender") || "";
+
+const date =
+params.get("date") || "";
+
+const song =
+params.get("song") || "";
+
+
+/* إنشاء رابط الهدية */
+
+const giftURL =
+new URL("gift.html",window.location.href);
+
+giftURL.searchParams.set(
+"receiver",
+receiver
+);
+
+giftURL.searchParams.set(
+"occasion",
+occasion
+);
+
+giftURL.searchParams.set(
+"message",
+message
+);
+
+giftURL.searchParams.set(
+"sender",
+sender
+);
+
+if(date){
+giftURL.searchParams.set(
+"date",
+date
+);
+}
+
+if(song){
+giftURL.searchParams.set(
+"song",
+song
+);
+}
+
+
+/* إظهار الرابط */
+
+const finalLink =
+giftURL.href;
+
+document.getElementById(
+"linkBox"
+).textContent =
+finalLink;
+
+
+document.getElementById(
+"previewButton"
+).href =
+finalLink;
+
+
+/* نسخ الرابط */
+
+function copyLink(){
+
+navigator.clipboard
+.writeText(finalLink)
+.then(()=>{
+
+alert(
+"تم نسخ رابط الهدية ♡"
+);
+
+});
+
+}
+
+
+/* واتساب */
+
+function sendWhatsApp(){
+
+const text =
+"سويت لك شيء صغير 🤍\n\n"+
+"افتحه لحالك:\n"+
+finalLink;
+
+window.open(
+"https://wa.me/?text="+
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+</script>
+
+</body>
+</html>
