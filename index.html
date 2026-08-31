@@ -3,131 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لحظة | LAHZA</title>
+<meta name="theme-color" content="#08080f">
+<title>LAHZA | لحظة</title>
 
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#090914;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#08080f;
   color:white;
-  text-align:center;
+  min-height:100vh;
+  overflow:hidden;
 }
-header{
+
+.page{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+
+nav{
+  width:100%;
+  max-width:1000px;
+  margin:auto;
   padding:22px;
-  font-size:27px;
-  font-weight:bold;
-  color:#ff5d91;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:relative;
+  z-index:2;
 }
+
+.logo{
+  font-size:24px;
+  font-weight:900;
+}
+
+.logo span{color:#ff4f87}
+
+.about{
+  color:#999;
+  font-size:13px;
+}
+
 .hero{
-  padding:80px 20px;
-}
-.hero h1{
-  font-size:48px;
-  margin:0 0 20px;
-}
-.hero h1 span{color:#ff5d91}
-.hero p{
-  color:#ccc;
-  font-size:19px;
-  line-height:1.8;
-}
-button{
-  margin-top:25px;
-  background:#ff4f87;
-  color:white;
-  border:0;
-  padding:15px 35px;
-  border-radius:12px;
-  font-size:18px;
-  cursor:pointer;
-}
-.cards{
-  background:#fff;
-  color:#171722;
-  padding:55px 20px;
-}
-.cards h2{font-size:28px}
-.options{
+  flex:1;
   display:flex;
   justify-content:center;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-top:30px;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  position:relative;
+  z-index:2;
 }
-.card{
-  width:150px;
-  padding:25px 10px;
-  border:1px solid #eee;
-  border-radius:18px;
+
+.content{
+  max-width:700px;
+}
+
+.tag{
+  display:inline-block;
+  background:#15151e;
+  border:1px solid #292934;
+  padding:9px 15px;
+  border-radius:100px;
+  color:#ccc;
+  font-size:13px;
+  margin-bottom:25px;
+}
+
+h1{
+  font-size:clamp(45px,10vw,80px);
+  line-height:1.08;
+  margin:0;
+}
+
+.pink{
+  color:#ff4f87;
+}
+
+p{
+  max-width:560px;
+  margin:25px auto;
+  color:#999;
+  line-height:1.9;
   font-size:17px;
-  background:#fff8fa;
 }
-.card .emoji{
-  font-size:35px;
-  margin-bottom:10px;
+
+.start{
+  display:inline-block;
+  border:0;
+  background:linear-gradient(135deg,#ff3474,#ff6999);
+  color:white;
+  font-size:17px;
+  font-weight:800;
+  padding:17px 34px;
+  border-radius:16px;
+  text-decoration:none;
+  box-shadow:0 15px 45px rgba(255,79,135,.28);
 }
+
+.note{
+  display:block;
+  margin-top:15px;
+  color:#555;
+  font-size:12px;
+}
+
+.glow1,
+.glow2{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(130px);
+  pointer-events:none;
+}
+
+.glow1{
+  width:330px;
+  height:330px;
+  background:#ff2e73;
+  opacity:.18;
+  top:15%;
+  right:-100px;
+}
+
+.glow2{
+  width:300px;
+  height:300px;
+  background:#763cff;
+  opacity:.12;
+  bottom:-80px;
+  left:-100px;
+}
+
 footer{
-  padding:30px;
-  color:#888;
+  text-align:center;
+  padding:20px;
+  color:#444;
+  font-size:12px;
+  position:relative;
+  z-index:2;
 }
+
 @media(max-width:600px){
-  .hero h1{font-size:36px}
+  nav{padding:20px}
+  .about{display:none}
+  p{font-size:16px}
 }
 </style>
 </head>
 
 <body>
 
-<header>LAHZA ♡ لحظة</header>
+<div class="page">
 
-<section class="hero">
-  <h1>اصنع <span>لحظة</span> لن تُنسى</h1>
-  <p>
-    حوّل صورك ورسالتك وذكرياتك إلى<br>
-    مفاجأة رقمية لشخص غالي عليك 🤍
-  </p>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
 
-  <button onclick="window.location.href='create.html'">
-    اصنع لحظتك ♡
-</button>
-</section>
-
-<section class="cards" id="occasions">
-  <h2>اختر مناسبتك 💗</h2>
-
-  <div class="options">
-    <div class="card">
-      <div class="emoji">❤️</div>
-      حب
+  <nav>
+    <div class="logo">
+      <span>♡</span> LAHZA
     </div>
 
-    <div class="card">
-      <div class="emoji">🫂</div>
-      صداقة
+    <div class="about">
+      لحظة تبقى 🤍
+    </div>
+  </nav>
+
+  <main class="hero">
+
+    <div class="content">
+
+      <div class="tag">
+        💌 هدية مختلفة لشخص مختلف
+      </div>
+
+      <h1>
+        مو كل هدية<br>
+        تنحط في <span class="pink">علبة.</span>
+      </h1>
+
+      <p>
+        اجمع رسالتك وصوركم وأغنيتكم وذكرياتكم
+        في تجربة رقمية خاصة، وأرسلها برابط واحد.
+      </p>
+
+      <a href="occasion.html" class="start">
+        ابدأ لحظتك ♡
+      </a>
+
+      <span class="note">
+        ما يحتاج تطبيق • يستلمها برابط خاص
+      </span>
+
     </div>
 
-    <div class="card">
-      <div class="emoji">🎂</div>
-      عيد ميلاد
-    </div>
+  </main>
 
-    <div class="card">
-      <div class="emoji">🎓</div>
-      تخرج
-    </div>
+  <footer>
+    LAHZA © 2026
+  </footer>
 
-    <div class="card">
-      <div class="emoji">🎁</div>
-      مفاجأة
-    </div>
-  </div>
-</section>
-
-<footer>
-  LAHZA © 2026 — لحظة تبقى 🤍
-</footer>
+</div>
 
 </body>
 </html>
