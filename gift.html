@@ -2,394 +2,484 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LAHZA | لحظة خاصة ♡</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAHZA | هديتك ♡</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
 body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,sans-serif;
-  color:white;
-  background:
-    radial-gradient(circle at 50% 25%,#35101f 0%,#130c17 38%,#080811 75%);
-  overflow-x:hidden;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    color:white;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(255,45,115,.20),transparent 35%),
+        radial-gradient(circle at 80% 80%,rgba(105,60,255,.15),transparent 35%),
+        #080812;
+    overflow-x:hidden;
 }
 
-.wrap{
-  width:min(92%,700px);
-  margin:auto;
-  min-height:100vh;
-  padding:45px 0 60px;
-  text-align:center;
-}
-
-.logo{
-  font-size:30px;
-  font-weight:900;
-  margin-bottom:70px;
-}
-.logo span{color:#ff477e}
-
-#closed{
-  animation:fade .8s ease;
-}
-
-.envelope{
-  font-size:95px;
-  filter:drop-shadow(0 0 25px rgba(255,71,126,.35));
-  animation:float 2.5s ease-in-out infinite;
-}
-
-h1{
-  font-size:clamp(34px,7vw,55px);
-  margin:15px 0 10px;
-}
-
-.small{
-  color:#aaa;
-  font-size:18px;
-  line-height:1.8;
-}
-
-.name{
-  color:#ff5a8b;
-  font-weight:900;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-  color:#fff;
-  font-size:19px;
-  font-weight:800;
-  padding:18px 35px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#ff1768,#ff6091);
-  box-shadow:0 12px 35px rgba(255,23,104,.28);
-  margin-top:28px;
-}
-
-button:active{transform:scale(.97)}
-
-#gift{
-  display:none;
-  animation:openGift .8s cubic-bezier(.2,.8,.2,1);
-}
-
-.badge{
-  display:inline-block;
-  background:rgba(255,71,126,.16);
-  color:#ff7ca3;
-  border:1px solid rgba(255,71,126,.25);
-  padding:9px 22px;
-  border-radius:50px;
-  font-weight:bold;
-  margin:15px 0;
-}
-
-.card{
-  width:100%;
-  max-width:620px;
-  margin:30px auto;
-  padding:38px 28px;
-  border-radius:32px;
-
-  background:
-    radial-gradient(circle at top right,
-    rgba(255,71,126,.14),
-    transparent 40%),
-    rgba(255,255,255,.055);
-
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.40),
-    inset 0 1px 0 rgba(255,255,255,.08);
-
-  overflow:hidden;
-}
-
-.message{
-  font-size:25px;
-  line-height:1.9;
-  white-space:pre-wrap;
-  margin:20px 0;
-
-  width:100%;
-  max-width:100%;
-  overflow-wrap:anywhere;
-  word-break:break-word;
-  text-align:center;
-}
-
-.date{
-  color:#bbb;
-  margin:20px 0;
-}
-
-.from{
-  margin-top:25px;
-  color:#ccc;
-}
-.from b{color:#ff6f9b}
-
-#giftImage{
-  display:none;
-  width:auto;
-  max-width:100%;
-  max-height:500px;
-  height:auto;
-  object-fit:contain;
-  border-radius:22px;
-  margin:25px auto;
-  box-shadow:0 15px 40px rgba(0,0,0,.35);
-}
-
-.music{
-  display:none;
-  margin:25px 0;
-  padding:18px;
-  border-radius:18px;
-  background:rgba(255,255,255,.07);
-}
-
-.music a{
-  color:#ff7ca3;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-.share{
-  margin-top:35px;
-}
-
-.share button{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.13);
-  box-shadow:none;
-}
-
-.footer{
-  margin-top:60px;
-  color:#666;
-  font-size:14px;
+/* القلوب بالخلفية */
+.hearts{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
 }
 
 .heart{
-  position:fixed;
-  bottom:-40px;
-  opacity:.25;
-  pointer-events:none;
-  animation:rise linear forwards;
+    position:absolute;
+    color:#ff3f7f;
+    opacity:.15;
+    animation:float 8s infinite ease-in-out;
 }
+
+.heart:nth-child(1){left:8%;top:20%;font-size:25px;}
+.heart:nth-child(2){left:80%;top:15%;font-size:35px;animation-delay:2s;}
+.heart:nth-child(3){left:15%;top:75%;font-size:30px;animation-delay:4s;}
+.heart:nth-child(4){left:88%;top:65%;font-size:22px;animation-delay:1s;}
+.heart:nth-child(5){left:50%;top:88%;font-size:20px;animation-delay:3s;}
 
 @keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
+    0%,100%{transform:translateY(0) rotate(0);}
+    50%{transform:translateY(-25px) rotate(10deg);}
 }
 
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
+.container{
+    width:min(92%,700px);
+    margin:auto;
+    padding:45px 0 60px;
+    text-align:center;
 }
 
-@keyframes openGift{
-  from{
-    opacity:0;
-    transform:translateY(30px) scale(.96)
-  }
-  to{
-    opacity:1;
-    transform:none
-  }
+.logo{
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:55px;
 }
 
-@keyframes rise{
-  to{
-    transform:translateY(-115vh) rotate(25deg);
-    opacity:0;
-  }
+.logo span{
+    color:#ff3f7f;
 }
 
-@media(max-width:600px){
-  .wrap{padding-top:30px}
-  .logo{margin-bottom:55px;font-size:25px}
-  .card{padding:28px 20px}
-  .message{font-size:21px}
+.envelope{
+    font-size:75px;
+    margin-bottom:15px;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    50%{transform:scale(1.08);}
+}
+
+.small{
+    color:#aaa;
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+h1{
+    font-size:clamp(32px,7vw,52px);
+    margin-bottom:28px;
+}
+
+#receiver{
+    color:#ff4f8b;
+}
+
+.open-box{
+    padding:35px 25px;
+    border-radius:30px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    box-shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+.intro{
+    font-size:20px;
+    color:#ddd;
+    line-height:1.8;
+    margin-bottom:25px;
+}
+
+.open-btn{
+    border:0;
+    padding:17px 35px;
+    border-radius:18px;
+    color:white;
+    font-size:19px;
+    font-weight:bold;
+    cursor:pointer;
+    background:linear-gradient(135deg,#ff1769,#ff6294);
+    box-shadow:0 12px 35px rgba(255,23,105,.35);
+    transition:.25s;
+}
+
+.open-btn:hover{
+    transform:translateY(-3px) scale(1.02);
+}
+
+.gift{
+    display:none;
+    margin-top:25px;
+    animation:showGift .7s ease;
+}
+
+@keyframes showGift{
+    from{
+        opacity:0;
+        transform:translateY(25px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.badge{
+    display:inline-block;
+    padding:9px 20px;
+    margin-bottom:22px;
+    border-radius:50px;
+    background:rgba(255,63,127,.16);
+    color:#ff78a5;
+    font-weight:bold;
+}
+
+.message{
+    font-size:clamp(20px,5vw,27px);
+    line-height:1.9;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    margin:10px 0 25px;
+}
+
+#giftImage{
+    display:none;
+    width:100%;
+    max-height:500px;
+    object-fit:contain;
+    border-radius:22px;
+    margin:20px auto;
+    background:rgba(0,0,0,.15);
+}
+
+.date{
+    color:#aaa;
+    margin:18px 0;
+}
+
+.from{
+    margin-top:22px;
+    color:#ccc;
+}
+
+.from b{
+    color:#ff72a1;
+    font-size:19px;
+}
+
+/* مشغل الأغنية داخل الصفحة */
+.music{
+    display:none;
+    margin-top:30px;
+    padding:20px;
+    border-radius:22px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.10);
+}
+
+.music-title{
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+audio{
+    width:100%;
+}
+
+.share{
+    margin-top:35px;
+}
+
+.share button{
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.06);
+    color:white;
+    border-radius:15px;
+    padding:13px 22px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.footer{
+    margin-top:50px;
+    color:#666;
+    font-size:14px;
+}
+
+@media(max-width:500px){
+    .container{
+        padding-top:30px;
+    }
+
+    .logo{
+        margin-bottom:35px;
+    }
+
+    .open-box{
+        padding:28px 18px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
-
-  <div class="logo"><span>♡</span> LAHZA</div>
-
-  <!-- قبل فتح الهدية -->
-  <section id="closed">
-
-    <div class="envelope">💌</div>
-
-    <h1>عندك لحظة<br>من شخص يفكر فيك</h1>
-
-    <p class="small">
-      <span id="beforeName" class="name"></span>
-      فيه شيء صغير انصنع مخصوص لك ♡
-    </p>
-
-    <button onclick="openGift()">
-      افتح هديتك ♡
-    </button>
-
-  </section>
-
-
-  <!-- بعد فتح الهدية -->
-  <section id="gift">
-
-    <p class="small">هذه اللحظة إلى</p>
-
-    <h1>
-      <span id="receiver"></span> ♡
-    </h1>
-
-    <div id="occasion" class="badge"></div>
-
-    <div class="card">
-
-      <img id="giftImage">
-
-      <div id="message" class="message"></div>
-
-      <div id="date" class="date"></div>
-
-      <div class="from">
-        من ♡ <b id="sender"></b>
-      </div>
-
-      <div id="musicBox" class="music">
-        🎵 فيه أغنية مع هاللحظة<br><br>
-        <a id="musicLink" target="_blank">
-          افتح الأغنية ♡
-        </a>
-      </div>
-
-    </div>
-
-    <div class="share">
-      <p class="small">عجبتك اللحظة؟ اصنع وحدة لشخص يعني لك الكثير ♡</p>
-
-      <button onclick="location.href='index.html'">
-        اصنع لحظتك ✨
-      </button>
-    </div>
-
-  </section>
-
-  <div class="footer">
-    صنعت بحب بواسطة LAHZA ♡
-  </div>
-
+<div class="hearts">
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
 </div>
 
+<main class="container">
+
+    <div class="logo">
+        LAHZA <span>♡</span> لحظة
+    </div>
+
+    <!-- قبل فتح الهدية -->
+    <section id="closedGift">
+
+        <div class="envelope">💌</div>
+
+        <div class="small">
+            عندك لحظة من شخص يفكر فيك
+        </div>
+
+        <h1>
+            إلى <span id="receiverTop">شخص مميز</span> ♡
+        </h1>
+
+        <div class="open-box">
+
+            <div class="intro">
+                فيه شيء صغير انصنع مخصوص لك ♡
+            </div>
+
+            <button class="open-btn" onclick="openGift()">
+                افتح هديتك ♡
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- بعد فتح الهدية -->
+    <section id="gift" class="gift">
+
+        <div class="small">
+            هذه اللحظة إلى
+        </div>
+
+        <h1>
+            <span id="receiver"></span> ♡
+        </h1>
+
+        <div class="open-box">
+
+            <div id="occasion" class="badge"></div>
+
+            <div id="message" class="message"></div>
+
+            <img id="giftImage" alt="صورتك الخاصة">
+
+            <div id="date" class="date"></div>
+
+            <div class="from">
+                من ♡ <b id="sender"></b>
+            </div>
+
+            <div id="musicBox" class="music">
+                <div class="music-title">
+                    🎵 أغنية لهاللحظة
+                </div>
+
+                <audio id="giftAudio" controls playsinline></audio>
+            </div>
+
+        </div>
+
+        <div class="share">
+            <button onclick="shareGift()">
+                مشاركة اللحظة ♡
+            </button>
+        </div>
+
+    </section>
+
+    <div class="footer">
+        صنعت بحب بواسطة LAHZA ♡
+    </div>
+
+</main>
 
 <script>
-const params = new URLSearchParams(location.search);
 
-let data = {};
+/* قراءة البيانات من الرابط */
+const params = new URLSearchParams(window.location.search);
+
+/* وقراءة البيانات المحفوظة إذا كانت موجودة */
+let saved = {};
 
 try{
-  data = JSON.parse(localStorage.getItem("lahzaGift")) || {};
+    saved = JSON.parse(localStorage.getItem("lahzaGift")) || {};
 }catch(e){
-  data = {};
+    saved = {};
 }
 
-function getValue(key){
-  return params.get(key) || data[key] || "";
+function getData(name){
+    return params.get(name) || saved[name] || "";
 }
 
-const receiver = getValue("receiver");
-const sender = getValue("sender");
-const message = getValue("message");
-const occasion = getValue("occasion");
-const date = getValue("date");
+const receiver = getData("receiver");
+const sender = getData("sender");
+const occasion = getData("occasion");
+const message = getData("message");
+const date = getData("date");
 
-const song =
-  getValue("song") ||
-  getValue("music");
+/* يدعم أكثر من اسم للصورة والأغنية */
+const image =
+    getData("image") ||
+    getData("photo");
+
+const music =
+    getData("music") ||
+    getData("song") ||
+    getData("audio");
+
+
+/* تعبئة البيانات */
+document.getElementById("receiverTop").textContent =
+    receiver || "شخص مميز";
 
 document.getElementById("receiver").textContent =
-  receiver || "شخص مميز";
-
-document.getElementById("beforeName").textContent =
-  receiver ? receiver + "، " : "";
+    receiver || "شخص مميز";
 
 document.getElementById("sender").textContent =
-  sender || "شخص يفكر فيك";
+    sender || "شخص يحبك";
 
 document.getElementById("message").textContent =
-  message || "فيه كلام ما ينقال بأي طريقة… لذلك انصنعت لك هاللحظة ♡";
+    message || "هذه اللحظة صنعت لك ♡";
 
-document.getElementById("occasion").textContent =
-  occasion || "لحظة خاصة";
 
-if(date){
-  document.getElementById("date").textContent =
-    "📅 " + date;
+/* المناسبة */
+const occasionBox = document.getElementById("occasion");
+
+if(occasion){
+    occasionBox.textContent = occasion;
 }else{
-  document.getElementById("date").style.display="none";
+    occasionBox.style.display = "none";
 }
 
-if(song){
-  document.getElementById("musicBox").style.display="block";
-  document.getElementById("musicLink").href=song;
+
+/* التاريخ */
+const dateBox = document.getElementById("date");
+
+if(date){
+    dateBox.textContent = "📅 " + date;
+}else{
+    dateBox.style.display = "none";
+}
+
+
+/* الصورة */
+const giftImage = document.getElementById("giftImage");
+
+if(image){
+    giftImage.src = image;
+    giftImage.style.display = "block";
+
+    giftImage.onerror = function(){
+        this.style.display = "none";
+    };
+}
+
+
+/* الأغنية داخل الصفحة */
+const musicBox = document.getElementById("musicBox");
+const giftAudio = document.getElementById("giftAudio");
+
+if(music){
+
+    /*
+    إذا كانت صفحة create.html ترسل رابط ملف صوتي مباشر
+    مثل mp3 / m4a / wav، راح يشتغل هنا داخل الصفحة.
+    */
+
+    const lowerMusic = music.toLowerCase();
+
+    if(
+        lowerMusic.includes(".mp3") ||
+        lowerMusic.includes(".m4a") ||
+        lowerMusic.includes(".wav") ||
+        lowerMusic.includes(".ogg") ||
+        lowerMusic.startsWith("data:audio") ||
+        lowerMusic.startsWith("blob:")
+    ){
+        giftAudio.src = music;
+        musicBox.style.display = "block";
+    }
 }
 
 
 /* فتح الهدية */
 function openGift(){
 
-  document.getElementById("closed").style.display="none";
-  document.getElementById("gift").style.display="block";
+    document.getElementById("closedGift").style.display = "none";
 
-  hearts();
+    const gift = document.getElementById("gift");
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+    gift.style.display = "block";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
-/* القلوب */
-function hearts(){
+/* مشاركة */
+async function shareGift(){
 
-  for(let i=0;i<18;i++){
+    const shareData = {
+        title:"لحظة خاصة ♡",
+        text:"عندك لحظة خاصة تنتظرك ♡",
+        url:window.location.href
+    };
 
-    setTimeout(()=>{
+    try{
 
-      const h=document.createElement("div");
+        if(navigator.share){
+            await navigator.share(shareData);
+        }else{
+            await navigator.clipboard.writeText(window.location.href);
+            alert("تم نسخ رابط اللحظة ♡");
+        }
 
-      h.className="heart";
-      h.innerHTML="♡";
-
-      h.style.left=Math.random()*100+"vw";
-      h.style.fontSize=(18+Math.random()*28)+"px";
-      h.style.color="#ff4f82";
-      h.style.animationDuration=(4+Math.random()*4)+"s";
-
-      document.body.appendChild(h);
-
-      setTimeout(()=>h.remove(),8000);
-
-    },i*100);
-  }
+    }catch(e){
+        console.log(e);
+    }
 }
+
 </script>
 
 </body>
