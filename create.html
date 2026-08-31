@@ -12,15 +12,12 @@
 body{
   margin:0;
   background:#08080f;
-  color:#fff;
+  color:white;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
-.page{
-  min-height:100vh;
-}
-
 header{
+  width:100%;
   max-width:760px;
   margin:auto;
   padding:20px;
@@ -29,11 +26,7 @@ header{
   align-items:center;
 }
 
-.logo{
-  font-size:21px;
-  font-weight:900;
-}
-
+.logo{font-size:22px;font-weight:900}
 .logo span{color:#ff4f87}
 
 .back{
@@ -49,14 +42,14 @@ header{
   display:flex;
   justify-content:center;
   gap:7px;
-  margin:3px 0 20px;
+  margin-bottom:20px;
 }
 
 .dot{
   width:7px;
   height:7px;
   background:#292933;
-  border-radius:20px;
+  border-radius:30px;
 }
 
 .dot.active{
@@ -65,45 +58,36 @@ header{
 }
 
 main{
+  width:100%;
   max-width:650px;
   margin:auto;
   padding:10px 18px 60px;
 }
 
-.title{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.title h1{
-  font-size:32px;
-  margin:0 0 8px;
-}
-
-.title p{
-  margin:0;
-  color:#777;
-  line-height:1.7;
-}
+.title{text-align:center;margin-bottom:25px}
+.title h1{font-size:32px;margin:0 0 8px}
+.title p{color:#777;margin:0;line-height:1.7}
 
 .summary{
-  background:#121219;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.summaryBox{
+  background:#111118;
   border:1px solid #25252f;
-  border-radius:17px;
-  padding:15px;
-  margin-bottom:20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  border-radius:16px;
+  padding:14px;
 }
 
-.summary span{
-  color:#777;
-  font-size:12px;
-}
+.summaryBox span{color:#666;font-size:11px}
 
-.summary strong{
-  color:#ff5c90;
+.summaryBox strong{
+  display:block;
+  color:#ff6596;
+  margin-top:5px;
 }
 
 .section{
@@ -115,9 +99,9 @@ main{
 }
 
 .section-title{
+  font-size:16px;
   font-weight:900;
   margin-bottom:15px;
-  font-size:16px;
 }
 
 label{
@@ -131,34 +115,28 @@ input,textarea{
   width:100%;
   border:1px solid #2a2a35;
   background:#0b0b11;
-  color:#fff;
+  color:white;
   padding:14px;
   border-radius:13px;
   outline:none;
-  font-family:inherit;
-  font-size:15px;
+  font:inherit;
 }
 
-input:focus,textarea:focus{
-  border-color:#ff4f87;
-}
+input:focus,textarea:focus{border-color:#ff4f87}
 
 textarea{
-  min-height:135px;
+  min-height:140px;
   resize:vertical;
   line-height:1.8;
 }
 
+.optional{color:#555;font-size:11px}
+
 .counter{
   color:#555;
-  font-size:11px;
   text-align:left;
-  margin-top:6px;
-}
-
-.optional{
-  color:#555;
   font-size:11px;
+  margin-top:6px;
 }
 
 .themes{
@@ -168,7 +146,7 @@ textarea{
 }
 
 .theme{
-  height:100px;
+  height:95px;
   border-radius:16px;
   border:2px solid transparent;
   display:flex;
@@ -179,84 +157,51 @@ textarea{
   overflow:hidden;
 }
 
-.theme.selected{
-  border-color:#fff;
-}
+.theme.selected{border-color:white}
 
 .theme.selected:after{
   content:"✓";
   position:absolute;
-  top:9px;
-  left:9px;
+  top:8px;
+  left:8px;
   width:24px;
   height:24px;
-  background:#fff;
+  border-radius:50%;
+  background:white;
   color:#111;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:50%;
   font-weight:bold;
 }
 
-.romantic{
-  background:linear-gradient(135deg,#36101f,#ff477e);
-}
-
-.midnight{
-  background:linear-gradient(135deg,#08091a,#33376d);
-}
-
-.sunset{
-  background:linear-gradient(135deg,#582346,#ff9b66);
-}
-
-.minimal{
-  background:linear-gradient(135deg,#ddd,#777);
-}
-
-.theme b{
-  text-shadow:0 2px 8px #000;
-}
+.romantic{background:linear-gradient(135deg,#3a0f20,#ff4f87)}
+.midnight{background:linear-gradient(135deg,#090a20,#35407a)}
+.sunset{background:linear-gradient(135deg,#60294a,#ff9864)}
+.minimal{background:linear-gradient(135deg,#cfcfcf,#666)}
 
 .upload{
-  border:1px dashed #444452;
+  border:1px dashed #42424e;
   background:#0b0b11;
   border-radius:16px;
-  padding:24px 15px;
+  padding:22px 15px;
   text-align:center;
   cursor:pointer;
 }
 
-.upload-icon{
-  font-size:30px;
-  margin-bottom:7px;
+.upload strong{
+  display:block;
+  margin-bottom:5px;
 }
 
-.upload p{
-  margin:3px;
-  color:#aaa;
-  font-size:13px;
-}
+.upload small{color:#666}
 
-.upload small{
-  color:#555;
-}
-
-#photoInput{
-  display:none;
-}
-
-.photo-info{
-  color:#ff6b9a;
-  font-size:12px;
-  margin-top:10px;
-}
+.hidden{display:none}
 
 .previewImages{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
   margin-top:12px;
 }
 
@@ -264,7 +209,20 @@ textarea{
   width:100%;
   aspect-ratio:1;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:12px;
+}
+
+.fileInfo{
+  color:#ff6697;
+  font-size:12px;
+  margin-top:10px;
+}
+
+.dateHelp{
+  color:#666;
+  font-size:11px;
+  line-height:1.7;
+  margin-top:8px;
 }
 
 .actions{
@@ -274,24 +232,23 @@ textarea{
   margin-top:20px;
 }
 
-.preview-btn,.next{
+.actions button{
   border:0;
   padding:16px 10px;
   border-radius:15px;
-  font-family:inherit;
-  font-size:15px;
+  font:inherit;
   font-weight:900;
   cursor:pointer;
 }
 
-.preview-btn{
+.previewBtn{
   background:#1b1b24;
-  color:#fff;
+  color:white;
 }
 
-.next{
+.nextBtn{
   background:linear-gradient(135deg,#ff3474,#ff6999);
-  color:#fff;
+  color:white;
 }
 
 /* المعاينة */
@@ -300,86 +257,110 @@ textarea{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.94);
+  background:#08080f;
   z-index:100;
   overflow:auto;
 }
 
-.modal.show{
-  display:block;
-}
-
-.preview-card{
-  min-height:100vh;
-  max-width:600px;
-  margin:auto;
-  padding:25px 20px 50px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  text-align:center;
-}
+.modal.show{display:block}
 
 .close{
   position:fixed;
-  top:20px;
-  left:20px;
-  border:0;
-  background:#22222b;
-  color:white;
+  top:18px;
+  left:18px;
   width:42px;
   height:42px;
+  border:0;
   border-radius:50%;
-  font-size:20px;
-  z-index:110;
+  background:#1e1e27;
+  color:white;
+  font-size:21px;
+  cursor:pointer;
+  z-index:120;
 }
 
-.gift-heart{
-  font-size:55px;
-  animation:pulse 1.5s infinite;
+.previewWrap{
+  width:min(92%,620px);
+  margin:auto;
+  min-height:100vh;
+  padding:60px 0;
+  text-align:center;
 }
 
-@keyframes pulse{
-  50%{transform:scale(1.15)}
+.previewLogo{
+  font-size:26px;
+  font-weight:900;
+  margin-bottom:35px;
 }
 
-.preview-card h2{
-  font-size:32px;
-  margin:15px 0 5px;
+.previewLogo span{color:#ff4f87}
+
+.previewReceiver{
+  font-size:36px;
+  margin-bottom:20px;
 }
 
-.preview-message{
-  line-height:2;
-  color:#ddd;
+.previewCard{
+  padding:30px 22px;
+  border-radius:28px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(15px);
+}
+
+.previewOccasion{
+  display:inline-block;
+  padding:8px 15px;
+  border-radius:50px;
+  background:rgba(255,79,135,.15);
+  color:#ff75a3;
+  margin-bottom:20px;
+}
+
+.previewMessage{
+  font-size:22px;
+  line-height:1.9;
   white-space:pre-wrap;
-  margin:20px auto;
-  max-width:500px;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  margin-bottom:20px;
 }
 
-.preview-from{
-  color:#ff6c9c;
-  font-weight:bold;
-}
-
-.preview-date{
-  color:#777;
-  margin-top:10px;
-  font-size:13px;
-}
-
-.preview-gallery{
+.previewGallery{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:8px;
+  margin-top:18px;
+}
+
+.previewGallery img{
+  width:100%;
+  height:auto;
+  max-height:450px;
+  object-fit:contain;
+  border-radius:15px;
+  background:rgba(0,0,0,.15);
+}
+
+.previewDate{
+  color:#888;
+  margin-top:20px;
+  line-height:1.8;
+}
+
+.previewFrom{
+  color:#aaa;
   margin-top:20px;
 }
 
-.preview-gallery img{
-  width:100%;
-  border-radius:15px;
-  aspect-ratio:1;
-  object-fit:cover;
+.previewFrom b{color:#ff6d9c}
+
+.audioPreview{
+  display:none;
+  margin-top:22px;
 }
+
+.audioPreview audio{width:100%}
 
 @media(max-width:480px){
   .title h1{font-size:29px}
@@ -390,11 +371,9 @@ textarea{
 
 <body>
 
-<div class="page">
-
 <header>
   <a href="plans.html" class="back">← رجوع</a>
-  <div class="logo"><span>♡</span> LAHZA</div>
+  <div class="logo">LAHZA <span>♡</span></div>
 </header>
 
 <div class="progress">
@@ -407,38 +386,50 @@ textarea{
 <main>
 
 <div class="title">
-  <h1>صمّم لحظتك 🤍</h1>
-  <p>هني تبدأ الهدية تصير شخصية فعلًا.</p>
+  <h1>صمّم هديتك 🤍</h1>
+  <p>خلك أنت صاحب اللحظة، وخله هو يعيشها.</p>
 </div>
 
 <div class="summary">
-  <div>
-    <span>المناسبة</span><br>
+
+  <div class="summaryBox">
+    <span>المناسبة</span>
     <strong id="occasionName">—</strong>
   </div>
 
-  <div>
-    <span>الباقة</span><br>
+  <div class="summaryBox">
+    <span>الباقة</span>
     <strong id="planName">—</strong>
   </div>
+
 </div>
+
 
 <div class="section">
 
   <div class="section-title">💌 الرسالة</div>
 
-  <label>اسم الشخص اللي بتوصله الهدية</label>
+  <label>اسم المستلم</label>
   <input id="receiver" maxlength="40" placeholder="مثال: نور">
 
   <label>
     اسمك
     <span class="optional">— اختياري</span>
   </label>
-  <input id="sender" maxlength="40" placeholder="تقدر تخليها مجهولة 👀">
 
-  <label>وش ودك تقول له؟</label>
-  <textarea id="message" maxlength="1200"
-  placeholder="اكتب كلامك من قلبك..."></textarea>
+  <input
+    id="sender"
+    maxlength="40"
+    placeholder="تقدر تخليها مجهولة"
+  >
+
+  <label>رسالتك</label>
+
+  <textarea
+    id="message"
+    maxlength="1200"
+    placeholder="اكتب كلامك من قلبك..."
+  ></textarea>
 
   <div class="counter">
     <span id="count">0</span> / 1200
@@ -449,27 +440,31 @@ textarea{
 
 <div class="section">
 
-  <div class="section-title">🎨 اختر الجو</div>
+  <div class="section-title">🎨 اختر الثيم</div>
 
   <div class="themes">
 
-    <div class="theme romantic selected"
-         onclick="chooseTheme(this,'romantic')">
+    <div
+      class="theme romantic selected"
+      onclick="chooseTheme(this,'romantic')">
       <b>Romantic ❤️</b>
     </div>
 
-    <div class="theme midnight"
-         onclick="chooseTheme(this,'midnight')">
+    <div
+      class="theme midnight"
+      onclick="chooseTheme(this,'midnight')">
       <b>Midnight 🌙</b>
     </div>
 
-    <div class="theme sunset"
-         onclick="chooseTheme(this,'sunset')">
+    <div
+      class="theme sunset"
+      onclick="chooseTheme(this,'sunset')">
       <b>Sunset ✨</b>
     </div>
 
-    <div class="theme minimal"
-         onclick="chooseTheme(this,'minimal')">
+    <div
+      class="theme minimal"
+      onclick="chooseTheme(this,'minimal')">
       <b>Minimal 🤍</b>
     </div>
 
@@ -480,42 +475,45 @@ textarea{
 
 <div class="section">
 
-  <div class="section-title">📸 ذكرياتكم</div>
+  <div class="section-title">📸 الصور</div>
 
   <label class="upload" for="photoInput">
-    <div class="upload-icon">＋</div>
-    <p>اضغط وأضف الصور</p>
+    <strong>＋ أضف صورك</strong>
     <small id="photoLimit">—</small>
   </label>
 
   <input
     id="photoInput"
+    class="hidden"
     type="file"
     accept="image/*"
     multiple
   >
 
-  <div class="photo-info" id="photoInfo"></div>
+  <div id="photoInfo" class="fileInfo"></div>
 
-  <div class="previewImages" id="previewImages"></div>
+  <div id="previewImages" class="previewImages"></div>
 
 </div>
 
 
 <div class="section">
 
-  <div class="section-title">🎵 أغنيتكم</div>
+  <div class="section-title">🎵 الأغنية</div>
 
-  <label>
-    رابط الأغنية
-    <span class="optional">— اختياري</span>
+  <label class="upload" for="audioInput">
+    <strong>＋ ارفع الأغنية</strong>
+    <small>MP3 / M4A / WAV</small>
   </label>
 
   <input
-    id="song"
-    type="url"
-    placeholder="YouTube / Spotify / Apple Music"
+    id="audioInput"
+    class="hidden"
+    type="file"
+    accept="audio/*"
   >
+
+  <div id="audioInfo" class="fileInfo"></div>
 
 </div>
 
@@ -525,59 +523,111 @@ textarea{
   <div class="section-title">⏳ تاريخ له معنى</div>
 
   <label>
-    تاريخ بداية الذكرى
+    تاريخ الذكرى
     <span class="optional">— اختياري</span>
   </label>
 
   <input id="date" type="date">
 
-  <p style="color:#555;font-size:11px;line-height:1.7">
-    إذا أضفته، نقدر نعرض في الهدية كم يوم مر على هاللحظة.
-  </p>
+  <div class="dateHelp">
+    أول لقاء، عيد ميلاد، ذكرى، أو أي يوم له معنى 🤍
+    <br>
+    لا يمكن اختيار تاريخ بعد اليوم.
+  </div>
 
 </div>
 
 
 <div class="actions">
 
-  <button class="preview-btn" onclick="showPreview()">
+  <button
+    class="previewBtn"
+    onclick="showPreview()">
     معاينة 👀
   </button>
 
-  <button class="next" onclick="continueCheckout()">
+  <button
+    class="nextBtn"
+    onclick="continueNext()">
     متابعة للدفع ←
   </button>
 
 </div>
 
 </main>
-</div>
 
+
+<!-- المعاينة -->
 
 <div class="modal" id="modal">
 
-<button class="close" onclick="closePreview()">×</button>
+  <button
+    class="close"
+    onclick="closePreview()">
+    ×
+  </button>
 
-<div class="preview-card" id="previewCard">
+  <div
+    class="previewWrap"
+    id="previewWrap">
 
-  <div class="gift-heart">💌</div>
+    <div class="previewLogo">
+      LAHZA <span>♡</span>
+    </div>
 
-  <h2 id="previewTitle"></h2>
+    <div
+      class="previewReceiver"
+      id="previewReceiver">
+    </div>
 
-  <div class="preview-message" id="previewMessage"></div>
+    <div class="previewCard">
 
-  <div class="preview-from" id="previewFrom"></div>
+      <div
+        class="previewOccasion"
+        id="previewOccasion">
+      </div>
 
-  <div class="preview-date" id="previewDate"></div>
+      <div
+        class="previewMessage"
+        id="previewMessage">
+      </div>
 
-  <div class="preview-gallery" id="previewGallery"></div>
+      <div
+        class="previewGallery"
+        id="previewGallery">
+      </div>
 
-</div>
+      <div
+        class="previewDate"
+        id="previewDate">
+      </div>
+
+      <div
+        class="previewFrom"
+        id="previewFrom">
+      </div>
+
+      <div
+        class="audioPreview"
+        id="audioPreview">
+
+        <audio
+          id="previewAudio"
+          controls>
+        </audio>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
 
 
 <script>
+
+/* المناسبة والباقات */
 
 const occasionNames = {
   love:"حب ❤️",
@@ -600,6 +650,9 @@ const limits = {
   forever:30
 };
 
+
+/* البيانات المحفوظة */
+
 let occasion =
   localStorage.getItem("lahzaOccasion") || "surprise";
 
@@ -611,74 +664,154 @@ let theme =
 
 let selectedPhotos = [];
 
-document.getElementById("occasionName").innerText =
+let selectedAudio = null;
+
+let selectedAudioURL = "";
+
+
+/* عرض المناسبة والباقة */
+
+document.getElementById("occasionName").textContent =
   occasionNames[occasion] || "مفاجأة 🎁";
 
-document.getElementById("planName").innerText =
+document.getElementById("planName").textContent =
   planNames[plan] || "Mini";
 
-document.getElementById("photoLimit").innerText =
-  "تقدر تضيف حتى " + limits[plan] + " صورة";
+document.getElementById("photoLimit").textContent =
+  "حتى " + limits[plan] + " صورة";
 
 
-const message =
-  document.getElementById("message");
+/* منع التاريخ المستقبلي */
 
-message.addEventListener("input",function(){
-  document.getElementById("count").innerText =
-    message.value.length;
+const dateInput =
+  document.getElementById("date");
+
+function setMaximumDate(){
+
+  const now = new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(now.getMonth() + 1).padStart(2,"0");
+
+  const day =
+    String(now.getDate()).padStart(2,"0");
+
+  const today =
+    year + "-" + month + "-" + day;
+
+  dateInput.max = today;
+}
+
+setMaximumDate();
+
+
+/* حماية إضافية للتاريخ */
+
+dateInput.addEventListener("change",function(){
+
+  if(!dateInput.value){
+    return;
+  }
+
+  if(dateInput.value > dateInput.max){
+
+    alert("ما تقدر تختار تاريخ بعد اليوم 🤍");
+
+    dateInput.value = "";
+  }
+
 });
 
 
+/* عداد الرسالة */
+
+const messageBox =
+  document.getElementById("message");
+
+messageBox.addEventListener("input",function(){
+
+  document.getElementById("count").textContent =
+    messageBox.value.length;
+
+});
+
+
+/* الثيم */
+
 function chooseTheme(element,value){
 
-  document.querySelectorAll(".theme").forEach(function(item){
+  document.querySelectorAll(".theme")
+  .forEach(function(item){
+
     item.classList.remove("selected");
+
   });
 
   element.classList.add("selected");
 
-  theme=value;
+  theme = value;
 
-  localStorage.setItem("lahzaTheme",value);
+  localStorage.setItem(
+    "lahzaTheme",
+    value
+  );
+
 }
 
 
-document.getElementById("photoInput")
-.addEventListener("change",function(e){
+/* الصور */
 
-  const max = limits[plan];
+document.getElementById("photoInput")
+.addEventListener("change",function(event){
+
+  const max =
+    limits[plan];
 
   selectedPhotos =
-    Array.from(e.target.files).slice(0,max);
+    Array.from(event.target.files)
+    .slice(0,max);
 
-  if(e.target.files.length > max){
-    alert("باقتك تسمح بـ " + max + " صورة فقط");
+  if(event.target.files.length > max){
+
+    alert(
+      "باقتك تسمح بـ " +
+      max +
+      " صورة"
+    );
+
   }
 
-  document.getElementById("photoInfo").innerText =
+  document.getElementById("photoInfo").textContent =
     "تم اختيار " +
     selectedPhotos.length +
-    " من " +
-    max +
     " صورة";
 
-  const container =
+  const preview =
     document.getElementById("previewImages");
 
-  container.innerHTML="";
+  preview.innerHTML = "";
 
-  selectedPhotos.slice(0,8).forEach(function(file){
+  selectedPhotos
+  .slice(0,9)
+  .forEach(function(file){
 
-    const reader=new FileReader();
+    const reader =
+      new FileReader();
 
-    reader.onload=function(event){
+    reader.onload =
+    function(event){
 
-      const img=document.createElement("img");
+      const img =
+        document.createElement("img");
 
-      img.src=event.target.result;
+      img.src =
+        event.target.result;
 
-      container.appendChild(img);
+      preview.appendChild(img);
+
     };
 
     reader.readAsDataURL(file);
@@ -688,24 +821,80 @@ document.getElementById("photoInput")
 });
 
 
-function validateGift(){
+/* الأغنية */
+
+document.getElementById("audioInput")
+.addEventListener("change",function(event){
+
+  selectedAudio =
+    event.target.files[0] || null;
+
+  if(!selectedAudio){
+    return;
+  }
+
+  if(selectedAudioURL){
+
+    URL.revokeObjectURL(
+      selectedAudioURL
+    );
+
+  }
+
+  selectedAudioURL =
+    URL.createObjectURL(
+      selectedAudio
+    );
+
+  document.getElementById("audioInfo").textContent =
+    "🎵 " + selectedAudio.name;
+
+});
+
+
+/* التحقق */
+
+function validate(){
 
   const receiver =
-    document.getElementById("receiver").value.trim();
+    document.getElementById("receiver")
+    .value.trim();
 
-  const text =
-    document.getElementById("message").value.trim();
+  const message =
+    document.getElementById("message")
+    .value.trim();
 
   if(!receiver){
 
-    alert("اكتب اسم الشخص اللي بتوصله الهدية 🤍");
+    alert(
+      "اكتب اسم المستلم 🤍"
+    );
 
     return false;
   }
 
-  if(!text){
+  if(!message){
 
-    alert("اكتب رسالتك أول 💌");
+    alert(
+      "اكتب الرسالة 💌"
+    );
+
+    return false;
+  }
+
+
+  /* تحقق التاريخ مرة ثانية */
+
+  if(
+    dateInput.value &&
+    dateInput.value > dateInput.max
+  ){
+
+    alert(
+      "تاريخ الذكرى ما يقدر يكون بالمستقبل 🤍"
+    );
+
+    dateInput.value = "";
 
     return false;
   }
@@ -714,63 +903,127 @@ function validateGift(){
 }
 
 
+/* تحويل التاريخ لشكل عربي */
+
+function formatArabicDate(value){
+
+  if(!value){
+    return "";
+  }
+
+  const parts =
+    value.split("-");
+
+  const year =
+    Number(parts[0]);
+
+  const month =
+    Number(parts[1]);
+
+  const day =
+    Number(parts[2]);
+
+  const months = [
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر"
+  ];
+
+  return (
+    day +
+    " " +
+    months[month - 1] +
+    " " +
+    year
+  );
+}
+
+
+/* المعاينة */
+
 function showPreview(){
 
-  if(!validateGift()){
+  if(!validate()){
     return;
   }
 
   const receiver =
-    document.getElementById("receiver").value.trim();
+    document.getElementById("receiver")
+    .value.trim();
 
   const sender =
-    document.getElementById("sender").value.trim();
+    document.getElementById("sender")
+    .value.trim();
 
-  const text =
-    document.getElementById("message").value.trim();
+  const message =
+    document.getElementById("message")
+    .value.trim();
 
   const date =
-    document.getElementById("date").value;
+    dateInput.value;
 
 
-  document.getElementById("previewTitle").innerText =
-    "إلى " + receiver + " 🤍";
-
-  document.getElementById("previewMessage").innerText =
-    text;
-
-  document.getElementById("previewFrom").innerText =
-    sender ? "من " + sender : "من شخص يفكر فيك ♡";
+  document.getElementById("previewReceiver").textContent =
+    "إلى " +
+    receiver +
+    " ♡";
 
 
-  if(date){
+  document.getElementById("previewOccasion").textContent =
+    occasionNames[occasion] ||
+    "لحظة خاصة";
 
-    document.getElementById("previewDate").innerText =
-      "من " + date;
 
-  }else{
+  document.getElementById("previewMessage").textContent =
+    message;
 
-    document.getElementById("previewDate").innerText="";
-  }
 
+  document.getElementById("previewFrom").innerHTML =
+    "من ♡ <b>" +
+    (sender || "شخص يفكر فيك") +
+    "</b>";
+
+
+  document.getElementById("previewDate").textContent =
+    date
+    ? "🤍 " + formatArabicDate(date)
+    : "";
+
+
+  /* صور المعاينة */
 
   const gallery =
     document.getElementById("previewGallery");
 
-  gallery.innerHTML="";
+  gallery.innerHTML = "";
 
+  selectedPhotos
+  .slice(0,6)
+  .forEach(function(file){
 
-  selectedPhotos.slice(0,6).forEach(function(file){
+    const reader =
+      new FileReader();
 
-    const reader=new FileReader();
+    reader.onload =
+    function(event){
 
-    reader.onload=function(event){
+      const img =
+        document.createElement("img");
 
-      const img=document.createElement("img");
-
-      img.src=event.target.result;
+      img.src =
+        event.target.result;
 
       gallery.appendChild(img);
+
     };
 
     reader.readAsDataURL(file);
@@ -778,77 +1031,107 @@ function showPreview(){
   });
 
 
-  const card =
-    document.getElementById("previewCard");
+  /* أغنية المعاينة */
 
+  const audioPreview =
+    document.getElementById("audioPreview");
 
-  if(theme==="romantic"){
+  if(selectedAudioURL){
 
-    card.style.background =
-      "radial-gradient(circle at top,#38101f,#08080f 55%)";
+    document.getElementById("previewAudio").src =
+      selectedAudioURL;
 
-  }
+    audioPreview.style.display =
+      "block";
 
-  if(theme==="midnight"){
+  }else{
 
-    card.style.background =
-      "radial-gradient(circle at top,#20265c,#08080f 60%)";
-
-  }
-
-  if(theme==="sunset"){
-
-    card.style.background =
-      "radial-gradient(circle at top,#71394d,#100a13 60%)";
+    audioPreview.style.display =
+      "none";
 
   }
 
-  if(theme==="minimal"){
 
-    card.style.background =
-      "linear-gradient(#1b1b1b,#080808)";
+  /* تطبيق الثيم */
+
+  const wrap =
+    document.getElementById("previewWrap");
+
+  if(theme === "romantic"){
+
+    wrap.style.background =
+      "radial-gradient(circle at top,#35101f,#08080f 60%)";
+
+  }
+
+  if(theme === "midnight"){
+
+    wrap.style.background =
+      "radial-gradient(circle at top,#20295f,#08080f 60%)";
+
+  }
+
+  if(theme === "sunset"){
+
+    wrap.style.background =
+      "radial-gradient(circle at top,#713a4e,#100a13 60%)";
+
+  }
+
+  if(theme === "minimal"){
+
+    wrap.style.background =
+      "linear-gradient(#1a1a1a,#080808)";
 
   }
 
 
   document.getElementById("modal")
-    .classList.add("show");
+  .classList.add("show");
 
-  document.body.style.overflow="hidden";
+  document.body.style.overflow =
+    "hidden";
+
 }
 
+
+/* إغلاق المعاينة */
 
 function closePreview(){
 
   document.getElementById("modal")
-    .classList.remove("show");
+  .classList.remove("show");
 
-  document.body.style.overflow="";
+  document.body.style.overflow =
+    "";
+
 }
 
 
-function continueCheckout(){
+/* متابعة */
 
-  if(!validateGift()){
+function continueNext(){
+
+  if(!validate()){
     return;
   }
 
-  const giftData={
+  const giftData = {
 
     receiver:
-      document.getElementById("receiver").value.trim(),
+      document.getElementById("receiver")
+      .value.trim(),
 
     sender:
-      document.getElementById("sender").value.trim(),
+      document.getElementById("sender")
+      .value.trim(),
 
     message:
-      document.getElementById("message").value.trim(),
-
-    song:
-      document.getElementById("song").value.trim(),
+      document.getElementById("message")
+      .value.trim(),
 
     date:
-      document.getElementById("date").value,
+      dateInput.value,
 
     occasion:occasion,
 
@@ -865,16 +1148,9 @@ function continueCheckout(){
   );
 
 
- const p = new URLSearchParams();
+  window.location.href =
+    "checkout.html";
 
-p.set("receiver", giftData.receiver || "");
-p.set("occasion", giftData.occasion || "");
-p.set("message", giftData.message || "");
-p.set("sender", giftData.sender || "");
-p.set("date", giftData.date || "");
-p.set("song", giftData.song || "");
-
-window.location.href = "success.html?" + p.toString();
 }
 
 </script>
