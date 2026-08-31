@@ -865,7 +865,16 @@ function continueCheckout(){
   );
 
 
-  window.location.href="checkout.html";
+ const p = new URLSearchParams();
+
+p.set("receiver", giftData.receiver || "");
+p.set("occasion", giftData.occasion || "");
+p.set("message", giftData.message || "");
+p.set("sender", giftData.sender || "");
+p.set("date", giftData.date || "");
+p.set("song", giftData.song || "");
+
+window.location.href = "success.html?" + p.toString();
 }
 
 </script>
