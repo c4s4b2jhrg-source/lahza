@@ -166,7 +166,7 @@ button{
     <label>صورة واحدة للتجربة</label>
     <input type="file" id="photo" accept="image/*">
 
-    <button onclick="makePreview()">شوف المعاينة ✨</button>
+    <button onclick="createGift()">اصنع رابط الهدية ✨</button>
 
     <div class="note">
       الحين هذي الصفحة مجرد تجربة داخل المتصفح. الخطوة الجاية بنخلي البيانات تنحفظ فعلًا ويطلع لكل زبون رابط خاص.
@@ -188,59 +188,92 @@ button{
 </div>
 
 <script>
-function makePreview(){
+function createGift(){
 
-  const sender = document.getElementById("sender").value;
-  const receiver = document.getElementById("receiver").value;
+  const sender = document.getElementById("sender").value.trim();
+  const receiver = document.getElementById("receiver").value.trim();
   const occasion = document.getElementById("occasion").value;
-  const message = document.getElementById("message").value;
+  const message = document.getElementById("message").value.trim();
   const date = document.getElementById("date").value;
-  const song = document.getElementById("song").value;
-  const photo = document.getElementById("photo").files[0];
+  const song = document.getElementById("song").value.trim();
 
   if(!receiver || !message){
     alert("اكتب اسم المستلم والرسالة أول");
     return;
   }
 
-  document.getElementById("previewTitle").innerText =
-    "لحظة خاصة لـ " + receiver + " 🤍";
+  const params = new URLSearchParams();
 
-  document.getElementById("previewOccasion").innerText =
-    "المناسبة: " + occasion;
+  params.set("receiver", receiver);
+  params.set("occasion", occasion);
+  params.set("message", message);
 
-  document.getElementById("previewMessage").innerText =
-    message;
+  if(sender){
+    params.set("sender", sender);
+  }
 
-  document.getElementById("previewDate").innerText =
-    date ? "التاريخ: " + date : "";
-
-  document.getElementById("previewFrom").innerText =
-    sender ? "من: " + sender : "";
+  if(date){
+    params.set("date", date);
+  }
 
   if(song){
-    document.getElementById("previewSong").innerHTML =
-      '<a href="' + song + '" target="_blank" style="color:#ff7ba5">🎵 افتح الأغنية</a>';
-  }else{
-    document.getElementById("previewSong").innerHTML = "";
+    params.set("song", song);
   }
 
-  if(photo){
-    const reader = new FileReader();
+  const giftLink =
+    window.location.origin +
+    window.location.pathname.replace("create.html", "gift.html") +
+    "?" + params.toString();
 
-    reader.onload = function(e){
-      const img = document.getElementById("previewImage");
-      img.src = e.target.result;
-      img.style.display = "block";
-    };
+  const preview = document.getElementById("preview");
 
-    reader.readAsDataURL(photo);
-  }
+  preview.style.display = "block";
 
-  document.getElementById("preview").style.display = "block";
-  document.getElementById("preview").scrollIntoView({
+  preview.innerHTML = `
+    <h2>جاهزة لحظتك 🤍</h2>
+
+    <p>انسخ الرابط وأرسله للشخص 💌</p>
+
+    <input
+      id="giftLink"
+      value="${giftLink}"
+      readonly
+      style="
+        width:100%;
+        padding:14px;
+        border:0;
+        border-radius:12px;
+        margin-top:10px;
+      "
+    >
+
+    <button onclick="copyLink()">
+      نسخ الرابط 🔗
+    </button>
+
+    <button onclick="window.open(document.getElementById('giftLink').value,'_blank')">
+      شوف الهدية 👀
+    </button>
+  `;
+
+  preview.scrollIntoView({
     behavior:"smooth"
   });
+}
+
+
+function copyLink(){
+
+  const link =
+    document.getElementById("giftLink").value;
+
+  navigator.clipboard.writeText(link)
+    .then(function(){
+      alert("تم نسخ رابط الهدية 🤍");
+    })
+    .catch(function(){
+      alert("حدد الرابط وانسخه يدويًا");
+    });
 }
 </script>
 
