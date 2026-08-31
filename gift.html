@@ -2,239 +2,345 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LAHZA | هديتك ♡</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#08080f">
+
+<title>هديتك | LAHZA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-    min-height:100vh;
-    font-family:Arial,sans-serif;
-    color:white;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(255,45,115,.20),transparent 35%),
-        radial-gradient(circle at 80% 80%,rgba(105,60,255,.15),transparent 35%),
-        #080812;
-    overflow-x:hidden;
+  margin:0;
+  min-height:100vh;
+  background:#08080f;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
-/* القلوب بالخلفية */
+body.romantic{
+  background:
+    radial-gradient(circle at top,#35101f,#08080f 60%);
+}
+
+body.midnight{
+  background:
+    radial-gradient(circle at top,#20295f,#08080f 60%);
+}
+
+body.sunset{
+  background:
+    radial-gradient(circle at top,#713a4e,#100a13 60%);
+}
+
+body.minimal{
+  background:
+    linear-gradient(#1a1a1a,#080808);
+}
+
 .hearts{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    overflow:hidden;
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
 }
 
 .heart{
-    position:absolute;
-    color:#ff3f7f;
-    opacity:.15;
-    animation:float 8s infinite ease-in-out;
+  position:absolute;
+  color:#ff4f87;
+  opacity:.12;
+  animation:floatHeart 8s infinite ease-in-out;
 }
 
-.heart:nth-child(1){left:8%;top:20%;font-size:25px;}
-.heart:nth-child(2){left:80%;top:15%;font-size:35px;animation-delay:2s;}
-.heart:nth-child(3){left:15%;top:75%;font-size:30px;animation-delay:4s;}
-.heart:nth-child(4){left:88%;top:65%;font-size:22px;animation-delay:1s;}
-.heart:nth-child(5){left:50%;top:88%;font-size:20px;animation-delay:3s;}
+.heart:nth-child(1){
+  top:12%;
+  left:8%;
+  font-size:28px;
+}
 
-@keyframes float{
-    0%,100%{transform:translateY(0) rotate(0);}
-    50%{transform:translateY(-25px) rotate(10deg);}
+.heart:nth-child(2){
+  top:20%;
+  right:10%;
+  font-size:36px;
+  animation-delay:2s;
+}
+
+.heart:nth-child(3){
+  top:65%;
+  left:12%;
+  font-size:24px;
+  animation-delay:4s;
+}
+
+.heart:nth-child(4){
+  top:72%;
+  right:7%;
+  font-size:30px;
+  animation-delay:1s;
+}
+
+@keyframes floatHeart{
+  0%,100%{
+    transform:translateY(0) rotate(0);
+  }
+
+  50%{
+    transform:translateY(-25px) rotate(10deg);
+  }
 }
 
 .container{
-    width:min(92%,700px);
-    margin:auto;
-    padding:45px 0 60px;
-    text-align:center;
+  position:relative;
+  z-index:1;
+  width:min(92%,700px);
+  margin:auto;
+  padding:35px 0 60px;
+  text-align:center;
 }
 
 .logo{
-    font-size:28px;
-    font-weight:900;
-    margin-bottom:55px;
+  font-size:27px;
+  font-weight:900;
+  margin-bottom:45px;
 }
 
 .logo span{
-    color:#ff3f7f;
+  color:#ff4f87;
+}
+
+.loading,
+.unavailable{
+  min-height:65vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.loader{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  border:4px solid #24242d;
+  border-top-color:#ff4f87;
+  animation:spin .8s linear infinite;
+  margin-bottom:18px;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.loading p,
+.unavailable p{
+  color:#777;
+  line-height:1.8;
+}
+
+.unavailable{
+  display:none;
+}
+
+.unavailableIcon{
+  font-size:55px;
+  margin-bottom:15px;
+}
+
+.unavailable h1{
+  margin:0 0 10px;
+}
+
+.closedGift{
+  display:none;
 }
 
 .envelope{
-    font-size:75px;
-    margin-bottom:15px;
-    animation:pulse 2s infinite;
+  font-size:78px;
+  margin-bottom:17px;
+  animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
-    50%{transform:scale(1.08);}
+  50%{
+    transform:scale(1.08);
+  }
 }
 
 .small{
-    color:#aaa;
-    font-size:16px;
-    margin-bottom:8px;
+  color:#aaa;
+  margin-bottom:8px;
 }
 
-h1{
-    font-size:clamp(32px,7vw,52px);
-    margin-bottom:28px;
+.receiverTitle{
+  font-size:clamp(32px,7vw,50px);
+  margin:0 0 28px;
+  overflow-wrap:anywhere;
 }
 
-#receiver{
-    color:#ff4f8b;
-}
-
-.open-box{
-    padding:35px 25px;
-    border-radius:30px;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.12);
-    backdrop-filter:blur(15px);
-    box-shadow:0 25px 70px rgba(0,0,0,.35);
+.openBox{
+  padding:34px 24px;
+  border-radius:28px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(15px);
+  box-shadow:0 25px 70px rgba(0,0,0,.30);
 }
 
 .intro{
-    font-size:20px;
-    color:#ddd;
-    line-height:1.8;
-    margin-bottom:25px;
+  font-size:19px;
+  color:#ddd;
+  line-height:1.8;
+  margin-bottom:24px;
 }
 
-.open-btn{
-    border:0;
-    padding:17px 35px;
-    border-radius:18px;
-    color:white;
-    font-size:19px;
-    font-weight:bold;
-    cursor:pointer;
-    background:linear-gradient(135deg,#ff1769,#ff6294);
-    box-shadow:0 12px 35px rgba(255,23,105,.35);
-    transition:.25s;
-}
-
-.open-btn:hover{
-    transform:translateY(-3px) scale(1.02);
+.openBtn{
+  border:0;
+  padding:17px 34px;
+  border-radius:18px;
+  color:white;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(135deg,#ff1769,#ff6294);
+  box-shadow:0 12px 35px rgba(255,23,105,.30);
 }
 
 .gift{
-    display:none;
-    margin-top:25px;
-    animation:showGift .7s ease;
+  display:none;
+  animation:showGift .7s ease;
 }
 
 @keyframes showGift{
-    from{
-        opacity:0;
-        transform:translateY(25px) scale(.97);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
+  from{
+    opacity:0;
+    transform:translateY(25px) scale(.98);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 .badge{
-    display:inline-block;
-    padding:9px 20px;
-    margin-bottom:22px;
-    border-radius:50px;
-    background:rgba(255,63,127,.16);
-    color:#ff78a5;
-    font-weight:bold;
+  display:inline-block;
+  padding:9px 18px;
+  border-radius:50px;
+  background:rgba(255,79,135,.15);
+  color:#ff78a5;
+  font-weight:800;
+  margin-bottom:21px;
 }
 
 .message{
-    font-size:clamp(20px,5vw,27px);
-    line-height:1.9;
-    white-space:pre-wrap;
-    overflow-wrap:anywhere;
-    margin:10px 0 25px;
+  font-size:clamp(20px,5vw,27px);
+  line-height:1.9;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  margin:10px 0 25px;
 }
 
-#giftImage{
-    display:none;
-    width:100%;
-    max-height:500px;
-    object-fit:contain;
-    border-radius:22px;
-    margin:20px auto;
-    background:rgba(0,0,0,.15);
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:20px;
+}
+
+.gallery img{
+  width:100%;
+  height:auto;
+  max-height:500px;
+  object-fit:contain;
+  border-radius:18px;
+  background:rgba(0,0,0,.20);
+}
+
+.gallery img:only-child{
+  grid-column:1/-1;
 }
 
 .date{
-    color:#aaa;
-    margin:18px 0;
+  color:#aaa;
+  margin-top:23px;
 }
 
 .from{
-    margin-top:22px;
-    color:#ccc;
+  margin-top:23px;
+  color:#ccc;
 }
 
 .from b{
-    color:#ff72a1;
-    font-size:19px;
+  color:#ff72a1;
+  font-size:19px;
 }
 
-/* مشغل الأغنية داخل الصفحة */
 .music{
-    display:none;
-    margin-top:30px;
-    padding:20px;
-    border-radius:22px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.10);
+  display:none;
+  margin-top:28px;
+  padding:18px;
+  border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
 }
 
-.music-title{
-    margin-bottom:15px;
-    font-weight:bold;
+.musicTitle{
+  margin-bottom:13px;
+  font-weight:900;
 }
 
 audio{
-    width:100%;
+  width:100%;
 }
 
 .share{
-    margin-top:35px;
+  margin-top:28px;
 }
 
 .share button{
-    border:1px solid rgba(255,255,255,.15);
-    background:rgba(255,255,255,.06);
-    color:white;
-    border-radius:15px;
-    padding:13px 22px;
-    cursor:pointer;
-    font-size:16px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);
+  color:white;
+  border-radius:15px;
+  padding:13px 22px;
+  cursor:pointer;
+  font-size:15px;
 }
 
 .footer{
-    margin-top:50px;
-    color:#666;
-    font-size:14px;
+  margin-top:45px;
+  color:#666;
+  font-size:13px;
 }
 
-@media(max-width:500px){
-    .container{
-        padding-top:30px;
-    }
+@media(max-width:520px){
+  .container{
+    padding-top:25px;
+  }
 
-    .logo{
-        margin-bottom:35px;
-    }
+  .logo{
+    margin-bottom:32px;
+  }
 
-    .open-box{
-        padding:28px 18px;
-    }
+  .openBox{
+    padding:27px 17px;
+  }
+
+  .gallery{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -242,243 +348,824 @@ audio{
 <body>
 
 <div class="hearts">
-    <div class="heart">♡</div>
-    <div class="heart">♡</div>
-    <div class="heart">♡</div>
-    <div class="heart">♡</div>
-    <div class="heart">♡</div>
+  <div class="heart">♡</div>
+  <div class="heart">♡</div>
+  <div class="heart">♡</div>
+  <div class="heart">♡</div>
 </div>
 
 <main class="container">
 
-    <div class="logo">
-        LAHZA <span>♡</span> لحظة
+  <div class="logo">
+    LAHZA <span>♡</span>
+  </div>
+
+
+  <section
+    id="loading"
+    class="loading">
+
+    <div class="loader"></div>
+
+    <p>
+      جاري تجهيز لحظتك...
+    </p>
+
+  </section>
+
+
+  <section
+    id="unavailable"
+    class="unavailable">
+
+    <div class="unavailableIcon">
+      🔒
     </div>
 
-    <!-- قبل فتح الهدية -->
-    <section id="closedGift">
+    <h1>
+      الهدية غير متاحة بعد
+    </h1>
 
-        <div class="envelope">💌</div>
+    <p>
+      ممكن يكون الدفع للحين تحت المراجعة،
+      أو الرابط غير صحيح.
+    </p>
 
-        <div class="small">
-            عندك لحظة من شخص يفكر فيك
-        </div>
-
-        <h1>
-            إلى <span id="receiverTop">شخص مميز</span> ♡
-        </h1>
-
-        <div class="open-box">
-
-            <div class="intro">
-                فيه شيء صغير انصنع مخصوص لك ♡
-            </div>
-
-            <button class="open-btn" onclick="openGift()">
-                افتح هديتك ♡
-            </button>
-
-        </div>
-
-    </section>
+  </section>
 
 
-    <!-- بعد فتح الهدية -->
-    <section id="gift" class="gift">
+  <section
+    id="closedGift"
+    class="closedGift">
 
-        <div class="small">
-            هذه اللحظة إلى
-        </div>
-
-        <h1>
-            <span id="receiver"></span> ♡
-        </h1>
-
-        <div class="open-box">
-
-            <div id="occasion" class="badge"></div>
-
-            <div id="message" class="message"></div>
-
-            <img id="giftImage" alt="صورتك الخاصة">
-
-            <div id="date" class="date"></div>
-
-            <div class="from">
-                من ♡ <b id="sender"></b>
-            </div>
-
-            <div id="musicBox" class="music">
-                <div class="music-title">
-                    🎵 أغنية لهاللحظة
-                </div>
-
-                <audio id="giftAudio" controls playsinline></audio>
-            </div>
-
-        </div>
-
-        <div class="share">
-            <button onclick="shareGift()">
-                مشاركة اللحظة ♡
-            </button>
-        </div>
-
-    </section>
-
-    <div class="footer">
-        صنعت بحب بواسطة LAHZA ♡
+    <div class="envelope">
+      💌
     </div>
+
+    <div class="small">
+      عندك لحظة من شخص يفكر فيك
+    </div>
+
+    <h1 class="receiverTitle">
+      إلى
+      <span id="receiverTop">
+        شخص مميز
+      </span>
+      ♡
+    </h1>
+
+    <div class="openBox">
+
+      <div class="intro">
+        فيه شيء صغير انصنع مخصوص لك ♡
+      </div>
+
+      <button
+        class="openBtn"
+        type="button"
+        onclick="openGift()">
+        افتح هديتك ♡
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <section
+    id="gift"
+    class="gift">
+
+    <div class="small">
+      هذه اللحظة إلى
+    </div>
+
+    <h1 class="receiverTitle">
+      <span id="receiver"></span> ♡
+    </h1>
+
+    <div class="openBox">
+
+      <div
+        id="occasion"
+        class="badge">
+      </div>
+
+      <div
+        id="message"
+        class="message">
+      </div>
+
+      <div
+        id="gallery"
+        class="gallery">
+      </div>
+
+      <div
+        id="date"
+        class="date">
+      </div>
+
+      <div class="from">
+        من ♡
+        <b id="sender"></b>
+      </div>
+
+      <div
+        id="musicBox"
+        class="music">
+
+        <div class="musicTitle">
+          🎵 أغنية لهاللحظة
+        </div>
+
+        <audio
+          id="giftAudio"
+          controls
+          playsinline>
+        </audio>
+
+      </div>
+
+    </div>
+
+    <div class="share">
+
+      <button
+        type="button"
+        onclick="shareGift()">
+        مشاركة اللحظة ♡
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <div class="footer">
+    صنعت بحب بواسطة LAHZA ♡
+  </div>
 
 </main>
 
+
 <script>
 
-/* قراءة البيانات من الرابط */
-const params = new URLSearchParams(window.location.search);
+const SUPABASE_URL =
+  "https://ltuyfewachzbazunuxmd.supabase.co";
 
-/* وقراءة البيانات المحفوظة إذا كانت موجودة */
-let saved = {};
+const SUPABASE_KEY =
+  "sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
 
-try{
-    saved = JSON.parse(localStorage.getItem("lahzaGift")) || {};
-}catch(e){
-    saved = {};
-}
-
-function getData(name){
-    return params.get(name) || saved[name] || "";
-}
-
-const receiver = getData("receiver");
-const sender = getData("sender");
-const occasion = getData("occasion");
-const message = getData("message");
-const date = getData("date");
-
-/* يدعم أكثر من اسم للصورة والأغنية */
-const image =
-    getData("image") ||
-    getData("photo");
-
-const music =
-    getData("music") ||
-    getData("song") ||
-    getData("audio");
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-/* تعبئة البيانات */
-document.getElementById("receiverTop").textContent =
-    receiver || "شخص مميز";
-
-document.getElementById("receiver").textContent =
-    receiver || "شخص مميز";
-
-document.getElementById("sender").textContent =
-    sender || "شخص يحبك";
-
-document.getElementById("message").textContent =
-    message || "هذه اللحظة صنعت لك ♡";
-
-
-/* المناسبة */
-const occasionBox = document.getElementById("occasion");
-
-if(occasion){
-    occasionBox.textContent = occasion;
-}else{
-    occasionBox.style.display = "none";
-}
+const occasionNames = {
+  love:"حب ❤️",
+  birthday:"عيد ميلاد 🎂",
+  friend:"صداقة 🫂",
+  friendship:"صداقة 🫂",
+  graduation:"تخرج 🎓",
+  sorry:"اعتذار 🥹",
+  apology:"اعتذار 🥹",
+  surprise:"بدون مناسبة 🎁",
+  none:"بدون مناسبة 🎁"
+};
 
 
-/* التاريخ */
-const dateBox = document.getElementById("date");
+let giftData = null;
 
-if(date){
-    dateBox.textContent = "📅 " + date;
-}else{
-    dateBox.style.display = "none";
-}
+let mediaObjectURLs = [];
 
 
-/* الصورة */
-const giftImage = document.getElementById("giftImage");
+/* ==============================
+   تشغيل الصفحة
+============================== */
 
-if(image){
-    giftImage.src = image;
-    giftImage.style.display = "block";
+async function init(){
 
-    giftImage.onerror = function(){
-        this.style.display = "none";
-    };
-}
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
 
 
-/* الأغنية داخل الصفحة */
-const musicBox = document.getElementById("musicBox");
-const giftAudio = document.getElementById("giftAudio");
+  const token =
+    params.get("token");
 
-if(music){
 
-    /*
-    إذا كانت صفحة create.html ترسل رابط ملف صوتي مباشر
-    مثل mp3 / m4a / wav، راح يشتغل هنا داخل الصفحة.
-    */
+  if(!token){
 
-    const lowerMusic = music.toLowerCase();
+    showUnavailable();
+
+    return;
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+      .rpc(
+        "get_paid_gift",
+        {
+          p_token:token
+        }
+      );
+
+
+    if(error){
+
+      console.error(
+        "Gift RPC error:",
+        error
+      );
+
+      showUnavailable();
+
+      return;
+    }
+
 
     if(
-        lowerMusic.includes(".mp3") ||
-        lowerMusic.includes(".m4a") ||
-        lowerMusic.includes(".wav") ||
-        lowerMusic.includes(".ogg") ||
-        lowerMusic.startsWith("data:audio") ||
-        lowerMusic.startsWith("blob:")
+      !data ||
+      data.length === 0
     ){
-        giftAudio.src = music;
-        musicBox.style.display = "block";
+
+      showUnavailable();
+
+      return;
     }
+
+
+    giftData =
+      data[0];
+
+
+    await prepareGift(
+      giftData
+    );
+
+
+    document
+    .getElementById("loading")
+    .style.display =
+      "none";
+
+
+    document
+    .getElementById("closedGift")
+    .style.display =
+      "block";
+
+
+  }catch(error){
+
+    console.error(
+      "Gift error:",
+      error
+    );
+
+
+    showUnavailable();
+
+  }
+
 }
 
 
-/* فتح الهدية */
-function openGift(){
+/* ==============================
+   تجهيز بيانات الهدية
+============================== */
 
-    document.getElementById("closedGift").style.display = "none";
+async function prepareGift(data){
 
-    const gift = document.getElementById("gift");
+  const receiver =
+    data.receiver ||
+    "شخص مميز";
 
-    gift.style.display = "block";
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+  document
+  .getElementById("receiverTop")
+  .textContent =
+    receiver;
+
+
+  document
+  .getElementById("receiver")
+  .textContent =
+    receiver;
+
+
+  document
+  .getElementById("sender")
+  .textContent =
+    data.sender ||
+    "شخص يفكر فيك";
+
+
+  document
+  .getElementById("message")
+  .textContent =
+    data.message ||
+    "";
+
+
+  const occasionBox =
+    document
+    .getElementById("occasion");
+
+
+  if(data.occasion){
+
+    occasionBox.textContent =
+      occasionNames[
+        data.occasion
+      ] ||
+      data.occasion;
+
+  }else{
+
+    occasionBox.style.display =
+      "none";
+
+  }
+
+
+  const dateBox =
+    document
+    .getElementById("date");
+
+
+  if(data.gift_date){
+
+    dateBox.textContent =
+      "🤍 " +
+      formatArabicDate(
+        data.gift_date
+      );
+
+  }else{
+
+    dateBox.style.display =
+      "none";
+
+  }
+
+
+  setTheme(
+    data.theme
+  );
+
+
+  await loadPhotos(
+    data.photos
+  );
+
+
+  await loadAudio(
+    data.audio_url
+  );
+
 }
 
 
-/* مشاركة */
-async function shareGift(){
+/* ==============================
+   تحميل الصور الخاصة
+============================== */
 
-    const shareData = {
-        title:"لحظة خاصة ♡",
-        text:"عندك لحظة خاصة تنتظرك ♡",
-        url:window.location.href
-    };
+async function loadPhotos(photos){
+
+  const gallery =
+    document
+    .getElementById("gallery");
+
+
+  gallery.innerHTML =
+    "";
+
+
+  let paths =
+    photos;
+
+
+  if(
+    typeof paths === "string"
+  ){
 
     try{
 
-        if(navigator.share){
-            await navigator.share(shareData);
-        }else{
-            await navigator.clipboard.writeText(window.location.href);
-            alert("تم نسخ رابط اللحظة ♡");
-        }
+      paths =
+        JSON.parse(paths);
 
-    }catch(e){
-        console.log(e);
+    }catch(error){
+
+      paths = [];
+
     }
+
+  }
+
+
+  if(
+    !Array.isArray(paths) ||
+    paths.length === 0
+  ){
+
+    gallery.style.display =
+      "none";
+
+    return;
+  }
+
+
+  for(
+    const path of paths
+  ){
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+        .storage
+        .from("gift-media")
+        .download(path);
+
+
+      if(error){
+
+        console.error(
+          "Photo download:",
+          error
+        );
+
+        continue;
+      }
+
+
+      const url =
+        URL.createObjectURL(
+          data
+        );
+
+
+      mediaObjectURLs.push(
+        url
+      );
+
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+
+      img.src =
+        url;
+
+
+      img.alt =
+        "صورة من الهدية";
+
+
+      gallery.appendChild(
+        img
+      );
+
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+
+  if(
+    gallery.children.length === 0
+  ){
+
+    gallery.style.display =
+      "none";
+
+  }
+
 }
+
+
+/* ==============================
+   تحميل الأغنية الخاصة
+============================== */
+
+async function loadAudio(path){
+
+  if(!path){
+    return;
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+      .storage
+      .from("gift-media")
+      .download(path);
+
+
+    if(error){
+
+      console.error(
+        "Audio download:",
+        error
+      );
+
+      return;
+    }
+
+
+    const url =
+      URL.createObjectURL(
+        data
+      );
+
+
+    mediaObjectURLs.push(
+      url
+    );
+
+
+    document
+    .getElementById("giftAudio")
+    .src =
+      url;
+
+
+    document
+    .getElementById("musicBox")
+    .style.display =
+      "block";
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+  }
+
+}
+
+
+/* ==============================
+   الثيم
+============================== */
+
+function setTheme(theme){
+
+  document.body.classList.remove(
+    "romantic",
+    "midnight",
+    "sunset",
+    "minimal"
+  );
+
+
+  if(
+    [
+      "romantic",
+      "midnight",
+      "sunset",
+      "minimal"
+    ].includes(theme)
+  ){
+
+    document.body.classList.add(
+      theme
+    );
+
+  }else{
+
+    document.body.classList.add(
+      "romantic"
+    );
+
+  }
+
+}
+
+
+/* ==============================
+   فتح الهدية
+============================== */
+
+function openGift(){
+
+  document
+  .getElementById("closedGift")
+  .style.display =
+    "none";
+
+
+  document
+  .getElementById("gift")
+  .style.display =
+    "block";
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* ==============================
+   التاريخ
+============================== */
+
+function formatArabicDate(value){
+
+  const parts =
+    String(value)
+    .split("-");
+
+
+  if(parts.length !== 3){
+    return value;
+  }
+
+
+  const year =
+    Number(parts[0]);
+
+  const month =
+    Number(parts[1]);
+
+  const day =
+    Number(parts[2]);
+
+
+  const months = [
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر"
+  ];
+
+
+  if(
+    month < 1 ||
+    month > 12
+  ){
+
+    return value;
+  }
+
+
+  return (
+    day +
+    " " +
+    months[month - 1] +
+    " " +
+    year
+  );
+
+}
+
+
+/* ==============================
+   غير متاحة
+============================== */
+
+function showUnavailable(){
+
+  document
+  .getElementById("loading")
+  .style.display =
+    "none";
+
+
+  document
+  .getElementById("closedGift")
+  .style.display =
+    "none";
+
+
+  document
+  .getElementById("gift")
+  .style.display =
+    "none";
+
+
+  document
+  .getElementById("unavailable")
+  .style.display =
+    "flex";
+
+}
+
+
+/* ==============================
+   المشاركة
+============================== */
+
+async function shareGift(){
+
+  const shareData = {
+
+    title:
+      "لحظة خاصة ♡",
+
+    text:
+      "عندك لحظة خاصة تنتظرك ♡",
+
+    url:
+      window.location.href
+
+  };
+
+
+  try{
+
+    if(
+      navigator.share
+    ){
+
+      await navigator.share(
+        shareData
+      );
+
+    }else{
+
+      await navigator
+      .clipboard
+      .writeText(
+        window.location.href
+      );
+
+
+      alert(
+        "تم نسخ رابط اللحظة ♡"
+      );
+
+    }
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+
+/* تنظيف روابط الملفات */
+
+window.addEventListener(
+  "beforeunload",
+  function(){
+
+    mediaObjectURLs
+    .forEach(function(url){
+
+      URL.revokeObjectURL(
+        url
+      );
+
+    });
+
+  }
+);
+
+
+init();
 
 </script>
 
