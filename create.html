@@ -2,65 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#090910">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>اصنع لحظتك | LAHZA</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
   min-height:100vh;
   background:
-    radial-gradient(circle at top right,rgba(255,68,126,.14),transparent 33%),
+    radial-gradient(circle at top right,rgba(255,60,125,.14),transparent 35%),
     #08080f;
   color:#fff;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
-
-.page{
-  width:min(92%,700px);
-  margin:auto;
-  padding:28px 0 60px;
-}
-
-.logo{
-  text-align:center;
-  font-size:27px;
-  font-weight:950;
-  margin-bottom:30px;
-}
-
-.logo span{
-  color:#ff4f87;
-}
-
-.back{
-  display:inline-block;
-  color:#888;
-  text-decoration:none;
-  margin-bottom:20px;
-  font-size:14px;
-}
-
-h1{
-  margin:0 0 8px;
-  font-size:31px;
-}
-
-.subtitle{
-  color:#888;
-  line-height:1.7;
-  margin-bottom:28px;
-}
-
+.page{width:min(92%,700px);margin:auto;padding:28px 0 60px}
+.logo{text-align:center;font-size:28px;font-weight:950;margin-bottom:30px}
+.logo span{color:#ff4f87}
+.back{color:#888;text-decoration:none;font-size:14px;display:inline-block;margin-bottom:20px}
+h1{margin:0 0 8px;font-size:31px}
+.subtitle{color:#888;line-height:1.8;margin-bottom:28px}
 .card{
   background:#111118;
   border:1px solid #25252f;
@@ -68,138 +31,67 @@ h1{
   padding:20px;
   margin-bottom:15px;
 }
-
-.cardTitle{
-  font-weight:900;
-  margin-bottom:4px;
-}
-
-.cardDesc{
-  color:#777;
-  font-size:13px;
-  line-height:1.7;
-  margin-bottom:16px;
-}
-
-label{
-  display:block;
-  color:#aaa;
-  font-size:13px;
-  margin:15px 2px 7px;
-}
-
-input,
-textarea{
+.cardTitle{font-weight:900;margin-bottom:5px}
+.cardDesc{color:#777;font-size:13px;line-height:1.7;margin-bottom:15px}
+label{display:block;color:#aaa;font-size:13px;margin:15px 2px 7px}
+input,textarea{
   width:100%;
   padding:15px;
   border-radius:14px;
   border:1px solid #292934;
   background:#0a0a10;
-  color:#fff;
+  color:white;
   font:inherit;
   outline:none;
 }
-
-textarea{
-  min-height:135px;
-  resize:vertical;
-  line-height:1.8;
-}
-
-input:focus,
-textarea:focus{
-  border-color:#ff4f87;
-}
-
-.errorText{
-  display:none;
-  color:#ff8299;
-  font-size:12px;
-  margin-top:7px;
-  line-height:1.6;
-}
+textarea{min-height:135px;resize:vertical;line-height:1.8}
+input:focus,textarea:focus{border-color:#ff4f87}
 
 .themes{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:1fr 1fr;
   gap:10px;
 }
-
 .theme{
   border:1px solid #292934;
   background:#0c0c12;
   border-radius:17px;
-  padding:17px 12px;
-  color:#fff;
+  color:white;
+  padding:16px;
   cursor:pointer;
-  text-align:center;
 }
-
 .theme.active{
   border-color:#ff4f87;
   box-shadow:0 0 0 1px #ff4f87 inset;
 }
-
 .themeDot{
-  width:38px;
-  height:38px;
-  margin:0 auto 10px;
-  border-radius:50%;
+  width:38px;height:38px;border-radius:50%;
+  margin:0 auto 9px;
 }
-
-.romanticDot{
-  background:linear-gradient(135deg,#ff4f87,#67233d);
-}
-
-.midnightDot{
-  background:linear-gradient(135deg,#8973ff,#1a1940);
-}
-
-.sunsetDot{
-  background:linear-gradient(135deg,#ff9b73,#763246);
-}
-
-.minimalDot{
-  background:linear-gradient(135deg,#eee,#333);
-}
+.r{background:linear-gradient(135deg,#ff4f87,#68233d)}
+.m{background:linear-gradient(135deg,#8874ff,#19193d)}
+.s{background:linear-gradient(135deg,#ff9d70,#743044)}
+.n{background:linear-gradient(135deg,#eee,#333)}
 
 .fileBox{
   position:relative;
+  text-align:center;
+  padding:21px;
   border:1px dashed #3a3a45;
   border-radius:18px;
   background:#0b0b11;
-  padding:20px;
-  text-align:center;
 }
-
 .fileBox input[type=file]{
   position:absolute;
   inset:0;
   opacity:0;
   cursor:pointer;
 }
+.fileIcon{font-size:29px;margin-bottom:6px}
+.fileMain{font-weight:850}
+.fileSmall{color:#777;font-size:12px;margin-top:5px}
 
-.fileIcon{
-  font-size:29px;
-  margin-bottom:7px;
-}
-
-.fileMain{
-  font-weight:800;
-}
-
-.fileSmall{
-  color:#777;
-  font-size:12px;
-  margin-top:5px;
-}
-
-.filesList{
-  display:grid;
-  gap:8px;
-  margin-top:12px;
-}
-
+.filesList{display:grid;gap:8px;margin-top:12px}
 .fileItem{
   background:#0b0b11;
   border:1px solid #24242c;
@@ -216,90 +108,72 @@ textarea:focus{
   gap:9px;
   margin-bottom:15px;
 }
-
 .musicTab{
   border:1px solid #292934;
   background:#0b0b11;
   color:#aaa;
   padding:13px;
   border-radius:14px;
-  font-weight:800;
+  font-weight:850;
   cursor:pointer;
 }
-
 .musicTab.active{
-  color:#fff;
+  color:white;
   border-color:#ff4f87;
   background:rgba(255,79,135,.09);
 }
-
-.musicPanel{
-  display:none;
-}
-
-.musicPanel.active{
-  display:block;
-}
+.musicPanel{display:none}
+.musicPanel.active{display:block}
 
 .mediaPreview{
   display:none;
-  margin-top:14px;
-  padding:13px;
+  margin-top:13px;
+  padding:12px;
   background:#0b0b11;
-  border:1px solid #25252f;
+  border:1px solid #24242c;
   border-radius:15px;
 }
-
-.mediaPreview audio,
-.mediaPreview video{
+.mediaPreview audio,.mediaPreview video{
   width:100%;
-  max-height:350px;
-  border-radius:12px;
+  max-height:360px;
 }
-
-.removeMedia{
+.youtubePreview{
   width:100%;
-  margin-top:10px;
-  border:1px solid #33333c;
-  background:#17171e;
-  color:#aaa;
-  padding:11px;
-  border-radius:11px;
-  cursor:pointer;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:13px;
+  background:#000;
 }
 
 .info{
+  margin-top:11px;
+  padding:12px;
+  border-radius:13px;
   background:rgba(255,79,135,.06);
-  border:1px solid rgba(255,79,135,.16);
-  color:#b9aeb4;
-  padding:13px;
-  border-radius:14px;
-  margin-top:12px;
-  line-height:1.7;
+  border:1px solid rgba(255,79,135,.15);
+  color:#a89fa5;
   font-size:12px;
+  line-height:1.7;
+}
+.error{
+  display:none;
+  color:#ff7c9b;
+  font-size:12px;
+  margin-top:7px;
 }
 
 .summary{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:1fr 1fr;
   gap:8px;
 }
-
 .summaryBox{
-  background:#0b0b11;
-  border-radius:13px;
   padding:12px;
+  border-radius:13px;
+  background:#0b0b11;
 }
-
-.summaryBox span{
-  color:#666;
-  font-size:11px;
-}
-
-.summaryBox strong{
-  display:block;
-  margin-top:5px;
-}
+.summaryBox span{color:#666;font-size:11px}
+.summaryBox strong{display:block;margin-top:5px}
 
 .next{
   width:100%;
@@ -307,35 +181,18 @@ textarea:focus{
   border-radius:18px;
   padding:17px;
   background:linear-gradient(135deg,#ff3474,#ff6d9c);
-  color:white;
+  color:#fff;
   font-size:17px;
   font-weight:950;
   cursor:pointer;
-  margin-top:8px;
 }
-
-.next:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
+.next:disabled{opacity:.5}
 .status{
   display:none;
   text-align:center;
   margin-top:12px;
   color:#aaa;
-  line-height:1.7;
   font-size:13px;
-}
-
-@media(max-width:520px){
-  .themes{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .summary{
-    grid-template-columns:1fr;
-  }
 }
 </style>
 </head>
@@ -344,329 +201,187 @@ textarea:focus{
 
 <main class="page">
 
-  <div class="logo">
-    LAHZA <span>♡</span>
+<div class="logo">LAHZA <span>♡</span></div>
+
+<a class="back" href="plans.html">→ رجوع</a>
+
+<h1>اصنع لحظتك ♡</h1>
+<div class="subtitle">اختر الكلام، الصور، والأغنية اللي بتعيش مع الهدية.</div>
+
+<section class="card">
+  <div class="cardTitle">لمن هالهدية؟</div>
+
+  <label>اسم المستلم *</label>
+  <input id="receiver" maxlength="60" placeholder="مثال: نور">
+
+  <label>اسم المرسل</label>
+  <input id="sender" maxlength="60" placeholder="اسمك">
+
+  <label>الرسالة *</label>
+  <textarea id="message" maxlength="1500" placeholder="اكتب رسالتك..."></textarea>
+</section>
+
+
+<section class="card">
+  <div class="cardTitle">شكل اللحظة</div>
+
+  <div class="themes">
+
+    <button type="button" class="theme active" data-theme="romantic">
+      <div class="themeDot r"></div>
+      رومانسي
+    </button>
+
+    <button type="button" class="theme" data-theme="midnight">
+      <div class="themeDot m"></div>
+      منتصف الليل
+    </button>
+
+    <button type="button" class="theme" data-theme="sunset">
+      <div class="themeDot s"></div>
+      غروب
+    </button>
+
+    <button type="button" class="theme" data-theme="minimal">
+      <div class="themeDot n"></div>
+      بسيط
+    </button>
+
+  </div>
+</section>
+
+
+<section class="card">
+
+  <div class="cardTitle">صور اللحظة 📸</div>
+  <div id="photoLimitText" class="cardDesc"></div>
+
+  <div class="fileBox">
+    <input id="photos" type="file" accept="image/*" multiple>
+
+    <div class="fileIcon">🖼️</div>
+    <div class="fileMain">اختر الصور</div>
+    <div class="fileSmall">تقدر تختار أكثر من صورة</div>
   </div>
 
-  <a class="back" href="plans.html">
-    → رجوع
-  </a>
+  <div id="photosList" class="filesList"></div>
 
-  <h1>اصنع لحظتك ♡</h1>
+</section>
 
-  <div class="subtitle">
-    التفاصيل الصغيرة هي اللي تخلي الهدية ما تنسى.
+
+<section class="card">
+
+  <div class="cardTitle">أغنية هاللحظة 🎵</div>
+
+  <div class="cardDesc">
+    ارفع الأغنية من جهازك أو حط رابط YouTube أو رابط مباشر.
   </div>
 
 
-  <section class="card">
+  <div class="musicTabs">
 
-    <div class="cardTitle">
-      لمن هالهدية؟
-    </div>
+    <button id="uploadTab" type="button" class="musicTab active">
+      رفع ملف
+    </button>
 
-    <label>اسم المستلم *</label>
+    <button id="linkTab" type="button" class="musicTab">
+      إضافة رابط
+    </button>
 
-    <input
-      id="receiver"
-      type="text"
-      maxlength="60"
-      placeholder="مثال: نور"
-    >
-
-    <label>من المرسل؟</label>
-
-    <input
-      id="sender"
-      type="text"
-      maxlength="60"
-      placeholder="اسمك أو خله مجهول"
-    >
-
-    <label>رسالتك *</label>
-
-    <textarea
-      id="message"
-      maxlength="1500"
-      placeholder="اكتب الكلام اللي تبيه يوصل له..."></textarea>
-
-  </section>
+  </div>
 
 
-  <section class="card">
-
-    <div class="cardTitle">
-      اختر شكل اللحظة
-    </div>
-
-    <div class="cardDesc">
-      الخلفية والأجواء تتغير حسب الثيم.
-    </div>
-
-    <div class="themes">
-
-      <button
-        type="button"
-        class="theme active"
-        data-theme="romantic"
-        onclick="chooseTheme(this)">
-
-        <div class="themeDot romanticDot"></div>
-        رومانسي
-
-      </button>
-
-      <button
-        type="button"
-        class="theme"
-        data-theme="midnight"
-        onclick="chooseTheme(this)">
-
-        <div class="themeDot midnightDot"></div>
-        منتصف الليل
-
-      </button>
-
-      <button
-        type="button"
-        class="theme"
-        data-theme="sunset"
-        onclick="chooseTheme(this)">
-
-        <div class="themeDot sunsetDot"></div>
-        غروب
-
-      </button>
-
-      <button
-        type="button"
-        class="theme"
-        data-theme="minimal"
-        onclick="chooseTheme(this)">
-
-        <div class="themeDot minimalDot"></div>
-        بسيط
-
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <section class="card">
-
-    <div class="cardTitle">
-      صور اللحظة 📸
-    </div>
-
-    <div class="cardDesc" id="photoLimitText">
-      أضف الصور اللي تبي تظهر داخل الهدية.
-    </div>
+  <div id="uploadPanel" class="musicPanel active">
 
     <div class="fileBox">
 
       <input
-        id="photos"
+        id="mediaFile"
         type="file"
-        accept="image/*"
-        multiple
-        onchange="showPhotoFiles()"
-      >
+        accept="audio/*,video/mp4,video/webm,video/quicktime">
 
-      <div class="fileIcon">🖼️</div>
-
-      <div class="fileMain">
-        اضغط لاختيار الصور
-      </div>
-
-      <div class="fileSmall">
-        JPG / PNG / HEIC وغيرها
-      </div>
+      <div class="fileIcon">🎵</div>
+      <div class="fileMain">اختر أغنية أو مقطع</div>
+      <div class="fileSmall">MP3 / M4A / WAV / MP4 / MOV</div>
 
     </div>
 
-    <div
-      id="photosList"
-      class="filesList">
-    </div>
+    <div id="filePreview" class="mediaPreview"></div>
 
-  </section>
+  </div>
 
 
-  <section class="card">
+  <div id="linkPanel" class="musicPanel">
 
-    <div class="cardTitle">
-      أغنية أو مقطع 🎵
-    </div>
-
-    <div class="cardDesc">
-      تقدر ترفع ملف من جهازك أو تحط رابط مباشر.
-    </div>
-
-
-    <div class="musicTabs">
-
-      <button
-        id="uploadTab"
-        class="musicTab active"
-        type="button"
-        onclick="switchMusicMode('upload')">
-        رفع من الجهاز
-      </button>
-
-      <button
-        id="linkTab"
-        class="musicTab"
-        type="button"
-        onclick="switchMusicMode('link')">
-        إضافة رابط
-      </button>
-
-    </div>
-
-
-    <!-- رفع ملف -->
-
-    <div
-      id="uploadPanel"
-      class="musicPanel active">
-
-      <div class="fileBox">
-
-        <input
-          id="mediaFile"
-          type="file"
-          accept="audio/*,video/mp4,video/webm,video/quicktime"
-          onchange="previewMediaFile()"
-        >
-
-        <div class="fileIcon">🎵</div>
-
-        <div class="fileMain">
-          اختر أغنية أو مقطع
-        </div>
-
-        <div class="fileSmall">
-          MP3 / M4A / WAV / MP4 / MOV
-        </div>
-
-      </div>
-
-      <div
-        id="fileMediaPreview"
-        class="mediaPreview">
-      </div>
-
-    </div>
-
-
-    <!-- رابط -->
-
-    <div
-      id="linkPanel"
-      class="musicPanel">
-
-      <label>
-        رابط الأغنية أو المقطع
-      </label>
-
-      <input
-        id="mediaLink"
-        type="url"
-        placeholder="https://example.com/song.mp3"
-        oninput="previewMediaLink()"
-      >
-
-      <div
-        id="linkError"
-        class="errorText">
-      </div>
-
-      <div
-        id="linkMediaPreview"
-        class="mediaPreview">
-      </div>
-
-      <div class="info">
-        الأفضل يكون الرابط مباشر للملف مثل
-        MP3 أو M4A أو MP4.
-        رابط صفحة يوتيوب أو تيك توك العادي ما يشتغل كأغنية تلقائية داخل الهدية.
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section class="card">
-
-    <div class="cardTitle">
-      تاريخ الذكرى 🤍
-    </div>
-
-    <div class="cardDesc">
-      اختياري، لكن ما نسمح بتاريخ مستقبلي أو تاريخ غير صحيح.
-    </div>
+    <label>رابط الأغنية</label>
 
     <input
-      id="giftDate"
-      type="date"
-    >
+      id="mediaLink"
+      type="url"
+      placeholder="الصق رابط YouTube هنا">
 
-    <div
-      id="dateError"
-      class="errorText">
+    <div id="linkError" class="error"></div>
+
+    <div id="linkPreview" class="mediaPreview"></div>
+
+    <div class="info">
+      تقدر تلصق رابط YouTube العادي أو المختصر أو Shorts.
+      داخل الهدية بيظهر المشغل نفسه، والمستلم يضغط على الأغنية وتشتغل داخل الصفحة.
     </div>
 
-  </section>
-
-
-  <section class="card">
-
-    <div class="cardTitle">
-      ملخص الطلب
-    </div>
-
-    <div class="summary">
-
-      <div class="summaryBox">
-        <span>المناسبة</span>
-        <strong id="occasionSummary">—</strong>
-      </div>
-
-      <div class="summaryBox">
-        <span>الباقة</span>
-        <strong id="planSummary">—</strong>
-      </div>
-
-      <div class="summaryBox">
-        <span>السعر</span>
-        <strong id="priceSummary">0.000 د.ب</strong>
-      </div>
-
-      <div class="summaryBox">
-        <span>الثيم</span>
-        <strong id="themeSummary">رومانسي</strong>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <button
-    id="nextBtn"
-    class="next"
-    type="button"
-    onclick="continueNext()">
-    متابعة للدفع ←
-  </button>
-
-  <div
-    id="status"
-    class="status">
   </div>
+
+</section>
+
+
+<section class="card">
+
+  <div class="cardTitle">تاريخ الذكرى 🤍</div>
+  <div class="cardDesc">اختياري</div>
+
+  <input id="giftDate" type="date">
+
+  <div id="dateError" class="error"></div>
+
+</section>
+
+
+<section class="card">
+
+  <div class="cardTitle">ملخص الطلب</div>
+
+  <div class="summary">
+
+    <div class="summaryBox">
+      <span>المناسبة</span>
+      <strong id="occasionSummary">—</strong>
+    </div>
+
+    <div class="summaryBox">
+      <span>الباقة</span>
+      <strong id="planSummary">—</strong>
+    </div>
+
+    <div class="summaryBox">
+      <span>السعر</span>
+      <strong id="priceSummary">—</strong>
+    </div>
+
+    <div class="summaryBox">
+      <span>الثيم</span>
+      <strong id="themeSummary">رومانسي</strong>
+    </div>
+
+  </div>
+
+</section>
+
+
+<button id="nextBtn" class="next" type="button">
+  متابعة للدفع ←
+</button>
+
+<div id="status" class="status"></div>
 
 </main>
 
@@ -674,43 +389,25 @@ textarea:focus{
 <script>
 
 const SUPABASE_URL =
-  "https://ltuyfewachzbazunuxmd.supabase.co";
+"https://ltuyfewachzbazunuxmd.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+"sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
-const planData = {
-
-  mini:{
-    name:"Mini",
-    price:1.900,
-    photoLimit:5
-  },
-
-  moment:{
-    name:"Moment",
-    price:2.900,
-    photoLimit:15
-  },
-
-  forever:{
-    name:"Forever",
-    price:4.900,
-    photoLimit:30
-  }
-
+const plans = {
+  mini:{name:"Mini",price:1.900,photos:5},
+  moment:{name:"Moment",price:2.900,photos:15},
+  forever:{name:"Forever",price:4.900,photos:30}
 };
 
-
 const occasionNames = {
-
   love:"حب ❤️",
   birthday:"عيد ميلاد 🎂",
   friend:"صداقة 🫂",
@@ -720,836 +417,526 @@ const occasionNames = {
   apology:"اعتذار 🤍",
   surprise:"بدون مناسبة ✨",
   none:"بدون مناسبة ✨"
-
 };
 
-
 const themeNames = {
-
   romantic:"رومانسي",
   midnight:"منتصف الليل",
   sunset:"غروب",
   minimal:"بسيط"
-
 };
 
 
 let occasion =
-  localStorage.getItem(
-    "lahzaOccasion"
-  ) || "none";
-
+localStorage.getItem("lahzaOccasion") || "none";
 
 let plan =
-  localStorage.getItem(
-    "lahzaPlan"
-  ) || "mini";
+localStorage.getItem("lahzaPlan") || "mini";
 
+let theme =
+localStorage.getItem("lahzaTheme") || "romantic";
 
-let selectedTheme =
-  localStorage.getItem(
-    "lahzaTheme"
-  ) || "romantic";
+let musicMode = "upload";
 
+let previewURL = null;
 
-let musicMode =
-  "upload";
-
-
-let previewObjectURL =
-  null;
-
-
-/* =========================
-   INITIAL
-========================= */
 
 function init(){
 
-  if(!planData[plan]){
-    plan = "mini";
+  if(!plans[plan]){
+    plan="mini";
   }
 
+  document.getElementById("occasionSummary").textContent =
+  occasionNames[occasion] || occasion;
 
-  document
-  .getElementById("occasionSummary")
-  .textContent =
-    occasionNames[occasion] ||
-    occasion;
+  document.getElementById("planSummary").textContent =
+  plans[plan].name;
 
+  document.getElementById("priceSummary").textContent =
+  plans[plan].price.toFixed(3)+" د.ب";
 
-  document
-  .getElementById("planSummary")
-  .textContent =
-    planData[plan].name;
+  document.getElementById("photoLimitText").textContent =
+  "هالباقة تسمح لحد "+plans[plan].photos+" صورة.";
 
+  document.getElementById("themeSummary").textContent =
+  themeNames[theme];
 
-  document
-  .getElementById("priceSummary")
-  .textContent =
-    planData[plan]
-    .price
-    .toFixed(3) +
-    " د.ب";
+  document.getElementById("giftDate").max =
+  todayString();
 
-
-  document
-  .getElementById("photoLimitText")
-  .textContent =
-    "تقدر تضيف لحد " +
-    planData[plan].photoLimit +
-    " صورة في هالباقة.";
-
-
-  const dateInput =
-    document
-    .getElementById("giftDate");
-
-
-  dateInput.max =
-    getTodayString();
-
-
-  document
-  .querySelectorAll(".theme")
-  .forEach(function(button){
-
-    button.classList.toggle(
+  document.querySelectorAll(".theme").forEach(btn=>{
+    btn.classList.toggle(
       "active",
-      button.dataset.theme ===
-      selectedTheme
+      btn.dataset.theme===theme
     );
+  });
+}
+
+
+function todayString(){
+
+  const d=new Date();
+
+  return [
+    d.getFullYear(),
+    String(d.getMonth()+1).padStart(2,"0"),
+    String(d.getDate()).padStart(2,"0")
+  ].join("-");
+}
+
+
+/* THEME */
+
+document.querySelectorAll(".theme").forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    document.querySelectorAll(".theme")
+    .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    theme=btn.dataset.theme;
+
+    localStorage.setItem(
+      "lahzaTheme",
+      theme
+    );
+
+    document.getElementById("themeSummary").textContent =
+    themeNames[theme];
 
   });
 
-
-  document
-  .getElementById("themeSummary")
-  .textContent =
-    themeNames[selectedTheme] ||
-    "رومانسي";
-
-}
+});
 
 
-function getTodayString(){
+/* PHOTOS */
 
-  const now =
-    new Date();
-
-
-  const y =
-    now.getFullYear();
-
-
-  const m =
-    String(
-      now.getMonth() + 1
-    ).padStart(2,"0");
-
-
-  const d =
-    String(
-      now.getDate()
-    ).padStart(2,"0");
-
-
-  return `${y}-${m}-${d}`;
-
-}
-
-
-/* =========================
-   THEME
-========================= */
-
-function chooseTheme(button){
-
-  document
-  .querySelectorAll(".theme")
-  .forEach(function(item){
-
-    item.classList.remove(
-      "active"
-    );
-
-  });
-
-
-  button.classList.add(
-    "active"
-  );
-
-
-  selectedTheme =
-    button.dataset.theme;
-
-
-  localStorage.setItem(
-    "lahzaTheme",
-    selectedTheme
-  );
-
-
-  document
-  .getElementById("themeSummary")
-  .textContent =
-    themeNames[selectedTheme];
-
-}
-
-
-/* =========================
-   PHOTOS
-========================= */
-
-function showPhotoFiles(){
+document.getElementById("photos")
+.addEventListener("change",()=>{
 
   const input =
-    document
-    .getElementById("photos");
-
+  document.getElementById("photos");
 
   const list =
-    document
-    .getElementById("photosList");
+  document.getElementById("photosList");
 
+  const files =
+  Array.from(input.files || []);
 
-  const max =
-    planData[plan]
-    .photoLimit;
+  list.innerHTML="";
 
-
-  let files =
-    Array.from(
-      input.files || []
-    );
-
-
-  if(files.length > max){
+  if(files.length > plans[plan].photos){
 
     alert(
-      "باقتك تسمح بحد أقصى " +
-      max +
+      "هالباقة تسمح بحد أقصى "+
+      plans[plan].photos+
       " صورة."
     );
 
-
-    input.value =
-      "";
-
-
-    list.innerHTML =
-      "";
-
+    input.value="";
     return;
-
   }
 
+  files.forEach(file=>{
 
-  list.innerHTML =
-    "";
+    const div=document.createElement("div");
 
+    div.className="fileItem";
 
-  files.forEach(
-    function(file){
+    div.textContent="📸 "+file.name;
 
-      const item =
-        document.createElement(
-          "div"
-        );
+    list.appendChild(div);
 
+  });
 
-      item.className =
-        "fileItem";
+});
 
 
-      item.textContent =
-        "📸 " +
-        file.name;
+/* MUSIC TABS */
+
+document.getElementById("uploadTab")
+.addEventListener("click",()=>switchMode("upload"));
+
+document.getElementById("linkTab")
+.addEventListener("click",()=>switchMode("link"));
 
 
-      list.appendChild(
-        item
-      );
+function switchMode(mode){
 
-    }
-  );
+  musicMode=mode;
 
+  document.getElementById("uploadTab")
+  .classList.toggle("active",mode==="upload");
+
+  document.getElementById("linkTab")
+  .classList.toggle("active",mode==="link");
+
+  document.getElementById("uploadPanel")
+  .classList.toggle("active",mode==="upload");
+
+  document.getElementById("linkPanel")
+  .classList.toggle("active",mode==="link");
 }
 
 
-/* =========================
-   MUSIC MODE
-========================= */
+/* FILE PREVIEW */
 
-function switchMusicMode(mode){
-
-  musicMode =
-    mode;
-
-
-  document
-  .getElementById("uploadTab")
-  .classList.toggle(
-    "active",
-    mode === "upload"
-  );
-
-
-  document
-  .getElementById("linkTab")
-  .classList.toggle(
-    "active",
-    mode === "link"
-  );
-
-
-  document
-  .getElementById("uploadPanel")
-  .classList.toggle(
-    "active",
-    mode === "upload"
-  );
-
-
-  document
-  .getElementById("linkPanel")
-  .classList.toggle(
-    "active",
-    mode === "link"
-  );
-
-}
-
-
-/* =========================
-   FILE MEDIA PREVIEW
-========================= */
-
-function previewMediaFile(){
-
-  const input =
-    document
-    .getElementById(
-      "mediaFile"
-    );
-
-
-  const box =
-    document
-    .getElementById(
-      "fileMediaPreview"
-    );
-
-
-  box.innerHTML =
-    "";
-
+document.getElementById("mediaFile")
+.addEventListener("change",()=>{
 
   const file =
-    input.files &&
-    input.files[0];
+  document.getElementById("mediaFile").files[0];
 
+  const box =
+  document.getElementById("filePreview");
+
+  box.innerHTML="";
+
+  if(previewURL){
+    URL.revokeObjectURL(previewURL);
+    previewURL=null;
+  }
 
   if(!file){
-
-    box.style.display =
-      "none";
-
+    box.style.display="none";
     return;
-
   }
 
+  previewURL =
+  URL.createObjectURL(file);
 
-  if(previewObjectURL){
+  let media;
 
-    URL.revokeObjectURL(
-      previewObjectURL
-    );
+  if(file.type.startsWith("video/")){
 
-  }
-
-
-  previewObjectURL =
-    URL.createObjectURL(
-      file
-    );
-
-
-  let element;
-
-
-  if(
-    file.type.startsWith(
-      "video/"
-    )
-  ){
-
-    element =
-      document.createElement(
-        "video"
-      );
-
-
-    element.controls =
-      true;
+    media=document.createElement("video");
+    media.controls=true;
 
   }else{
 
-    element =
-      document.createElement(
-        "audio"
-      );
-
-
-    element.controls =
-      true;
+    media=document.createElement("audio");
+    media.controls=true;
 
   }
 
+  media.src=previewURL;
 
-  element.src =
-    previewObjectURL;
+  box.appendChild(media);
 
-
-  box.appendChild(
-    element
-  );
+  box.style.display="block";
+});
 
 
-  const remove =
-    document.createElement(
-      "button"
-    );
+/* LINK */
+
+document.getElementById("mediaLink")
+.addEventListener("input",previewLink);
 
 
-  remove.type =
-    "button";
+function previewLink(){
 
-  remove.className =
-    "removeMedia";
-
-  remove.textContent =
-    "حذف الملف";
-
-
-  remove.onclick =
-    function(){
-
-      input.value =
-        "";
-
-      box.style.display =
-        "none";
-
-      box.innerHTML =
-        "";
-
-    };
-
-
-  box.appendChild(
-    remove
-  );
-
-
-  box.style.display =
-    "block";
-
-}
-
-
-/* =========================
-   LINK PREVIEW
-========================= */
-
-function previewMediaLink(){
-
-  const url =
-    document
-    .getElementById(
-      "mediaLink"
-    )
-    .value
-    .trim();
-
+  const value =
+  document.getElementById("mediaLink")
+  .value.trim();
 
   const box =
-    document
-    .getElementById(
-      "linkMediaPreview"
-    );
+  document.getElementById("linkPreview");
 
+  const error =
+  document.getElementById("linkError");
 
-  const errorBox =
-    document
-    .getElementById(
-      "linkError"
-    );
+  box.innerHTML="";
+  box.style.display="none";
+  error.style.display="none";
 
+  if(!value){
+    return;
+  }
 
-  box.innerHTML =
-    "";
+  if(!validURL(value)){
 
-  box.style.display =
-    "none";
-
-  errorBox.style.display =
-    "none";
-
-
-  if(!url){
+    error.textContent="الرابط غير صحيح.";
+    error.style.display="block";
     return;
   }
 
 
-  if(!isValidHttpURL(url)){
+  const yt =
+  getYouTubeId(value);
 
-    errorBox.textContent =
-      "الرابط غير صحيح.";
 
-    errorBox.style.display =
-      "block";
+  if(yt){
+
+    const iframe =
+    document.createElement("iframe");
+
+    iframe.className="youtubePreview";
+
+    iframe.src =
+    "https://www.youtube.com/embed/"+
+    encodeURIComponent(yt);
+
+    iframe.allow =
+    "accelerometer; autoplay; encrypted-media; picture-in-picture";
+
+    iframe.allowFullscreen=true;
+
+    box.appendChild(iframe);
+
+    box.style.display="block";
 
     return;
-
-  }
-
-
-  if(isPageLink(url)){
-
-    errorBox.textContent =
-      "هذا رابط صفحة وليس رابط ملف مباشر. استخدم رابط مباشر للصوت أو المقطع.";
-
-    errorBox.style.display =
-      "block";
-
-    return;
-
   }
 
 
   const clean =
-    url.split("?")[0]
-    .toLowerCase();
+  value.split("?")[0].toLowerCase();
 
-
-  let element;
-
+  let media;
 
   if(
     clean.endsWith(".mp4") ||
-    clean.endsWith(".mov") ||
-    clean.endsWith(".webm")
+    clean.endsWith(".webm") ||
+    clean.endsWith(".mov")
   ){
 
-    element =
-      document.createElement(
-        "video"
-      );
-
-
-    element.controls =
-      true;
+    media=document.createElement("video");
+    media.controls=true;
 
   }else{
 
-    element =
-      document.createElement(
-        "audio"
-      );
-
-
-    element.controls =
-      true;
+    media=document.createElement("audio");
+    media.controls=true;
 
   }
 
+  media.src=value;
 
-  element.src =
-    url;
+  box.appendChild(media);
 
-
-  box.appendChild(
-    element
-  );
-
-
-  box.style.display =
-    "block";
-
+  box.style.display="block";
 }
 
 
-function isValidHttpURL(value){
+function validURL(value){
 
   try{
 
-    const url =
-      new URL(value);
-
+    const url=new URL(value);
 
     return (
-      url.protocol === "http:" ||
-      url.protocol === "https:"
+      url.protocol==="https:" ||
+      url.protocol==="http:"
     );
 
   }catch{
-
     return false;
+  }
+}
 
+
+function getYouTubeId(value){
+
+  try{
+
+    const url=new URL(value);
+
+    let host =
+    url.hostname.toLowerCase();
+
+    host =
+    host.replace(/^www\./,"");
+
+    if(host==="youtu.be"){
+
+      const id =
+      url.pathname.split("/")[1];
+
+      return cleanYT(id);
+    }
+
+
+    if(
+      host==="youtube.com" ||
+      host==="m.youtube.com" ||
+      host==="music.youtube.com"
+    ){
+
+      if(url.pathname==="/watch"){
+
+        return cleanYT(
+          url.searchParams.get("v")
+        );
+      }
+
+
+      if(
+        url.pathname.startsWith("/shorts/") ||
+        url.pathname.startsWith("/embed/")
+      ){
+
+        const parts =
+        url.pathname.split("/").filter(Boolean);
+
+        return cleanYT(parts[1]);
+      }
+
+    }
+
+  }catch{}
+
+  return null;
+}
+
+
+function cleanYT(id){
+
+  if(!id){
+    return null;
   }
 
+  const safe =
+  String(id).match(/^[A-Za-z0-9_-]{6,20}$/);
+
+  return safe ? id : null;
 }
 
 
-function isPageLink(url){
-
-  const lower =
-    url.toLowerCase();
-
-
-  return (
-    lower.includes("youtube.com") ||
-    lower.includes("youtu.be") ||
-    lower.includes("tiktok.com") ||
-    lower.includes("instagram.com") ||
-    lower.includes("spotify.com")
-  );
-
-}
-
-
-/* =========================
-   DATE VALIDATION
-========================= */
+/* DATE */
 
 function validateDate(){
 
   const input =
-    document
-    .getElementById(
-      "giftDate"
-    );
-
+  document.getElementById("giftDate");
 
   const error =
-    document
-    .getElementById(
-      "dateError"
-    );
+  document.getElementById("dateError");
 
+  error.style.display="none";
 
-  error.style.display =
-    "none";
-
-
-  const value =
-    input.value;
-
-
-  if(!value){
-
+  if(!input.value){
     return true;
-
   }
 
+  const p =
+  input.value.split("-");
 
-  const parts =
-    value.split("-");
-
-
-  if(parts.length !== 3){
-
-    showDateError(
-      "التاريخ غير صحيح."
-    );
-
+  if(p.length!==3){
+    showDateError("التاريخ غير صحيح.");
     return false;
-
   }
 
+  const y=Number(p[0]);
+  const m=Number(p[1]);
+  const d=Number(p[2]);
 
-  const year =
-    Number(parts[0]);
-
-  const month =
-    Number(parts[1]);
-
-  const day =
-    Number(parts[2]);
-
-
-  const date =
-    new Date(
-      year,
-      month - 1,
-      day
-    );
-
+  const chosen =
+  new Date(y,m-1,d);
 
   if(
-    date.getFullYear() !== year ||
-    date.getMonth() !== month - 1 ||
-    date.getDate() !== day
+    chosen.getFullYear()!==y ||
+    chosen.getMonth()!==m-1 ||
+    chosen.getDate()!==d
   ){
 
-    showDateError(
-      "التاريخ غير موجود. عدله قبل المتابعة."
-    );
-
+    showDateError("التاريخ غير موجود.");
     return false;
-
   }
 
+  const today=new Date();
 
-  const today =
-    new Date();
+  today.setHours(0,0,0,0);
 
-
-  today.setHours(
-    0,0,0,0
-  );
-
-
-  if(date > today){
+  if(chosen>today){
 
     showDateError(
       "ما تقدر تختار تاريخ مستقبلي."
     );
 
     return false;
-
   }
 
-
   return true;
-
 }
 
 
 function showDateError(text){
 
-  const error =
-    document
-    .getElementById(
-      "dateError"
-    );
+  const box =
+  document.getElementById("dateError");
 
+  box.textContent=text;
 
-  const input =
-    document
-    .getElementById(
-      "giftDate"
-    );
+  box.style.display="block";
 
-
-  error.textContent =
-    text;
-
-  error.style.display =
-    "block";
-
-
-  input.scrollIntoView({
+  document.getElementById("giftDate")
+  .scrollIntoView({
     behavior:"smooth",
     block:"center"
   });
-
-
-  input.focus();
-
 }
 
 
-/* =========================
-   MEDIA VALIDATION
-========================= */
+/* MEDIA SELECTION */
 
-function getMediaSelection(){
+function selectedMedia(){
 
-  if(musicMode === "upload"){
+  if(musicMode==="upload"){
 
     const file =
-      document
-      .getElementById(
-        "mediaFile"
-      )
-      .files[0];
-
+    document.getElementById("mediaFile")
+    .files[0];
 
     if(!file){
+      return {type:"none"};
+    }
+
+    if(file.type.startsWith("video/")){
 
       return {
-        type:"none"
+        type:"storage-video",
+        file
       };
 
     }
 
-
     return {
-
-      type:
-        file.type.startsWith(
-          "video/"
-        )
-        ? "storage-video"
-        : "storage-audio",
-
-      file:file
-
+      type:"storage-audio",
+      file
     };
-
   }
 
 
   const link =
-    document
-    .getElementById(
-      "mediaLink"
-    )
-    .value
-    .trim();
-
+  document.getElementById("mediaLink")
+  .value.trim();
 
   if(!link){
+    return {type:"none"};
+  }
 
-    return {
-      type:"none"
-    };
+  if(!validURL(link)){
 
+    showLinkError(
+      "الرابط غير صحيح."
+    );
+
+    return null;
   }
 
 
-  if(
-    !isValidHttpURL(link) ||
-    isPageLink(link)
-  ){
+  const yt =
+  getYouTubeId(link);
 
-    const error =
-      document
-      .getElementById(
-        "linkError"
-      );
+  if(yt){
 
-
-    error.textContent =
-      "حط رابط مباشر صحيح للصوت أو المقطع.";
-
-    error.style.display =
-      "block";
-
-
-    document
-    .getElementById(
-      "mediaLink"
-    )
-    .focus();
-
-
-    return null;
-
+    return {
+      type:"youtube",
+      videoId:yt
+    };
   }
 
 
@@ -1557,162 +944,109 @@ function getMediaSelection(){
     type:"external",
     url:link
   };
-
 }
 
 
-/* =========================
-   UPLOAD
-========================= */
+function showLinkError(text){
 
-function getExtension(file){
+  const box =
+  document.getElementById("linkError");
 
-  const name =
-    file.name || "";
+  box.textContent=text;
 
+  box.style.display="block";
 
-  const pieces =
-    name.split(".");
-
-
-  if(pieces.length > 1){
-
-    return pieces
-    .pop()
-    .toLowerCase();
-
-  }
-
-
-  if(file.type.includes("jpeg")){
-    return "jpg";
-  }
-
-  if(file.type.includes("png")){
-    return "png";
-  }
-
-  if(file.type.includes("mp4")){
-    return "mp4";
-  }
-
-  if(file.type.includes("mpeg")){
-    return "mp3";
-  }
-
-  return "bin";
-
+  document.getElementById("mediaLink").focus();
 }
 
 
-async function uploadFile(
-  file,
-  path
-){
+/* STORAGE */
 
-  const {
-    error
-  } =
-    await supabaseClient
-    .storage
-    .from("gift-media")
-    .upload(
-      path,
-      file,
-      {
-        cacheControl:"3600",
-        upsert:false,
-        contentType:
-          file.type ||
-          undefined
-      }
-    );
+function extension(file){
 
+  const name=file.name || "";
+
+  if(name.includes(".")){
+    return name.split(".").pop().toLowerCase();
+  }
+
+  if(file.type.includes("jpeg"))return"jpg";
+  if(file.type.includes("png"))return"png";
+  if(file.type.includes("mp4"))return"mp4";
+  if(file.type.includes("mpeg"))return"mp3";
+  if(file.type.includes("audio"))return"m4a";
+
+  return"bin";
+}
+
+
+async function upload(file,path){
+
+  const {error} =
+  await supabaseClient
+  .storage
+  .from("gift-media")
+  .upload(
+    path,
+    file,
+    {
+      upsert:false,
+      contentType:file.type || undefined
+    }
+  );
 
   if(error){
-
     throw error;
-
   }
 
-
   return path;
-
 }
 
 
-/* =========================
-   CONTINUE
-========================= */
+/* SAVE */
 
-async function continueNext(){
+document.getElementById("nextBtn")
+.addEventListener("click",saveGift);
+
+
+async function saveGift(){
 
   const receiver =
-    document
-    .getElementById(
-      "receiver"
-    )
-    .value
-    .trim();
-
+  document.getElementById("receiver")
+  .value.trim();
 
   const sender =
-    document
-    .getElementById(
-      "sender"
-    )
-    .value
-    .trim();
-
+  document.getElementById("sender")
+  .value.trim();
 
   const message =
-    document
-    .getElementById(
-      "message"
-    )
-    .value
-    .trim();
-
+  document.getElementById("message")
+  .value.trim();
 
   const giftDate =
-    document
-    .getElementById(
-      "giftDate"
-    )
-    .value;
+  document.getElementById("giftDate")
+  .value;
 
 
   if(!receiver){
 
-    alert(
-      "اكتب اسم المستلم."
-    );
+    alert("اكتب اسم المستلم.");
 
-    document
-    .getElementById(
-      "receiver"
-    )
+    document.getElementById("receiver")
     .focus();
 
     return;
-
   }
 
 
   if(!message){
 
-    alert(
-      "اكتب رسالة الهدية."
-    );
+    alert("اكتب رسالة الهدية.");
 
-    document
-    .getElementById(
-      "message"
-    )
+    document.getElementById("message")
     .focus();
 
     return;
-
   }
 
 
@@ -1722,288 +1056,183 @@ async function continueNext(){
 
 
   const media =
-    getMediaSelection();
+  selectedMedia();
 
-
-  if(media === null){
+  if(media===null){
     return;
   }
 
 
   const photos =
-    Array.from(
-      document
-      .getElementById(
-        "photos"
-      )
-      .files || []
-    );
+  Array.from(
+    document.getElementById("photos")
+    .files || []
+  );
 
 
-  if(
-    photos.length >
-    planData[plan]
-    .photoLimit
-  ){
+  if(photos.length>plans[plan].photos){
 
-    alert(
-      "عدد الصور أكبر من الحد المسموح في باقتك."
-    );
-
+    alert("عدد الصور أكبر من الحد المسموح.");
     return;
-
   }
 
 
-  const nextBtn =
-    document
-    .getElementById(
-      "nextBtn"
-    );
-
+  const button =
+  document.getElementById("nextBtn");
 
   const status =
-    document
-    .getElementById(
-      "status"
-    );
+  document.getElementById("status");
 
+  button.disabled=true;
 
-  nextBtn.disabled =
-    true;
+  button.textContent="جاري تجهيز هديتك...";
 
+  status.style.display="block";
 
-  nextBtn.textContent =
-    "جاري حفظ هديتك...";
-
-
-  status.style.display =
-    "block";
-
-
-  status.textContent =
-    "لحظة، نجهز ملفات هديتك ♡";
+  status.textContent="لحظة ♡";
 
 
   try{
 
     const giftToken =
-      crypto.randomUUID();
+    crypto.randomUUID();
 
 
     const orderNumber =
-      "LHZ-" +
-      Date.now()
-      .toString()
-      .slice(-7) +
-      "-" +
-      Math.floor(
-        1000 +
-        Math.random() *
-        9000
-      );
+    "LHZ-"+
+    Date.now().toString().slice(-7)+
+    "-"+
+    Math.floor(1000+Math.random()*9000);
 
 
-    /* الصور */
-
-    const photoPaths =
-      [];
+    const photoPaths=[];
 
 
-    for(
-      let i = 0;
-      i < photos.length;
-      i++
-    ){
+    for(let i=0;i<photos.length;i++){
 
       status.textContent =
-        "جاري رفع الصور " +
-        (i + 1) +
-        " من " +
-        photos.length +
-        "...";
+      "جاري رفع الصورة "+
+      (i+1)+
+      " من "+
+      photos.length;
 
-
-      const file =
-        photos[i];
-
-
-      const extension =
-        getExtension(
-          file
-        );
-
+      const file=photos[i];
 
       const path =
-        giftToken +
-        "/photos/" +
-        crypto.randomUUID() +
-        "." +
-        extension;
+      giftToken+
+      "/photos/"+
+      crypto.randomUUID()+
+      "."+
+      extension(file);
 
+      await upload(file,path);
 
-      const uploadedPath =
-        await uploadFile(
-          file,
-          path
-        );
-
-
-      photoPaths.push(
-        uploadedPath
-      );
-
+      photoPaths.push(path);
     }
 
 
-    /* الأغنية أو المقطع */
-
-    let mediaValue =
-      null;
+    let mediaValue=null;
 
 
     if(
-      media.type ===
-      "storage-audio" ||
-      media.type ===
-      "storage-video"
+      media.type==="storage-audio" ||
+      media.type==="storage-video"
     ){
 
-      status.textContent =
-        "جاري رفع الأغنية أو المقطع...";
+      status.textContent=
+      "جاري رفع الأغنية...";
 
+      const path =
+      giftToken+
+      "/media/"+
+      crypto.randomUUID()+
+      "."+
+      extension(media.file);
 
-      const extension =
-        getExtension(
-          media.file
-        );
-
-
-      const mediaPath =
-        giftToken +
-        "/media/" +
-        crypto.randomUUID() +
-        "." +
-        extension;
-
-
-      await uploadFile(
+      await upload(
         media.file,
-        mediaPath
+        path
       );
 
-
       mediaValue =
-        media.type +
-        ":" +
-        mediaPath;
-
-    }else if(
-      media.type ===
-      "external"
-    ){
-
-      mediaValue =
-        "external:" +
-        media.url;
+      media.type+":"+path;
 
     }
 
 
-    status.textContent =
-      "جاري إنشاء طلبك...";
+    else if(media.type==="youtube"){
+
+      mediaValue =
+      "youtube:"+media.videoId;
+
+    }
 
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-      .from("orders")
-      .insert({
+    else if(media.type==="external"){
 
-        order_number:
-          orderNumber,
+      mediaValue =
+      "external:"+media.url;
 
-        receiver:
-          receiver,
+    }
 
-        sender:
-          sender || null,
 
-        message:
-          message,
+    status.textContent=
+    "جاري إنشاء الطلب...";
 
-        gift_date:
-          giftDate || null,
 
-        occasion:
-          occasion,
+    const {error} =
+    await supabaseClient
+    .from("orders")
+    .insert({
 
-        plan:
-          plan,
+      order_number:orderNumber,
 
-        theme:
-          selectedTheme,
+      receiver,
 
-        price:
-          planData[plan].price,
+      sender:sender || null,
 
-        status:
-          "pending",
+      message,
 
-        gift_token:
-          giftToken,
+      gift_date:
+      giftDate || null,
 
-        photos:
-          photoPaths,
+      occasion,
 
-        audio_url:
-          mediaValue
+      plan,
 
-      })
-      .select(
-        "id,order_number,gift_token,status"
-      )
-      .single();
+      theme,
+
+      price:plans[plan].price,
+
+      status:"pending",
+
+      gift_token:giftToken,
+
+      photos:photoPaths,
+
+      audio_url:mediaValue
+
+    });
 
 
     if(error){
-
-      console.error(
-        "Order error:",
-        error
-      );
-
       throw error;
-
     }
-
-
-    const giftLocal = {
-
-      receiver,
-      sender,
-      message,
-      date:giftDate,
-      occasion,
-      plan,
-      theme:selectedTheme,
-      price:
-        planData[plan].price,
-      orderNumber:
-        orderNumber,
-      giftToken:
-        giftToken
-
-    };
 
 
     localStorage.setItem(
       "lahzaGift",
-      JSON.stringify(
-        giftLocal
-      )
+      JSON.stringify({
+        receiver,
+        sender,
+        message,
+        occasion,
+        plan,
+        theme,
+        price:plans[plan].price,
+        orderNumber,
+        giftToken
+      })
     );
 
 
@@ -2019,55 +1248,35 @@ async function continueNext(){
     );
 
 
-    status.textContent =
-      "تم حفظ هديتك ✓";
-
-
-    window.location.href =
-      "checkout.html";
+    window.location.href=
+    "checkout.html";
 
 
   }catch(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
+    status.textContent=
+    "ما قدرنا نحفظ هديتك. حاول مرة ثانية.";
 
-    status.textContent =
-      "ما قدرنا نحفظ هديتك الآن. حاول مرة ثانية.";
+    button.disabled=false;
 
-
-    nextBtn.disabled =
-      false;
-
-
-    nextBtn.textContent =
-      "متابعة للدفع ←";
+    button.textContent=
+    "متابعة للدفع ←";
 
   }
-
 }
 
 
-/* =========================
-   CLEANUP
-========================= */
-
 window.addEventListener(
-  "beforeunload",
-  function(){
+"beforeunload",
+()=>{
 
-    if(previewObjectURL){
-
-      URL.revokeObjectURL(
-        previewObjectURL
-      );
-
-    }
-
+  if(previewURL){
+    URL.revokeObjectURL(previewURL);
   }
-);
+
+});
 
 
 init();
