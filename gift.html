@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08070b">
-
 <title>لحظة خاصة ♡ | LAHZA</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -29,49 +27,48 @@ body{
   background:#08070b;
 }
 
-
 /* =========================
    THEMES
 ========================= */
 
 body.romantic{
   --accent:#ff5d91;
-  --accent2:#ffacc6;
-  --soft:rgba(255,93,145,.14);
+  --accent2:#ffc0d4;
+  --soft:rgba(255,93,145,.13);
   --border:rgba(255,150,185,.15);
 
   background:
-    radial-gradient(circle at 50% 0,#421225 0,#16090f 36%,#08070b 72%);
+  radial-gradient(circle at 50% 0,#421225 0,#17090f 36%,#08070b 72%);
 }
 
 body.midnight{
-  --accent:#a991ff;
-  --accent2:#d6cbff;
-  --soft:rgba(150,125,255,.14);
+  --accent:#a78fff;
+  --accent2:#ddd4ff;
+  --soft:rgba(145,120,255,.13);
   --border:rgba(180,165,255,.15);
 
   background:
-    radial-gradient(circle at 50% 0,#272452 0,#101020 40%,#07070c 75%);
+  radial-gradient(circle at 50% 0,#292555 0,#101020 40%,#07070c 75%);
 }
 
 body.sunset{
-  --accent:#ff966f;
-  --accent2:#ffd0ae;
-  --soft:rgba(255,145,105,.14);
+  --accent:#ff956c;
+  --accent2:#ffd0ad;
+  --soft:rgba(255,145,100,.13);
   --border:rgba(255,180,140,.15);
 
   background:
-    radial-gradient(circle at 50% 0,#65303d 0,#211017 40%,#08070b 75%);
+  radial-gradient(circle at 50% 0,#66303d 0,#211017 40%,#08070b 75%);
 }
 
 body.minimal{
   --accent:#fff;
   --accent2:#ddd;
-  --soft:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.13);
+  --soft:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.12);
 
   background:
-    radial-gradient(circle at top,#242424,#0d0d0d 55%,#060606);
+  radial-gradient(circle at top,#242424,#0d0d0d 55%,#060606);
 }
 
 
@@ -84,64 +81,30 @@ body.minimal{
   inset:0;
   pointer-events:none;
   overflow:hidden;
-  z-index:0;
 }
 
-.blur{
+.orb{
   position:absolute;
   border-radius:50%;
   filter:blur(90px);
 }
 
-.blur.one{
+.orb.one{
   width:300px;
   height:300px;
   right:-130px;
-  top:60px;
+  top:50px;
   background:var(--accent);
   opacity:.13;
 }
 
-.blur.two{
+.orb.two{
   width:260px;
   height:260px;
   left:-130px;
-  top:55%;
+  top:60%;
   background:var(--accent2);
-  opacity:.07;
-}
-
-.floatIcon{
-  position:absolute;
-  color:var(--accent);
-  opacity:.10;
-  animation:float 8s ease-in-out infinite;
-}
-
-.floatIcon.a{
-  left:8%;
-  top:17%;
-  font-size:25px;
-}
-
-.floatIcon.b{
-  right:8%;
-  top:38%;
-  font-size:20px;
-  animation-delay:2s;
-}
-
-.floatIcon.c{
-  left:10%;
-  top:72%;
-  font-size:18px;
-  animation-delay:4s;
-}
-
-@keyframes float{
-  50%{
-    transform:translateY(-24px) rotate(8deg);
-  }
+  opacity:.06;
 }
 
 
@@ -151,21 +114,20 @@ body.minimal{
 
 .page{
   position:relative;
-  z-index:2;
   width:min(91%,680px);
   margin:auto;
+
   padding:
-    max(28px,env(safe-area-inset-top))
-    0
-    max(50px,env(safe-area-inset-bottom));
+  max(28px,env(safe-area-inset-top))
+  0
+  max(50px,env(safe-area-inset-bottom));
 }
 
 .logo{
   text-align:center;
   font-size:29px;
   font-weight:950;
-  letter-spacing:.5px;
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .logo span{
@@ -177,23 +139,18 @@ body.minimal{
    LOADING
 ========================= */
 
-.loading{
-  min-height:70vh;
+.centerScreen{
+  min-height:72vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
+  text-align:center;
 }
 
 .loadingHeart{
-  color:var(--accent);
   font-size:46px;
+  color:var(--accent);
   animation:beat 1.2s infinite;
-}
-
-.loading p{
-  color:#777;
-  margin-top:14px;
 }
 
 @keyframes beat{
@@ -207,66 +164,61 @@ body.minimal{
    LOCKED
 ========================= */
 
-.locked{
+#locked{
   display:none;
-  min-height:70vh;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
 }
 
-.lockedInside{
+.lockCard{
   width:100%;
-  padding:42px 22px;
+  padding:40px 22px;
   border-radius:30px;
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.09);
 }
 
-.lockedIcon{
-  font-size:55px;
+.lockCard .icon{
+  font-size:52px;
 }
 
-.locked h1{
-  margin:15px 0 10px;
+.lockCard h1{
+  margin:15px 0 8px;
 }
 
-.locked p{
-  color:#777;
+.lockCard p{
+  margin:0;
+  color:#817a83;
   line-height:1.8;
 }
 
 
 /* =========================
-   CLOSED
+   CLOSED GIFT
 ========================= */
 
-.closed{
+#closed{
   display:none;
-  min-height:76vh;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
 }
 
-.closedContent{
+.closedInside{
   width:100%;
 }
 
-.closedSmall{
-  color:#99919a;
+.pre{
+  color:#a097a1;
   font-size:16px;
 }
 
 .closedName{
-  font-size:clamp(38px,10vw,61px);
-  margin:10px 0 28px;
+  font-size:clamp(40px,11vw,64px);
   font-weight:950;
+  margin:10px 0 27px;
   overflow-wrap:anywhere;
 }
 
 .closedName span{
-  color:var(--accent2);
+  background:linear-gradient(135deg,#fff,var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 .envelopeArea{
@@ -277,21 +229,21 @@ body.minimal{
   justify-content:center;
 }
 
-.envelopeGlow{
+.glow{
   position:absolute;
   width:150px;
   height:150px;
   border-radius:50%;
   background:var(--accent);
-  opacity:.16;
   filter:blur(45px);
+  opacity:.17;
   animation:glow 2s infinite ease-in-out;
 }
 
 .envelope{
   position:relative;
   font-size:100px;
-  animation:envelopeMove 3s infinite ease-in-out;
+  animation:float 3s infinite ease-in-out;
 }
 
 @keyframes glow{
@@ -301,39 +253,37 @@ body.minimal{
   }
 }
 
-@keyframes envelopeMove{
+@keyframes float{
   50%{
     transform:translateY(-9px) rotate(-2deg);
   }
 }
 
-.closedMessage{
-  margin:18px 0 23px;
-  color:#aaa2ab;
+.closedText{
+  color:#a39ba4;
   line-height:1.8;
-  font-size:16px;
+  margin:16px 0 23px;
 }
 
 .openBtn{
   width:min(100%,350px);
-  padding:18px;
   border:0;
   border-radius:21px;
-  background:linear-gradient(135deg,var(--accent),#ff437c);
+  padding:18px;
   color:white;
+  background:linear-gradient(135deg,var(--accent),#ff477e);
   font-size:18px;
   font-weight:950;
-  box-shadow:0 15px 45px rgba(255,70,125,.20);
   cursor:pointer;
 }
 
-body.midnight .openBtn{
-  background:linear-gradient(135deg,#755dff,#a892ff);
+.midnight .openBtn{
+  background:linear-gradient(135deg,#725cff,#a990ff);
 }
 
-body.minimal .openBtn{
-  color:#090909;
+.minimal .openBtn{
   background:white;
+  color:#090909;
 }
 
 
@@ -341,19 +291,20 @@ body.minimal .openBtn{
    STORY
 ========================= */
 
-.story{
+#story{
   display:none;
 }
 
-.storySection{
+.part{
   opacity:0;
-  transform:translateY(35px) scale(.985);
+  transform:translateY(32px) scale(.985);
+
   transition:
-    opacity 1.25s ease,
-    transform 1.25s cubic-bezier(.2,.8,.2,1);
+  opacity 1.3s ease,
+  transform 1.3s cubic-bezier(.2,.8,.2,1);
 }
 
-.storySection.show{
+.part.show{
   opacity:1;
   transform:none;
 }
@@ -364,7 +315,7 @@ body.minimal .openBtn{
 ========================= */
 
 .intro{
-  min-height:61vh;
+  min-height:65vh;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -372,27 +323,25 @@ body.minimal .openBtn{
 }
 
 .introSmall{
-  color:#aaa1aa;
-  font-size:17px;
+  color:#a69da7;
+  font-size:16px;
 }
 
-.bigName{
-  font-size:clamp(48px,13vw,76px);
-  margin:12px 0 17px;
+.receiver{
+  font-size:clamp(49px,13vw,76px);
   font-weight:950;
+  margin:12px 0 17px;
   overflow-wrap:anywhere;
 }
 
-.bigName span{
+.receiver span{
   background:linear-gradient(135deg,#fff,var(--accent2));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 .occasion{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  display:inline-block;
   padding:11px 20px;
   border-radius:100px;
   color:var(--accent2);
@@ -406,13 +355,13 @@ body.minimal .openBtn{
    MESSAGE
 ========================= */
 
-.messageArea{
-  padding:65px 0 45px;
+.messageSection{
+  padding:70px 0;
 }
 
-.sectionTiny{
+.tiny{
   text-align:center;
-  color:#817981;
+  color:#807981;
   font-size:13px;
   margin-bottom:15px;
 }
@@ -420,27 +369,26 @@ body.minimal .openBtn{
 .messageCard{
   position:relative;
   overflow:hidden;
-  padding:39px 25px;
+  padding:40px 24px;
   border-radius:31px;
   text-align:center;
-  background:rgba(255,255,255,.055);
+  background:rgba(255,255,255,.05);
   border:1px solid var(--border);
   backdrop-filter:blur(22px);
 }
 
-.messageQuote{
+.quote{
   position:absolute;
-  right:20px;
-  top:-30px;
-  font-size:130px;
+  right:18px;
+  top:-35px;
   font-family:Georgia,serif;
+  font-size:140px;
   color:var(--accent);
-  opacity:.06;
+  opacity:.055;
 }
 
-.messageText{
+.message{
   position:relative;
-  z-index:2;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
   font-size:clamp(21px,5.5vw,29px);
@@ -454,77 +402,75 @@ body.minimal .openBtn{
 
 .memories{
   display:none;
-  padding:55px 0;
+  padding:65px 0;
 }
 
-.memoriesTitle{
+.memoriesHeader{
   text-align:center;
   margin-bottom:20px;
 }
 
-.memoriesTitle small{
-  color:#817b83;
+.memoriesHeader small{
+  color:#817a82;
 }
 
-.memoriesTitle h2{
+.memoriesHeader h2{
   margin:7px 0 0;
   font-size:27px;
 }
 
 .photoStage{
   position:relative;
-  width:100%;
   overflow:hidden;
   border-radius:32px;
-  background:#080709;
+  min-height:350px;
+  background:#050506;
   border:1px solid var(--border);
-  min-height:360px;
-  box-shadow:0 24px 70px rgba(0,0,0,.32);
 }
 
-.photoSlide{
+.slide{
   position:absolute;
   inset:0;
   opacity:0;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   transition:opacity 1.8s ease;
 }
 
-.photoSlide.active{
+.slide.active{
   position:relative;
   opacity:1;
   z-index:2;
 }
 
-.photoSlide img{
-  display:block;
+.slide img{
   width:100%;
+  min-height:350px;
   max-height:600px;
-  min-height:360px;
+  display:block;
   object-fit:contain;
-  transform:scale(1);
 }
 
-.photoSlide.active img{
-  animation:slowZoom 7s linear forwards;
+.slide.active img{
+  animation:photoMotion 7s linear forwards;
 }
 
-@keyframes slowZoom{
+@keyframes photoMotion{
   from{
     transform:scale(1);
   }
+
   to{
     transform:scale(1.055);
   }
 }
 
-.photoCounter{
+.counter{
+  margin-top:13px;
   text-align:center;
   color:#706a72;
   font-size:12px;
-  margin-top:13px;
 }
 
 
@@ -534,26 +480,26 @@ body.minimal .openBtn{
 
 .dateSection{
   display:none;
-  padding:60px 0;
+  padding:65px 0;
   text-align:center;
 }
 
 .dateHeart{
-  font-size:35px;
   color:var(--accent);
-  margin-bottom:15px;
+  font-size:35px;
 }
 
 .dateLabel{
   color:#817a82;
+  margin-top:10px;
   font-size:13px;
 }
 
 .dateValue{
-  margin-top:9px;
-  color:var(--accent2);
-  font-size:25px;
+  margin-top:8px;
+  font-size:26px;
   font-weight:900;
+  color:var(--accent2);
 }
 
 
@@ -563,70 +509,151 @@ body.minimal .openBtn{
 
 .mediaSection{
   display:none;
-  padding:35px 0;
+  padding:60px 0;
 }
 
 .musicCard{
-  padding:17px;
-  border-radius:24px;
-  background:rgba(255,255,255,.05);
   border:1px solid var(--border);
+  background:rgba(255,255,255,.05);
+  border-radius:26px;
+  overflow:hidden;
 }
 
-.musicRow{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
-.musicIcon{
-  flex:0 0 58px;
-  width:58px;
-  height:58px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:18px;
-  background:var(--soft);
-  color:var(--accent2);
-  font-size:26px;
-}
-
-.musicText{
-  min-width:0;
-  flex:1;
-}
-
-.musicText small{
-  color:#77717a;
-}
-
-.musicText strong{
-  display:block;
-  margin-top:3px;
-}
-
-.musicButton{
-  flex:0 0 47px;
-  width:47px;
-  height:47px;
+.musicTrigger{
+  width:100%;
   border:0;
-  border-radius:50%;
-  background:white;
-  color:#090909;
-  font-size:18px;
+  background:transparent;
+  color:#fff;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-align:right;
   cursor:pointer;
 }
 
-.videoBox{
+.musicIcon{
+  width:60px;
+  height:60px;
+  flex:0 0 60px;
+  border-radius:19px;
+  background:var(--soft);
+  color:var(--accent2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+}
+
+.musicInfo{
+  flex:1;
+  min-width:0;
+}
+
+.musicInfo small{
+  color:#807982;
+}
+
+.musicInfo strong{
+  display:block;
+  margin-top:4px;
+  font-size:16px;
+}
+
+.playCircle{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  border-radius:50%;
+  background:#fff;
+  color:#090909;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
+}
+
+.youtubeWrap{
+  display:none;
+  padding:0 14px 14px;
+}
+
+.youtubeFrame{
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:19px;
+  background:#000;
+}
+
+.videoWrap{
   display:none;
 }
 
-.videoBox video{
+.videoWrap video{
   width:100%;
-  max-height:520px;
-  border-radius:22px;
+  max-height:540px;
+  border-radius:25px;
   background:#000;
+}
+
+audio{
+  display:none;
+}
+
+
+/* =========================
+   MUSIC OPENING
+========================= */
+
+.musicOpening{
+  display:none;
+  min-height:72vh;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.musicOpening.showOpening{
+  display:flex;
+}
+
+.musicOpeningInner{
+  width:100%;
+}
+
+.musicOpeningIcon{
+  width:110px;
+  height:110px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--soft);
+  border:1px solid var(--border);
+  font-size:42px;
+  color:var(--accent2);
+  animation:musicPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes musicPulse{
+  50%{
+    transform:scale(1.08);
+    box-shadow:0 0 45px var(--soft);
+  }
+}
+
+.musicOpening h2{
+  margin:24px 0 8px;
+  font-size:28px;
+}
+
+.musicOpening p{
+  margin:0;
+  color:#8d858e;
+  line-height:1.8;
 }
 
 
@@ -635,23 +662,24 @@ body.minimal .openBtn{
 ========================= */
 
 .senderSection{
-  padding:80px 0 30px;
+  padding:70px 0 25px;
   text-align:center;
 }
 
 .senderSmall{
-  color:#817a83;
+  color:#817a82;
 }
 
 .senderHeart{
+  font-size:28px;
   color:var(--accent);
-  font-size:26px;
-  margin:13px 0;
+  margin:13px;
 }
 
 .sender{
+  margin-top:8px;
   color:var(--accent2);
-  font-size:34px;
+  font-size:35px;
   font-weight:950;
   overflow-wrap:anywhere;
 }
@@ -661,12 +689,12 @@ body.minimal .openBtn{
    END
 ========================= */
 
-.endSection{
+.end{
   padding:35px 0;
   text-align:center;
 }
 
-.shareBtn{
+.share{
   padding:14px 22px;
   border-radius:17px;
   border:1px solid rgba(255,255,255,.12);
@@ -677,28 +705,27 @@ body.minimal .openBtn{
 }
 
 .footer{
-  text-align:center;
+  margin-top:50px;
   color:#514b53;
   font-size:13px;
-  margin-top:50px;
 }
 
 
 /* =========================
-   HEART CELEBRATION
+   CELEBRATION
 ========================= */
 
 .celebration{
   position:fixed;
   inset:0;
-  overflow:hidden;
   pointer-events:none;
+  overflow:hidden;
   z-index:100;
 }
 
 .fly{
   position:absolute;
-  bottom:-40px;
+  bottom:-35px;
   color:var(--accent);
   animation:fly 3.2s ease-out forwards;
 }
@@ -719,47 +746,36 @@ body.minimal .openBtn{
   }
 }
 
-
 @media(max-width:520px){
-
-  .messageCard{
-    padding:34px 20px;
-  }
 
   .photoStage{
     min-height:280px;
   }
 
-  .photoSlide img{
+  .slide img{
     min-height:280px;
   }
 
-}
+  .messageCard{
+    padding:35px 19px;
+  }
 
+}
 </style>
 </head>
 
+
 <body class="romantic">
 
-
 <div class="bg">
-  <div class="blur one"></div>
-  <div class="blur two"></div>
-
-  <div class="floatIcon a">♡</div>
-  <div class="floatIcon b">✦</div>
-  <div class="floatIcon c">♡</div>
+  <div class="orb one"></div>
+  <div class="orb two"></div>
 </div>
 
-
-<div
-  id="celebration"
-  class="celebration">
-</div>
+<div id="celebration" class="celebration"></div>
 
 
 <main class="page">
-
 
 <div class="logo">
   <span>♡</span> LAHZA
@@ -768,30 +784,30 @@ body.minimal .openBtn{
 
 <!-- LOADING -->
 
-<section
-  id="loading"
-  class="loading">
+<section id="loading" class="centerScreen">
 
-  <div class="loadingHeart">
-    ♡
+  <div>
+
+    <div class="loadingHeart">
+      ♡
+    </div>
+
+    <p style="color:#777">
+      نجهز لحظتك...
+    </p>
+
   </div>
-
-  <p>
-    نجهز لحظتك...
-  </p>
 
 </section>
 
 
 <!-- LOCKED -->
 
-<section
-  id="locked"
-  class="locked">
+<section id="locked" class="centerScreen">
 
-  <div class="lockedInside">
+  <div class="lockCard">
 
-    <div class="lockedIcon">
+    <div class="icon">
       🔒
     </div>
 
@@ -811,25 +827,22 @@ body.minimal .openBtn{
 
 <!-- CLOSED -->
 
-<section
-  id="closed"
-  class="closed">
+<section id="closed" class="centerScreen">
 
-  <div class="closedContent">
+  <div class="closedInside">
 
-    <div class="closedSmall">
+    <div class="pre">
       فيه لحظة انصنعت مخصوص لك
     </div>
 
-    <h1 class="closedName">
+    <div class="closedName">
       إلى
       <span id="closedReceiver"></span>
-    </h1>
-
+    </div>
 
     <div class="envelopeArea">
 
-      <div class="envelopeGlow"></div>
+      <div class="glow"></div>
 
       <div class="envelope">
         💌
@@ -837,19 +850,50 @@ body.minimal .openBtn{
 
     </div>
 
-
-    <div class="closedMessage">
+    <div class="closedText">
       لا تستعجل...<br>
       افتحها وخلك مع اللحظة ♡
     </div>
 
-
     <button
       id="openBtn"
-      class="openBtn"
-      type="button">
+      class="openBtn">
+
       افتح هديتك ♡
+
     </button>
+
+  </div>
+
+</section>
+
+
+<!-- MUSIC OPENING -->
+
+<section
+  id="musicOpening"
+  class="musicOpening">
+
+  <div class="musicOpeningInner">
+
+    <div class="musicOpeningIcon">
+      ♪
+    </div>
+
+    <h2>
+      أغنية هاللحظة ♡
+    </h2>
+
+    <p>
+      خلي الموسيقى تبدأ...
+      <br>
+      وبعدها تبدأ الحكاية.
+    </p>
+
+    <div
+      id="youtubeOpening"
+      style="display:none;margin-top:22px">
+    </div>
 
   </div>
 
@@ -858,245 +902,260 @@ body.minimal .openBtn{
 
 <!-- STORY -->
 
+<section id="story">
+
+
+<!-- INTRO -->
+
 <section
-  id="story"
-  class="story">
+  id="intro"
+  class="intro part">
+
+  <div>
+
+    <div class="introSmall">
+      هذه اللحظة انصنعت إلى
+    </div>
+
+    <div class="receiver">
+
+      <span id="receiver"></span>
+      ♡
+
+    </div>
+
+    <div
+      id="occasion"
+      class="occasion">
+    </div>
+
+  </div>
+
+</section>
 
 
-  <!-- NAME -->
+<!-- MESSAGE -->
+
+<section
+  id="messagePart"
+  class="messageSection part">
+
+  <div class="tiny">
+    فيه كلام لازم يوصلك...
+  </div>
+
+  <div class="messageCard">
+
+    <div class="quote">
+      “
+    </div>
+
+    <div
+      id="message"
+      class="message">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- PHOTOS -->
+
+<section
+  id="memories"
+  class="memories part">
+
+  <div class="memoriesHeader">
+
+    <small>
+      وبعض اللحظات ما تحتاج كلام
+    </small>
+
+    <h2>
+      ذكرياتكم ♡
+    </h2>
+
+  </div>
 
   <div
-    id="introSection"
-    class="intro storySection">
+    id="photoStage"
+    class="photoStage">
+  </div>
 
-    <div>
+  <div
+    id="counter"
+    class="counter">
+  </div>
 
-      <div class="introSmall">
-        هذه اللحظة انصنعت إلى
+</section>
+
+
+<!-- DATE -->
+
+<section
+  id="datePart"
+  class="dateSection part">
+
+  <div class="dateHeart">
+    ♡
+  </div>
+
+  <div class="dateLabel">
+    تاريخ له معنى
+  </div>
+
+  <div
+    id="giftDate"
+    class="dateValue">
+  </div>
+
+</section>
+
+
+<!-- MEDIA -->
+
+<section
+  id="mediaPart"
+  class="mediaSection part">
+
+  <div
+    id="musicCard"
+    class="musicCard">
+
+    <button
+      id="musicTrigger"
+      class="musicTrigger">
+
+      <div class="musicIcon">
+        ♪
       </div>
 
-      <div class="bigName">
-        <span id="receiver"></span>
-        ♡
+      <div class="musicInfo">
+
+        <small>
+          أغنية هاللحظة
+        </small>
+
+        <strong id="musicText">
+          الأغنية شغالة ♡
+        </strong>
+
       </div>
 
       <div
-        id="occasion"
-        class="occasion">
+        id="playIcon"
+        class="playCircle">
+        ❚❚
       </div>
 
+    </button>
+
+    <div
+      id="youtubeWrap"
+      class="youtubeWrap">
     </div>
 
   </div>
 
 
-  <!-- MESSAGE -->
+  <div
+    id="videoWrap"
+    class="videoWrap">
 
-  <section
-    id="messageSection"
-    class="messageArea storySection">
-
-    <div class="sectionTiny">
-      فيه كلام لازم يوصلك...
-    </div>
-
-    <div class="messageCard">
-
-      <div class="messageQuote">
-        “
-      </div>
-
-      <div
-        id="message"
-        class="messageText">
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- PHOTOS -->
-
-  <section
-    id="memoriesSection"
-    class="memories storySection">
-
-    <div class="memoriesTitle">
-
-      <small>
-        وبعض اللحظات ما تحتاج كلام
-      </small>
-
-      <h2>
-        ذكرياتكم ♡
-      </h2>
-
-    </div>
-
-    <div
-      id="photoStage"
-      class="photoStage">
-    </div>
-
-    <div
-      id="photoCounter"
-      class="photoCounter">
-    </div>
-
-  </section>
-
-
-  <!-- DATE -->
-
-  <section
-    id="dateSection"
-    class="dateSection storySection">
-
-    <div class="dateHeart">
-      ♡
-    </div>
-
-    <div class="dateLabel">
-      تاريخ له معنى
-    </div>
-
-    <div
-      id="giftDate"
-      class="dateValue">
-    </div>
-
-  </section>
-
-
-  <!-- MUSIC / VIDEO -->
-
-  <section
-    id="mediaSection"
-    class="mediaSection storySection">
-
-    <div
-      id="musicCard"
-      class="musicCard">
-
-      <div class="musicRow">
-
-        <div class="musicIcon">
-          ♪
-        </div>
-
-        <div class="musicText">
-
-          <small>
-            صوت هاللحظة
-          </small>
-
-          <strong>
-            اخترناه مخصوص لك ♡
-          </strong>
-
-        </div>
-
-        <button
-          id="musicButton"
-          class="musicButton"
-          type="button">
-          ❚❚
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      id="videoBox"
-      class="videoBox">
-
-      <video
-        id="giftVideo"
-        controls
-        playsinline>
-      </video>
-
-    </div>
-
-
-    <audio
-      id="giftAudio"
-      preload="auto"
+    <video
+      id="giftVideo"
+      controls
       playsinline>
-    </audio>
+    </video>
 
-  </section>
-
-
-  <!-- SENDER -->
-
-  <section
-    id="senderSection"
-    class="senderSection storySection">
-
-    <div class="senderSmall">
-      وفي النهاية...
-    </div>
-
-    <div class="senderHeart">
-      ♡
-    </div>
-
-    <div class="senderSmall">
-      هاللحظة كانت من
-    </div>
-
-    <div
-      id="sender"
-      class="sender">
-    </div>
-
-  </section>
+  </div>
 
 
-  <!-- SHARE -->
-
-  <section
-    id="endSection"
-    class="endSection storySection">
-
-    <button
-      id="shareButton"
-      class="shareBtn"
-      type="button">
-      مشاركة اللحظة ♡
-    </button>
-
-    <div class="footer">
-      صنعت بحب بواسطة LAHZA ♡
-    </div>
-
-  </section>
-
+  <audio
+    id="giftAudio"
+    preload="auto"
+    playsinline>
+  </audio>
 
 </section>
 
+
+<!-- SENDER -->
+
+<section
+  id="senderPart"
+  class="senderSection part">
+
+  <div class="senderSmall">
+    وفي النهاية...
+  </div>
+
+  <div class="senderHeart">
+    ♡
+  </div>
+
+  <div class="senderSmall">
+    هاللحظة كانت من
+  </div>
+
+  <div
+    id="sender"
+    class="sender">
+  </div>
+
+</section>
+
+
+<!-- END -->
+
+<section
+  id="endPart"
+  class="end part">
+
+  <button
+    id="shareBtn"
+    class="share">
+
+    مشاركة اللحظة ♡
+
+  </button>
+
+  <div class="footer">
+    صنعت بحب بواسطة LAHZA ♡
+  </div>
+
+</section>
+
+
+</section>
 
 </main>
 
 
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
 const SUPABASE_URL =
-  "https://ltuyfewachzbazunuxmd.supabase.co";
+"https://ltuyfewachzbazunuxmd.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+"sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
+
+/* =========================
+   OCCASIONS
+========================= */
 
 const occasionNames = {
 
@@ -1121,38 +1180,45 @@ const occasionNames = {
 };
 
 
-let photoSlides = [];
+/* =========================
+   VARIABLES
+========================= */
+
+let slides = [];
 
 let photoIndex = 0;
 
 let photoTimer = null;
 
-let mediaURLs = [];
+let objectURLs = [];
 
-let musicReady = false;
+
+let mediaType = "none";
+
+let youtubeId = null;
+
+let audioReady = false;
 
 let videoReady = false;
 
+let youtubeStarted = false;
+
 
 /* =========================
-   INITIAL
+   INIT
 ========================= */
 
 async function init(){
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
   const token =
-    params.get("token");
+  new URLSearchParams(
+    location.search
+  ).get("token");
 
 
   if(!token){
 
-    showLocked();
+    locked();
 
     return;
 
@@ -1161,16 +1227,13 @@ async function init(){
 
   try{
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.rpc(
-        "get_paid_gift",
-        {
-          p_token:token
-        }
-      );
+    const {data,error} =
+    await supabaseClient.rpc(
+      "get_paid_gift",
+      {
+        p_token:token
+      }
+    );
 
 
     if(
@@ -1181,15 +1244,14 @@ async function init(){
 
       console.error(error);
 
-      showLocked();
+      locked();
 
       return;
 
     }
 
 
-    const gift =
-      data[0];
+    const gift = data[0];
 
 
     setTheme(
@@ -1197,114 +1259,39 @@ async function init(){
     );
 
 
-    fillText(
+    fillGift(
       gift
     );
 
 
-    await loadPhotos(
-      gift.photos
-    );
+    await Promise.all([
 
+      loadPhotos(
+        gift.photos
+      ),
 
-    await loadMedia(
-      gift.audio_url
-    );
+      loadMedia(
+        gift.audio_url
+      )
+
+    ]);
 
 
     document
     .getElementById("loading")
-    .style.display =
-      "none";
+    .style.display = "none";
 
 
     document
     .getElementById("closed")
-    .style.display =
-      "flex";
+    .style.display = "flex";
 
 
   }catch(error){
 
     console.error(error);
 
-    showLocked();
-
-  }
-
-}
-
-
-/* =========================
-   TEXT
-========================= */
-
-function fillText(gift){
-
-  const receiver =
-    gift.receiver ||
-    "شخص مميز";
-
-
-  document
-  .getElementById("closedReceiver")
-  .textContent =
-    receiver;
-
-
-  document
-  .getElementById("receiver")
-  .textContent =
-    receiver;
-
-
-  document
-  .getElementById("message")
-  .textContent =
-    gift.message ||
-    "هذه اللحظة انصنعت لك ♡";
-
-
-  document
-  .getElementById("sender")
-  .textContent =
-    gift.sender ||
-    "شخص يفكر فيك";
-
-
-  const occasion =
-    document
-    .getElementById("occasion");
-
-
-  if(gift.occasion){
-
-    occasion.textContent =
-      occasionNames[gift.occasion] ||
-      gift.occasion;
-
-  }else{
-
-    occasion.style.display =
-      "none";
-
-  }
-
-
-  if(gift.gift_date){
-
-    document
-    .getElementById("giftDate")
-    .textContent =
-      formatDate(
-        gift.gift_date
-      );
-
-
-    document
-    .getElementById("dateSection")
-    .style.display =
-      "block";
+    locked();
 
   }
 
@@ -1350,21 +1337,91 @@ function setTheme(theme){
 
 
 /* =========================
+   TEXT
+========================= */
+
+function fillGift(gift){
+
+  const receiver =
+  gift.receiver ||
+  "شخص مميز";
+
+
+  document
+  .getElementById("closedReceiver")
+  .textContent =
+  receiver;
+
+
+  document
+  .getElementById("receiver")
+  .textContent =
+  receiver;
+
+
+  document
+  .getElementById("message")
+  .textContent =
+  gift.message ||
+  "هذه اللحظة انصنعت لك ♡";
+
+
+  document
+  .getElementById("sender")
+  .textContent =
+  gift.sender ||
+  "شخص يفكر فيك";
+
+
+  if(gift.occasion){
+
+    document
+    .getElementById("occasion")
+    .textContent =
+    occasionNames[gift.occasion] ||
+    gift.occasion;
+
+  }
+
+
+  if(gift.gift_date){
+
+    document
+    .getElementById("datePart")
+    .style.display =
+    "block";
+
+
+    document
+    .getElementById("giftDate")
+    .textContent =
+    formatDate(
+      gift.gift_date
+    );
+
+  }
+
+}
+
+
+/* =========================
    PHOTOS
 ========================= */
 
 async function loadPhotos(photos){
 
   let paths =
-    photos;
+  photos;
 
 
-  if(typeof paths === "string"){
+  if(
+    typeof paths === "string"
+  ){
 
     try{
 
       paths =
-        JSON.parse(paths);
+      JSON.parse(paths);
 
     }catch{
 
@@ -1376,8 +1433,7 @@ async function loadPhotos(photos){
 
 
   if(
-    !Array.isArray(paths) ||
-    paths.length === 0
+    !Array.isArray(paths)
   ){
 
     return;
@@ -1386,8 +1442,8 @@ async function loadPhotos(photos){
 
 
   const stage =
-    document
-    .getElementById("photoStage");
+  document
+  .getElementById("photoStage");
 
 
   for(
@@ -1396,21 +1452,16 @@ async function loadPhotos(photos){
 
     try{
 
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-        .storage
-        .from("gift-media")
-        .download(path);
+      const {data,error} =
+      await supabaseClient
+      .storage
+      .from("gift-media")
+      .download(path);
 
 
       if(error){
 
-        console.error(
-          error
-        );
+        console.error(error);
 
         continue;
 
@@ -1418,42 +1469,42 @@ async function loadPhotos(photos){
 
 
       const url =
-        URL.createObjectURL(
-          data
-        );
+      URL.createObjectURL(
+        data
+      );
 
 
-      mediaURLs.push(
+      objectURLs.push(
         url
       );
 
 
       const slide =
-        document.createElement(
-          "div"
-        );
+      document.createElement(
+        "div"
+      );
 
 
       slide.className =
-        "photoSlide";
+      "slide";
 
 
-      const image =
-        document.createElement(
-          "img"
-        );
+      const img =
+      document.createElement(
+        "img"
+      );
 
 
-      image.src =
-        url;
+      img.src =
+      url;
 
 
-      image.alt =
-        "ذكرى من الهدية";
+      img.alt =
+      "ذكرى من الهدية";
 
 
       slide.appendChild(
-        image
+        img
       );
 
 
@@ -1462,7 +1513,7 @@ async function loadPhotos(photos){
       );
 
 
-      photoSlides.push(
+      slides.push(
         slide
       );
 
@@ -1479,7 +1530,7 @@ async function loadPhotos(photos){
 
 
   if(
-    photoSlides.length === 0
+    slides.length === 0
   ){
 
     return;
@@ -1488,77 +1539,35 @@ async function loadPhotos(photos){
 
 
   document
-  .getElementById("memoriesSection")
+  .getElementById("memories")
   .style.display =
-    "block";
+  "block";
 
 
-  photoSlides[0]
-  .classList.add(
-    "active"
-  );
+  slides[0]
+  .classList
+  .add("active");
 
 
-  updatePhotoCounter();
+  updateCounter();
 
 }
 
 
 /* =========================
-   AUTO PHOTOS
+   PHOTO SLIDESHOW
 ========================= */
 
-function startPhotoShow(){
+function startPhotos(){
 
   if(
-    photoSlides.length <= 1
+    slides.length <= 1
   ){
 
     return;
 
   }
 
-
-  stopPhotoShow();
-
-
-  photoTimer =
-    setInterval(
-      function(){
-
-        photoSlides[
-          photoIndex
-        ]
-        .classList.remove(
-          "active"
-        );
-
-
-        photoIndex =
-          (
-            photoIndex + 1
-          ) %
-          photoSlides.length;
-
-
-        photoSlides[
-          photoIndex
-        ]
-        .classList.add(
-          "active"
-        );
-
-
-        updatePhotoCounter();
-
-      },
-      6200
-    );
-
-}
-
-
-function stopPhotoShow(){
 
   if(photoTimer){
 
@@ -1566,63 +1575,156 @@ function stopPhotoShow(){
       photoTimer
     );
 
-    photoTimer =
-      null;
-
   }
+
+
+  photoTimer =
+  setInterval(()=>{
+
+    slides[
+      photoIndex
+    ]
+    .classList
+    .remove("active");
+
+
+    photoIndex =
+    (
+      photoIndex + 1
+    )
+    %
+    slides.length;
+
+
+    slides[
+      photoIndex
+    ]
+    .classList
+    .add("active");
+
+
+    updateCounter();
+
+
+  },6500);
 
 }
 
 
-function updatePhotoCounter(){
+function updateCounter(){
+
+  const counter =
+  document
+  .getElementById("counter");
+
 
   if(
-    photoSlides.length <= 1
+    slides.length <= 1
   ){
 
-    document
-    .getElementById(
-      "photoCounter"
-    )
-    .textContent =
-      "";
+    counter.textContent =
+    "";
 
     return;
 
   }
 
 
-  document
-  .getElementById(
-    "photoCounter"
-  )
-  .textContent =
-    (
-      photoIndex + 1
-    ) +
-    " / " +
-    photoSlides.length;
+  counter.textContent =
+
+  (photoIndex + 1)
+
+  +
+
+  " / "
+
+  +
+
+  slides.length;
 
 }
 
 
 /* =========================
-   MEDIA
+   MEDIA LOAD
 ========================= */
 
 async function loadMedia(value){
 
   if(!value){
+
     return;
+
   }
 
 
-  let type =
-    "storage-audio";
+  /* YOUTUBE */
+
+  if(
+    value.startsWith(
+      "youtube:"
+    )
+  ){
+
+    mediaType =
+    "youtube";
 
 
-  let source =
-    value;
+    youtubeId =
+    value.substring(
+      "youtube:".length
+    );
+
+
+    document
+    .getElementById("mediaPart")
+    .style.display =
+    "block";
+
+
+    document
+    .getElementById("musicCard")
+    .style.display =
+    "block";
+
+
+    return;
+
+  }
+
+
+  /* EXTERNAL */
+
+  if(
+    value.startsWith(
+      "external:"
+    )
+  ){
+
+    const url =
+    value.substring(
+      "external:".length
+    );
+
+
+    setupExternal(
+      url
+    );
+
+
+    return;
+
+  }
+
+
+  /* STORAGE */
+
+  let storageType =
+  "audio";
+
+
+  let path =
+  value;
 
 
   if(
@@ -1631,16 +1733,17 @@ async function loadMedia(value){
     )
   ){
 
-    type =
-      "storage-audio";
+    storageType =
+    "audio";
 
 
-    source =
-      value.substring(
-        "storage-audio:".length
-      );
+    path =
+    value.substring(
+      "storage-audio:".length
+    );
 
   }
+
 
   else if(
     value.startsWith(
@@ -1648,64 +1751,30 @@ async function loadMedia(value){
     )
   ){
 
-    type =
-      "storage-video";
+    storageType =
+    "video";
 
 
-    source =
-      value.substring(
-        "storage-video:".length
-      );
-
-  }
-
-  else if(
-    value.startsWith(
-      "external:"
-    )
-  ){
-
-    type =
-      "external";
-
-
-    source =
-      value.substring(
-        "external:".length
-      );
-
-  }
-
-
-  if(type === "external"){
-
-    setupExternalMedia(
-      source
+    path =
+    value.substring(
+      "storage-video:".length
     );
-
-    return;
 
   }
 
 
   try{
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-      .storage
-      .from("gift-media")
-      .download(
-        source
-      );
+    const {data,error} =
+    await supabaseClient
+    .storage
+    .from("gift-media")
+    .download(path);
 
 
     if(error){
 
       console.error(
-        "Media:",
         error
       );
 
@@ -1715,19 +1784,19 @@ async function loadMedia(value){
 
 
     const url =
-      URL.createObjectURL(
-        data
-      );
+    URL.createObjectURL(
+      data
+    );
 
 
-    mediaURLs.push(
+    objectURLs.push(
       url
     );
 
 
     if(
-      type ===
-      "storage-video"
+      storageType ===
+      "video"
     ){
 
       setupVideo(
@@ -1758,18 +1827,32 @@ async function loadMedia(value){
    EXTERNAL MEDIA
 ========================= */
 
-function setupExternalMedia(url){
+function setupExternal(url){
 
   const clean =
-    url
-    .split("?")[0]
-    .toLowerCase();
+  url
+  .split("?")[0]
+  .toLowerCase();
 
 
   if(
-    clean.endsWith(".mp4") ||
-    clean.endsWith(".mov") ||
-    clean.endsWith(".webm")
+
+    clean.endsWith(
+      ".mp4"
+    )
+
+    ||
+
+    clean.endsWith(
+      ".webm"
+    )
+
+    ||
+
+    clean.endsWith(
+      ".mov"
+    )
+
   ){
 
     setupVideo(
@@ -1793,56 +1876,56 @@ function setupExternalMedia(url){
 
 function setupAudio(url){
 
+  mediaType =
+  "audio";
+
+
+  audioReady =
+  true;
+
+
   const audio =
-    document
-    .getElementById(
-      "giftAudio"
-    );
+  document
+  .getElementById("giftAudio");
 
 
   audio.src =
-    url;
+  url;
 
 
   audio.volume =
-    .82;
+  .82;
 
 
   audio.load();
 
 
-  musicReady =
-    true;
-
-
   document
-  .getElementById("mediaSection")
+  .getElementById("mediaPart")
   .style.display =
-    "block";
+  "block";
 
 
   document
   .getElementById("musicCard")
   .style.display =
-    "block";
-
-
-  document
-  .getElementById("videoBox")
-  .style.display =
-    "none";
+  "block";
 
 
   audio.addEventListener(
     "play",
-    function(){
+    ()=>{
 
       document
-      .getElementById(
-        "musicButton"
-      )
+      .getElementById("playIcon")
       .textContent =
-        "❚❚";
+      "❚❚";
+
+
+      document
+      .getElementById("musicText")
+      .textContent =
+      "الأغنية شغالة ♡";
 
     }
   );
@@ -1850,14 +1933,18 @@ function setupAudio(url){
 
   audio.addEventListener(
     "pause",
-    function(){
+    ()=>{
 
       document
-      .getElementById(
-        "musicButton"
-      )
+      .getElementById("playIcon")
       .textContent =
-        "▶";
+      "▶";
+
+
+      document
+      .getElementById("musicText")
+      .textContent =
+      "اضغط لتشغيل الأغنية ♡";
 
     }
   );
@@ -1871,37 +1958,39 @@ function setupAudio(url){
 
 function setupVideo(url){
 
-  const video =
-    document
-    .getElementById(
-      "giftVideo"
-    );
-
-
-  video.src =
-    url;
+  mediaType =
+  "video";
 
 
   videoReady =
-    true;
+  true;
+
+
+  const video =
+  document
+  .getElementById("giftVideo");
+
+
+  video.src =
+  url;
 
 
   document
-  .getElementById("mediaSection")
+  .getElementById("mediaPart")
   .style.display =
-    "block";
+  "block";
 
 
   document
   .getElementById("musicCard")
   .style.display =
-    "none";
+  "none";
 
 
   document
-  .getElementById("videoBox")
+  .getElementById("videoWrap")
   .style.display =
-    "block";
+  "block";
 
 }
 
@@ -1914,50 +2003,141 @@ document
 .getElementById("openBtn")
 .addEventListener(
   "click",
-  openGift
-);
+  async ()=>{
 
 
-function openGift(){
+    celebrate();
 
-  /*
-   الأغنية تبدأ بنفس ضغطة
-   فتح الهدية حتى يسمح بها iPhone.
-  */
-
-  if(musicReady){
 
     document
-    .getElementById(
-      "giftAudio"
-    )
-    .play()
-    .catch(
-      function(error){
+    .getElementById("closed")
+    .style.display =
+    "none";
+
+
+    /*
+      إذا فيه أغنية
+      نوري شاشة الأغنية أول
+    */
+
+    if(
+      mediaType === "audio"
+      ||
+      mediaType === "youtube"
+      ||
+      mediaType === "video"
+    ){
+
+      document
+      .getElementById("musicOpening")
+      .classList
+      .add("showOpening");
+
+    }
+
+
+    /* AUDIO */
+
+    if(audioReady){
+
+      try{
+
+        await document
+        .getElementById("giftAudio")
+        .play();
+
+      }catch(error){
 
         console.log(
           error
         );
 
       }
-    );
+
+    }
+
+
+    /* YOUTUBE */
+
+    else if(
+      mediaType === "youtube"
+      &&
+      youtubeId
+    ){
+
+      openYouTubeOpening();
+
+    }
+
+
+    /* VIDEO */
+
+    else if(videoReady){
+
+      try{
+
+        const video =
+        document
+        .getElementById("giftVideo");
+
+
+        video.muted =
+        false;
+
+
+        await video.play();
+
+      }catch(error){
+
+        console.log(
+          error
+        );
+
+      }
+
+    }
+
+
+    /*
+      نخلي الأغنية أول شيء
+      لمدة 3 ثواني
+    */
+
+    if(
+      mediaType !== "none"
+    ){
+
+      setTimeout(
+        startGiftStory,
+        3000
+      );
+
+    }else{
+
+      startGiftStory();
+
+    }
 
   }
+);
 
 
-  celebration();
+/* =========================
+   START STORY
+========================= */
 
+function startGiftStory(){
 
   document
-  .getElementById("closed")
-  .style.display =
-    "none";
+  .getElementById("musicOpening")
+  .classList
+  .remove("showOpening");
 
 
   document
   .getElementById("story")
   .style.display =
-    "block";
+  "block";
 
 
   window.scrollTo({
@@ -1972,202 +2152,193 @@ function openGift(){
 
 
 /* =========================
-   STORY TIMING
+   STORY TIMELINE
 ========================= */
 
-function showPart(id){
+function reveal(id){
 
-  const element =
-    document
-    .getElementById(id);
-
-
-  if(!element){
-    return;
-  }
-
-
-  element
-  .classList.add(
-    "show"
+  const el =
+  document.getElementById(
+    id
   );
+
+
+  if(el){
+
+    el.classList.add(
+      "show"
+    );
+
+  }
 
 }
 
 
-function scrollPart(id){
+function goTo(id){
 
-  const element =
-    document
-    .getElementById(id);
+  const el =
+  document.getElementById(
+    id
+  );
 
 
-  if(!element){
-    return;
+  if(el){
+
+    el.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
   }
-
-
-  element.scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
 
 }
 
 
 function playStory(){
 
-  /*
-    كل جزء يطلع بروحه.
-    مو كل الصفحة دفعة وحدة.
-  */
+
+  /* الاسم */
+
+  setTimeout(()=>{
+
+    reveal(
+      "intro"
+    );
+
+  },500);
 
 
-  setTimeout(
-    function(){
+  /* الرسالة */
 
-      showPart(
-        "introSection"
-      );
+  setTimeout(()=>{
 
-    },
-    300
-  );
+    reveal(
+      "messagePart"
+    );
 
 
-  setTimeout(
-    function(){
+    goTo(
+      "messagePart"
+    );
 
-      showPart(
-        "messageSection"
-      );
+  },4200);
 
-      scrollPart(
-        "messageSection"
-      );
 
-    },
-    3500
-  );
+  let time =
+  8800;
 
+
+  /* الصور */
 
   if(
-    photoSlides.length > 0
+    slides.length > 0
   ){
 
-    setTimeout(
-      function(){
+    setTimeout(()=>{
 
-        showPart(
-          "memoriesSection"
-        );
-
-
-        scrollPart(
-          "memoriesSection"
-        );
+      reveal(
+        "memories"
+      );
 
 
-        startPhotoShow();
+      goTo(
+        "memories"
+      );
 
-      },
-      8000
-    );
+
+      startPhotos();
+
+    },time);
+
+
+    time +=
+    7600;
 
   }
 
 
-  const afterPhotos =
-    photoSlides.length > 0
-    ? 14500
-    : 8000;
-
+  /* التاريخ */
 
   if(
     document
     .getElementById(
-      "dateSection"
+      "datePart"
     )
     .style.display ===
     "block"
   ){
 
-    setTimeout(
-      function(){
+    setTimeout(()=>{
 
-        showPart(
-          "dateSection"
-        );
+      reveal(
+        "datePart"
+      );
 
 
-        scrollPart(
-          "dateSection"
-        );
+      goTo(
+        "datePart"
+      );
 
-      },
-      afterPhotos
-    );
+    },time);
+
+
+    time +=
+    4200;
 
   }
 
 
-  const senderTime =
-    afterPhotos +
-    (
-      document
-      .getElementById(
-        "dateSection"
-      )
-      .style.display ===
-      "block"
-      ? 4000
-      : 0
+  /* الأغنية */
+
+  if(
+    document
+    .getElementById(
+      "mediaPart"
+    )
+    .style.display ===
+    "block"
+  ){
+
+    setTimeout(()=>{
+
+      reveal(
+        "mediaPart"
+      );
+
+    },time);
+
+
+    time +=
+    2600;
+
+  }
+
+
+  /* المرسل */
+
+  setTimeout(()=>{
+
+    reveal(
+      "senderPart"
     );
 
 
-  setTimeout(
-    function(){
+    goTo(
+      "senderPart"
+    );
 
-      if(
-        document
-        .getElementById(
-          "mediaSection"
-        )
-        .style.display ===
-        "block"
-      ){
-
-        showPart(
-          "mediaSection"
-        );
-
-      }
+  },time);
 
 
-      showPart(
-        "senderSection"
-      );
+  /* النهاية */
 
+  setTimeout(()=>{
 
-      scrollPart(
-        "senderSection"
-      );
+    reveal(
+      "endPart"
+    );
 
-    },
-    senderTime
-  );
-
-
-  setTimeout(
-    function(){
-
-      showPart(
-        "endSection"
-      );
-
-    },
-    senderTime + 3000
-  );
+  },time + 2800);
 
 }
 
@@ -2177,25 +2348,52 @@ function playStory(){
 ========================= */
 
 document
-.getElementById("musicButton")
+.getElementById("musicTrigger")
 .addEventListener(
   "click",
-  function(){
+  ()=>{
 
-    const audio =
+
+    /* AUDIO */
+
+    if(
+      mediaType ===
+      "audio"
+    ){
+
+      const audio =
       document
       .getElementById(
         "giftAudio"
       );
 
 
-    if(audio.paused){
+      if(audio.paused){
 
-      audio.play();
+        audio.play();
 
-    }else{
+      }else{
 
-      audio.pause();
+        audio.pause();
+
+      }
+
+
+      return;
+
+    }
+
+
+    /* YOUTUBE */
+
+    if(
+      mediaType ===
+      "youtube"
+      &&
+      youtubeId
+    ){
+
+      openYouTubePlayer();
 
     }
 
@@ -2204,101 +2402,190 @@ document
 
 
 /* =========================
-   CELEBRATION
+   YOUTUBE OPENING PLAYER
 ========================= */
 
-function celebration(){
+function openYouTubeOpening(){
 
-  const box =
-    document
-    .getElementById(
-      "celebration"
-    );
-
-
-  box.innerHTML =
-    "";
-
-
-  for(
-    let i = 0;
-    i < 20;
-    i++
+  if(
+    youtubeStarted
   ){
 
-    const item =
-      document.createElement(
-        "div"
-      );
-
-
-    item.className =
-      "fly";
-
-
-    item.textContent =
-      i % 4 === 0
-      ? "✦"
-      : "♡";
-
-
-    item.style.left =
-      (
-        Math.random() *
-        100
-      ) +
-      "%";
-
-
-    item.style.fontSize =
-      (
-        14 +
-        Math.random() *
-        22
-      ) +
-      "px";
-
-
-    item.style.animationDelay =
-      (
-        Math.random() *
-        .7
-      ) +
-      "s";
-
-
-    box.appendChild(
-      item
-    );
+    return;
 
   }
 
 
-  setTimeout(
-    function(){
+  youtubeStarted =
+  true;
 
-      box.innerHTML =
-        "";
 
-    },
-    4000
+  const wrap =
+  document
+  .getElementById(
+    "youtubeOpening"
+  );
+
+
+  wrap.style.display =
+  "block";
+
+
+  const iframe =
+  document.createElement(
+    "iframe"
+  );
+
+
+  iframe.className =
+  "youtubeFrame";
+
+
+  iframe.src =
+
+  "https://www.youtube.com/embed/"
+
+  +
+
+  encodeURIComponent(
+    youtubeId
+  )
+
+  +
+
+  "?autoplay=1&playsinline=1&rel=0";
+
+
+  iframe.allow =
+  "autoplay; encrypted-media; picture-in-picture";
+
+
+  iframe.allowFullscreen =
+  true;
+
+
+  iframe.title =
+  "أغنية الهدية";
+
+
+  wrap.appendChild(
+    iframe
   );
 
 }
 
 
 /* =========================
-   DATE
+   YOUTUBE PLAYER INSIDE STORY
+========================= */
+
+function openYouTubePlayer(){
+
+  const wrap =
+  document
+  .getElementById(
+    "youtubeWrap"
+  );
+
+
+  if(
+    wrap.dataset.loaded ===
+    "yes"
+  ){
+
+    return;
+
+  }
+
+
+  wrap.dataset.loaded =
+  "yes";
+
+
+  wrap.style.display =
+  "block";
+
+
+  const iframe =
+  document.createElement(
+    "iframe"
+  );
+
+
+  iframe.className =
+  "youtubeFrame";
+
+
+  iframe.src =
+
+  "https://www.youtube.com/embed/"
+
+  +
+
+  encodeURIComponent(
+    youtubeId
+  )
+
+  +
+
+  "?autoplay=1&playsinline=1&rel=0";
+
+
+  iframe.allow =
+  "autoplay; encrypted-media; picture-in-picture";
+
+
+  iframe.allowFullscreen =
+  true;
+
+
+  iframe.title =
+  "أغنية الهدية";
+
+
+  wrap.appendChild(
+    iframe
+  );
+
+
+  document
+  .getElementById("playIcon")
+  .textContent =
+  "♪";
+
+
+  document
+  .getElementById("musicText")
+  .textContent =
+  "استمتع بالأغنية ♡";
+
+
+  setTimeout(()=>{
+
+    wrap.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  },250);
+
+}
+
+
+/* =========================
+   DATE FORMAT
 ========================= */
 
 function formatDate(value){
 
-  const parts =
-    String(value)
-    .split("-");
+  const p =
+  String(value)
+  .split("-");
 
 
-  if(parts.length !== 3){
+  if(
+    p.length !== 3
+  ){
 
     return value;
 
@@ -2308,35 +2595,47 @@ function formatDate(value){
   const months = [
 
     "يناير",
+
     "فبراير",
+
     "مارس",
+
     "أبريل",
+
     "مايو",
+
     "يونيو",
+
     "يوليو",
+
     "أغسطس",
+
     "سبتمبر",
+
     "أكتوبر",
+
     "نوفمبر",
+
     "ديسمبر"
 
   ];
 
 
   const y =
-    Number(parts[0]);
+  Number(p[0]);
 
 
   const m =
-    Number(parts[1]);
+  Number(p[1]);
 
 
   const d =
-    Number(parts[2]);
+  Number(p[2]);
 
 
   if(
-    m < 1 ||
+    m < 1
+    ||
     m > 12
   ){
 
@@ -2346,12 +2645,109 @@ function formatDate(value){
 
 
   return (
-    d +
-    " " +
-    months[m - 1] +
-    " " +
+
+    d
+
+    +
+
+    " "
+
+    +
+
+    months[m - 1]
+
+    +
+
+    " "
+
+    +
+
     y
+
   );
+
+}
+
+
+/* =========================
+   CELEBRATION
+========================= */
+
+function celebrate(){
+
+  const box =
+  document
+  .getElementById(
+    "celebration"
+  );
+
+
+  box.innerHTML =
+  "";
+
+
+  for(
+    let i = 0;
+    i < 18;
+    i++
+  ){
+
+    const item =
+    document.createElement(
+      "div"
+    );
+
+
+    item.className =
+    "fly";
+
+
+    item.textContent =
+    i % 4 === 0
+    ?
+    "✦"
+    :
+    "♡";
+
+
+    item.style.left =
+    Math.random()
+    * 100
+    +
+    "%";
+
+
+    item.style.fontSize =
+    (
+      14
+      +
+      Math.random()
+      * 21
+    )
+    +
+    "px";
+
+
+    item.style.animationDelay =
+    Math.random()
+    * .7
+    +
+    "s";
+
+
+    box.appendChild(
+      item
+    );
+
+  }
+
+
+  setTimeout(()=>{
+
+    box.innerHTML =
+    "";
+
+  },4000);
 
 }
 
@@ -2361,91 +2757,85 @@ function formatDate(value){
 ========================= */
 
 document
-.getElementById("shareButton")
+.getElementById("shareBtn")
 .addEventListener(
   "click",
-  shareGift
-);
+  async ()=>{
+
+    try{
+
+      if(
+        navigator.share
+      ){
+
+        await navigator.share({
+
+          title:
+          "لحظة خاصة ♡",
+
+          text:
+          "عندك لحظة خاصة تنتظرك ♡",
+
+          url:
+          location.href
+
+        });
+
+      }else{
+
+        await navigator
+        .clipboard
+        .writeText(
+          location.href
+        );
 
 
-async function shareGift(){
+        alert(
+          "تم نسخ رابط اللحظة ♡"
+        );
 
-  const data = {
+      }
 
-    title:
-      "لحظة خاصة ♡",
-
-    text:
-      "عندك لحظة خاصة تنتظرك ♡",
-
-    url:
-      window.location.href
-
-  };
-
-
-  try{
-
-    if(navigator.share){
-
-      await navigator.share(
-        data
-      );
-
-    }else{
-
-      await navigator
-      .clipboard
-      .writeText(
-        window.location.href
-      );
-
-
-      alert(
-        "تم نسخ رابط اللحظة ♡"
-      );
-
-    }
-
-  }catch(error){
-
-    console.log(
-      error
-    );
+    }catch{}
 
   }
-
-}
+);
 
 
 /* =========================
    LOCKED
 ========================= */
 
-function showLocked(){
+function locked(){
 
   document
   .getElementById("loading")
   .style.display =
-    "none";
+  "none";
 
 
   document
   .getElementById("closed")
   .style.display =
-    "none";
+  "none";
 
 
   document
   .getElementById("story")
   .style.display =
-    "none";
+  "none";
+
+
+  document
+  .getElementById("musicOpening")
+  .classList
+  .remove("showOpening");
 
 
   document
   .getElementById("locked")
   .style.display =
-    "flex";
+  "flex";
 
 }
 
@@ -2456,25 +2846,23 @@ function showLocked(){
 
 window.addEventListener(
   "beforeunload",
-  function(){
+  ()=>{
 
-    stopPhotoShow();
+    if(photoTimer){
+
+      clearInterval(
+        photoTimer
+      );
+
+    }
 
 
-    mediaURLs.forEach(
-      function(url){
+    objectURLs.forEach(
+      url=>{
 
-        if(
-          url.startsWith(
-            "blob:"
-          )
-        ){
-
-          URL.revokeObjectURL(
-            url
-          );
-
-        }
+        URL.revokeObjectURL(
+          url
+        );
 
       }
     );
@@ -2483,7 +2871,9 @@ window.addEventListener(
 );
 
 
-/* START */
+/* =========================
+   START
+========================= */
 
 init();
 
