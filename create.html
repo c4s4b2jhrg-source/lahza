@@ -7,7 +7,12 @@
 <title>صمّم هديتك | LAHZA</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{scroll-behavior:smooth}
 
 body{
   margin:0;
@@ -26,7 +31,11 @@ header{
   align-items:center;
 }
 
-.logo{font-size:22px;font-weight:900}
+.logo{
+  font-size:22px;
+  font-weight:900;
+}
+
 .logo span{color:#ff4f87}
 
 .back{
@@ -64,9 +73,21 @@ main{
   padding:10px 18px 60px;
 }
 
-.title{text-align:center;margin-bottom:25px}
-.title h1{font-size:32px;margin:0 0 8px}
-.title p{color:#777;margin:0;line-height:1.7}
+.title{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.title h1{
+  font-size:32px;
+  margin:0 0 8px;
+}
+
+.title p{
+  color:#777;
+  margin:0;
+  line-height:1.7;
+}
 
 .summary{
   display:grid;
@@ -82,7 +103,10 @@ main{
   padding:14px;
 }
 
-.summaryBox span{color:#666;font-size:11px}
+.summaryBox span{
+  color:#666;
+  font-size:11px;
+}
 
 .summaryBox strong{
   display:block;
@@ -111,7 +135,8 @@ label{
   margin:15px 2px 7px;
 }
 
-input,textarea{
+input,
+textarea{
   width:100%;
   border:1px solid #2a2a35;
   background:#0b0b11;
@@ -122,7 +147,10 @@ input,textarea{
   font:inherit;
 }
 
-input:focus,textarea:focus{border-color:#ff4f87}
+input:focus,
+textarea:focus{
+  border-color:#ff4f87;
+}
 
 textarea{
   min-height:140px;
@@ -130,7 +158,10 @@ textarea{
   line-height:1.8;
 }
 
-.optional{color:#555;font-size:11px}
+.optional{
+  color:#555;
+  font-size:11px;
+}
 
 .counter{
   color:#555;
@@ -157,7 +188,9 @@ textarea{
   overflow:hidden;
 }
 
-.theme.selected{border-color:white}
+.theme.selected{
+  border-color:white;
+}
 
 .theme.selected:after{
   content:"✓";
@@ -175,10 +208,21 @@ textarea{
   font-weight:bold;
 }
 
-.romantic{background:linear-gradient(135deg,#3a0f20,#ff4f87)}
-.midnight{background:linear-gradient(135deg,#090a20,#35407a)}
-.sunset{background:linear-gradient(135deg,#60294a,#ff9864)}
-.minimal{background:linear-gradient(135deg,#cfcfcf,#666)}
+.romantic{
+  background:linear-gradient(135deg,#3a0f20,#ff4f87);
+}
+
+.midnight{
+  background:linear-gradient(135deg,#090a20,#35407a);
+}
+
+.sunset{
+  background:linear-gradient(135deg,#60294a,#ff9864);
+}
+
+.minimal{
+  background:linear-gradient(135deg,#cfcfcf,#666);
+}
 
 .upload{
   border:1px dashed #42424e;
@@ -194,9 +238,13 @@ textarea{
   margin-bottom:5px;
 }
 
-.upload small{color:#666}
+.upload small{
+  color:#666;
+}
 
-.hidden{display:none}
+.hidden{
+  display:none;
+}
 
 .previewImages{
   display:grid;
@@ -221,8 +269,25 @@ textarea{
 .dateHelp{
   color:#666;
   font-size:11px;
-  line-height:1.7;
+  line-height:1.8;
   margin-top:8px;
+}
+
+.errorMessage{
+  display:none;
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,50,80,.12);
+  border:1px solid rgba(255,70,100,.35);
+  color:#ff7894;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.dateError{
+  border-color:#ff4f6d !important;
+  box-shadow:0 0 0 3px rgba(255,79,109,.08);
 }
 
 .actions{
@@ -251,8 +316,6 @@ textarea{
   color:white;
 }
 
-/* المعاينة */
-
 .modal{
   display:none;
   position:fixed;
@@ -262,7 +325,9 @@ textarea{
   overflow:auto;
 }
 
-.modal.show{display:block}
+.modal.show{
+  display:block;
+}
 
 .close{
   position:fixed;
@@ -293,11 +358,14 @@ textarea{
   margin-bottom:35px;
 }
 
-.previewLogo span{color:#ff4f87}
+.previewLogo span{
+  color:#ff4f87;
+}
 
 .previewReceiver{
   font-size:36px;
   margin-bottom:20px;
+  overflow-wrap:anywhere;
 }
 
 .previewCard{
@@ -343,9 +411,8 @@ textarea{
 }
 
 .previewDate{
-  color:#888;
+  color:#aaa;
   margin-top:20px;
-  line-height:1.8;
 }
 
 .previewFrom{
@@ -353,14 +420,18 @@ textarea{
   margin-top:20px;
 }
 
-.previewFrom b{color:#ff6d9c}
+.previewFrom b{
+  color:#ff6d9c;
+}
 
 .audioPreview{
   display:none;
   margin-top:22px;
 }
 
-.audioPreview audio{width:100%}
+.audioPreview audio{
+  width:100%;
+}
 
 @media(max-width:480px){
   .title h1{font-size:29px}
@@ -404,13 +475,17 @@ textarea{
 
 </div>
 
-
 <div class="section">
 
   <div class="section-title">💌 الرسالة</div>
 
   <label>اسم المستلم</label>
-  <input id="receiver" maxlength="40" placeholder="مثال: نور">
+
+  <input
+    id="receiver"
+    maxlength="40"
+    placeholder="مثال: نور"
+  >
 
   <label>
     اسمك
@@ -437,7 +512,6 @@ textarea{
 
 </div>
 
-
 <div class="section">
 
   <div class="section-title">🎨 اختر الثيم</div>
@@ -446,24 +520,28 @@ textarea{
 
     <div
       class="theme romantic selected"
+      data-theme="romantic"
       onclick="chooseTheme(this,'romantic')">
       <b>Romantic ❤️</b>
     </div>
 
     <div
       class="theme midnight"
+      data-theme="midnight"
       onclick="chooseTheme(this,'midnight')">
       <b>Midnight 🌙</b>
     </div>
 
     <div
       class="theme sunset"
+      data-theme="sunset"
       onclick="chooseTheme(this,'sunset')">
       <b>Sunset ✨</b>
     </div>
 
     <div
       class="theme minimal"
+      data-theme="minimal"
       onclick="chooseTheme(this,'minimal')">
       <b>Minimal 🤍</b>
     </div>
@@ -471,7 +549,6 @@ textarea{
   </div>
 
 </div>
-
 
 <div class="section">
 
@@ -491,11 +568,9 @@ textarea{
   >
 
   <div id="photoInfo" class="fileInfo"></div>
-
   <div id="previewImages" class="previewImages"></div>
 
 </div>
-
 
 <div class="section">
 
@@ -517,8 +592,7 @@ textarea{
 
 </div>
 
-
-<div class="section">
+<div class="section" id="dateSection">
 
   <div class="section-title">⏳ تاريخ له معنى</div>
 
@@ -527,27 +601,37 @@ textarea{
     <span class="optional">— اختياري</span>
   </label>
 
-  <input id="date" type="date">
+  <input
+    id="date"
+    type="date"
+  >
 
   <div class="dateHelp">
     أول لقاء، عيد ميلاد، ذكرى، أو أي يوم له معنى 🤍
     <br>
-    لا يمكن اختيار تاريخ بعد اليوم.
+    التاريخ ما يقدر يكون بعد اليوم.
+  </div>
+
+  <div
+    id="dateErrorMessage"
+    class="errorMessage">
+    ⚠️ التاريخ غير صحيح. عدّله قبل المتابعة.
   </div>
 
 </div>
-
 
 <div class="actions">
 
   <button
     class="previewBtn"
+    type="button"
     onclick="showPreview()">
     معاينة 👀
   </button>
 
   <button
     class="nextBtn"
+    type="button"
     onclick="continueNext()">
     متابعة للدفع ←
   </button>
@@ -556,13 +640,11 @@ textarea{
 
 </main>
 
-
-<!-- المعاينة -->
-
 <div class="modal" id="modal">
 
   <button
     class="close"
+    type="button"
     onclick="closePreview()">
     ×
   </button>
@@ -613,7 +695,8 @@ textarea{
 
         <audio
           id="previewAudio"
-          controls>
+          controls
+          playsinline>
         </audio>
 
       </div>
@@ -624,18 +707,18 @@ textarea{
 
 </div>
 
-
 <script>
-
-/* المناسبة والباقات */
 
 const occasionNames = {
   love:"حب ❤️",
   birthday:"عيد ميلاد 🎂",
   friend:"صداقة 🫂",
+  friendship:"صداقة 🫂",
   graduation:"تخرج 🎓",
   sorry:"اعتذار 🥹",
-  surprise:"مفاجأة 🎁"
+  apology:"اعتذار 🥹",
+  surprise:"بدون مناسبة 🎁",
+  none:"بدون مناسبة 🎁"
 };
 
 const planNames = {
@@ -650,9 +733,6 @@ const limits = {
   forever:30
 };
 
-
-/* البيانات المحفوظة */
-
 let occasion =
   localStorage.getItem("lahzaOccasion") || "surprise";
 
@@ -663,35 +743,44 @@ let theme =
   localStorage.getItem("lahzaTheme") || "romantic";
 
 let selectedPhotos = [];
-
 let selectedAudio = null;
-
 let selectedAudioURL = "";
 
+const receiverInput =
+  document.getElementById("receiver");
 
-/* عرض المناسبة والباقة */
+const senderInput =
+  document.getElementById("sender");
 
-document.getElementById("occasionName").textContent =
-  occasionNames[occasion] || "مفاجأة 🎁";
-
-document.getElementById("planName").textContent =
-  planNames[plan] || "Mini";
-
-document.getElementById("photoLimit").textContent =
-  "حتى " + limits[plan] + " صورة";
-
-
-/* منع التاريخ المستقبلي */
+const messageInput =
+  document.getElementById("message");
 
 const dateInput =
   document.getElementById("date");
 
-function setMaximumDate(){
+const dateErrorMessage =
+  document.getElementById("dateErrorMessage");
+
+
+/* المناسبة والباقة */
+
+document.getElementById("occasionName").textContent =
+  occasionNames[occasion] || occasion;
+
+document.getElementById("planName").textContent =
+  planNames[plan] || plan;
+
+document.getElementById("photoLimit").textContent =
+  "حتى " + (limits[plan] || 5) + " صور";
+
+
+/* التاريخ الحالي */
+
+function getTodayString(){
 
   const now = new Date();
 
-  const year =
-    now.getFullYear();
+  const year = now.getFullYear();
 
   const month =
     String(now.getMonth() + 1).padStart(2,"0");
@@ -699,51 +788,125 @@ function setMaximumDate(){
   const day =
     String(now.getDate()).padStart(2,"0");
 
-  const today =
-    year + "-" + month + "-" + day;
-
-  dateInput.max = today;
+  return year + "-" + month + "-" + day;
 }
 
-setMaximumDate();
+dateInput.max = getTodayString();
 
 
-/* حماية إضافية للتاريخ */
+/* التحقق القوي من التاريخ */
+
+function isValidDate(){
+
+  if(!dateInput.value){
+    clearDateError();
+    return true;
+  }
+
+  const value = dateInput.value;
+
+  const pattern =
+    /^\d{4}-\d{2}-\d{2}$/;
+
+  if(!pattern.test(value)){
+    showDateError();
+    return false;
+  }
+
+  const parts =
+    value.split("-");
+
+  const year =
+    Number(parts[0]);
+
+  const month =
+    Number(parts[1]);
+
+  const day =
+    Number(parts[2]);
+
+  const selected =
+    new Date(
+      year,
+      month - 1,
+      day
+    );
+
+  const realDate =
+    selected.getFullYear() === year &&
+    selected.getMonth() === month - 1 &&
+    selected.getDate() === day;
+
+  if(!realDate){
+    showDateError();
+    return false;
+  }
+
+  const today =
+    new Date();
+
+  today.setHours(0,0,0,0);
+
+  selected.setHours(0,0,0,0);
+
+  if(selected > today){
+    showDateError();
+    return false;
+  }
+
+  clearDateError();
+
+  return true;
+}
+
+
+/* يظهر خطأ التاريخ */
+
+function showDateError(){
+
+  dateInput.classList.add("dateError");
+
+  dateErrorMessage.style.display =
+    "block";
+}
+
+
+/* يشيل الخطأ */
+
+function clearDateError(){
+
+  dateInput.classList.remove("dateError");
+
+  dateErrorMessage.style.display =
+    "none";
+}
+
+
+/* إذا عدل التاريخ نفحصه مرة ثانية */
 
 dateInput.addEventListener("change",function(){
 
-  if(!dateInput.value){
-    return;
-  }
-
-  if(dateInput.value > dateInput.max){
-
-    alert("ما تقدر تختار تاريخ بعد اليوم 🤍");
-
-    dateInput.value = "";
-  }
+  isValidDate();
 
 });
 
 
 /* عداد الرسالة */
 
-const messageBox =
-  document.getElementById("message");
-
-messageBox.addEventListener("input",function(){
+messageInput.addEventListener("input",function(){
 
   document.getElementById("count").textContent =
-    messageBox.value.length;
+    messageInput.value.length;
 
 });
 
 
-/* الثيم */
+/* اختيار الثيم */
 
 function chooseTheme(element,value){
 
-  document.querySelectorAll(".theme")
+  document
+  .querySelectorAll(".theme")
   .forEach(function(item){
 
     item.classList.remove("selected");
@@ -762,16 +925,33 @@ function chooseTheme(element,value){
 }
 
 
+/* استرجاع الثيم المحدد */
+
+document
+.querySelectorAll(".theme")
+.forEach(function(item){
+
+  item.classList.remove("selected");
+
+  if(item.dataset.theme === theme){
+    item.classList.add("selected");
+  }
+
+});
+
+
 /* الصور */
 
-document.getElementById("photoInput")
+document
+.getElementById("photoInput")
 .addEventListener("change",function(event){
 
   const max =
-    limits[plan];
+    limits[plan] || 5;
 
   selectedPhotos =
-    Array.from(event.target.files)
+    Array
+    .from(event.target.files)
     .slice(0,max);
 
   if(event.target.files.length > max){
@@ -779,18 +959,24 @@ document.getElementById("photoInput")
     alert(
       "باقتك تسمح بـ " +
       max +
-      " صورة"
+      " صور فقط 🤍"
     );
 
   }
 
-  document.getElementById("photoInfo").textContent =
-    "تم اختيار " +
-    selectedPhotos.length +
-    " صورة";
+  document
+  .getElementById("photoInfo")
+  .textContent =
+    selectedPhotos.length
+    ? "تم اختيار " +
+      selectedPhotos.length +
+      " صورة ✓"
+    : "";
 
   const preview =
-    document.getElementById("previewImages");
+    document.getElementById(
+      "previewImages"
+    );
 
   preview.innerHTML = "";
 
@@ -823,7 +1009,8 @@ document.getElementById("photoInput")
 
 /* الأغنية */
 
-document.getElementById("audioInput")
+document
+.getElementById("audioInput")
 .addEventListener("change",function(event){
 
   selectedAudio =
@@ -846,64 +1033,80 @@ document.getElementById("audioInput")
       selectedAudio
     );
 
-  document.getElementById("audioInfo").textContent =
-    "🎵 " + selectedAudio.name;
+  document
+  .getElementById("audioInfo")
+  .textContent =
+    "🎵 " +
+    selectedAudio.name +
+    " ✓";
 
 });
 
 
-/* التحقق */
+/* فحص كل البيانات */
 
 function validate(){
 
   const receiver =
-    document.getElementById("receiver")
-    .value.trim();
+    receiverInput.value.trim();
 
   const message =
-    document.getElementById("message")
-    .value.trim();
+    messageInput.value.trim();
+
 
   if(!receiver){
 
-    alert(
-      "اكتب اسم المستلم 🤍"
-    );
+    alert("اكتب اسم المستلم 🤍");
+
+    receiverInput.focus();
+
+    receiverInput.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
 
     return false;
   }
+
 
   if(!message){
 
-    alert(
-      "اكتب الرسالة 💌"
-    );
+    alert("اكتب الرسالة 💌");
+
+    messageInput.focus();
+
+    messageInput.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
 
     return false;
   }
 
 
-  /* تحقق التاريخ مرة ثانية */
+  /* أهم جزء:
+     إذا التاريخ غلط ما يكمل */
 
-  if(
-    dateInput.value &&
-    dateInput.value > dateInput.max
-  ){
+  if(!isValidDate()){
 
-    alert(
-      "تاريخ الذكرى ما يقدر يكون بالمستقبل 🤍"
-    );
+    dateInput.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
 
-    dateInput.value = "";
+    setTimeout(function(){
+      dateInput.focus();
+    },400);
 
     return false;
   }
+
 
   return true;
 }
 
 
-/* تحويل التاريخ لشكل عربي */
+/* شكل التاريخ بالعربي */
 
 function formatArabicDate(value){
 
@@ -957,54 +1160,65 @@ function showPreview(){
   }
 
   const receiver =
-    document.getElementById("receiver")
-    .value.trim();
+    receiverInput.value.trim();
 
   const sender =
-    document.getElementById("sender")
-    .value.trim();
+    senderInput.value.trim();
 
   const message =
-    document.getElementById("message")
-    .value.trim();
+    messageInput.value.trim();
 
   const date =
     dateInput.value;
 
 
-  document.getElementById("previewReceiver").textContent =
+  document
+  .getElementById("previewReceiver")
+  .textContent =
     "إلى " +
     receiver +
     " ♡";
 
 
-  document.getElementById("previewOccasion").textContent =
+  document
+  .getElementById("previewOccasion")
+  .textContent =
     occasionNames[occasion] ||
     "لحظة خاصة";
 
 
-  document.getElementById("previewMessage").textContent =
+  document
+  .getElementById("previewMessage")
+  .textContent =
     message;
 
 
-  document.getElementById("previewFrom").innerHTML =
+  document
+  .getElementById("previewFrom")
+  .innerHTML =
     "من ♡ <b>" +
-    (sender || "شخص يفكر فيك") +
+    escapeHTML(
+      sender || "شخص يفكر فيك"
+    ) +
     "</b>";
 
 
-  document.getElementById("previewDate").textContent =
+  document
+  .getElementById("previewDate")
+  .textContent =
     date
-    ? "🤍 " + formatArabicDate(date)
+    ? "🤍 " +
+      formatArabicDate(date)
     : "";
 
 
-  /* صور المعاينة */
-
   const gallery =
-    document.getElementById("previewGallery");
+    document.getElementById(
+      "previewGallery"
+    );
 
   gallery.innerHTML = "";
+
 
   selectedPhotos
   .slice(0,6)
@@ -1031,14 +1245,20 @@ function showPreview(){
   });
 
 
-  /* أغنية المعاينة */
-
   const audioPreview =
-    document.getElementById("audioPreview");
+    document.getElementById(
+      "audioPreview"
+    );
+
+  const previewAudio =
+    document.getElementById(
+      "previewAudio"
+    );
+
 
   if(selectedAudioURL){
 
-    document.getElementById("previewAudio").src =
+    previewAudio.src =
       selectedAudioURL;
 
     audioPreview.style.display =
@@ -1046,39 +1266,36 @@ function showPreview(){
 
   }else{
 
+    previewAudio.removeAttribute("src");
+
     audioPreview.style.display =
       "none";
 
   }
 
 
-  /* تطبيق الثيم */
-
   const wrap =
-    document.getElementById("previewWrap");
+    document.getElementById(
+      "previewWrap"
+    );
+
 
   if(theme === "romantic"){
 
     wrap.style.background =
       "radial-gradient(circle at top,#35101f,#08080f 60%)";
 
-  }
-
-  if(theme === "midnight"){
+  }else if(theme === "midnight"){
 
     wrap.style.background =
       "radial-gradient(circle at top,#20295f,#08080f 60%)";
 
-  }
-
-  if(theme === "sunset"){
+  }else if(theme === "sunset"){
 
     wrap.style.background =
       "radial-gradient(circle at top,#713a4e,#100a13 60%)";
 
-  }
-
-  if(theme === "minimal"){
+  }else{
 
     wrap.style.background =
       "linear-gradient(#1a1a1a,#080808)";
@@ -1086,7 +1303,8 @@ function showPreview(){
   }
 
 
-  document.getElementById("modal")
+  document
+  .getElementById("modal")
   .classList.add("show");
 
   document.body.style.overflow =
@@ -1099,45 +1317,70 @@ function showPreview(){
 
 function closePreview(){
 
-  document.getElementById("modal")
+  document
+  .getElementById("modal")
   .classList.remove("show");
 
   document.body.style.overflow =
     "";
 
+  const audio =
+    document.getElementById(
+      "previewAudio"
+    );
+
+  audio.pause();
+
 }
 
 
-/* متابعة */
+/* حماية الاسم عند عرضه */
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+}
+
+
+/* الانتقال للدفع */
 
 function continueNext(){
+
+  /* إذا أي شيء غلط
+     يوقف هنا نهائياً */
 
   if(!validate()){
     return;
   }
 
+
   const giftData = {
 
     receiver:
-      document.getElementById("receiver")
-      .value.trim(),
+      receiverInput.value.trim(),
 
     sender:
-      document.getElementById("sender")
-      .value.trim(),
+      senderInput.value.trim(),
 
     message:
-      document.getElementById("message")
-      .value.trim(),
+      messageInput.value.trim(),
 
     date:
       dateInput.value,
 
-    occasion:occasion,
+    occasion:
+      occasion,
 
-    plan:plan,
+    plan:
+      plan,
 
-    theme:theme
+    theme:
+      theme
 
   };
 
@@ -1147,6 +1390,9 @@ function continueNext(){
     JSON.stringify(giftData)
   );
 
+
+  /* ما يوصل هنا إلا إذا
+     البيانات صحيحة */
 
   window.location.href =
     "checkout.html";
