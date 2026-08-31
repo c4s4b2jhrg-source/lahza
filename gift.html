@@ -1,7 +1,1155 @@
-<section
-  id="messageScreen"
-  class="screen">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09070b">
 
+<title>لحظة خاصة ♡ | LAHZA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Marhey:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --accent:#ff6599;
+  --accentLight:#ffd0df;
+  --accentSoft:rgba(255,101,153,.13);
+  --line:rgba(255,170,200,.18);
+  --muted:#9c9098;
+  --card:rgba(255,255,255,.055);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  overflow:hidden;
+  color:#fff;
+  font-family:"Noto Kufi Arabic",sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%,#4b172b 0%,#1a0a12 38%,#08070a 74%);
+}
+
+/* THEMES */
+
+body.romantic{
+  --accent:#ff6599;
+  --accentLight:#ffd0df;
+}
+
+body.midnight{
+  --accent:#9d8dff;
+  --accentLight:#ded9ff;
+  --accentSoft:rgba(157,141,255,.12);
+  --line:rgba(190,180,255,.18);
+  --muted:#9e98ad;
+  background:
+    radial-gradient(circle at 50% -10%,#302956,#11111f 43%,#07070b 78%);
+}
+
+body.sunset{
+  --accent:#ff9a75;
+  --accentLight:#ffd4bc;
+  --accentSoft:rgba(255,154,117,.12);
+  --line:rgba(255,190,160,.18);
+  --muted:#a18c84;
+  background:
+    radial-gradient(circle at 50% -10%,#62323f,#241014 42%,#080708 76%);
+}
+
+body.minimal{
+  --accent:#ffffff;
+  --accentLight:#f1f1f1;
+  --accentSoft:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.14);
+  --muted:#999;
+  background:
+    radial-gradient(circle at 50% -10%,#292929,#111 44%,#060606 78%);
+}
+
+/* BACKGROUND */
+
+.background{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+}
+
+.orb.one{
+  width:330px;
+  height:330px;
+  right:-120px;
+  top:-150px;
+  background:var(--accent);
+  opacity:.15;
+}
+
+.orb.two{
+  width:300px;
+  height:300px;
+  left:-130px;
+  bottom:-170px;
+  background:var(--accentLight);
+  opacity:.06;
+}
+
+.star{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:white;
+  border-radius:50%;
+  opacity:.2;
+  animation:starPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes starPulse{
+  50%{
+    opacity:.65;
+    transform:scale(1.6);
+  }
+}
+
+.topLogo{
+  position:fixed;
+  top:max(18px,env(safe-area-inset-top));
+  left:50%;
+  transform:translateX(-50%);
+  z-index:30;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:rgba(255,255,255,.48);
+}
+
+.topLogo span{
+  color:var(--accent);
+}
+
+/* SCREENS */
+
+.screen{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  overflow-y:auto;
+  padding:
+    max(76px,calc(env(safe-area-inset-top) + 58px))
+    17px
+    max(42px,calc(env(safe-area-inset-bottom) + 28px));
+
+  opacity:0;
+  transform:scale(.985);
+  transition:opacity .5s ease,transform .5s ease;
+}
+
+.screen.active{
+  display:flex;
+}
+
+.screen.visible{
+  opacity:1;
+  transform:scale(1);
+}
+
+.screenInner{
+  width:min(100%,620px);
+  margin:auto;
+  text-align:center;
+}
+
+.sceneIcon{
+  width:68px;
+  height:68px;
+  border-radius:22px;
+  margin:0 auto 15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--accentSoft);
+  border:1px solid var(--line);
+  color:var(--accentLight);
+  font-size:28px;
+}
+
+.sceneTitle{
+  margin:0;
+  font-size:clamp(22px,6vw,29px);
+}
+
+.sceneSubtitle{
+  margin:8px auto 21px;
+  color:var(--muted);
+  max-width:430px;
+  line-height:1.9;
+  font-size:11px;
+}
+
+.glassCard{
+  width:min(100%,530px);
+  margin:auto;
+  padding:25px 18px;
+  border:1px solid var(--line);
+  border-radius:29px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.022));
+  backdrop-filter:blur(20px);
+}
+
+.nextButton{
+  width:min(100%,390px);
+  margin-top:26px;
+  padding:16px 20px;
+  border:0;
+  border-radius:19px;
+  cursor:pointer;
+  color:#fff;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--accent),#ff477f);
+  box-shadow:0 12px 35px rgba(0,0,0,.18);
+}
+
+body.minimal .nextButton{
+  background:#fff;
+  color:#050505;
+}
+
+.nextButton:active{
+  transform:scale(.98);
+}
+
+/* LOADING */
+
+.loadingHeart{
+  font-size:54px;
+  color:var(--accent);
+  animation:beat 1.2s infinite;
+}
+
+@keyframes beat{
+  50%{transform:scale(1.15)}
+}
+
+.loadingText{
+  margin-top:13px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* ENVELOPE */
+
+.introText{
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:25px;
+}
+
+.envelopeButton{
+  position:relative;
+  width:min(82vw,330px);
+  height:210px;
+  margin:auto;
+  border:0;
+  background:none;
+  padding:0;
+  cursor:pointer;
+  perspective:1000px;
+}
+
+.envelope{
+  position:absolute;
+  inset:35px 0 0;
+  border-radius:10px 10px 18px 18px;
+  background:
+    linear-gradient(145deg,#f1d8df,#dca7b8);
+  box-shadow:0 22px 60px rgba(0,0,0,.35);
+}
+
+.envelope:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
+  background:linear-gradient(150deg,#e8c2ce,#c9889f);
+  border-radius:10px 10px 18px 18px;
+}
+
+.flap{
+  position:absolute;
+  top:35px;
+  left:0;
+  width:100%;
+  height:112px;
+  transform-origin:top center;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  background:linear-gradient(#f6dde4,#dca8b8);
+  z-index:5;
+  transition:transform .75s cubic-bezier(.2,.8,.2,1);
+}
+
+.letter{
+  position:absolute;
+  width:84%;
+  height:140px;
+  left:8%;
+  bottom:4px;
+  z-index:2;
+  border-radius:14px 14px 9px 9px;
+  background:#fffaf7;
+  transform:translateY(15px);
+  transition:transform .8s cubic-bezier(.2,.8,.2,1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#5c3541;
+  font-family:"Aref Ruqaa",serif;
+  font-size:21px;
+}
+
+.seal{
+  position:absolute;
+  left:50%;
+  top:106px;
+  transform:translate(-50%,-50%);
+  width:53px;
+  height:53px;
+  z-index:9;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:22px;
+  background:#b84168;
+  border:3px solid rgba(255,255,255,.25);
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+  transition:opacity .25s;
+}
+
+.envelopeButton.opened .flap{
+  transform:rotateX(180deg);
+}
+
+.envelopeButton.opened .letter{
+  transform:translateY(-76px);
+}
+
+.envelopeButton.opened .seal{
+  opacity:0;
+}
+
+/* NAME WRITING */
+
+.nameFrame{
+  position:relative;
+  width:min(100%,480px);
+  margin:auto;
+  min-height:215px;
+  padding:35px 20px;
+  border-radius:30px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+  overflow:hidden;
+}
+
+.nameFrame:after{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:23px;
+  pointer-events:none;
+}
+
+.nameLabel{
+  position:relative;
+  z-index:2;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.writingArea{
+  position:relative;
+  z-index:3;
+  margin-top:9px;
+  min-height:82px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.receiverName{
+  font-family:"Aref Ruqaa",serif;
+  color:var(--accentLight);
+  font-size:clamp(38px,10vw,55px);
+  font-weight:700;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+  min-height:72px;
+}
+
+.pen{
+  position:absolute;
+  top:5px;
+  right:8%;
+  font-size:31px;
+  transform:rotate(-35deg);
+  filter:drop-shadow(0 5px 10px rgba(0,0,0,.35));
+  transition:right .12s linear,opacity .35s;
+  z-index:4;
+}
+
+.pen.done{
+  opacity:0;
+}
+
+.writtenHeart{
+  color:var(--accent);
+  font-size:24px;
+  opacity:0;
+  transform:scale(.6);
+  transition:.45s ease;
+}
+
+.writtenHeart.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* MESSAGE */
+
+.messageQuote{
+  color:var(--accent);
+  font-family:"Aref Ruqaa",serif;
+  font-size:39px;
+}
+
+.messageText{
+  color:#fff;
+  font-size:clamp(20px,5.3vw,29px);
+  line-height:2;
+  overflow-wrap:anywhere;
+}
+
+.messageLine{
+  opacity:0;
+  transform:translateY(18px);
+  filter:blur(5px);
+  transition:
+    opacity .7s ease,
+    transform .7s ease,
+    filter .7s ease;
+}
+
+.messageLine.show{
+  opacity:1;
+  transform:translateY(0);
+  filter:blur(0);
+}
+
+.font-normal{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+.font-ruqaa{
+  font-family:"Aref Ruqaa",serif;
+}
+
+.font-naskh{
+  font-family:"Noto Naskh Arabic",serif;
+}
+
+.font-kufi{
+  font-family:"Reem Kufi",sans-serif;
+}
+
+.font-marhey{
+  font-family:"Marhey",sans-serif;
+  font-size:clamp(18px,4.8vw,26px);
+}
+
+#messageNextButton{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(8px);
+  transition:.5s ease;
+}
+
+#messageNextButton.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+
+/* MUSIC */
+
+.musicDisc{
+  width:112px;
+  height:112px;
+  margin:0 auto 20px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle,#111 0 16%,var(--accentSoft) 17% 20%,#111 21% 42%,rgba(255,255,255,.1) 43% 45%,#090909 46%);
+  border:1px solid var(--line);
+}
+
+.musicDisc.spinning{
+  animation:spin 4s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.musicDisc span{
+  width:31px;
+  height:31px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+.audioControl{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.18);
+}
+
+.audioPlay{
+  flex:0 0 55px;
+  width:55px;
+  height:55px;
+  border:0;
+  border-radius:50%;
+  background:white;
+  color:#111;
+  font-size:18px;
+}
+
+.audioDetails{
+  flex:1;
+  text-align:right;
+}
+
+.audioDetails strong{
+  display:block;
+  font-size:11px;
+}
+
+.progress{
+  width:100%;
+  accent-color:var(--accent);
+}
+
+.youtubeBox iframe{
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:19px;
+  background:#000;
+}
+
+.youtubeNote{
+  color:var(--muted);
+  margin-top:8px;
+  font-size:9px;
+}
+
+.videoPlayer{
+  width:100%;
+  max-height:58vh;
+  border-radius:19px;
+  background:#000;
+}
+
+/* PHOTOS */
+
+.photoStage{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  perspective:900px;
+}
+
+.photoContainer{
+  position:relative;
+  overflow:hidden;
+  background:#050505;
+}
+
+.photoContainer.medium{
+  width:min(100%,310px);
+  height:370px;
+}
+
+.photoContainer.large{
+  width:min(100%,440px);
+  height:500px;
+}
+
+.photoContainer.full{
+  width:100%;
+  height:min(62vh,580px);
+}
+
+.photoContainer.soft{
+  border-radius:25px;
+  border:1px solid var(--line);
+}
+
+.photoContainer.polaroid{
+  border:11px solid #f4eee4;
+  border-bottom-width:43px;
+  background:#f4eee4;
+  border-radius:5px;
+  transform:rotate(-1deg);
+}
+
+.photoContainer.cinema{
+  border:9px solid #000;
+  border-radius:6px;
+  box-shadow:0 0 0 1px #3d3d3d;
+}
+
+.photoContainer.glass{
+  padding:7px;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);
+}
+
+.photoSlide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transform:scale(1.06) rotate(.6deg);
+  transition:
+    opacity .85s ease,
+    transform .95s cubic-bezier(.2,.8,.2,1);
+}
+
+.photoContainer.glass .photoSlide{
+  inset:7px;
+}
+
+.photoContainer.polaroid .photoSlide{
+  inset:0 0 32px;
+}
+
+.photoSlide.active{
+  opacity:1;
+  transform:scale(1) rotate(0);
+}
+
+.photoSlide img{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.photoContainer.fit-contain img{
+  object-fit:contain;
+}
+
+.photoContainer.fit-cover img{
+  object-fit:cover;
+}
+
+.photoSlide.active img{
+  animation:photoZoom 3s linear forwards;
+}
+
+@keyframes photoZoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.035)}
+}
+
+.photoCounter{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.photoControls{
+  display:flex;
+  justify-content:center;
+  gap:9px;
+  margin-top:12px;
+}
+
+.photoArrow{
+  width:47px;
+  height:47px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:19px;
+}
+
+/* DATE */
+
+.counterGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.timeBox{
+  padding:14px 5px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.16);
+}
+
+.timeNumber{
+  display:block;
+  color:var(--accentLight);
+  font-size:clamp(23px,6vw,32px);
+  font-weight:900;
+  direction:ltr;
+}
+
+.timeNumber.flip{
+  animation:numberFlip .35s ease;
+}
+
+@keyframes numberFlip{
+  0%{
+    transform:rotateX(70deg);
+    opacity:.3;
+  }
+  100%{
+    transform:rotateX(0);
+    opacity:1;
+  }
+}
+
+.timeLabel{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.originalDate{
+  margin-top:17px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* SURPRISE */
+
+.surpriseBig{
+  font-family:"Aref Ruqaa",serif;
+  color:var(--accentLight);
+  font-size:clamp(30px,8vw,44px);
+  line-height:1.7;
+}
+
+.surpriseHeart{
+  margin-top:8px;
+  font-size:42px;
+  color:var(--accent);
+  animation:beat 1.4s infinite;
+}
+
+/* SENDER */
+
+.senderName{
+  position:relative;
+  z-index:2;
+  font-family:"Aref Ruqaa",serif;
+  color:var(--accentLight);
+  font-size:clamp(38px,9vw,54px);
+}
+
+/* END */
+
+.endHeart{
+  font-size:58px;
+  color:var(--accent);
+  animation:beat 1.5s infinite;
+}
+
+.endCard{
+  width:min(100%,500px);
+  margin:auto;
+  padding:30px 20px;
+  border-radius:30px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+}
+
+.shareButton{
+  width:min(100%,390px);
+  margin-top:12px;
+  padding:15px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.055);
+  color:#fff;
+  font-family:inherit;
+  font-weight:700;
+}
+
+.restartButton{
+  margin-top:10px;
+  background:none;
+  border:0;
+  color:var(--muted);
+  font-family:inherit;
+  font-size:10px;
+  text-decoration:underline;
+}
+
+.footer{
+  margin-top:27px;
+  color:rgba(255,255,255,.25);
+  font-size:9px;
+}
+
+/* LOCK */
+
+.lockBox{
+  padding:30px 20px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:var(--card);
+}
+
+.lockBox p{
+  color:var(--muted);
+  line-height:1.8;
+  font-size:11px;
+}
+
+/* DOTS */
+
+.progressDots{
+  position:fixed;
+  bottom:max(13px,env(safe-area-inset-bottom));
+  left:50%;
+  transform:translateX(-50%);
+  z-index:30;
+  display:flex;
+  gap:5px;
+}
+
+.progressDot{
+  width:5px;
+  height:5px;
+  border-radius:10px;
+  background:rgba(255,255,255,.18);
+  transition:.3s;
+}
+
+.progressDot.active{
+  width:19px;
+  background:var(--accent);
+}
+
+/* TOUCH HEARTS */
+
+.touchParticle{
+  position:fixed;
+  pointer-events:none;
+  z-index:100;
+  color:var(--accent);
+  font-size:18px;
+  transform:translate(-50%,-50%);
+  animation:touchFloat 1.1s ease-out forwards;
+}
+
+@keyframes touchFloat{
+  0%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(.6);
+  }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-110px) scale(1.25) rotate(15deg);
+  }
+}
+
+.confetti{
+  position:fixed;
+  pointer-events:none;
+  z-index:90;
+  bottom:-20px;
+  color:var(--accent);
+  animation:fly 3s ease-out forwards;
+}
+
+@keyframes fly{
+  0%{
+    opacity:0;
+    transform:translateY(0);
+  }
+  12%{opacity:.8}
+  100%{
+    opacity:0;
+    transform:translateY(-110vh) rotate(30deg);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,
+  *:before,
+  *:after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+</style>
+</head>
+
+<body class="romantic">
+
+<div class="background">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div id="stars"></div>
+</div>
+
+<div class="topLogo">
+  LAHZA <span>♡</span>
+</div>
+
+<div id="progressDots" class="progressDots" style="display:none"></div>
+
+<!-- LOADING -->
+
+<section id="loadingScreen" class="screen active visible">
+  <div class="screenInner">
+    <div class="loadingHeart">♡</div>
+    <div class="loadingText">نجهز لحظتك...</div>
+  </div>
+</section>
+
+<!-- LOCKED -->
+
+<section id="lockedScreen" class="screen">
+  <div class="screenInner">
+    <div class="lockBox">
+      <div style="font-size:42px">🔒</div>
+      <h2>الهدية مو متاحة للحين</h2>
+      <p>ممكن الدفع تحت المراجعة أو الرابط غير صحيح.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENVELOPE -->
+
+<section id="introScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="introText">
+      فيه شي انحفظ لك داخل هالظرف ♡
+    </div>
+
+    <button
+      id="envelopeButton"
+      class="envelopeButton"
+      type="button"
+      aria-label="افتح الهدية">
+
+      <div class="envelope"></div>
+
+      <div class="letter">
+        لحظة خاصة لك ♡
+      </div>
+
+      <div class="flap"></div>
+
+      <div class="seal">
+        ♡
+      </div>
+
+    </button>
+
+    <div class="sceneSubtitle" style="margin-top:23px">
+      اضغط على الظرف
+    </div>
+
+  </div>
+</section>
+
+<!-- NAME -->
+
+<section id="nameScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="sceneSubtitle">
+      هاللحظة انصنعت مخصوص لـ
+    </div>
+
+    <div class="nameFrame">
+
+      <div class="nameLabel">
+        إلى
+      </div>
+
+      <div class="writingArea">
+
+        <div id="receiverName" class="receiverName"></div>
+
+        <div id="pen" class="pen">
+          ✒️
+        </div>
+
+      </div>
+
+      <div id="writtenHeart" class="writtenHeart">
+        ♡
+      </div>
+
+    </div>
+
+    <button
+      id="nameNextButton"
+      class="nextButton"
+      onclick="nextStep()"
+      style="opacity:0;pointer-events:none;transition:.5s">
+
+      كمل اللحظة ♡
+
+    </button>
+
+  </div>
+</section>
+
+<!-- MUSIC -->
+
+<section id="musicScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="sceneIcon">♪</div>
+
+    <h2 class="sceneTitle">
+      أغنية هاللحظة
+    </h2>
+
+    <div class="sceneSubtitle">
+      شغلها إذا تبي وخليها تكمل معاك ♡
+    </div>
+
+    <div class="glassCard">
+
+      <div id="musicDisc" class="musicDisc">
+        <span>♪</span>
+      </div>
+
+      <div id="audioArea" style="display:none">
+
+        <div class="audioControl">
+
+          <button
+            id="audioPlay"
+            class="audioPlay"
+            type="button">
+            ▶
+          </button>
+
+          <div class="audioDetails">
+
+            <strong id="audioStatus">
+              اضغط تشغيل
+            </strong>
+
+            <input
+              id="audioProgress"
+              class="progress"
+              type="range"
+              min="0"
+              max="100"
+              value="0">
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        id="youtubeArea"
+        class="youtubeBox"
+        style="display:none">
+      </div>
+
+      <div
+        id="videoArea"
+        style="display:none">
+
+        <video
+          id="giftVideo"
+          class="videoPlayer"
+          controls
+          playsinline>
+        </video>
+
+      </div>
+
+      <audio
+        id="giftAudio"
+        preload="metadata"
+        playsinline>
+      </audio>
+
+    </div>
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل الهدية ♡
+
+    </button>
+
+  </div>
+</section>
+
+<!-- MESSAGE -->
+
+<section id="messageScreen" class="screen">
   <div class="screenInner">
 
     <div class="sceneIcon">
@@ -13,7 +1161,7 @@
     </h2>
 
     <div class="sceneSubtitle">
-      اقرأه على راحتك
+      خذه على راحتك
     </div>
 
     <div class="glassCard">
@@ -32,13 +1180,2470 @@
     <button
       id="messageNextButton"
       class="nextButton"
-      onclick="nextStep()"
-      style="opacity:0;pointer-events:none;transition:.5s;">
+      onclick="nextStep()">
 
       كمل ♡
 
     </button>
 
   </div>
-
 </section>
+
+<!-- PHOTOS -->
+
+<section id="photosScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ✦
+    </div>
+
+    <h2 class="sceneTitle">
+      لحظات ما تنسى
+    </h2>
+
+    <div class="sceneSubtitle">
+      بعض الصور تحمل كلام أكثر من الرسائل
+    </div>
+
+    <div class="glassCard">
+
+      <div class="photoStage">
+
+        <div
+          id="photoContainer"
+          class="photoContainer medium soft fit-contain">
+        </div>
+
+      </div>
+
+      <div id="photoCounter" class="photoCounter"></div>
+
+      <div id="photoControls" class="photoControls">
+
+        <button
+          class="photoArrow"
+          type="button"
+          onclick="previousPhoto()">
+          ›
+        </button>
+
+        <button
+          class="photoArrow"
+          type="button"
+          onclick="nextPhoto()">
+          ‹
+        </button>
+
+      </div>
+
+    </div>
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل ♡
+
+    </button>
+
+  </div>
+</section>
+
+<!-- DATE -->
+
+<section id="dateScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="sceneIcon">
+      ⏳
+    </div>
+
+    <h2 class="sceneTitle">
+      ومن هاليوم...
+    </h2>
+
+    <div class="sceneSubtitle">
+      هالوقت كله مر من لحظتكم ♡
+    </div>
+
+    <div class="glassCard">
+
+      <div class="counterGrid">
+
+        <div class="timeBox">
+          <span id="years" class="timeNumber">0</span>
+          <span class="timeLabel">سنة</span>
+        </div>
+
+        <div class="timeBox">
+          <span id="months" class="timeNumber">0</span>
+          <span class="timeLabel">شهر</span>
+        </div>
+
+        <div class="timeBox">
+          <span id="days" class="timeNumber">0</span>
+          <span class="timeLabel">يوم</span>
+        </div>
+
+        <div class="timeBox">
+          <span id="hours" class="timeNumber">0</span>
+          <span class="timeLabel">ساعة</span>
+        </div>
+
+        <div class="timeBox">
+          <span id="minutes" class="timeNumber">0</span>
+          <span class="timeLabel">دقيقة</span>
+        </div>
+
+        <div class="timeBox">
+          <span id="seconds" class="timeNumber">0</span>
+          <span class="timeLabel">ثانية</span>
+        </div>
+
+      </div>
+
+      <div id="originalDate" class="originalDate"></div>
+
+    </div>
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      كمل ♡
+
+    </button>
+
+  </div>
+</section>
+
+<!-- SURPRISE -->
+
+<section id="surpriseScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="surpriseHeart">
+      ♡
+    </div>
+
+    <div class="surpriseBig">
+      باقي شي واحد...
+    </div>
+
+    <div class="sceneSubtitle">
+      آخر جزء من هاللحظة
+    </div>
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      افتح المفاجأة ♡
+
+    </button>
+
+  </div>
+</section>
+
+<!-- SENDER -->
+
+<section id="senderScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="sceneSubtitle">
+      كل هاللحظة كانت من
+    </div>
+
+    <div class="nameFrame">
+
+      <div style="color:var(--accent);font-size:25px;margin-bottom:7px">
+        ♡
+      </div>
+
+      <div id="senderName" class="senderName"></div>
+
+    </div>
+
+    <button
+      class="nextButton"
+      onclick="nextStep()">
+
+      النهاية ♡
+
+    </button>
+
+  </div>
+</section>
+
+<!-- END -->
+
+<section id="endScreen" class="screen">
+  <div class="screenInner">
+
+    <div class="endCard">
+
+      <div class="endHeart">
+        ♡
+      </div>
+
+      <h2 class="sceneTitle">
+        بعض الهدايا تنفتح...
+      </h2>
+
+      <div class="sceneSubtitle">
+        وبعضها تنحفظ بالقلب.
+      </div>
+
+      <button
+        id="shareButton"
+        class="shareButton"
+        type="button">
+
+        مشاركة اللحظة ♡
+
+      </button>
+
+      <button
+        id="restartButton"
+        class="restartButton"
+        type="button">
+
+        عِش اللحظة من البداية
+
+      </button>
+
+      <div class="footer">
+        صنعت بواسطة LAHZA ♡
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+const SUPABASE_URL =
+"https://ltuyfewachzbazunuxmd.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let giftData = null;
+
+let screens = [];
+let currentStep = 0;
+
+let photos = [];
+let photoIndex = 0;
+let photoTimer = null;
+
+let objectURLs = [];
+
+let mediaType = "none";
+
+let dateValue = null;
+let dateTimer = null;
+
+let nameAnimationPlayed = false;
+let messageAnimationPlayed = false;
+
+let messageTimers = [];
+
+
+/* =========================
+   INIT
+========================= */
+
+async function init(){
+
+  createStars();
+
+  const token =
+  new URLSearchParams(
+    location.search
+  ).get("token");
+
+  if(!token){
+    showLocked();
+    return;
+  }
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient.rpc(
+      "get_paid_gift",
+      {
+        p_token:token
+      }
+    );
+
+    if(
+      error
+      ||
+      !data
+      ||
+      data.length === 0
+    ){
+
+      console.error(error);
+      showLocked();
+      return;
+    }
+
+    giftData =
+    data[0];
+
+    setTheme(
+      giftData.theme
+    );
+
+    prepareGift(
+      giftData
+    );
+
+    applyPhotoStyle(
+      giftData
+    );
+
+    await Promise.all([
+      loadPhotos(
+        giftData.photos
+      ),
+      loadMedia(
+        giftData.audio_url
+      )
+    ]);
+
+    buildSteps();
+
+    showIntro();
+
+  }catch(error){
+
+    console.error(error);
+    showLocked();
+
+  }
+
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function setTheme(theme){
+
+  document.body.classList.remove(
+    "romantic",
+    "midnight",
+    "sunset",
+    "minimal"
+  );
+
+  if(
+    [
+      "romantic",
+      "midnight",
+      "sunset",
+      "minimal"
+    ].includes(theme)
+  ){
+
+    document.body.classList.add(
+      theme
+    );
+
+  }else{
+
+    document.body.classList.add(
+      "romantic"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   BASIC DATA
+========================= */
+
+function prepareGift(gift){
+
+  document.getElementById(
+    "senderName"
+  ).textContent =
+  gift.sender
+  ||
+  "شخص يفكر فيك";
+
+  const message =
+  document.getElementById(
+    "messageText"
+  );
+
+  const fonts = [
+    "normal",
+    "ruqaa",
+    "naskh",
+    "kufi",
+    "marhey"
+  ];
+
+  const selectedFont =
+  fonts.includes(
+    gift.message_font
+  )
+  ?
+  gift.message_font
+  :
+  "normal";
+
+  message.className =
+  "messageText font-"
+  +
+  selectedFont;
+
+  if(gift.gift_date){
+
+    dateValue =
+    gift.gift_date;
+
+    document.getElementById(
+      "originalDate"
+    ).textContent =
+    "منذ "
+    +
+    formatDate(
+      gift.gift_date
+    );
+
+  }
+
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+function showIntro(){
+
+  const loading =
+  document.getElementById(
+    "loadingScreen"
+  );
+
+  loading.classList.remove(
+    "visible"
+  );
+
+  setTimeout(()=>{
+
+    loading.classList.remove(
+      "active"
+    );
+
+    const intro =
+    document.getElementById(
+      "introScreen"
+    );
+
+    intro.classList.add(
+      "active"
+    );
+
+    requestAnimationFrame(()=>{
+
+      intro.classList.add(
+        "visible"
+      );
+
+    });
+
+  },350);
+
+}
+
+document
+.getElementById(
+  "envelopeButton"
+)
+.addEventListener(
+  "click",
+  function(){
+
+    if(
+      this.classList.contains(
+        "opened"
+      )
+    ){
+      return;
+    }
+
+    this.classList.add(
+      "opened"
+    );
+
+    celebrate(12);
+
+    setTimeout(()=>{
+
+      const intro =
+      document.getElementById(
+        "introScreen"
+      );
+
+      intro.classList.remove(
+        "visible"
+      );
+
+      setTimeout(()=>{
+
+        intro.classList.remove(
+          "active"
+        );
+
+        currentStep = 0;
+
+        document.getElementById(
+          "progressDots"
+        ).style.display =
+        "flex";
+
+        showScreen(
+          0
+        );
+
+      },350);
+
+    },1150);
+
+  }
+);
+
+
+/* =========================
+   STEPS
+========================= */
+
+function buildSteps(){
+
+  screens = [
+    document.getElementById(
+      "nameScreen"
+    )
+  ];
+
+  if(
+    mediaType !==
+    "none"
+  ){
+
+    screens.push(
+      document.getElementById(
+        "musicScreen"
+      )
+    );
+
+  }
+
+  screens.push(
+    document.getElementById(
+      "messageScreen"
+    )
+  );
+
+  if(
+    photos.length
+  ){
+
+    screens.push(
+      document.getElementById(
+        "photosScreen"
+      )
+    );
+
+  }
+
+  if(
+    dateValue
+  ){
+
+    screens.push(
+      document.getElementById(
+        "dateScreen"
+      )
+    );
+
+  }
+
+  screens.push(
+    document.getElementById(
+      "surpriseScreen"
+    ),
+
+    document.getElementById(
+      "senderScreen"
+    ),
+
+    document.getElementById(
+      "endScreen"
+    )
+  );
+
+  createDots();
+
+}
+
+
+/* =========================
+   SCREEN CONTROL
+========================= */
+
+function showScreen(index){
+
+  screens.forEach(screen=>{
+
+    screen.classList.remove(
+      "visible"
+    );
+
+    screen.classList.remove(
+      "active"
+    );
+
+  });
+
+  const target =
+  screens[index];
+
+  target.classList.add(
+    "active"
+  );
+
+  target.scrollTop = 0;
+
+  requestAnimationFrame(()=>{
+
+    requestAnimationFrame(()=>{
+
+      target.classList.add(
+        "visible"
+      );
+
+    });
+
+  });
+
+  updateDots();
+
+  if(
+    target.id ===
+    "nameScreen"
+  ){
+
+    startNameWriting();
+
+  }
+
+  if(
+    target.id ===
+    "messageScreen"
+  ){
+
+    startMessageReveal();
+
+  }
+
+  if(
+    target.id ===
+    "photosScreen"
+  ){
+
+    startPhotoTimer();
+
+  }else{
+
+    stopPhotoTimer();
+
+  }
+
+  if(
+    target.id ===
+    "dateScreen"
+  ){
+
+    updateCounter();
+
+    if(
+      !dateTimer
+    ){
+
+      dateTimer =
+      setInterval(
+        updateCounter,
+        1000
+      );
+
+    }
+
+  }
+
+  if(
+    target.id ===
+    "endScreen"
+  ){
+
+    celebrate(24);
+
+  }
+
+}
+
+function nextStep(){
+
+  if(
+    currentStep >=
+    screens.length - 1
+  ){
+    return;
+  }
+
+  const current =
+  screens[currentStep];
+
+  current.classList.remove(
+    "visible"
+  );
+
+  setTimeout(()=>{
+
+    currentStep++;
+
+    showScreen(
+      currentStep
+    );
+
+    celebrate(5);
+
+  },330);
+
+}
+
+
+/* =========================
+   NAME WRITING
+========================= */
+
+function startNameWriting(){
+
+  if(nameAnimationPlayed){
+    return;
+  }
+
+  nameAnimationPlayed =
+  true;
+
+  const fullName =
+  giftData.receiver
+  ||
+  "شخص مميز";
+
+  const nameBox =
+  document.getElementById(
+    "receiverName"
+  );
+
+  const pen =
+  document.getElementById(
+    "pen"
+  );
+
+  const heart =
+  document.getElementById(
+    "writtenHeart"
+  );
+
+  const button =
+  document.getElementById(
+    "nameNextButton"
+  );
+
+  nameBox.textContent = "";
+
+  let index = 0;
+
+  function writeNext(){
+
+    if(
+      index >=
+      fullName.length
+    ){
+
+      pen.classList.add(
+        "done"
+      );
+
+      setTimeout(()=>{
+
+        heart.classList.add(
+          "show"
+        );
+
+        button.style.opacity =
+        "1";
+
+        button.style.pointerEvents =
+        "auto";
+
+      },250);
+
+      return;
+    }
+
+    nameBox.textContent +=
+    fullName[index];
+
+    index++;
+
+    const progress =
+    index /
+    fullName.length;
+
+    const right =
+    8 +
+    progress * 78;
+
+    pen.style.right =
+    Math.min(
+      right,
+      86
+    )
+    +
+    "%";
+
+    const delay =
+    fullName[index - 1] === " "
+    ?
+    130
+    :
+    115;
+
+    setTimeout(
+      writeNext,
+      delay
+    );
+
+  }
+
+  setTimeout(
+    writeNext,
+    450
+  );
+
+}
+
+
+/* =========================
+   MESSAGE REVEAL
+========================= */
+
+function startMessageReveal(){
+
+  if(messageAnimationPlayed){
+    return;
+  }
+
+  messageAnimationPlayed =
+  true;
+
+  const messageBox =
+  document.getElementById(
+    "messageText"
+  );
+
+  const nextButton =
+  document.getElementById(
+    "messageNextButton"
+  );
+
+  const text =
+  (
+    giftData.message
+    ||
+    "هاللحظة انصنعت لك ♡"
+  ).trim();
+
+  messageBox.innerHTML = "";
+
+  const lines =
+  splitMessageIntoLines(
+    text
+  );
+
+  lines.forEach(
+    line=>{
+
+      const div =
+      document.createElement(
+        "div"
+      );
+
+      div.className =
+      "messageLine";
+
+      div.textContent =
+      line;
+
+      messageBox.appendChild(
+        div
+      );
+
+    }
+  );
+
+  const elements =
+  [
+    ...messageBox.querySelectorAll(
+      ".messageLine"
+    )
+  ];
+
+  nextButton.classList.remove(
+    "show"
+  );
+
+  elements.forEach(
+    (element,index)=>{
+
+      const timer =
+      setTimeout(()=>{
+
+        element.classList.add(
+          "show"
+        );
+
+        if(
+          index ===
+          elements.length - 1
+        ){
+
+          setTimeout(()=>{
+
+            nextButton.classList.add(
+              "show"
+            );
+
+          },500);
+
+        }
+
+      },450 + index * 900);
+
+      messageTimers.push(
+        timer
+      );
+
+    }
+  );
+
+}
+
+function splitMessageIntoLines(text){
+
+  if(
+    text.includes(
+      "\n"
+    )
+  ){
+
+    return text
+    .split(/\n+/)
+    .map(x=>x.trim())
+    .filter(Boolean);
+
+  }
+
+  const sentences =
+  text
+  .split(
+    /(?<=[.!؟!?،])/u
+  )
+  .map(x=>x.trim())
+  .filter(Boolean);
+
+  if(
+    sentences.length > 1
+  ){
+
+    return sentences;
+
+  }
+
+  const words =
+  text.split(/\s+/);
+
+  const result = [];
+  let current = "";
+
+  for(
+    const word of words
+  ){
+
+    if(
+      (
+        current
+        +
+        " "
+        +
+        word
+      ).trim().length > 28
+      &&
+      current
+    ){
+
+      result.push(
+        current
+      );
+
+      current =
+      word;
+
+    }else{
+
+      current =
+      (
+        current
+        +
+        " "
+        +
+        word
+      ).trim();
+
+    }
+
+  }
+
+  if(current){
+    result.push(current);
+  }
+
+  return result;
+
+}
+
+
+/* =========================
+   PHOTO STYLE
+========================= */
+
+function applyPhotoStyle(gift){
+
+  const container =
+  document.getElementById(
+    "photoContainer"
+  );
+
+  const frames = [
+    "soft",
+    "polaroid",
+    "cinema",
+    "glass"
+  ];
+
+  const sizes = [
+    "medium",
+    "large",
+    "full"
+  ];
+
+  const fits = [
+    "contain",
+    "cover"
+  ];
+
+  const frame =
+  frames.includes(
+    gift.photo_frame
+  )
+  ?
+  gift.photo_frame
+  :
+  "soft";
+
+  const size =
+  sizes.includes(
+    gift.photo_size
+  )
+  ?
+  gift.photo_size
+  :
+  "medium";
+
+  const fit =
+  fits.includes(
+    gift.photo_fit
+  )
+  ?
+  gift.photo_fit
+  :
+  "contain";
+
+  container.className =
+  "photoContainer "
+  +
+  size
+  +
+  " "
+  +
+  frame
+  +
+  " fit-"
+  +
+  fit;
+
+}
+
+
+/* =========================
+   PHOTOS
+========================= */
+
+async function loadPhotos(photoData){
+
+  let paths =
+  photoData;
+
+  if(
+    typeof paths ===
+    "string"
+  ){
+
+    try{
+
+      paths =
+      JSON.parse(
+        paths
+      );
+
+    }catch{
+
+      paths = [];
+
+    }
+
+  }
+
+  if(
+    !Array.isArray(
+      paths
+    )
+  ){
+    return;
+  }
+
+  const container =
+  document.getElementById(
+    "photoContainer"
+  );
+
+  /*
+    لا يوجد sort هنا.
+    تنعرض بنفس ترتيب المرسل.
+  */
+
+  for(
+    const path of paths
+  ){
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient
+      .storage
+      .from(
+        "gift-media"
+      )
+      .download(
+        path
+      );
+
+      if(error){
+
+        console.error(
+          error
+        );
+
+        continue;
+
+      }
+
+      const url =
+      URL.createObjectURL(
+        data
+      );
+
+      objectURLs.push(
+        url
+      );
+
+      const slide =
+      document.createElement(
+        "div"
+      );
+
+      slide.className =
+      "photoSlide";
+
+      const img =
+      document.createElement(
+        "img"
+      );
+
+      img.src =
+      url;
+
+      img.alt =
+      "ذكرى";
+
+      slide.appendChild(
+        img
+      );
+
+      container.appendChild(
+        slide
+      );
+
+      photos.push(
+        slide
+      );
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+  if(
+    photos.length
+  ){
+
+    photos[0]
+    .classList
+    .add(
+      "active"
+    );
+
+    updatePhotoCounter();
+
+  }
+
+  if(
+    photos.length <= 1
+  ){
+
+    document.getElementById(
+      "photoControls"
+    ).style.display =
+    "none";
+
+  }
+
+}
+
+function showPhoto(index){
+
+  if(
+    !photos.length
+  ){
+    return;
+  }
+
+  photos[
+    photoIndex
+  ]
+  .classList
+  .remove(
+    "active"
+  );
+
+  photoIndex =
+  (
+    index
+    +
+    photos.length
+  )
+  %
+  photos.length;
+
+  photos[
+    photoIndex
+  ]
+  .classList
+  .add(
+    "active"
+  );
+
+  updatePhotoCounter();
+
+}
+
+function nextPhoto(){
+
+  showPhoto(
+    photoIndex + 1
+  );
+
+  restartPhotoTimer();
+
+}
+
+function previousPhoto(){
+
+  showPhoto(
+    photoIndex - 1
+  );
+
+  restartPhotoTimer();
+
+}
+
+function updatePhotoCounter(){
+
+  document.getElementById(
+    "photoCounter"
+  ).textContent =
+  (
+    photoIndex + 1
+  )
+  +
+  " / "
+  +
+  photos.length;
+
+}
+
+function startPhotoTimer(){
+
+  stopPhotoTimer();
+
+  if(
+    photos.length <= 1
+  ){
+    return;
+  }
+
+  photoTimer =
+  setInterval(()=>{
+
+    showPhoto(
+      photoIndex + 1
+    );
+
+  },3000);
+
+}
+
+function stopPhotoTimer(){
+
+  if(photoTimer){
+
+    clearInterval(
+      photoTimer
+    );
+
+    photoTimer =
+    null;
+
+  }
+
+}
+
+function restartPhotoTimer(){
+
+  if(
+    screens[currentStep]
+    &&
+    screens[currentStep].id ===
+    "photosScreen"
+  ){
+
+    startPhotoTimer();
+
+  }
+
+}
+
+
+/* =========================
+   MEDIA
+========================= */
+
+async function loadMedia(value){
+
+  if(!value){
+    return;
+  }
+
+  if(
+    value.startsWith(
+      "youtube:"
+    )
+  ){
+
+    mediaType =
+    "youtube";
+
+    setupYouTube(
+      value.substring(
+        "youtube:".length
+      )
+    );
+
+    return;
+
+  }
+
+  if(
+    value.startsWith(
+      "external:"
+    )
+  ){
+
+    setupExternal(
+      value.substring(
+        "external:".length
+      )
+    );
+
+    return;
+
+  }
+
+  let type =
+  "audio";
+
+  let path =
+  value;
+
+  if(
+    value.startsWith(
+      "storage-audio:"
+    )
+  ){
+
+    type =
+    "audio";
+
+    path =
+    value.substring(
+      "storage-audio:".length
+    );
+
+  }
+
+  if(
+    value.startsWith(
+      "storage-video:"
+    )
+  ){
+
+    type =
+    "video";
+
+    path =
+    value.substring(
+      "storage-video:".length
+    );
+
+  }
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+  .storage
+  .from(
+    "gift-media"
+  )
+  .download(
+    path
+  );
+
+  if(error){
+
+    console.error(
+      error
+    );
+
+    return;
+
+  }
+
+  const url =
+  URL.createObjectURL(
+    data
+  );
+
+  objectURLs.push(
+    url
+  );
+
+  if(
+    type ===
+    "video"
+  ){
+
+    setupVideo(
+      url
+    );
+
+  }else{
+
+    setupAudio(
+      url
+    );
+
+  }
+
+}
+
+function setupAudio(url){
+
+  mediaType =
+  "audio";
+
+  const audio =
+  document.getElementById(
+    "giftAudio"
+  );
+
+  const play =
+  document.getElementById(
+    "audioPlay"
+  );
+
+  const progress =
+  document.getElementById(
+    "audioProgress"
+  );
+
+  const status =
+  document.getElementById(
+    "audioStatus"
+  );
+
+  const disc =
+  document.getElementById(
+    "musicDisc"
+  );
+
+  document.getElementById(
+    "audioArea"
+  ).style.display =
+  "block";
+
+  audio.src =
+  url;
+
+  audio.volume =
+  .85;
+
+  play.addEventListener(
+    "click",
+    ()=>{
+
+      if(
+        audio.paused
+      ){
+
+        audio.play();
+
+      }else{
+
+        audio.pause();
+
+      }
+
+    }
+  );
+
+  audio.addEventListener(
+    "play",
+    ()=>{
+
+      play.textContent =
+      "❚❚";
+
+      status.textContent =
+      "الأغنية شغالة ♡";
+
+      disc.classList.add(
+        "spinning"
+      );
+
+    }
+  );
+
+  audio.addEventListener(
+    "pause",
+    ()=>{
+
+      play.textContent =
+      "▶";
+
+      status.textContent =
+      "الأغنية متوقفة";
+
+      disc.classList.remove(
+        "spinning"
+      );
+
+    }
+  );
+
+  audio.addEventListener(
+    "timeupdate",
+    ()=>{
+
+      if(
+        !audio.duration
+      ){
+        return;
+      }
+
+      progress.value =
+      (
+        audio.currentTime
+        /
+        audio.duration
+      )
+      *
+      100;
+
+    }
+  );
+
+  progress.addEventListener(
+    "input",
+    ()=>{
+
+      if(
+        !audio.duration
+      ){
+        return;
+      }
+
+      audio.currentTime =
+      (
+        progress.value
+        /
+        100
+      )
+      *
+      audio.duration;
+
+    }
+  );
+
+}
+
+function setupYouTube(id){
+
+  mediaType =
+  "youtube";
+
+  const box =
+  document.getElementById(
+    "youtubeArea"
+  );
+
+  box.style.display =
+  "block";
+
+  const iframe =
+  document.createElement(
+    "iframe"
+  );
+
+  iframe.src =
+  "https://www.youtube.com/embed/"
+  +
+  encodeURIComponent(
+    id
+  )
+  +
+  "?playsinline=1&rel=0";
+
+  iframe.allow =
+  "accelerometer; autoplay; encrypted-media; picture-in-picture";
+
+  iframe.allowFullscreen =
+  true;
+
+  box.appendChild(
+    iframe
+  );
+
+  const note =
+  document.createElement(
+    "div"
+  );
+
+  note.className =
+  "youtubeNote";
+
+  note.textContent =
+  "التشغيل والإعلانات داخل المشغل من YouTube.";
+
+  box.appendChild(
+    note
+  );
+
+}
+
+function setupVideo(url){
+
+  mediaType =
+  "video";
+
+  document.getElementById(
+    "videoArea"
+  ).style.display =
+  "block";
+
+  document.getElementById(
+    "giftVideo"
+  ).src =
+  url;
+
+}
+
+function setupExternal(url){
+
+  const clean =
+  url
+  .split("?")[0]
+  .toLowerCase();
+
+  if(
+    clean.endsWith(
+      ".mp4"
+    )
+    ||
+    clean.endsWith(
+      ".mov"
+    )
+    ||
+    clean.endsWith(
+      ".webm"
+    )
+  ){
+
+    setupVideo(
+      url
+    );
+
+  }else{
+
+    setupAudio(
+      url
+    );
+
+  }
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function setTimeValue(id,value){
+
+  const element =
+  document.getElementById(
+    id
+  );
+
+  const stringValue =
+  String(
+    value
+  );
+
+  if(
+    element.textContent !==
+    stringValue
+  ){
+
+    element.textContent =
+    stringValue;
+
+    element.classList.remove(
+      "flip"
+    );
+
+    void element.offsetWidth;
+
+    element.classList.add(
+      "flip"
+    );
+
+  }
+
+}
+
+function updateCounter(){
+
+  if(
+    !dateValue
+  ){
+    return;
+  }
+
+  const p =
+  dateValue.split(
+    "-"
+  );
+
+  const start =
+  new Date(
+    Number(p[0]),
+    Number(p[1]) - 1,
+    Number(p[2]),
+    0,
+    0,
+    0
+  );
+
+  const now =
+  new Date();
+
+  if(
+    now < start
+  ){
+    return;
+  }
+
+  let cursor =
+  new Date(
+    start
+  );
+
+  let years =
+  now.getFullYear()
+  -
+  cursor.getFullYear();
+
+  let yearCursor =
+  new Date(
+    cursor
+  );
+
+  yearCursor.setFullYear(
+    cursor.getFullYear()
+    +
+    years
+  );
+
+  if(
+    yearCursor > now
+  ){
+
+    years--;
+
+    yearCursor =
+    new Date(
+      cursor
+    );
+
+    yearCursor.setFullYear(
+      cursor.getFullYear()
+      +
+      years
+    );
+
+  }
+
+  cursor =
+  yearCursor;
+
+  let months =
+  (
+    now.getFullYear()
+    -
+    cursor.getFullYear()
+  )
+  *
+  12
+  +
+  (
+    now.getMonth()
+    -
+    cursor.getMonth()
+  );
+
+  let monthCursor =
+  new Date(
+    cursor
+  );
+
+  monthCursor.setMonth(
+    cursor.getMonth()
+    +
+    months
+  );
+
+  if(
+    monthCursor > now
+  ){
+
+    months--;
+
+    monthCursor =
+    new Date(
+      cursor
+    );
+
+    monthCursor.setMonth(
+      cursor.getMonth()
+      +
+      months
+    );
+
+  }
+
+  const remaining =
+  now -
+  monthCursor;
+
+  const totalSeconds =
+  Math.floor(
+    remaining / 1000
+  );
+
+  const days =
+  Math.floor(
+    totalSeconds /
+    86400
+  );
+
+  const hours =
+  Math.floor(
+    (
+      totalSeconds %
+      86400
+    )
+    /
+    3600
+  );
+
+  const minutes =
+  Math.floor(
+    (
+      totalSeconds %
+      3600
+    )
+    /
+    60
+  );
+
+  const seconds =
+  totalSeconds %
+  60;
+
+  setTimeValue(
+    "years",
+    years
+  );
+
+  setTimeValue(
+    "months",
+    months
+  );
+
+  setTimeValue(
+    "days",
+    days
+  );
+
+  setTimeValue(
+    "hours",
+    hours
+  );
+
+  setTimeValue(
+    "minutes",
+    minutes
+  );
+
+  setTimeValue(
+    "seconds",
+    seconds
+  );
+
+}
+
+function formatDate(value){
+
+  const p =
+  value.split(
+    "-"
+  );
+
+  const months = [
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر"
+  ];
+
+  return (
+    Number(p[2])
+    +
+    " "
+    +
+    months[
+      Number(p[1]) - 1
+    ]
+    +
+    " "
+    +
+    Number(p[0])
+  );
+
+}
+
+
+/* =========================
+   DOTS
+========================= */
+
+function createDots(){
+
+  const box =
+  document.getElementById(
+    "progressDots"
+  );
+
+  box.innerHTML =
+  "";
+
+  screens.forEach(()=>{
+
+    const dot =
+    document.createElement(
+      "div"
+    );
+
+    dot.className =
+    "progressDot";
+
+    box.appendChild(
+      dot
+    );
+
+  });
+
+}
+
+function updateDots(){
+
+  document
+  .querySelectorAll(
+    ".progressDot"
+  )
+  .forEach(
+    (dot,index)=>{
+
+      dot.classList.toggle(
+        "active",
+        index ===
+        currentStep
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   EFFECTS
+========================= */
+
+function createStars(){
+
+  const box =
+  document.getElementById(
+    "stars"
+  );
+
+  for(
+    let i = 0;
+    i < 23;
+    i++
+  ){
+
+    const star =
+    document.createElement(
+      "div"
+    );
+
+    star.className =
+    "star";
+
+    star.style.left =
+    Math.random() * 100
+    +
+    "%";
+
+    star.style.top =
+    Math.random() * 100
+    +
+    "%";
+
+    star.style.animationDelay =
+    Math.random() * 3
+    +
+    "s";
+
+    box.appendChild(
+      star
+    );
+
+  }
+
+}
+
+function celebrate(count){
+
+  for(
+    let i = 0;
+    i < count;
+    i++
+  ){
+
+    const particle =
+    document.createElement(
+      "div"
+    );
+
+    particle.className =
+    "confetti";
+
+    particle.textContent =
+    i % 4 === 0
+    ?
+    "✦"
+    :
+    "♡";
+
+    particle.style.left =
+    Math.random() * 100
+    +
+    "%";
+
+    particle.style.fontSize =
+    (
+      11
+      +
+      Math.random() * 14
+    )
+    +
+    "px";
+
+    particle.style.animationDelay =
+    Math.random() * .35
+    +
+    "s";
+
+    document.body.appendChild(
+      particle
+    );
+
+    setTimeout(
+      ()=>particle.remove(),
+      3400
+    );
+
+  }
+
+}
+
+document.addEventListener(
+  "pointerdown",
+  event=>{
+
+    const target =
+    event.target;
+
+    if(
+      target.closest(
+        "button,input,iframe,video"
+      )
+    ){
+      return;
+    }
+
+    const particle =
+    document.createElement(
+      "div"
+    );
+
+    particle.className =
+    "touchParticle";
+
+    particle.textContent =
+    Math.random() > .55
+    ?
+    "♡"
+    :
+    "✦";
+
+    particle.style.left =
+    event.clientX
+    +
+    "px";
+
+    particle.style.top =
+    event.clientY
+    +
+    "px";
+
+    document.body.appendChild(
+      particle
+    );
+
+    setTimeout(
+      ()=>particle.remove(),
+      1200
+    );
+
+  }
+);
+
+
+/* =========================
+   SHARE + RESTART
+========================= */
+
+document
+.getElementById(
+  "shareButton"
+)
+.addEventListener(
+  "click",
+  async ()=>{
+
+    try{
+
+      if(
+        navigator.share
+      ){
+
+        await navigator.share({
+
+          title:
+          "لحظة خاصة ♡",
+
+          text:
+          "عندك لحظة خاصة تنتظرك ♡",
+
+          url:
+          location.href
+
+        });
+
+      }else{
+
+        await navigator.clipboard.writeText(
+          location.href
+        );
+
+        alert(
+          "تم نسخ رابط اللحظة ♡"
+        );
+
+      }
+
+    }catch{}
+
+  }
+);
+
+document
+.getElementById(
+  "restartButton"
+)
+.addEventListener(
+  "click",
+  ()=>{
+
+    stopPhotoTimer();
+
+    photoIndex =
+    0;
+
+    photos.forEach(
+      photo=>photo.classList.remove(
+        "active"
+      )
+    );
+
+    if(
+      photos[0]
+    ){
+
+      photos[0]
+      .classList
+      .add(
+        "active"
+      );
+
+    }
+
+    updatePhotoCounter();
+
+    currentStep =
+    0;
+
+    screens.forEach(
+      screen=>{
+
+        screen.classList.remove(
+          "active",
+          "visible"
+        );
+
+      }
+    );
+
+    showScreen(
+      0
+    );
+
+  }
+);
+
+
+/* =========================
+   LOCK
+========================= */
+
+function showLocked(){
+
+  const loading =
+  document.getElementById(
+    "loadingScreen"
+  );
+
+  loading.classList.remove(
+    "visible"
+  );
+
+  setTimeout(()=>{
+
+    loading.classList.remove(
+      "active"
+    );
+
+    const locked =
+    document.getElementById(
+      "lockedScreen"
+    );
+
+    locked.classList.add(
+      "active"
+    );
+
+    requestAnimationFrame(()=>{
+
+      locked.classList.add(
+        "visible"
+      );
+
+    });
+
+  },350);
+
+}
+
+
+/* =========================
+   CLEANUP
+========================= */
+
+window.addEventListener(
+  "beforeunload",
+  ()=>{
+
+    stopPhotoTimer();
+
+    if(
+      dateTimer
+    ){
+
+      clearInterval(
+        dateTimer
+      );
+
+    }
+
+    messageTimers.forEach(
+      timer=>clearTimeout(
+        timer
+      )
+    );
+
+    objectURLs.forEach(
+      url=>{
+
+        try{
+
+          URL.revokeObjectURL(
+            url
+          );
+
+        }catch{}
+
+      }
+    );
+
+  }
+);
+
+init();
+</script>
+
+</body>
+</html>
