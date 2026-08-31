@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#08080f">
+
 <title>صمّم هديتك | LAHZA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -314,6 +317,33 @@ textarea{
 .nextBtn{
   background:linear-gradient(135deg,#ff3474,#ff6999);
   color:white;
+}
+
+.nextBtn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.saveStatus{
+  display:none;
+  margin-top:13px;
+  padding:13px;
+  border-radius:13px;
+  text-align:center;
+  font-size:13px;
+  background:#111118;
+  border:1px solid #292933;
+  color:#aaa;
+}
+
+.saveStatus.show{
+  display:block;
+}
+
+.saveStatus.error{
+  color:#ff8294;
+  border-color:rgba(255,80,100,.3);
+  background:rgba(255,80,100,.08);
 }
 
 .modal{
@@ -630,12 +660,17 @@ textarea{
   </button>
 
   <button
+    id="nextBtn"
     class="nextBtn"
     type="button"
     onclick="continueNext()">
     متابعة للدفع ←
   </button>
 
+</div>
+
+<div id="saveStatus" class="saveStatus">
+  جاري حفظ هديتك...
 </div>
 
 </main>
@@ -709,6 +744,34 @@ textarea{
 
 <script>
 
+/* =========================================
+   SUPABASE
+   ========================================= */
+
+const SUPABASE_URL =
+  "https://ltuyfewachzbazunuxmd.supabase.co";
+
+/*
+الصق الـ Publishable key بين علامتي التنصيص تحت.
+يبدأ عادة بـ:
+sb_publishable_
+*/
+
+const SUPABASE_KEY =
+  "sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================
+   إعدادات LAHZA
+   ========================================= */
+
 const occasionNames = {
   love:"حب ❤️",
   birthday:"عيد ميلاد 🎂",
@@ -733,6 +796,13 @@ const limits = {
   forever:30
 };
 
+const prices = {
+  mini:1.900,
+  moment:2.900,
+  forever:4.900
+};
+
+
 let occasion =
   localStorage.getItem("lahzaOccasion") || "surprise";
 
@@ -743,8 +813,13 @@ let theme =
   localStorage.getItem("lahzaTheme") || "romantic";
 
 let selectedPhotos = [];
+
 let selectedAudio = null;
+
 let selectedAudioURL = "";
+
+let isSaving = false;
+
 
 const receiverInput =
   document.getElementById("receiver");
@@ -761,8 +836,16 @@ const dateInput =
 const dateErrorMessage =
   document.getElementById("dateErrorMessage");
 
+const nextBtn =
+  document.getElementById("nextBtn");
 
-/* المناسبة والباقة */
+const saveStatus =
+  document.getElementById("saveStatus");
+
+
+/* =========================================
+   المناسبة والباقة
+   ========================================= */
 
 document.getElementById("occasionName").textContent =
   occasionNames[occasion] || occasion;
@@ -774,47 +857,71 @@ document.getElementById("photoLimit").textContent =
   "حتى " + (limits[plan] || 5) + " صور";
 
 
-/* التاريخ الحالي */
+/* =========================================
+   التاريخ
+   ========================================= */
 
 function getTodayString(){
 
-  const now = new Date();
+  const now =
+    new Date();
 
-  const year = now.getFullYear();
+  const year =
+    now.getFullYear();
 
   const month =
-    String(now.getMonth() + 1).padStart(2,"0");
+    String(
+      now.getMonth() + 1
+    ).padStart(2,"0");
 
   const day =
-    String(now.getDate()).padStart(2,"0");
+    String(
+      now.getDate()
+    ).padStart(2,"0");
 
-  return year + "-" + month + "-" + day;
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
 }
 
-dateInput.max = getTodayString();
 
+dateInput.max =
+  getTodayString();
 
-/* التحقق القوي من التاريخ */
 
 function isValidDate(){
 
   if(!dateInput.value){
+
     clearDateError();
+
     return true;
   }
 
-  const value = dateInput.value;
+
+  const value =
+    dateInput.value;
+
 
   const pattern =
     /^\d{4}-\d{2}-\d{2}$/;
 
+
   if(!pattern.test(value)){
+
     showDateError();
+
     return false;
   }
 
+
   const parts =
     value.split("-");
+
 
   const year =
     Number(parts[0]);
@@ -825,6 +932,7 @@ function isValidDate(){
   const day =
     Number(parts[2]);
 
+
   const selected =
     new Date(
       year,
@@ -832,27 +940,48 @@ function isValidDate(){
       day
     );
 
+
   const realDate =
     selected.getFullYear() === year &&
     selected.getMonth() === month - 1 &&
     selected.getDate() === day;
 
+
   if(!realDate){
+
     showDateError();
+
     return false;
   }
+
 
   const today =
     new Date();
 
-  today.setHours(0,0,0,0);
 
-  selected.setHours(0,0,0,0);
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  selected.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
 
   if(selected > today){
+
     showDateError();
+
     return false;
   }
+
 
   clearDateError();
 
@@ -860,62 +989,87 @@ function isValidDate(){
 }
 
 
-/* يظهر خطأ التاريخ */
-
 function showDateError(){
 
-  dateInput.classList.add("dateError");
+  dateInput
+  .classList
+  .add("dateError");
 
-  dateErrorMessage.style.display =
+  dateErrorMessage
+  .style
+  .display =
     "block";
 }
 
 
-/* يشيل الخطأ */
-
 function clearDateError(){
 
-  dateInput.classList.remove("dateError");
+  dateInput
+  .classList
+  .remove("dateError");
 
-  dateErrorMessage.style.display =
+  dateErrorMessage
+  .style
+  .display =
     "none";
 }
 
 
-/* إذا عدل التاريخ نفحصه مرة ثانية */
+dateInput.addEventListener(
+  "change",
+  function(){
 
-dateInput.addEventListener("change",function(){
+    isValidDate();
 
-  isValidDate();
-
-});
-
-
-/* عداد الرسالة */
-
-messageInput.addEventListener("input",function(){
-
-  document.getElementById("count").textContent =
-    messageInput.value.length;
-
-});
+  }
+);
 
 
-/* اختيار الثيم */
+/* =========================================
+   عداد الرسالة
+   ========================================= */
 
-function chooseTheme(element,value){
+messageInput.addEventListener(
+  "input",
+  function(){
+
+    document
+    .getElementById("count")
+    .textContent =
+      messageInput.value.length;
+
+  }
+);
+
+
+/* =========================================
+   الثيم
+   ========================================= */
+
+function chooseTheme(
+  element,
+  value
+){
 
   document
   .querySelectorAll(".theme")
   .forEach(function(item){
 
-    item.classList.remove("selected");
+    item.classList.remove(
+      "selected"
+    );
 
   });
 
-  element.classList.add("selected");
 
-  theme = value;
+  element
+  .classList
+  .add("selected");
+
+
+  theme =
+    value;
+
 
   localStorage.setItem(
     "lahzaTheme",
@@ -925,145 +1079,243 @@ function chooseTheme(element,value){
 }
 
 
-/* استرجاع الثيم المحدد */
-
 document
 .querySelectorAll(".theme")
 .forEach(function(item){
 
-  item.classList.remove("selected");
+  item.classList.remove(
+    "selected"
+  );
 
-  if(item.dataset.theme === theme){
-    item.classList.add("selected");
+
+  if(
+    item.dataset.theme ===
+    theme
+  ){
+
+    item.classList.add(
+      "selected"
+    );
+
   }
 
 });
 
 
-/* الصور */
+/* =========================================
+   الصور
+   ========================================= */
 
 document
 .getElementById("photoInput")
-.addEventListener("change",function(event){
+.addEventListener(
+  "change",
+  function(event){
 
-  const max =
-    limits[plan] || 5;
+    const max =
+      limits[plan] || 5;
 
-  selectedPhotos =
-    Array
-    .from(event.target.files)
-    .slice(0,max);
 
-  if(event.target.files.length > max){
+    selectedPhotos =
+      Array
+      .from(event.target.files)
+      .slice(0,max);
 
-    alert(
-      "باقتك تسمح بـ " +
-      max +
-      " صور فقط 🤍"
-    );
+
+    if(
+      event.target.files.length >
+      max
+    ){
+
+      alert(
+        "باقتك تسمح بـ " +
+        max +
+        " صور فقط 🤍"
+      );
+
+    }
+
+
+    const tooLarge =
+      selectedPhotos.find(
+        file =>
+          file.size >
+          10 * 1024 * 1024
+      );
+
+
+    if(tooLarge){
+
+      alert(
+        "حجم الصورة كبير جدًا. الحد الأقصى للصورة الواحدة 10MB."
+      );
+
+      selectedPhotos = [];
+
+      event.target.value = "";
+
+    }
+
+
+    document
+    .getElementById("photoInfo")
+    .textContent =
+      selectedPhotos.length
+      ? "تم اختيار " +
+        selectedPhotos.length +
+        " صورة ✓"
+      : "";
+
+
+    const preview =
+      document.getElementById(
+        "previewImages"
+      );
+
+
+    preview.innerHTML =
+      "";
+
+
+    selectedPhotos
+    .slice(0,9)
+    .forEach(function(file){
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+      function(event){
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
+          event.target.result;
+
+        preview.appendChild(
+          img
+        );
+
+      };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    });
 
   }
-
-  document
-  .getElementById("photoInfo")
-  .textContent =
-    selectedPhotos.length
-    ? "تم اختيار " +
-      selectedPhotos.length +
-      " صورة ✓"
-    : "";
-
-  const preview =
-    document.getElementById(
-      "previewImages"
-    );
-
-  preview.innerHTML = "";
-
-  selectedPhotos
-  .slice(0,9)
-  .forEach(function(file){
-
-    const reader =
-      new FileReader();
-
-    reader.onload =
-    function(event){
-
-      const img =
-        document.createElement("img");
-
-      img.src =
-        event.target.result;
-
-      preview.appendChild(img);
-
-    };
-
-    reader.readAsDataURL(file);
-
-  });
-
-});
+);
 
 
-/* الأغنية */
+/* =========================================
+   الأغنية
+   ========================================= */
 
 document
 .getElementById("audioInput")
-.addEventListener("change",function(event){
+.addEventListener(
+  "change",
+  function(event){
 
-  selectedAudio =
-    event.target.files[0] || null;
+    selectedAudio =
+      event.target.files[0] ||
+      null;
 
-  if(!selectedAudio){
-    return;
+
+    if(!selectedAudio){
+      return;
+    }
+
+
+    if(
+      selectedAudio.size >
+      25 * 1024 * 1024
+    ){
+
+      alert(
+        "حجم الأغنية كبير جدًا. الحد الأقصى 25MB."
+      );
+
+      selectedAudio =
+        null;
+
+      event.target.value =
+        "";
+
+      document
+      .getElementById("audioInfo")
+      .textContent =
+        "";
+
+      return;
+    }
+
+
+    if(selectedAudioURL){
+
+      URL.revokeObjectURL(
+        selectedAudioURL
+      );
+
+    }
+
+
+    selectedAudioURL =
+      URL.createObjectURL(
+        selectedAudio
+      );
+
+
+    document
+    .getElementById("audioInfo")
+    .textContent =
+      "🎵 " +
+      selectedAudio.name +
+      " ✓";
+
   }
-
-  if(selectedAudioURL){
-
-    URL.revokeObjectURL(
-      selectedAudioURL
-    );
-
-  }
-
-  selectedAudioURL =
-    URL.createObjectURL(
-      selectedAudio
-    );
-
-  document
-  .getElementById("audioInfo")
-  .textContent =
-    "🎵 " +
-    selectedAudio.name +
-    " ✓";
-
-});
+);
 
 
-/* فحص كل البيانات */
+/* =========================================
+   التحقق
+   ========================================= */
 
 function validate(){
 
   const receiver =
-    receiverInput.value.trim();
+    receiverInput
+    .value
+    .trim();
+
 
   const message =
-    messageInput.value.trim();
+    messageInput
+    .value
+    .trim();
 
 
   if(!receiver){
 
-    alert("اكتب اسم المستلم 🤍");
+    alert(
+      "اكتب اسم المستلم 🤍"
+    );
+
 
     receiverInput.focus();
+
 
     receiverInput.scrollIntoView({
       behavior:"smooth",
       block:"center"
     });
+
 
     return false;
   }
@@ -1071,21 +1323,23 @@ function validate(){
 
   if(!message){
 
-    alert("اكتب الرسالة 💌");
+    alert(
+      "اكتب الرسالة 💌"
+    );
+
 
     messageInput.focus();
+
 
     messageInput.scrollIntoView({
       behavior:"smooth",
       block:"center"
     });
 
+
     return false;
   }
 
-
-  /* أهم جزء:
-     إذا التاريخ غلط ما يكمل */
 
   if(!isValidDate()){
 
@@ -1094,9 +1348,16 @@ function validate(){
       block:"center"
     });
 
-    setTimeout(function(){
-      dateInput.focus();
-    },400);
+
+    setTimeout(
+      function(){
+
+        dateInput.focus();
+
+      },
+      400
+    );
+
 
     return false;
   }
@@ -1106,7 +1367,9 @@ function validate(){
 }
 
 
-/* شكل التاريخ بالعربي */
+/* =========================================
+   التاريخ بالعربي
+   ========================================= */
 
 function formatArabicDate(value){
 
@@ -1114,8 +1377,10 @@ function formatArabicDate(value){
     return "";
   }
 
+
   const parts =
     value.split("-");
+
 
   const year =
     Number(parts[0]);
@@ -1125,6 +1390,7 @@ function formatArabicDate(value){
 
   const day =
     Number(parts[2]);
+
 
   const months = [
     "يناير",
@@ -1141,6 +1407,7 @@ function formatArabicDate(value){
     "ديسمبر"
   ];
 
+
   return (
     day +
     " " +
@@ -1148,10 +1415,13 @@ function formatArabicDate(value){
     " " +
     year
   );
+
 }
 
 
-/* المعاينة */
+/* =========================================
+   المعاينة
+   ========================================= */
 
 function showPreview(){
 
@@ -1159,21 +1429,33 @@ function showPreview(){
     return;
   }
 
+
   const receiver =
-    receiverInput.value.trim();
+    receiverInput
+    .value
+    .trim();
+
 
   const sender =
-    senderInput.value.trim();
+    senderInput
+    .value
+    .trim();
+
 
   const message =
-    messageInput.value.trim();
+    messageInput
+    .value
+    .trim();
+
 
   const date =
     dateInput.value;
 
 
   document
-  .getElementById("previewReceiver")
+  .getElementById(
+    "previewReceiver"
+  )
   .textContent =
     "إلى " +
     receiver +
@@ -1181,30 +1463,39 @@ function showPreview(){
 
 
   document
-  .getElementById("previewOccasion")
+  .getElementById(
+    "previewOccasion"
+  )
   .textContent =
     occasionNames[occasion] ||
     "لحظة خاصة";
 
 
   document
-  .getElementById("previewMessage")
+  .getElementById(
+    "previewMessage"
+  )
   .textContent =
     message;
 
 
   document
-  .getElementById("previewFrom")
+  .getElementById(
+    "previewFrom"
+  )
   .innerHTML =
     "من ♡ <b>" +
     escapeHTML(
-      sender || "شخص يفكر فيك"
+      sender ||
+      "شخص يفكر فيك"
     ) +
     "</b>";
 
 
   document
-  .getElementById("previewDate")
+  .getElementById(
+    "previewDate"
+  )
   .textContent =
     date
     ? "🤍 " +
@@ -1217,7 +1508,9 @@ function showPreview(){
       "previewGallery"
     );
 
-  gallery.innerHTML = "";
+
+  gallery.innerHTML =
+    "";
 
 
   selectedPhotos
@@ -1227,20 +1520,30 @@ function showPreview(){
     const reader =
       new FileReader();
 
+
     reader.onload =
     function(event){
 
       const img =
-        document.createElement("img");
+        document.createElement(
+          "img"
+        );
+
 
       img.src =
         event.target.result;
 
-      gallery.appendChild(img);
+
+      gallery.appendChild(
+        img
+      );
 
     };
 
-    reader.readAsDataURL(file);
+
+    reader.readAsDataURL(
+      file
+    );
 
   });
 
@@ -1249,6 +1552,7 @@ function showPreview(){
     document.getElementById(
       "audioPreview"
     );
+
 
   const previewAudio =
     document.getElementById(
@@ -1261,14 +1565,23 @@ function showPreview(){
     previewAudio.src =
       selectedAudioURL;
 
-    audioPreview.style.display =
+
+    audioPreview
+    .style
+    .display =
       "block";
 
   }else{
 
-    previewAudio.removeAttribute("src");
+    previewAudio
+    .removeAttribute(
+      "src"
+    );
 
-    audioPreview.style.display =
+
+    audioPreview
+    .style
+    .display =
       "none";
 
   }
@@ -1285,12 +1598,16 @@ function showPreview(){
     wrap.style.background =
       "radial-gradient(circle at top,#35101f,#08080f 60%)";
 
-  }else if(theme === "midnight"){
+  }else if(
+    theme === "midnight"
+  ){
 
     wrap.style.background =
       "radial-gradient(circle at top,#20295f,#08080f 60%)";
 
-  }else if(theme === "sunset"){
+  }else if(
+    theme === "sunset"
+  ){
 
     wrap.style.background =
       "radial-gradient(circle at top,#713a4e,#100a13 60%)";
@@ -1305,7 +1622,9 @@ function showPreview(){
 
   document
   .getElementById("modal")
-  .classList.add("show");
+  .classList
+  .add("show");
+
 
   document.body.style.overflow =
     "hidden";
@@ -1313,62 +1632,327 @@ function showPreview(){
 }
 
 
-/* إغلاق المعاينة */
-
 function closePreview(){
 
   document
   .getElementById("modal")
-  .classList.remove("show");
+  .classList
+  .remove("show");
+
 
   document.body.style.overflow =
     "";
+
 
   const audio =
     document.getElementById(
       "previewAudio"
     );
 
+
   audio.pause();
 
 }
 
 
-/* حماية الاسم عند عرضه */
-
 function escapeHTML(text){
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  div.textContent = text;
+
+  div.textContent =
+    text;
+
 
   return div.innerHTML;
 }
 
 
-/* الانتقال للدفع */
+/* =========================================
+   الأدوات
+   ========================================= */
 
-function continueNext(){
+function generateOrderNumber(){
 
-  /* إذا أي شيء غلط
-     يوقف هنا نهائياً */
+  const time =
+    Date.now()
+    .toString()
+    .slice(-7);
 
-  if(!validate()){
-    return;
+
+  const random =
+    Math.floor(
+      1000 +
+      Math.random() *
+      9000
+    );
+
+
+  return (
+    "LHZ-" +
+    time +
+    "-" +
+    random
+  );
+
+}
+
+
+function generateUUID(){
+
+  if(
+    window.crypto &&
+    crypto.randomUUID
+  ){
+
+    return crypto.randomUUID();
+
   }
+
+
+  return (
+    Date.now()
+    .toString(36) +
+    "-" +
+    Math.random()
+    .toString(36)
+    .slice(2)
+  );
+
+}
+
+
+function cleanExtension(file){
+
+  const name =
+    file.name || "";
+
+
+  const dot =
+    name.lastIndexOf(".");
+
+
+  if(dot === -1){
+    return "";
+  }
+
+
+  return name
+    .slice(dot)
+    .toLowerCase()
+    .replace(
+      /[^a-z0-9.]/g,
+      ""
+    )
+    .slice(0,10);
+
+}
+
+
+/* =========================================
+   رفع الصور إلى Supabase
+   ========================================= */
+
+async function uploadPhotos(
+  orderFolder
+){
+
+  const uploadedPaths =
+    [];
+
+
+  for(
+    let i = 0;
+    i < selectedPhotos.length;
+    i++
+  ){
+
+    const file =
+      selectedPhotos[i];
+
+
+    const extension =
+      cleanExtension(file);
+
+
+    const path =
+      orderFolder +
+      "/photos/" +
+      generateUUID() +
+      extension;
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+      .storage
+      .from("gift-media")
+      .upload(
+        path,
+        file,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:file.type
+        }
+      );
+
+
+    if(error){
+
+      console.error(
+        "Photo upload error:",
+        error
+      );
+
+
+      throw new Error(
+        "تعذر رفع إحدى الصور."
+      );
+
+    }
+
+
+    uploadedPaths.push(
+      path
+    );
+
+  }
+
+
+  return uploadedPaths;
+
+}
+
+
+/* =========================================
+   رفع الأغنية
+   ========================================= */
+
+async function uploadAudio(
+  orderFolder
+){
+
+  if(!selectedAudio){
+    return null;
+  }
+
+
+  const extension =
+    cleanExtension(
+      selectedAudio
+    );
+
+
+  const path =
+    orderFolder +
+    "/audio/" +
+    generateUUID() +
+    extension;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+    .storage
+    .from("gift-media")
+    .upload(
+      path,
+      selectedAudio,
+      {
+        cacheControl:"3600",
+        upsert:false,
+        contentType:
+          selectedAudio.type
+      }
+    );
+
+
+  if(error){
+
+    console.error(
+      "Audio upload error:",
+      error
+    );
+
+
+    throw new Error(
+      "تعذر رفع الأغنية."
+    );
+
+  }
+
+
+  return path;
+
+}
+
+
+/* =========================================
+   حفظ الطلب
+   ========================================= */
+
+async function saveOrder(){
+
+  const orderNumber =
+    generateOrderNumber();
+
+
+  const giftToken =
+    generateUUID();
+
+
+  const orderFolder =
+    giftToken;
+
+
+  showSaving(
+    "جاري رفع الصور والأغنية وحفظ طلبك..."
+  );
+
+
+  const photoPaths =
+    await uploadPhotos(
+      orderFolder
+    );
+
+
+  const audioPath =
+    await uploadAudio(
+      orderFolder
+    );
+
+
+  const amount =
+    prices[plan] ||
+    prices.mini;
+
+
+  const sender =
+    senderInput
+    .value
+    .trim();
 
 
   const giftData = {
 
     receiver:
-      receiverInput.value.trim(),
+      receiverInput
+      .value
+      .trim(),
 
     sender:
-      senderInput.value.trim(),
+      sender,
 
     message:
-      messageInput.value.trim(),
+      messageInput
+      .value
+      .trim(),
 
     date:
       dateInput.value,
@@ -1380,22 +1964,246 @@ function continueNext(){
       plan,
 
     theme:
-      theme
+      theme,
+
+    price:
+      amount,
+
+    order_number:
+      orderNumber,
+
+    gift_token:
+      giftToken,
+
+    photos:
+      photoPaths,
+
+    audio_url:
+      audioPath
 
   };
 
 
+  const {
+    error
+  } =
+    await supabaseClient
+    .from("orders")
+    .insert({
+
+      order_number:
+        orderNumber,
+
+      receiver:
+        giftData.receiver,
+
+      sender:
+        sender ||
+        "",
+
+      message:
+        giftData.message,
+
+      gift_date:
+        giftData.date ||
+        null,
+
+      occasion:
+        occasion,
+
+      plan:
+        plan,
+
+      theme:
+        theme,
+
+      price:
+        amount,
+
+      status:
+        "pending",
+
+      gift_token:
+        giftToken,
+
+      photos:
+        photoPaths,
+
+      audio_url:
+        audioPath
+
+    });
+
+
+  if(error){
+
+    console.error(
+      "Order insert error:",
+      error
+    );
+
+
+    throw new Error(
+      "تعذر حفظ الطلب."
+    );
+
+  }
+
+
   localStorage.setItem(
     "lahzaGift",
-    JSON.stringify(giftData)
+    JSON.stringify(
+      giftData
+    )
   );
 
 
-  /* ما يوصل هنا إلا إذا
-     البيانات صحيحة */
+  localStorage.setItem(
+    "lahzaOrderNumber",
+    orderNumber
+  );
 
-  window.location.href =
-    "checkout.html";
+
+  localStorage.setItem(
+    "lahzaGiftToken",
+    giftToken
+  );
+
+
+  return giftData;
+
+}
+
+
+/* =========================================
+   حالة الحفظ
+   ========================================= */
+
+function showSaving(text){
+
+  saveStatus
+  .classList
+  .remove("error");
+
+
+  saveStatus
+  .classList
+  .add("show");
+
+
+  saveStatus.textContent =
+    text;
+
+}
+
+
+function showSaveError(text){
+
+  saveStatus
+  .classList
+  .add(
+    "show",
+    "error"
+  );
+
+
+  saveStatus.textContent =
+    text;
+
+}
+
+
+/* =========================================
+   متابعة للدفع
+   ========================================= */
+
+async function continueNext(){
+
+  if(isSaving){
+    return;
+  }
+
+
+  if(!validate()){
+    return;
+  }
+
+
+  if(
+    SUPABASE_KEY ===
+    "ضع_PUBLISHABLE_KEY_هنا"
+  ){
+
+    alert(
+      "لازم تحط Publishable key الخاص بـ Supabase داخل الكود أول."
+    );
+
+    return;
+  }
+
+
+  isSaving =
+    true;
+
+
+  nextBtn.disabled =
+    true;
+
+
+  nextBtn.textContent =
+    "جاري الحفظ...";
+
+
+  try{
+
+    await saveOrder();
+
+
+    showSaving(
+      "تم حفظ هديتك ✓ جاري الانتقال للدفع..."
+    );
+
+
+    setTimeout(
+      function(){
+
+        window.location.href =
+          "checkout.html";
+
+      },
+      600
+    );
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    showSaveError(
+      "صار خطأ أثناء حفظ الهدية. حاول مرة ثانية."
+    );
+
+
+    alert(
+      "ما قدرنا نحفظ هديتك الآن. تأكد من الإنترنت وحاول مرة ثانية."
+    );
+
+
+    isSaving =
+      false;
+
+
+    nextBtn.disabled =
+      false;
+
+
+    nextBtn.textContent =
+      "متابعة للدفع ←";
+
+  }
 
 }
 
