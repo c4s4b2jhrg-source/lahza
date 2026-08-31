@@ -90,17 +90,27 @@ button:active{transform:scale(.97)}
 }
 
 .card{
+  width:100%;
+  max-width:620px;
   margin:30px auto;
-  padding:35px 25px;
-  border-radius:30px;
-  background:linear-gradient(
-    145deg,
-    rgba(255,255,255,.12),
-    rgba(255,255,255,.045)
-  );
-  border:1px solid rgba(255,255,255,.13);
-  backdrop-filter:blur(15px);
-  box-shadow:0 25px 60px rgba(0,0,0,.35);
+  padding:38px 28px;
+  border-radius:32px;
+
+  background:
+    radial-gradient(circle at top right,
+    rgba(255,71,126,.14),
+    transparent 40%),
+    rgba(255,255,255,.055);
+
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.40),
+    inset 0 1px 0 rgba(255,255,255,.08);
+
+  overflow:hidden;
 }
 
 .message{
