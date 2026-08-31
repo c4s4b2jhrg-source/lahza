@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اصنع لحظتك | LAHZA</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#090914;
+  color:white;
+}
+
+header{
+  padding:22px;
+  text-align:center;
+  font-size:26px;
+  font-weight:bold;
+  color:#ff5d91;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  color:#171722;
+  border-radius:22px;
+  padding:25px;
+  margin-top:20px;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#777;
+  margin-bottom:25px;
+}
+
+label{
+  display:block;
+  margin-top:18px;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+}
+
+textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+button{
+  width:100%;
+  margin-top:25px;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  background:#ff4f87;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.note{
+  background:#fff4f8;
+  color:#555;
+  padding:14px;
+  border-radius:12px;
+  margin-top:20px;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.back{
+  display:block;
+  text-align:center;
+  color:#ff7ba5;
+  margin-top:20px;
+  text-decoration:none;
+}
+
+.preview{
+  display:none;
+  margin-top:25px;
+  padding:20px;
+  background:#111126;
+  border-radius:18px;
+  color:white;
+  text-align:center;
+}
+
+.preview h2{
+  color:#ff5d91;
+}
+
+.preview img{
+  max-width:100%;
+  max-height:300px;
+  border-radius:16px;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>LAHZA ♡ لحظة</header>
+
+<div class="container">
+
+  <div class="card">
+    <h1>اصنع لحظتك 💗</h1>
+    <div class="subtitle">
+      عبّ البيانات وبنشوف شكل الهدية قبل ما نربطها بقاعدة البيانات
+    </div>
+
+    <label>اسم المرسل</label>
+    <input type="text" id="sender" placeholder="مثال: علي">
+
+    <label>اسم المستلم</label>
+    <input type="text" id="receiver" placeholder="مثال: سارة">
+
+    <label>المناسبة</label>
+    <select id="occasion">
+      <option value="حب">❤️ حب</option>
+      <option value="صداقة">🫂 صداقة</option>
+      <option value="عيد ميلاد">🎂 عيد ميلاد</option>
+      <option value="تخرج">🎓 تخرج</option>
+      <option value="مفاجأة">🎁 مفاجأة</option>
+      <option value="اعتذار">🥹 اعتذار</option>
+    </select>
+
+    <label>الرسالة</label>
+    <textarea id="message" placeholder="اكتب رسالتك هنا..."></textarea>
+
+    <label>التاريخ</label>
+    <input type="date" id="date">
+
+    <label>رابط الأغنية</label>
+    <input type="url" id="song" placeholder="مثال: رابط يوتيوب أو سبوتيفاي">
+
+    <label>صورة واحدة للتجربة</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <button onclick="makePreview()">شوف المعاينة ✨</button>
+
+    <div class="note">
+      الحين هذي الصفحة مجرد تجربة داخل المتصفح. الخطوة الجاية بنخلي البيانات تنحفظ فعلًا ويطلع لكل زبون رابط خاص.
+    </div>
+  </div>
+
+  <div class="preview" id="preview">
+    <h2 id="previewTitle"></h2>
+    <p id="previewOccasion"></p>
+    <p id="previewMessage"></p>
+    <p id="previewDate"></p>
+    <div id="previewSong"></div>
+    <img id="previewImage" style="display:none;">
+    <p id="previewFrom"></p>
+  </div>
+
+  <a class="back" href="index.html">← رجوع للرئيسية</a>
+
+</div>
+
+<script>
+function makePreview(){
+
+  const sender = document.getElementById("sender").value;
+  const receiver = document.getElementById("receiver").value;
+  const occasion = document.getElementById("occasion").value;
+  const message = document.getElementById("message").value;
+  const date = document.getElementById("date").value;
+  const song = document.getElementById("song").value;
+  const photo = document.getElementById("photo").files[0];
+
+  if(!receiver || !message){
+    alert("اكتب اسم المستلم والرسالة أول");
+    return;
+  }
+
+  document.getElementById("previewTitle").innerText =
+    "لحظة خاصة لـ " + receiver + " 🤍";
+
+  document.getElementById("previewOccasion").innerText =
+    "المناسبة: " + occasion;
+
+  document.getElementById("previewMessage").innerText =
+    message;
+
+  document.getElementById("previewDate").innerText =
+    date ? "التاريخ: " + date : "";
+
+  document.getElementById("previewFrom").innerText =
+    sender ? "من: " + sender : "";
+
+  if(song){
+    document.getElementById("previewSong").innerHTML =
+      '<a href="' + song + '" target="_blank" style="color:#ff7ba5">🎵 افتح الأغنية</a>';
+  }else{
+    document.getElementById("previewSong").innerHTML = "";
+  }
+
+  if(photo){
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+      const img = document.getElementById("previewImage");
+      img.src = e.target.result;
+      img.style.display = "block";
+    };
+
+    reader.readAsDataURL(photo);
+  }
+
+  document.getElementById("preview").style.display = "block";
+  document.getElementById("preview").scrollIntoView({
+    behavior:"smooth"
+  });
+}
+</script>
+
+</body>
+</html>
