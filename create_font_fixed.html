@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>اصنع لحظتك | LAHZA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700&family=Reem+Kufi+Ink&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{
+      --bg:#0d0b10;--card:#17131b;--text:#fff8fb;--muted:#b8aeb5;
+      --pink:#ff6fa9;--pink2:#ff9fc7;--line:rgba(255,255,255,.10);
+      --ok:#57d18c;--warn:#ffcd6a;--danger:#ff6b7f;--shadow:0 22px 60px rgba(0,0,0,.34)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:
+      radial-gradient(circle at 15% 8%,rgba(255,111,169,.12),transparent 25%),
+      radial-gradient(circle at 88% 90%,rgba(132,84,255,.10),transparent 28%),
+      var(--bg);color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif
+    }
+    button,input,textarea,select{font:inherit}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(100% - 28px,820px);margin:auto;padding:26px 0 120px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+    .brand{font-weight:900;font-size:24px;letter-spacing:.03em}
+    .back{font-size:14px;color:var(--muted)}
+    .hero{
+      padding:28px;border:1px solid var(--line);background:rgba(23,19,27,.74);backdrop-filter:blur(15px);
+      border-radius:28px;box-shadow:var(--shadow);margin-bottom:18px
+    }
+    .eyebrow{font-size:12px;letter-spacing:.12em;color:var(--pink2);margin-bottom:8px}
+    h1{font-size:clamp(30px,7vw,48px);margin:0 0 10px}
+    h2{font-size:22px;margin:0 0 14px}
+    p{color:var(--muted);line-height:1.8;margin:0}
+    .planbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .pill{padding:9px 13px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:13px}
+    .pill.active{background:rgba(255,111,169,.14);border-color:rgba(255,111,169,.45);color:#ffd9e8}
+    .section{
+      border:1px solid var(--line);background:rgba(23,19,27,.72);backdrop-filter:blur(14px);
+      border-radius:26px;padding:22px;margin-top:16px
+    }
+    .sectionHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .sectionHead small{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .full{grid-column:1/-1}
+    label{display:block;font-size:13px;color:#e9dfe4;margin-bottom:7px}
+    input,textarea,select{
+      width:100%;border:1px solid var(--line);background:#110e14;color:var(--text);
+      border-radius:16px;padding:14px;outline:none
+    }
+    input:focus,textarea:focus,select:focus{border-color:rgba(255,111,169,.55)}
+    textarea{min-height:120px;resize:vertical;line-height:1.8}
+    .checks{display:flex;gap:10px;flex-wrap:wrap}
+    .check{
+      display:flex;align-items:center;gap:8px;padding:11px 13px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--line)
+    }
+    .check input{width:auto}
+    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .choice{
+      position:relative;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:18px;padding:15px;cursor:pointer
+    }
+    .choice.active{border-color:var(--pink);box-shadow:inset 0 0 0 1px var(--pink)}
+    .choice.locked{opacity:.5;cursor:not-allowed}
+    .choice b{display:block;margin-bottom:5px}.choice small{color:var(--muted)}
+    .lock{position:absolute;left:10px;top:10px;font-size:12px}
+    .preview{
+      margin-top:12px;padding:18px;border-radius:18px;background:#fff7f2;color:#4d3b42;min-height:120px;
+      white-space:pre-wrap;line-height:1.9
+    }
+    .photos{display:grid;gap:10px}
+    .photoRow{
+      display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:10px;padding:10px;
+      border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.04)
+    }
+    .photoRow img{width:64px;height:64px;object-fit:cover;border-radius:12px}
+    .rowBtns{display:flex;gap:6px;flex-wrap:wrap}
+    .miniBtn{
+      border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;border-radius:11px;padding:8px 10px;cursor:pointer
+    }
+    .miniBtn.danger{color:#ffd1d8}
+    .hint{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.6}
+    .lockedBox{opacity:.55;position:relative}
+    .lockedBox:after{
+      content:"🔒 متوفر في باقة أعلى";position:absolute;inset:0;display:grid;place-items:center;
+      background:rgba(13,11,16,.76);border-radius:18px;font-weight:800;color:#ffe4ee;z-index:3
+    }
+    .audioCard{
+      border:1px solid var(--line);border-radius:20px;padding:16px;background:rgba(255,255,255,.04)
+    }
+    .recordRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .recordBtn{
+      width:58px;height:58px;border-radius:50%;border:0;background:var(--pink);color:#fff;font-size:24px;cursor:pointer;
+      box-shadow:0 10px 28px rgba(255,111,169,.28)
+    }
+    .recordBtn.recording{animation:pulse 1s infinite alternate;background:#ef4d64}
+    @keyframes pulse{to{transform:scale(.92);opacity:.75}}
+    .timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:18px}
+    audio,video{width:100%;margin-top:12px;border-radius:14px}
+    .orderList{display:grid;gap:8px}
+    .orderItem{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 13px;
+      border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)
+    }
+    .summary{display:grid;gap:10px}
+    .sumrow{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--line);padding:9px 0}
+    .sumrow span{color:var(--muted)}
+    .sticky{
+      position:fixed;left:0;right:0;bottom:0;padding:12px max(14px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom));
+      background:linear-gradient(to top,rgba(13,11,16,.98),rgba(13,11,16,.88),transparent);z-index:50
+    }
+    .stickyInner{width:min(100%,820px);margin:auto}
+    .submit{
+      width:100%;border:0;border-radius:18px;padding:17px;background:linear-gradient(135deg,var(--pink),#ff90ba);
+      color:white;font-weight:900;font-size:17px;cursor:pointer;box-shadow:0 12px 34px rgba(255,111,169,.28)
+    }
+    .submit:disabled{opacity:.55;cursor:not-allowed}
+    .status{margin-top:10px;text-align:center;font-size:13px;color:var(--muted)}
+    .error{color:#ffabb8}.success{color:#9ce4ba}
+    .hide{display:none!important}
+    @media(max-width:640px){.grid,.cards{grid-template-columns:1fr}.photoRow{grid-template-columns:58px 1fr}.rowBtns{grid-column:1/-1}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="plans.html">← رجوع للباقات</a>
+      <div class="brand">LAHZA ♡</div>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow">اصنع هديتك</div>
+      <h1>خلّها لحظة تنحفظ.</h1>
+      <p>عبّ البيانات، رتب الصور، أضف الموسيقى أو الفويس، وبعدها نجهز لك رابط الهدية.</p>
+      <div class="planbar">
+        <span id="planMini" class="pill">Mini</span>
+        <span id="planMoment" class="pill">Moment</span>
+        <span id="planForever" class="pill">Forever</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead"><div><h2>الأساسيات</h2><small>اسم الشخص، المرسل، وتاريخ الذكرى.</small></div></div>
+      <div class="grid">
+        <div><label>اسم المستلم</label><input id="receiver" maxlength="60" placeholder="مثال: نور"></div>
+        <div><label>اسم المرسل</label><input id="sender" maxlength="60" placeholder="مثال: علي"></div>
+        <div><label>تاريخ الذكرى</label><input id="giftDate" type="date"></div>
+        <div><label>المناسبة</label><input id="occasion" readonly></div>
+        <div class="full checks">
+          <label class="check"><input id="showDate" type="checkbox" checked> إظهار عداد التاريخ داخل الهدية</label>
+          <label id="anonymousWrap" class="check"><input id="senderAnonymous" type="checkbox"> إخفاء اسم المرسل</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead"><div><h2>الرسالة</h2><small>اكتبها بالطريقة اللي تحبها.</small></div></div>
+      <textarea id="message" maxlength="1800" placeholder="اكتب رسالتك هنا…"></textarea>
+      <div style="margin-top:14px">
+        <label>خط الرسالة</label>
+        <div id="fontChoices" class="cards">
+          <div class="choice active" data-font="classic" style="font-family:'Aref Ruqaa',serif"><b>Classic</b><small>ناعم ومرتب</small></div>
+          <div class="choice" data-font="soft" style="font-family:'Tajawal',sans-serif"><b>Soft</b><small>بسيط وواضح</small></div>
+          <div class="choice" data-font="handwritten" style="font-family:'Reem Kufi Ink',cursive"><b>Handwritten</b><small>قريب من الكتابة اليدوية</small></div>
+          <div class="choice" data-font="elegant" style="font-family:'Noto Kufi Arabic',sans-serif"><b>Elegant</b><small>كلاسيكي أنيق</small></div>
+          <div class="choice" data-font="modern" style="font-family:'Cairo',sans-serif"><b>Modern</b><small>عصري</small></div>
+        </div>
+        <div id="messagePreview" class="preview">معاينة رسالتك بتطلع هنا ♡</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead"><div><h2>الثيم</h2><small>اختار الجو العام للهدية.</small></div></div>
+      <div id="themeChoices" class="cards">
+        <div class="choice active" data-theme="romantic"><b>Romantic</b><small>وردي هادي</small></div>
+        <div class="choice" data-theme="minimal"><b>Minimal</b><small>فاتح ونظيف</small></div>
+        <div class="choice" data-theme="midnight"><b>Midnight</b><small>ليل أزرق</small></div>
+        <div class="choice" data-theme="sunset"><b>Sunset</b><small>دفء وغروب</small></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead">
+        <div><h2>الصور</h2><small id="photoLimitText">اختر صورك ورتبها.</small></div>
+      </div>
+      <input id="photoInput" type="file" accept="image/*" multiple>
+      <div class="hint">تقدر تغيّر ترتيب الصور من الأسهم بعد ما تختارها.</div>
+      <div id="photosList" class="photos" style="margin-top:12px"></div>
+
+      <div style="margin-top:18px" class="grid">
+        <div><label>إطار الصورة</label><select id="photoFrame"><option value="soft">ناعم</option><option value="polaroid">Polaroid</option><option value="none">بدون إطار</option></select></div>
+        <div><label>حجم الصورة</label><select id="photoSize"><option value="small">صغير</option><option value="medium" selected>متوسط</option><option value="large">كبير</option></select></div>
+        <div><label>عرض الصورة</label><select id="photoFit"><option value="contain">كاملة</option><option value="cover">ملء الإطار</option></select></div>
+        <div id="featuredBox"><label>الصورة المميزة</label><select id="featuredPhoto"><option value="">بدون</option></select></div>
+      </div>
+
+      <div id="advancedPhotoBox" style="margin-top:14px" class="grid">
+        <div><label>مدة كل صورة</label><select id="photoDuration"><option value="2">ثانيتين</option><option value="3" selected>3 ثواني</option><option value="5">5 ثواني</option></select></div>
+        <div><label>حركة الصورة</label><select id="photoMotion"><option value="zoom">Zoom هادي</option><option value="soft">ظهور ناعم</option><option value="slide">Slide</option><option value="none">بدون حركة</option></select></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead"><div><h2>الموسيقى</h2><small>ارفع ملف أو حط رابط YouTube/صوت مباشر.</small></div></div>
+      <div class="grid">
+        <div><label>ملف موسيقى</label><input id="musicFile" type="file" accept="audio/*,video/*"></div>
+        <div><label>أو رابط</label><input id="musicUrl" placeholder="YouTube أو رابط صوت مباشر"></div>
+        <div class="full checks">
+          <label class="check"><input id="showMusic" type="checkbox" checked> إظهار صفحة الموسيقى</label>
+          <label id="musicContinueWrap" class="check"><input id="musicContinue" type="checkbox" checked> استمرار الموسيقى بعد الصفحة</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="momentSection" class="section">
+      <div class="sectionHead"><div><h2>مميزات Moment</h2><small>تفاصيل تخلي الهدية أخص.</small></div></div>
+      <div id="momentContent">
+        <div class="grid">
+          <div class="full"><label>عبارة الورقة بعد فتح الظرف</label><input id="envelopeText" maxlength="120" value="لحظة خاصة لك ♡"></div>
+          <div class="full"><label>رسالة سرية إضافية</label><textarea id="secretMessage" maxlength="900" placeholder="رسالة ما تظهر إلا قرب النهاية…"></textarea></div>
+          <div><label>موعد فتح الهدية</label><input id="openAt" type="datetime-local"></div>
+          <div><label>قوة المؤثرات</label><select id="effectsLevel"><option value="light">خفيفة</option><option value="normal" selected>عادية</option><option value="strong">قوية</option><option value="none">بدون</option></select></div>
+        </div>
+
+        <div class="audioCard" style="margin-top:16px">
+          <label>رسالة صوتية مثل واتساب 🎙️</label>
+          <div class="recordRow">
+            <button id="recordBtn" class="recordBtn" type="button">🎙️</button>
+            <div>
+              <div id="recordStatus">اضغط المايك وابدأ التسجيل</div>
+              <div id="recordTimer" class="timer">00:00</div>
+            </div>
+          </div>
+          <audio id="voicePreview" controls class="hide"></audio>
+          <div id="voiceActions" class="rowBtns hide" style="margin-top:10px">
+            <button id="deleteVoice" type="button" class="miniBtn danger">حذف التسجيل</button>
+            <button id="recordAgain" type="button" class="miniBtn">تسجيل من جديد</button>
+          </div>
+          <div class="hint">أول مرة بيطلب المتصفح إذن استخدام المايك. اسمح له عشان يشتغل التسجيل.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="foreverSection" class="section">
+      <div class="sectionHead"><div><h2>مميزات Forever</h2><small>تحكم أكبر ومفاجآت أكثر.</small></div></div>
+      <div id="foreverContent">
+        <div class="grid">
+          <div><label>PIN للهدية</label><input id="giftPin" inputmode="numeric" maxlength="4" placeholder="4 أرقام"></div>
+          <div><label>فيديو خاص</label><input id="videoFile" type="file" accept="video/*"></div>
+          <div class="full"><label>رسالة النهاية</label><textarea id="finalMessage" maxlength="700" placeholder="كلام يظهر في آخر الهدية…"></textarea></div>
+        </div>
+
+        <div style="margin-top:16px">
+          <label>ترتيب أقسام الهدية</label>
+          <div id="orderList" class="orderList"></div>
+          <div class="hint">غيّر ترتيب الأقسام من الأسهم. الاسم والبداية والنهاية تتظبط تلقائياً.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead"><div><h2>ملخص</h2><small>راجع كل شيء قبل الدفع.</small></div></div>
+      <div id="summary" class="summary"></div>
+    </section>
+  </div>
+
+  <div class="sticky">
+    <div class="stickyInner">
+      <button id="submitBtn" class="submit">متابعة للدفع — <span id="priceText"></span> د.ب</button>
+      <div id="status" class="status"></div>
+    </div>
+  </div>
+
+<script>
+const SUPABASE_URL="https://ltuyfewachzbazunuxmd.supabase.co";
+const SUPABASE_KEY="sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const PLANS={
+  mini:{name:"Mini",price:1.000,maxPhotos:5,rank:1},
+  moment:{name:"Moment",price:2.000,maxPhotos:15,rank:2},
+  forever:{name:"Forever",price:3.000,maxPhotos:30,rank:3}
+};
+
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+let planKey=(params.get("plan")||localStorage.getItem("lahzaPlan")||"moment").toLowerCase();
+if(!PLANS[planKey])planKey="moment";
+const plan=PLANS[planKey];
+let occasion=params.get("occasion")||localStorage.getItem("lahzaOccasion")||"بدون مناسبة";
+let messageFont="classic",theme="romantic";
+let photos=[];
+let featuredIndex=-1;
+let mediaRecorder=null,recordChunks=[],voiceBlob=null,recordTimerInterval=null,recordStartedAt=0;
+let sectionOrder=["music","message","photos","date","surprise","sender"];
+
+function setPlanUI(){
+  ["Mini","Moment","Forever"].forEach(n=>$("plan"+n).classList.remove("active"));
+  $("plan"+plan.name).classList.add("active");
+  $("occasion").value=occasion;
+  $("priceText").textContent=plan.price.toFixed(3);
+  $("photoLimitText").textContent=`حد الباقة: ${plan.maxPhotos} صور`;
+
+  const isMoment=plan.rank>=2,isForever=plan.rank>=3;
+  $("momentContent").classList.toggle("lockedBox",!isMoment);
+  $("advancedPhotoBox").classList.toggle("lockedBox",!isMoment);
+  $("featuredBox").classList.toggle("lockedBox",!isMoment);
+  $("musicContinueWrap").classList.toggle("lockedBox",!isMoment);
+  $("foreverContent").classList.toggle("lockedBox",!isForever);
+  $("anonymousWrap").classList.toggle("lockedBox",!isForever);
+
+  if(planKey==="mini"){
+    document.querySelector('[data-theme="midnight"]').classList.add("locked");
+    document.querySelector('[data-theme="sunset"]').classList.add("locked");
+  }
+}
+function fontCSS(v){
+  return {
+    classic:'"Aref Ruqaa", serif',
+    soft:'"Tajawal", sans-serif',
+    handwritten:'"Reem Kufi Ink", cursive',
+    elegant:'"Noto Kufi Arabic", sans-serif',
+    modern:'"Cairo", sans-serif'
+  }[v]||'"Aref Ruqaa", serif';
+}
+function updatePreview(){
+  $("messagePreview").style.fontFamily=fontCSS(messageFont);
+  $("messagePreview").textContent=$("message").value.trim()||"معاينة رسالتك بتطلع هنا ♡";
+  updateSummary();
+}
+$("message").addEventListener("input",updatePreview);
+document.querySelectorAll("#fontChoices .choice").forEach(el=>el.onclick=()=>{
+  document.querySelectorAll("#fontChoices .choice").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");messageFont=el.dataset.font;updatePreview();
+});
+document.querySelectorAll("#themeChoices .choice").forEach(el=>el.onclick=()=>{
+  if(planKey==="mini" && ["midnight","sunset"].includes(el.dataset.theme)){
+    setStatus("هالثيم متوفر في Moment وForever.","error");return;
+  }
+  document.querySelectorAll("#themeChoices .choice").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");theme=el.dataset.theme;updateSummary();
+});
+
+$("photoInput").addEventListener("change",e=>{
+  const add=[...e.target.files];
+  if(photos.length+add.length>plan.maxPhotos){
+    setStatus(`باقة ${plan.name} تسمح بحد أقصى ${plan.maxPhotos} صور.`,"error");
+    e.target.value="";return;
+  }
+  add.forEach(file=>photos.push({file,url:URL.createObjectURL(file)}));
+  e.target.value="";renderPhotos();
+});
+function renderPhotos(){
+  $("photosList").innerHTML="";
+  photos.forEach((p,i)=>{
+    const row=document.createElement("div");row.className="photoRow";
+    row.innerHTML=`<img src="${p.url}" alt=""><div><b>صورة ${i+1}</b><div class="hint">${escapeHTML(p.file.name)}</div></div>
+      <div class="rowBtns">
+        <button type="button" class="miniBtn" data-act="up" data-i="${i}">↑</button>
+        <button type="button" class="miniBtn" data-act="down" data-i="${i}">↓</button>
+        <button type="button" class="miniBtn danger" data-act="del" data-i="${i}">حذف</button>
+      </div>`;
+    $("photosList").appendChild(row);
+  });
+  $("photosList").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i,a=b.dataset.act;
+    if(a==="up"&&i>0)[photos[i-1],photos[i]]=[photos[i],photos[i-1]];
+    if(a==="down"&&i<photos.length-1)[photos[i+1],photos[i]]=[photos[i],photos[i+1]];
+    if(a==="del"){URL.revokeObjectURL(photos[i].url);photos.splice(i,1)}
+    renderPhotos();
+  });
+  const fp=$("featuredPhoto");fp.innerHTML='<option value="">بدون</option>';
+  photos.forEach((p,i)=>fp.insertAdjacentHTML("beforeend",`<option value="${i}">صورة ${i+1}</option>`));
+  updateSummary();
+}
+
+function renderOrder(){
+  const labels={music:"الموسيقى",message:"الرسالة",photos:"الصور",date:"التاريخ",surprise:"المفاجأة",sender:"المرسل"};
+  $("orderList").innerHTML="";
+  sectionOrder.forEach((s,i)=>{
+    const d=document.createElement("div");d.className="orderItem";
+    d.innerHTML=`<span>${labels[s]}</span><div class="rowBtns">
+      <button type="button" class="miniBtn" data-a="up" data-i="${i}">↑</button>
+      <button type="button" class="miniBtn" data-a="down" data-i="${i}">↓</button></div>`;
+    $("orderList").appendChild(d);
+  });
+  $("orderList").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i;
+    if(b.dataset.a==="up"&&i>0)[sectionOrder[i-1],sectionOrder[i]]=[sectionOrder[i],sectionOrder[i-1]];
+    if(b.dataset.a==="down"&&i<sectionOrder.length-1)[sectionOrder[i+1],sectionOrder[i]]=[sectionOrder[i],sectionOrder[i+1]];
+    renderOrder();
+  });
+}
+
+async function startRecording(){
+  if(plan.rank<2){setStatus("تسجيل الفويس متوفر في Moment وForever.","error");return}
+  if(!navigator.mediaDevices?.getUserMedia){
+    setStatus("المتصفح هذا ما يدعم تسجيل المايك. جرّب Chrome أو Safari حديث.","error");return;
+  }
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    recordChunks=[];
+    const preferred=["audio/webm;codecs=opus","audio/webm","audio/mp4"];
+    let mime="";
+    for(const m of preferred){if(window.MediaRecorder && MediaRecorder.isTypeSupported(m)){mime=m;break}}
+    mediaRecorder=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);
+    mediaRecorder.ondataavailable=e=>{if(e.data.size)recordChunks.push(e.data)};
+    mediaRecorder.onstop=()=>{
+      const type=mediaRecorder.mimeType||"audio/webm";
+      voiceBlob=new Blob(recordChunks,{type});
+      $("voicePreview").src=URL.createObjectURL(voiceBlob);
+      $("voicePreview").classList.remove("hide");
+      $("voiceActions").classList.remove("hide");
+      $("recordStatus").textContent="التسجيل جاهز ♡";
+      $("recordBtn").classList.remove("recording");
+      $("recordBtn").textContent="🎙️";
+      clearInterval(recordTimerInterval);
+      stream.getTracks().forEach(t=>t.stop());
+      updateSummary();
+    };
+    mediaRecorder.start();
+    recordStartedAt=Date.now();
+    $("recordStatus").textContent="قاعد يسجل… اضغط مرة ثانية للإيقاف";
+    $("recordBtn").classList.add("recording");$("recordBtn").textContent="■";
+    updateRecordTimer();
+    clearInterval(recordTimerInterval);recordTimerInterval=setInterval(updateRecordTimer,250);
+  }catch(e){
+    console.error(e);setStatus("ما قدرنا نوصل للمايك. تأكد إنك سمحت للموقع باستخدامه.","error");
+  }
+}
+function stopRecording(){
+  if(mediaRecorder&&mediaRecorder.state==="recording")mediaRecorder.stop();
+}
+function updateRecordTimer(){
+  const sec=Math.floor((Date.now()-recordStartedAt)/1000);
+  $("recordTimer").textContent=String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");
+}
+$("recordBtn").onclick=()=>mediaRecorder&&mediaRecorder.state==="recording"?stopRecording():startRecording();
+$("deleteVoice").onclick=()=>{
+  voiceBlob=null;$("voicePreview").removeAttribute("src");$("voicePreview").classList.add("hide");
+  $("voiceActions").classList.add("hide");$("recordStatus").textContent="اضغط المايك وابدأ التسجيل";$("recordTimer").textContent="00:00";updateSummary();
+};
+$("recordAgain").onclick=()=>{$("deleteVoice").click();startRecording()};
+
+function youtubeId(url){
+  if(!url)return null;
+  const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
+  return m?m[1]:null;
+}
+function ext(file){
+  const n=file.name||"",i=n.lastIndexOf(".");
+  if(i>-1)return n.slice(i+1).toLowerCase().replace(/[^a-z0-9]/g,"");
+  const t=(file.type||"").split("/")[1]||"bin";
+  return t.replace(/[^a-z0-9]/g,"")||"bin";
+}
+function uuid(){
+  return crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{
+    const r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16)
+  }));
+}
+async function uploadFile(file,path){
+  const {error}=await sb.storage.from("gift-media").upload(path,file,{upsert:false,contentType:file.type||undefined});
+  if(error)throw error;return path;
+}
+async function uploadVoice(blob,token){
+  let e="webm";
+  if(blob.type.includes("mp4"))e="m4a";
+  if(blob.type.includes("ogg"))e="ogg";
+  const f=new File([blob],"voice."+e,{type:blob.type||"audio/webm"});
+  return uploadFile(f,`${token}/voice/${uuid()}.${e}`);
+}
+
+function validate(){
+  if(!$("receiver").value.trim())return "اكتب اسم المستلم.";
+  if(!$("message").value.trim())return "اكتب الرسالة.";
+  if(plan.rank<3 && $("senderAnonymous").checked)return "إخفاء المرسل متوفر في Forever.";
+  if(plan.rank<2 && ($("openAt").value||$("secretMessage").value.trim()||voiceBlob))return "هالمميزات متوفرة في Moment وForever.";
+  if(plan.rank<3 && ($("giftPin").value.trim()||$("videoFile").files[0]||$("finalMessage").value.trim()))return "هالمميزات متوفرة في Forever.";
+  const pin=$("giftPin").value.trim();
+  if(pin && !/^\d{4}$/.test(pin))return "PIN لازم يكون 4 أرقام.";
+  if($("openAt").value){
+    const t=new Date($("openAt").value);
+    if(Number.isNaN(t.getTime()))return "موعد الفتح غير صحيح.";
+    if(t.getTime()<=Date.now())return "موعد فتح الهدية لازم يكون في المستقبل.";
+  }
+  return null;
+}
+function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+function setStatus(msg,type=""){const el=$("status");el.textContent=msg;el.className="status "+type}
+function updateSummary(){
+  const sender=$("senderAnonymous").checked?"مخفي":($("sender").value.trim()||"—");
+  $("summary").innerHTML=`
+    <div class="sumrow"><span>الباقة</span><b>${plan.name}</b></div>
+    <div class="sumrow"><span>السعر</span><b>${plan.price.toFixed(3)} د.ب</b></div>
+    <div class="sumrow"><span>المستلم</span><b>${escapeHTML($("receiver").value.trim()||"—")}</b></div>
+    <div class="sumrow"><span>المرسل</span><b>${escapeHTML(sender)}</b></div>
+    <div class="sumrow"><span>الصور</span><b>${photos.length}</b></div>
+    <div class="sumrow"><span>فويس</span><b>${voiceBlob?"موجود":"—"}</b></div>
+    <div class="sumrow"><span>موعد فتح</span><b>${$("openAt").value?escapeHTML($("openAt").value.replace("T"," ")):"—"}</b></div>`;
+}
+["receiver","sender","giftDate","openAt","secretMessage","giftPin","finalMessage"].forEach(id=>$(id).addEventListener("input",updateSummary));
+$("senderAnonymous").addEventListener("change",updateSummary);
+
+$("submitBtn").onclick=async()=>{
+  const err=validate();if(err){setStatus(err,"error");return}
+  $("submitBtn").disabled=true;setStatus("قاعد نحفظ لحظتك…");
+  try{
+    const giftToken=uuid();
+    const orderNumber="LHZ-"+Date.now().toString().slice(-8);
+
+    const photoPaths=[];
+    for(let i=0;i<photos.length;i++){
+      setStatus(`نرفع الصور ${i+1}/${photos.length}…`);
+      const f=photos[i].file;
+      const path=`${giftToken}/photos/${String(i+1).padStart(2,"0")}-${uuid()}.${ext(f)}`;
+      await uploadFile(f,path);photoPaths.push(path);
+    }
+
+    let audioUrl=null;
+    const musicFile=$("musicFile").files[0];
+    const musicUrl=$("musicUrl").value.trim();
+    if(musicFile){
+      setStatus("نرفع الموسيقى…");
+      const path=`${giftToken}/media/${uuid()}.${ext(musicFile)}`;
+      await uploadFile(musicFile,path);
+      audioUrl=(musicFile.type||"").startsWith("video/")?"storage-video:"+path:"storage-audio:"+path;
+    }else if(musicUrl){
+      const yid=youtubeId(musicUrl);
+      audioUrl=yid?"youtube:"+yid:"external:"+musicUrl;
+    }
+
+    let voiceUrl=null;
+    if(plan.rank>=2 && voiceBlob){
+      setStatus("نرفع الفويس…");
+      voiceUrl=await uploadVoice(voiceBlob,giftToken);
+    }
+
+    let videoUrl=null;
+    const videoFile=$("videoFile").files[0];
+    if(plan.rank>=3 && videoFile){
+      setStatus("نرفع الفيديو…");
+      const p=`${giftToken}/video/${uuid()}.${ext(videoFile)}`;
+      await uploadFile(videoFile,p);videoUrl=p;
+    }
+
+    let openAt=null;
+    if(plan.rank>=2 && $("openAt").value)openAt=new Date($("openAt").value).toISOString();
+
+    const fIndex=plan.rank>=2 && $("featuredPhoto").value!=="" ? Number($("featuredPhoto").value) : -1;
+    const featuredPhoto=(fIndex>=0 && photoPaths[fIndex])?photoPaths[fIndex]:null;
+
+    const row={
+      order_number:orderNumber,
+      receiver:$("receiver").value.trim(),
+      sender:$("sender").value.trim(),
+      message:$("message").value.trim(),
+      gift_date:$("giftDate").value||null,
+      occasion,
+      plan:planKey,
+      theme,
+      price:plan.price,
+      status:"pending",
+      gift_token:giftToken,
+      photos:photoPaths,
+      audio_url:audioUrl,
+      message_font:messageFont,
+      photo_frame:$("photoFrame").value,
+      photo_size:$("photoSize").value,
+      photo_fit:$("photoFit").value,
+      open_at:plan.rank>=2?openAt:null,
+      envelope_text:plan.rank>=2?($("envelopeText").value.trim()||"لحظة خاصة لك ♡"):"لحظة خاصة لك ♡",
+      secret_message:plan.rank>=2?($("secretMessage").value.trim()||null):null,
+      featured_photo:plan.rank>=2?featuredPhoto:null,
+      photo_duration:plan.rank>=2?Number($("photoDuration").value):3,
+      photo_motion:plan.rank>=2?$("photoMotion").value:"zoom",
+      effects_level:plan.rank>=2?$("effectsLevel").value:"normal",
+      music_continue:plan.rank>=2?$("musicContinue").checked:true,
+      show_music:$("showMusic").checked,
+      show_date:$("showDate").checked,
+      sender_anonymous:plan.rank>=3?$("senderAnonymous").checked:false,
+      gift_pin:plan.rank>=3?($("giftPin").value.trim()||null):null,
+      final_message:plan.rank>=3?($("finalMessage").value.trim()||null):null,
+      voice_url:plan.rank>=2?voiceUrl:null,
+      video_url:plan.rank>=3?videoUrl:null,
+      sections_order:plan.rank>=3?["name",...sectionOrder,"end"]:["name","music","message","photos","date","surprise","sender","end"]
+    };
+
+    setStatus("نحفظ الطلب…");
+    const {error}=await sb.from("orders").insert(row);
+    if(error)throw error;
+
+    localStorage.setItem("lahzaPlan",planKey);
+    localStorage.setItem("lahzaOccasion",occasion);
+    localStorage.setItem("lahzaOrderNumber",orderNumber);
+    localStorage.setItem("lahzaGift",JSON.stringify({
+      orderNumber,giftToken,receiver:row.receiver,sender:row.sender,plan:planKey,price:plan.price
+    }));
+    setStatus("تم ♡ بنوديك للدفع.","success");
+    setTimeout(()=>location.href="checkout.html",600);
+  }catch(e){
+    console.error(e);
+    let msg=e?.message||"صار خطأ غير معروف.";
+    if(/permission denied|row-level security|401/i.test(msg))msg="Supabase رفض الحفظ أو الرفع. صوّر لي الخطأ من Console وبضبط لك الصلاحيات.";
+    setStatus(msg,"error");
+    $("submitBtn").disabled=false;
+  }
+};
+
+setPlanUI();renderOrder();updatePreview();updateSummary();
+</script>
+</body>
+</html>
