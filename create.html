@@ -511,6 +511,230 @@
       .wizardLine{margin-left:1px;margin-right:1px}
     }
 </style>
+
+<style>
+/* ===== LAHZA: desktop-like layout on phones ===== */
+@media (max-width:640px){
+  html,body{max-width:100%;overflow-x:hidden}
+  body{font-size:14px}
+
+  /* نخلي الجوال مثل ترتيب اللابتوب، بس مصغّر على عرض الشاشة */
+  .wrap{
+    width:100%;
+    max-width:100%;
+    padding:8px 10px 92px;
+  }
+
+  .top{
+    margin-bottom:6px;
+    min-height:34px;
+  }
+  .brand{font-size:18px}
+  .back{font-size:12px}
+
+  /* نوفر مساحة بالجوال */
+  .hero{
+    display:none;
+  }
+
+  .wizardHead{
+    position:sticky;
+    top:0;
+    margin:0;
+    padding:7px 0 5px;
+    background:rgba(13,11,16,.96);
+  }
+  .wizardTrack{
+    width:100%;
+    max-width:none;
+    gap:0;
+  }
+  .wizardDot{
+    width:54px;
+    min-width:54px;
+    flex:0 0 54px;
+    font-size:9px;
+  }
+  .wizardDot b{
+    width:26px;
+    height:26px;
+    margin-bottom:4px;
+    font-size:12px;
+  }
+  .wizardLine{
+    min-width:8px;
+    flex:1;
+    margin:13px 2px 0;
+  }
+
+  .section{
+    width:100%;
+    max-width:100%;
+    padding:12px;
+    margin-top:7px;
+    border-radius:18px;
+    overflow:visible;
+  }
+  .sectionHead{
+    margin-bottom:9px;
+  }
+  .sectionHead h2{
+    font-size:18px;
+    margin-bottom:3px;
+  }
+  .sectionHead small{
+    font-size:11px;
+  }
+
+  /* نفس اللابتوب: خانتين جنب بعض */
+  .grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:8px !important;
+    width:100%;
+  }
+  .grid > *{
+    min-width:0 !important;
+    max-width:100% !important;
+  }
+  .grid > .full{
+    grid-column:1/-1 !important;
+  }
+
+  /* الاختيارات كذلك خانتين مثل اللابتوب */
+  .cards{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:8px !important;
+  }
+
+  label{
+    font-size:11px;
+    margin-bottom:5px;
+  }
+
+  input,textarea,select{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    padding:10px 9px !important;
+    border-radius:13px;
+    font-size:14px !important;
+  }
+  input,select{
+    min-height:44px;
+    height:44px;
+  }
+
+  #phone{
+    direction:ltr !important;
+    text-align:left !important;
+    font-size:13px !important;
+  }
+
+  /* التاريخ ما يطلع من الفريم */
+  #giftDate{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    direction:ltr !important;
+    text-align:left !important;
+    font-size:13px !important;
+    padding:7px 8px !important;
+    -webkit-appearance:none;
+    appearance:none;
+  }
+
+  textarea{
+    min-height:90px;
+  }
+
+  /* الخيارين جنب بعض بدل ما يطولون الصفحة */
+  .checks{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:7px !important;
+    width:100%;
+  }
+  .check{
+    width:100%;
+    min-width:0;
+    padding:8px 7px !important;
+    border-radius:12px;
+    font-size:10px;
+    line-height:1.35;
+    gap:5px;
+  }
+  .check input{
+    width:18px !important;
+    height:18px !important;
+    min-height:18px !important;
+    flex:0 0 18px;
+    padding:0 !important;
+  }
+
+  .lockedBox:after{
+    font-size:10px;
+    text-align:center;
+    padding:4px;
+  }
+
+  .choice{
+    padding:10px;
+    border-radius:14px;
+  }
+  .choice b{font-size:13px}
+  .choice small{font-size:10px}
+
+  .photoRow{
+    grid-template-columns:48px minmax(0,1fr) auto;
+    gap:7px;
+    padding:7px;
+  }
+  .photoRow img{
+    width:48px;
+    height:48px;
+  }
+  .rowBtns{
+    grid-column:auto;
+  }
+  .miniBtn{
+    padding:6px 7px;
+    font-size:11px;
+  }
+
+  .sticky{
+    padding:7px 10px calc(7px + env(safe-area-inset-bottom));
+  }
+  .wizardActions{
+    gap:7px;
+  }
+  .wizardBack{
+    min-width:76px;
+    padding:11px 9px;
+    border-radius:14px;
+    font-size:13px;
+  }
+  .submit{
+    padding:12px 10px;
+    border-radius:15px;
+    font-size:15px;
+  }
+  .status{
+    margin-top:5px;
+    font-size:11px;
+  }
+}
+
+/* الشاشات الصغيرة جدًا */
+@media (max-width:360px){
+  .wrap{padding-left:7px;padding-right:7px}
+  .section{padding:10px}
+  .wizardDot{width:48px;min-width:48px}
+  input,select{font-size:12px !important}
+  #phone,#giftDate{font-size:11px !important}
+  .check{font-size:9px}
+}
+</style>
+
 </head>
 
 <body>
