@@ -1,214 +1,309 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#08080f">
-<title>LAHZA | لحظة</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080f">
+  <title>LAHZA | لحظة</title>
 
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  <style>
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent
+    }
 
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#08080f;
-  color:white;
-  min-height:100vh;
-  overflow:hidden;
-}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:#08080f;
+      color:white;
+      min-height:100vh;
+      overflow:hidden
+    }
 
-.page{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  overflow:hidden;
-}
+    .page{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+      overflow:hidden
+    }
 
-nav{
-  width:100%;
-  max-width:1000px;
-  margin:auto;
-  padding:22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:relative;
-  z-index:2;
-}
+    nav{
+      width:100%;
+      max-width:1000px;
+      margin:auto;
+      padding:22px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:relative;
+      z-index:2
+    }
 
-.logo{
-  font-size:24px;
-  font-weight:900;
-}
+    .logo{
+      font-size:24px;
+      font-weight:900
+    }
 
-.logo span{color:#ff4f87}
+    .logo span{
+      color:#ff4f87
+    }
 
-.about{
-  color:#999;
-  font-size:13px;
-}
+    .about{
+      color:#999;
+      font-size:13px
+    }
 
-.hero{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:20px;
-  position:relative;
-  z-index:2;
-}
+    .hero{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:20px;
+      position:relative;
+      z-index:2
+    }
 
-.content{
-  max-width:700px;
-}
+    .content{
+      max-width:700px
+    }
 
-.tag{
-  display:inline-block;
-  background:#15151e;
-  border:1px solid #292934;
-  padding:9px 15px;
-  border-radius:100px;
-  color:#ccc;
-  font-size:13px;
-  margin-bottom:25px;
-}
+    .tag{
+      display:inline-block;
+      background:#15151e;
+      border:1px solid #292934;
+      padding:9px 15px;
+      border-radius:100px;
+      color:#ccc;
+      font-size:13px;
+      margin-bottom:25px
+    }
 
-h1{
-  font-size:clamp(45px,10vw,80px);
-  line-height:1.08;
-  margin:0;
-}
+    h1{
+      font-size:clamp(45px,10vw,80px);
+      line-height:1.08;
+      margin:0
+    }
 
-.pink{
-  color:#ff4f87;
-}
+    .pink{
+      color:#ff4f87
+    }
 
-p{
-  max-width:560px;
-  margin:25px auto;
-  color:#999;
-  line-height:1.9;
-  font-size:17px;
-}
+    p{
+      max-width:560px;
+      margin:25px auto;
+      color:#999;
+      line-height:1.9;
+      font-size:17px
+    }
 
-.start{
-  display:inline-block;
-  border:0;
-  background:linear-gradient(135deg,#ff3474,#ff6999);
-  color:white;
-  font-size:17px;
-  font-weight:800;
-  padding:17px 34px;
-  border-radius:16px;
-  text-decoration:none;
-  box-shadow:0 15px 45px rgba(255,79,135,.28);
-}
+    .start{
+      display:inline-block;
+      border:0;
+      background:linear-gradient(135deg,#ff3474,#ff6999);
+      color:white;
+      font-size:17px;
+      font-weight:800;
+      padding:17px 34px;
+      border-radius:16px;
+      text-decoration:none;
+      box-shadow:0 15px 45px rgba(255,79,135,.28)
+    }
 
-.note{
-  display:block;
-  margin-top:15px;
-  color:#555;
-  font-size:12px;
-}
+    .note{
+      display:block;
+      margin-top:15px;
+      color:#555;
+      font-size:12px
+    }
 
-.glow1,
-.glow2{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(130px);
-  pointer-events:none;
-}
+    .liveCount{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:16px;
+      padding:8px 13px;
+      border-radius:999px;
+      background:#121219;
+      border:1px solid #24242e;
+      color:#bdbdc7;
+      font-size:12px
+    }
 
-.glow1{
-  width:330px;
-  height:330px;
-  background:#ff2e73;
-  opacity:.18;
-  top:15%;
-  right:-100px;
-}
+    .liveDot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#31d17c;
+      box-shadow:0 0 0 4px rgba(49,209,124,.1)
+    }
 
-.glow2{
-  width:300px;
-  height:300px;
-  background:#763cff;
-  opacity:.12;
-  bottom:-80px;
-  left:-100px;
-}
+    .glow1,
+    .glow2{
+      position:absolute;
+      border-radius:50%;
+      filter:blur(130px);
+      pointer-events:none
+    }
 
-footer{
-  text-align:center;
-  padding:20px;
-  color:#444;
-  font-size:12px;
-  position:relative;
-  z-index:2;
-}
+    .glow1{
+      width:330px;
+      height:330px;
+      background:#ff2e73;
+      opacity:.18;
+      top:15%;
+      right:-100px
+    }
 
-@media(max-width:600px){
-  nav{padding:20px}
-  .about{display:none}
-  p{font-size:16px}
-}
-</style>
+    .glow2{
+      width:300px;
+      height:300px;
+      background:#763cff;
+      opacity:.12;
+      bottom:-80px;
+      left:-100px
+    }
+
+    footer{
+      text-align:center;
+      padding:20px;
+      color:#444;
+      font-size:12px;
+      position:relative;
+      z-index:2
+    }
+
+    @media(max-width:600px){
+      nav{
+        padding:20px
+      }
+
+      .about{
+        display:none
+      }
+
+      p{
+        font-size:16px
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="page">
+  <div class="page">
 
-  <div class="glow1"></div>
-  <div class="glow2"></div>
+    <div class="glow1"></div>
+    <div class="glow2"></div>
 
-  <nav>
-    <div class="logo">
-      <span>♡</span> LAHZA
-    </div>
-
-    <div class="about">
-      لحظة تبقى 🤍
-    </div>
-  </nav>
-
-  <main class="hero">
-
-    <div class="content">
-
-      <div class="tag">
-        💌 هدية مختلفة لشخص مختلف
+    <nav>
+      <div class="logo">
+        <span>♡</span> LAHZA
       </div>
 
-      <h1>
-        مو كل هدية<br>
-        تنحط في <span class="pink">علبة.</span>
-      </h1>
+      <div class="about">
+        لحظة تبقى 🤍
+      </div>
+    </nav>
 
-      <p>
-        اجمع رسالتك وصوركم وأغنيتكم وذكرياتكم
-        في تجربة رقمية خاصة، وأرسلها برابط واحد.
-      </p>
+    <main class="hero">
 
-     <a href="./occasion.html" class="start">
-        ابدأ لحظتك ♡
-      </a>
+      <div class="content">
 
-      <span class="note">
-        ما يحتاج تطبيق • يستلمها برابط خاص
-      </span>
+        <div class="tag">
+          💌 هدية مختلفة لشخص مختلف
+        </div>
 
-    </div>
+        <h1>
+          مو كل هدية
+          <br>
+          تنحط في
+          <span class="pink">علبة.</span>
+        </h1>
 
-  </main>
+        <p>
+          اجمع رسالتك وصوركم وأغنيتكم وذكرياتكم
+          في تجربة رقمية خاصة،
+          وأرسلها برابط واحد.
+        </p>
 
-  <footer>
-    LAHZA © 2026
-  </footer>
+        <a
+          href="./occasion.html"
+          class="start"
+        >
+          ابدأ لحظتك ♡
+        </a>
 
-</div>
+        <span class="note">
+          ما يحتاج تطبيق • يستلمها برابط خاص
+        </span>
+
+        <div class="liveCount">
+          <span class="liveDot"></span>
+
+          <span id="publicOnline">
+            معك الآن ناس يصنعون لحظاتهم بكل حب ♡
+          </span>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer>
+      LAHZA © 2026
+    </footer>
+
+  </div>
+
+  <script src="analytics.js"></script>
+
+  <script>
+    async function refreshPublicOnline() {
+
+      if (!window.LahzaAnalytics) {
+        return;
+      }
+
+      const stats =
+        await LahzaAnalytics.getStats();
+
+      const online =
+        Number(stats.online_now || 0);
+
+      const text =
+        document.getElementById(
+          "publicOnline"
+        );
+
+      if (online === 0) {
+        text.textContent =
+          "أنت أول شخص موجود الحين ♡";
+      }
+
+      else if (online === 1) {
+        text.textContent =
+          "معك الآن شخص واحد يصنع لحظته بكل حب ♡";
+      }
+
+      else {
+        text.textContent =
+          `معك الآن ${online} أشخاص يصنعون لحظاتهم بكل حب ♡`;
+      }
+    }
+
+    setTimeout(
+      refreshPublicOnline,
+      500
+    );
+
+    setInterval(
+      refreshPublicOnline,
+      30000
+    );
+  </script>
 
 </body>
 </html>
