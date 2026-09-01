@@ -752,6 +752,34 @@
 }
 </style>
 
+
+<style>
+.autoSendCard{
+  grid-column:1/-1;
+  border:1px solid rgba(255,111,169,.22);
+  background:rgba(255,111,169,.055);
+  border-radius:16px;
+  padding:10px;
+}
+.autoSendToggle{
+  width:100%;
+  margin:0;
+  cursor:pointer;
+}
+.autoSendToggle span{display:block;min-width:0}
+.autoSendToggle b{display:block;font-size:12px;margin-bottom:2px;color:#ffe5ef}
+.autoSendToggle small{display:block;color:var(--muted);font-size:10px;line-height:1.4}
+.recipientPhoneWrap{margin-top:9px}
+#recipientPhone{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+  .autoSendCard{padding:8px;border-radius:13px}
+  .autoSendToggle{font-size:10px}
+  .autoSendToggle b{font-size:10px}
+  .autoSendToggle small{font-size:9px}
+  #recipientPhone{font-size:16px!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -839,6 +867,28 @@
         <div>
           <label>المناسبة</label>
           <input id="occasion" readonly>
+        </div>
+
+        <div class="full autoSendCard">
+          <label class="check autoSendToggle">
+            <input id="autoSendGift" type="checkbox">
+            <span>
+              <b>أرسلوا الهدية للمستلم بعد تأكيد الدفع</b>
+              <small>إذا فعلتها، حط رقم واتساب المستلم تحت.</small>
+            </span>
+          </label>
+
+          <div id="recipientPhoneWrap" class="recipientPhoneWrap hide">
+            <label>رقم واتساب المستلم</label>
+            <input
+              id="recipientPhone"
+              type="tel"
+              inputmode="numeric"
+              dir="ltr"
+              maxlength="20"
+              placeholder="مثال: 3XXXXXXX"
+            >
+          </div>
         </div>
 
         <div class="full checks">
@@ -1371,9 +1421,21 @@
 (function(){
  let wizardStep=1;
  const map={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9','۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
- function normalizePhone(){const e=document.getElementById('phone');if(e)e.value=e.value.replace(/[٠-٩۰-۹]/g,d=>map[d]).replace(/[^\d+]/g,'')}
+ function normalizeOne(id){const e=document.getElementById(id);if(e)e.value=e.value.replace(/[٠-٩۰-۹]/g,d=>map[d]).replace(/[^\d+]/g,'')}
+ function normalizePhone(){normalizeOne('phone');normalizeOne('recipientPhone')}
  function render(){document.querySelectorAll('.wizardPage').forEach(e=>e.classList.toggle('wizardVisible',+e.dataset.wizardStep===wizardStep));document.querySelectorAll('.wizardDot').forEach(e=>{const n=+e.dataset.dot;e.classList.toggle('active',n===wizardStep);e.classList.toggle('done',n<wizardStep)});document.getElementById('wizardPrev')?.classList.toggle('hide',wizardStep===1);document.getElementById('wizardNext')?.classList.toggle('hide',wizardStep===4);document.getElementById('submitBtn')?.classList.toggle('hide',wizardStep!==4);window.scrollTo({top:0,behavior:'smooth'})}
- document.addEventListener('DOMContentLoaded',()=>{const p=document.getElementById('phone');p?.addEventListener('input',normalizePhone);p?.addEventListener('change',normalizePhone);document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();wizardStep=Math.min(4,wizardStep+1);render()});document.getElementById('wizardPrev')?.addEventListener('click',()=>{wizardStep=Math.max(1,wizardStep-1);render()});render()})
+ document.addEventListener('DOMContentLoaded',()=>{
+   const p=document.getElementById('phone');
+   const rp=document.getElementById('recipientPhone');
+   [p,rp].forEach(el=>{el?.addEventListener('input',normalizePhone);el?.addEventListener('change',normalizePhone)});
+   const auto=document.getElementById('autoSendGift');
+   const wrap=document.getElementById('recipientPhoneWrap');
+   const syncAuto=()=>{if(wrap)wrap.classList.toggle('hide',!auto?.checked);if(!auto?.checked&&rp)rp.value='';};
+   auto?.addEventListener('change',syncAuto); syncAuto();
+   document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();wizardStep=Math.min(4,wizardStep+1);render()});
+   document.getElementById('wizardPrev')?.addEventListener('click',()=>{wizardStep=Math.max(1,wizardStep-1);render()});
+   render()
+ })
 })();
 </script>
 
@@ -1617,6 +1679,9 @@ $("message")
   "input",
   updatePreview
 );
+$("autoSendGift")?.addEventListener("change",updateSummary);
+$("recipientPhone")?.addEventListener("input",updateSummary);
+
 
 document
 .querySelectorAll(
@@ -2486,6 +2551,13 @@ function validate(){
     return "رقم الواتساب غير صحيح.";
   }
 
+  if($("autoSendGift")?.checked){
+    const recipientDigits = ($("recipientPhone")?.value || "").replace(/\D/g,"");
+    if(recipientDigits.length<8 || recipientDigits.length>15){
+      return "اكتب رقم واتساب المستلم بشكل صحيح.";
+    }
+  }
+
   if(
     plan.rank<2 &&
     (
@@ -2655,6 +2727,16 @@ function updateSummary(){
         )}
       </b>
     </div>
+    ${$("autoSendGift")?.checked ? `
+    <div class="sumrow">
+      <span>إرسال للمستلم</span>
+      <b>نعم، بعد تأكيد الدفع</b>
+    </div>
+    <div class="sumrow">
+      <span>رقم المستلم</span>
+      <b style="direction:ltr">${escapeHTML($("recipientPhone")?.value.trim() || "—")}</b>
+    </div>` : ""}
+
 
     <div class="sumrow">
       <span>الصور</span>
@@ -2939,6 +3021,16 @@ async () => {
       ||
       null,
 
+      auto_send:
+      !!$("autoSendGift")?.checked,
+
+      recipient_phone:
+      $("autoSendGift")?.checked
+      ?
+      ($("recipientPhone")?.value.trim() || null)
+      :
+      null,
+
       message:
       $("message")
       .value
@@ -3170,6 +3262,8 @@ async () => {
         receiver:row.receiver,
         sender:row.sender,
         phone:row.phone,
+        autoSend:row.auto_send,
+        recipientPhone:row.recipient_phone,
         plan:planKey,
         price:plan.price
       })
