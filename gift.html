@@ -104,9 +104,9 @@ p{color:var(--muted);line-height:1.9}
 
 /* الاسم والرسالة */
 .penStage{position:relative;min-height:230px;display:flex;align-items:center;justify-content:center}
-.writtenName{font-family:"Reem Kufi Ink","Segoe Script",cursive;font-size:clamp(46px,12vw,82px);min-height:100px;color:#ffd7e7;text-shadow:0 0 30px rgba(255,111,169,.15)}
+.writtenName{font-family:"Reem Kufi Ink","Segoe Script",cursive;font-size:clamp(48px,12vw,86px);min-height:100px;color:#ffd7e7;text-shadow:0 0 30px rgba(255,111,169,.15);transition:color .4s ease,font-family .4s ease}
 .pen{position:absolute;font-size:40px;transform:rotate(-18deg);transition:transform .08s linear,left .08s linear,top .08s linear;pointer-events:none}
-.messageBox{position:relative;min-height:230px;text-align:right;white-space:pre-wrap;font-size:21px;line-height:2;padding:8px 4px;color:var(--text)}
+.messageBox{position:relative;min-height:260px;text-align:right;white-space:pre-wrap;font-size:23px;line-height:2.05;padding:22px 24px;color:var(--text);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border:1px solid var(--line);max-width:760px;margin:auto}
 .messageText{display:inline}.messagePen{position:absolute;font-size:34px;left:50%;top:40%;transition:.08s linear}
 
 /* الموسيقى */
@@ -175,9 +175,22 @@ body{min-height:100dvh;overscroll-behavior:none;-webkit-font-smoothing:antialias
 
 <section id="musicScreen" class="screen"><div class="center card"><div class="eyebrow">اسمعها شوي</div><h2>في أغنية لهاللحظة ♡</h2><div id="disc" class="musicDisc"></div><div id="musicPlayer"></div><div class="actions"><button id="musicToggle" class="btn">تشغيل</button><button class="btn ghost" onclick="nextStep()">التالي</button></div></div></section>
 
-<section id="messageScreen" class="screen"><div class="center card"><div class="eyebrow">كلام من القلب</div><div id="messageBox" class="messageBox"><span id="messageText" class="messageText"></span><span id="messagePen" class="messagePen">✒️</span></div><button class="btn next" onclick="nextStep()">كمّل ♡</button></div></section>
+<section id="messageScreen" class="screen"><div class="center card" style="width:min(94vw,820px)"><div class="eyebrow">رسالة لك من القلب</div><div id="messageBox" class="messageBox"><span id="messageText" class="messageText"></span><span id="messagePen" class="messagePen">✒️</span></div><button class="btn next" onclick="nextStep()">خذ وقتك واقرأها ♡</button></div></section>
 
-<section id="voiceScreen" class="screen"><div class="center card"><div class="eyebrow">صوت لك</div><h2>اسمع هالرسالة ♡</h2><div id="voicePlayer"></div><button class="btn next" onclick="nextStep()">التالي</button></div></section>
+<section id="voiceScreen" class="screen"><div class="center card">
+<div class="eyebrow">رسالة صوتية</div>
+<h2>اسمعها بصوت صاحب اللحظة ♡</h2>
+<div id="voiceWave" style="display:flex;justify-content:center;align-items:end;gap:5px;height:54px;margin:18px 0">
+  <i style="width:5px;height:18px;background:var(--pink);border-radius:8px"></i>
+  <i style="width:5px;height:32px;background:var(--pink2);border-radius:8px"></i>
+  <i style="width:5px;height:24px;background:var(--purple);border-radius:8px"></i>
+  <i style="width:5px;height:42px;background:var(--pink);border-radius:8px"></i>
+  <i style="width:5px;height:28px;background:var(--pink2);border-radius:8px"></i>
+  <i style="width:5px;height:36px;background:var(--purple);border-radius:8px"></i>
+</div>
+<div id="voicePlayer"></div>
+<button class="btn next" onclick="nextStep()">التالي</button>
+</div></section>
 
 <section id="photosScreen" class="screen"><div class="center"><div class="eyebrow">ذكرياتكم</div><h2 style="font-size:28px">صور تستاهل تنعاد ♡</h2><div class="photoStage"><div id="photoShell" class="photoShell soft medium fit-contain"><img id="photoImg" alt="ذكرى"></div><div class="photoNav"><button class="iconBtn" id="prevPhoto">‹</button><span id="photoCounter">1 / 1</span><button class="iconBtn" id="nextPhoto">›</button></div><div class="progress"><i id="photoProgress"></i></div></div><button class="btn next" onclick="nextStep()">كمّل</button></div></section>
 
@@ -221,6 +234,15 @@ function qs(name){return new URLSearchParams(location.search).get(name)}
 function show(id){screens.forEach(s=>s.classList.remove('active'));const el=$(id);if(el)el.classList.add('active')}
 function applyTheme(){document.body.classList.remove('theme-midnight','theme-sunset','theme-minimal');if(gift?.theme==='midnight')document.body.classList.add('theme-midnight');if(gift?.theme==='sunset')document.body.classList.add('theme-sunset');if(gift?.theme==='minimal')document.body.classList.add('theme-minimal')}
 function fontFamily(v){return {classic:'"Aref Ruqaa",serif',soft:'"Tajawal",sans-serif',handwritten:'"Reem Kufi Ink",cursive',elegant:'"Noto Kufi Arabic",sans-serif',modern:'"Cairo",sans-serif'}[v]||'"Aref Ruqaa",serif'}
+function randomNameStyle(){
+  const fonts=['"Reem Kufi Ink",cursive','"Aref Ruqaa",serif','"Tajawal",sans-serif','"Cairo",sans-serif','"Noto Kufi Arabic",sans-serif'];
+  const colors=['#ffd7e7','#ff9ec5','#d8c7ff','#ffc59d','#f8b8d2','#cfd6ff'];
+  const el=$('writtenName');
+  if(!el)return;
+  el.style.fontFamily=fonts[Math.floor(Math.random()*fonts.length)];
+  el.style.color=colors[Math.floor(Math.random()*colors.length)];
+}
+
 
 async function loadGift(){
   token=qs('token');
@@ -322,7 +344,7 @@ function cleanupStep(s){if(s==='photos')clearTimeout(photoTimer);if(s==='date')c
 function showStep(s){const map={name:'nameScreen',music:'musicScreen',message:'messageScreen',voice:'voiceScreen',photos:'photosScreen',video:'videoScreen',date:'dateScreen',featured:'featuredScreen',surprise:'surpriseScreen',secret:'secretScreen',sender:'senderScreen',end:'endScreen'};show(map[s]||'endScreen');updateExperienceProgress();if(s==='name')animateName();if(s==='message')animateMessage();if(s==='photos')startPhoto(0);if(s==='date')startDate()}
 function updateExperienceProgress(){const bar=document.querySelector('#experienceProgress i');if(!bar)return;const pct=steps.length?Math.max(0,Math.min(100,((stepIndex+1)/steps.length)*100)):0;bar.style.width=pct+'%'}
 
-async function animateName(){const el=$('writtenName'),pen=$('namePen');el.textContent='';pen.style.opacity=1;const text=(gift.receiver||'لك')+' ♡';for(let i=0;i<text.length;i++){el.textContent+=text[i];const x=Math.min(82,18+(i/Math.max(1,text.length))*64);pen.style.left=x+'%';pen.style.top=(48+Math.sin(i)*5)+'%';await sleep(115)}await sleep(350);pen.style.opacity=0}
+async function animateName(){randomNameStyle();const el=$('writtenName'),pen=$('namePen');el.textContent='';pen.style.opacity=1;const text=(gift.receiver||'لك')+' ♡';for(let i=0;i<text.length;i++){el.textContent+=text[i];const x=Math.min(82,18+(i/Math.max(1,text.length))*64);pen.style.left=x+'%';pen.style.top=(48+Math.sin(i)*5)+'%';await sleep(115)}await sleep(350);pen.style.opacity=0}
 async function animateMessage(){const el=$('messageText'),pen=$('messagePen');el.textContent='';pen.style.opacity=1;const t=gift.message||'';for(let i=0;i<t.length;i++){el.textContent+=t[i];const lines=Math.floor(i/24);pen.style.left=(18+(i%24)*2.6)+'%';pen.style.top=Math.min(82,18+lines*13)+'%';await sleep(38)}await sleep(420);pen.style.opacity=0}
 
 function setupPhotos(){
@@ -348,7 +370,19 @@ async function setupMusic(){
 $('musicToggle').onclick=()=>{if(musicType==='youtube'&&ytPlayer){const state=ytPlayer.getPlayerState();if(state===YT.PlayerState.PLAYING)ytPlayer.pauseVideo();else ytPlayer.playVideo()}else if(musicObj){if(musicObj.paused)musicObj.play().catch(()=>{});else musicObj.pause()}}
 function pauseMusic(){if(musicType==='youtube'&&ytPlayer?.pauseVideo)ytPlayer.pauseVideo();if(musicObj&&!musicObj.paused)musicObj.pause();setDisc(false)}
 
-async function setupVoice(){const holder=$('voicePlayer');holder.innerHTML='';if(!gift.voice_url)return;const src=await storageUrl(gift.voice_url,'voice');if(src){const a=document.createElement('audio');a.controls=true;a.src=src;holder.appendChild(a)}}
+async function setupVoice(){
+  const holder=$('voicePlayer');holder.innerHTML='';
+  if(!gift.voice_url)return;
+  const src=await storageUrl(gift.voice_url,'voice');
+  if(src){
+    const a=document.createElement('audio');
+    a.controls=true;a.src=src;a.preload='metadata';
+    holder.appendChild(a);
+    const bars=[...document.querySelectorAll('#voiceWave i')];
+    const animate=on=>bars.forEach((b,i)=>{b.style.animation=on?`pulse ${(0.55+i*.07).toFixed(2)}s ease-in-out infinite alternate`:'none'});
+    a.onplay=()=>animate(true);a.onpause=()=>animate(false);a.onended=()=>animate(false);
+  }
+}
 async function setupVideo(){const holder=$('videoPlayer');holder.innerHTML='';if(!gift.video_url)return;const src=await storageUrl(gift.video_url,'video');if(src){const v=document.createElement('video');v.controls=true;v.playsInline=true;v.src=src;holder.appendChild(v)}}
 async function setupFeatured(){if(!gift.featured_photo)return;const src=await storageUrl(gift.featured_photo,'photo');if(src)$('featuredImg').src=src}
 
@@ -360,8 +394,35 @@ function diffParts(start,end){
   let ms=Math.max(0,end-base);const hours=Math.floor(ms/3600000);ms%=3600000;const minutes=Math.floor(ms/60000);ms%=60000;const seconds=Math.floor(ms/1000);
   return {years,months,days,hours,minutes,seconds};
 }
-function buildDateUnits(parts){return [['years','سنة'],['months','شهر'],['days','يوم'],['hours','ساعة'],['minutes','دقيقة'],['seconds','ثانية']].map(([k,t],i)=>`<div class="dateUnit" data-k="${k}" style="transition-delay:${i*120}ms"><b>${parts[k]}</b><span>${t}</span></div>`).join('')}
-function updateDateValues(parts){document.querySelectorAll('#dateGrid .dateUnit').forEach(el=>{const k=el.dataset.k;const b=el.querySelector('b');if(b)b.textContent=parts[k]})}
+function buildDateUnits(){
+  return [['years','سنة'],['months','شهر'],['days','يوم'],['hours','ساعة'],['minutes','دقيقة'],['seconds','ثانية']]
+    .map(([k,t])=>`<div class="dateUnit" data-k="${k}"><b>0</b><span>${t}</span></div>`).join('')
+}
+function updateDateValues(parts){
+  document.querySelectorAll('#dateGrid .dateUnit').forEach(el=>{
+    const k=el.dataset.k,b=el.querySelector('b');if(b)b.textContent=parts[k]
+  })
+}
+async function animateDateCounter(parts){
+  const order=['years','months','days','hours','minutes','seconds'];
+  const units=[...document.querySelectorAll('#dateGrid .dateUnit')];
+  for(let i=0;i<order.length;i++){
+    const el=units[i]; if(!el)continue;
+    el.classList.add('show');
+    const b=el.querySelector('b');
+    const target=Math.max(0,Number(parts[order[i]])||0);
+    const steps=Math.min(target,24);
+    if(target===0){b.textContent='0'}
+    else{
+      for(let s=1;s<=steps;s++){
+        b.textContent=Math.round(target*s/steps);
+        await sleep(70);
+      }
+      b.textContent=target;
+    }
+    await sleep(420);
+  }
+}
 function startDate(){
   clearInterval(dateTimer);
   const raw=String(gift.gift_date||'');
@@ -369,9 +430,14 @@ function startDate(){
   const start=m?new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),0,0,0):new Date(raw);
   if(isNaN(start.getTime())){nextStep();return}
   $('dateIntro').textContent=`من ${start.toLocaleDateString('ar-BH',{year:'numeric',month:'long',day:'numeric'})} إلى اليوم ♡`;
-  const parts=diffParts(start,new Date());$('dateGrid').innerHTML=buildDateUnits(parts);$('dateNote').textContent='';
-  requestAnimationFrame(()=>{requestAnimationFrame(()=>{$('dateIntro').classList.add('show');document.querySelectorAll('#dateGrid .dateUnit').forEach(el=>el.classList.add('show'))})});
-  dateRevealDone=true;dateTimer=setInterval(()=>updateDateValues(diffParts(start,new Date())),1000);
+  const parts=diffParts(start,new Date());
+  $('dateGrid').innerHTML=buildDateUnits();
+  $('dateNote').textContent='';
+  requestAnimationFrame(()=>$('dateIntro').classList.add('show'));
+  animateDateCounter(parts).then(()=>{
+    clearInterval(dateTimer);
+    dateTimer=setInterval(()=>updateDateValues(diffParts(start,new Date())),1000);
+  });
 }
 
 $('shareBtn').onclick=async()=>{const data={title:'لحظة ♡',text:'وصلك شيء خاص ♡',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);alert('تم نسخ رابط الهدية')}}catch{}}
