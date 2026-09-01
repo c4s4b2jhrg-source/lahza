@@ -448,6 +448,16 @@
         grid-column:1/-1
       }
     }
+
+    .wizardHead{position:sticky;top:0;z-index:30;padding:12px 0 8px;background:linear-gradient(180deg,var(--bg) 72%,transparent)}
+    .wizardTrack{display:flex;align-items:flex-start;justify-content:center;max-width:650px;margin:auto}
+    .wizardDot{width:72px;text-align:center;color:var(--muted);font-size:11px}.wizardDot b{width:30px;height:30px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+    .wizardDot.active,.wizardDot.done{color:var(--text)}.wizardDot.active b,.wizardDot.done b{background:linear-gradient(135deg,#ff5fa2,#ff86b8);color:white;border-color:transparent}.wizardDot.done b{font-size:0}.wizardDot.done b:after{content:"✓";font-size:15px}
+    .wizardLine{height:1px;flex:1;max-width:65px;background:var(--line);margin-top:15px}.wizardPage{display:none!important}.wizardPage.wizardVisible{display:block!important;animation:wizardIn .28s ease}@keyframes wizardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .wizardActions{display:flex;gap:10px}.wizardActions .submit{flex:1}.wizardBack{min-width:105px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:16px;font-weight:800;padding:15px 18px}
+    #phone{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}#giftDate{direction:ltr;text-align:left}
+    @media(max-width:640px){.hero{padding-bottom:16px}.wizardDot{width:62px;font-size:10px}.wizardLine{max-width:38px}.section.wizardVisible{margin-top:14px}}
+
   </style>
 </head>
 
@@ -486,7 +496,16 @@
       </div>
     </section>
 
-    <section class="section">
+    <div class="wizardHead">
+      <div class="wizardTrack">
+        <div class="wizardDot active" data-dot="1"><b>1</b><span>الأساسيات</span></div><div class="wizardLine"></div>
+        <div class="wizardDot" data-dot="2"><b>2</b><span>الرسالة</span></div><div class="wizardLine"></div>
+        <div class="wizardDot" data-dot="3"><b>3</b><span>الإضافات</span></div><div class="wizardLine"></div>
+        <div class="wizardDot" data-dot="4"><b>4</b><span>المراجعة</span></div>
+      </div>
+    </div>
+
+    <section class="section wizardPage" data-wizard-step="1">
       <div class="sectionHead">
         <div>
           <h2>الأساسيات</h2>
@@ -511,7 +530,9 @@
           <input
             id="phone"
             type="tel"
-            inputmode="tel"
+            inputmode="numeric"
+            dir="ltr"
+            autocomplete="tel"
             maxlength="20"
             placeholder="مثال: 3XXXXXXX أو 9733XXXXXXX"
           >
@@ -519,7 +540,7 @@
 
         <div>
           <label>تاريخ الذكرى</label>
-          <input id="giftDate" type="date">
+          <input id="giftDate" type="date" dir="ltr" lang="en">
         </div>
 
         <div>
@@ -542,7 +563,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section wizardPage" data-wizard-step="2">
 
       <div class="sectionHead">
         <div>
@@ -617,7 +638,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section wizardPage" data-wizard-step="2">
 
       <div class="sectionHead">
         <div>
@@ -652,7 +673,7 @@
 
     </section>
 
-    <section class="section">
+    <section class="section wizardPage" data-wizard-step="3">
 
       <div class="sectionHead">
         <div>
@@ -755,7 +776,7 @@
 
     </section>
 
-    <section class="section">
+    <section class="section wizardPage" data-wizard-step="3">
 
       <div class="sectionHead">
         <div>
@@ -814,7 +835,8 @@
 
     <section
       id="momentSection"
-      class="section"
+      class="section wizardPage"
+      data-wizard-step="3"
     >
 
       <div class="sectionHead">
@@ -946,7 +968,8 @@
 
     <section
       id="foreverSection"
-      class="section"
+      class="section wizardPage"
+      data-wizard-step="3"
     >
 
       <div class="sectionHead">
@@ -1014,7 +1037,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section wizardPage" data-wizard-step="4">
 
       <div class="sectionHead">
         <div>
@@ -1036,14 +1059,11 @@
 
     <div class="stickyInner">
 
-      <button
-        id="submitBtn"
-        class="submit"
-      >
-        متابعة للدفع —
-        <span id="priceText"></span>
-        د.ب
-      </button>
+      <div class="wizardActions">
+        <button id="wizardPrev" type="button" class="wizardBack hide">رجوع</button>
+        <button id="wizardNext" type="button" class="submit">التالي</button>
+        <button id="submitBtn" class="submit hide">متابعة للدفع — <span id="priceText"></span> د.ب</button>
+      </div>
 
       <div
         id="status"
@@ -1053,6 +1073,16 @@
     </div>
 
   </div>
+
+<script>
+(function(){
+ let wizardStep=1;
+ const map={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9','۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+ function normalizePhone(){const e=document.getElementById('phone');if(e)e.value=e.value.replace(/[٠-٩۰-۹]/g,d=>map[d]).replace(/[^\d+]/g,'')}
+ function render(){document.querySelectorAll('.wizardPage').forEach(e=>e.classList.toggle('wizardVisible',+e.dataset.wizardStep===wizardStep));document.querySelectorAll('.wizardDot').forEach(e=>{const n=+e.dataset.dot;e.classList.toggle('active',n===wizardStep);e.classList.toggle('done',n<wizardStep)});document.getElementById('wizardPrev')?.classList.toggle('hide',wizardStep===1);document.getElementById('wizardNext')?.classList.toggle('hide',wizardStep===4);document.getElementById('submitBtn')?.classList.toggle('hide',wizardStep!==4);window.scrollTo({top:0,behavior:'smooth'})}
+ document.addEventListener('DOMContentLoaded',()=>{const p=document.getElementById('phone');p?.addEventListener('input',normalizePhone);p?.addEventListener('change',normalizePhone);document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();wizardStep=Math.min(4,wizardStep+1);render()});document.getElementById('wizardPrev')?.addEventListener('click',()=>{wizardStep=Math.max(1,wizardStep-1);render()});render()})
+})();
+</script>
 
 <script>
 const SUPABASE_URL =
