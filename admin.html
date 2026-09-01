@@ -1240,6 +1240,16 @@ function renderOrders(){
           }
 
           ${
+            order.auto_send && order.recipient_phone
+            ?
+            `<span class="chip">
+              🎁 إرسال للمستلم: ${esc(order.recipient_phone)}
+            </span>`
+            :
+            ""
+          }
+
+          ${
             photos
             ?
             `<span class="chip">
@@ -1333,6 +1343,22 @@ function renderOrders(){
           }
 
 
+          ${
+            paid && order.auto_send && order.recipient_phone
+            ?
+            `
+            <button
+              class="btn confirm"
+              onclick="openRecipientWhatsApp('${esc(order.id)}')"
+            >
+              🎁 إرسال الهدية للمستلم
+            </button>
+            `
+            :
+            ""
+          }
+
+
           <button
             class="btn"
             onclick="toggleDetails('${esc(order.id)}')"
@@ -1405,6 +1431,19 @@ function renderOrders(){
               <span>رقم واتساب</span>
               <b dir="ltr">
                 ${esc(order.phone || "—")}
+              </b>
+            </div>
+
+
+            <div class="detail">
+              <span>إرسال الهدية للمستلم</span>
+              <b>${order.auto_send ? "نعم ✓" : "لا"}</b>
+            </div>
+
+            <div class="detail">
+              <span>رقم واتساب المستلم</span>
+              <b dir="ltr">
+                ${esc(order.recipient_phone || "—")}
               </b>
             </div>
 
@@ -1743,6 +1782,76 @@ ${giftLink}
 
 نتمنى لكم لحظة جميلة ♡`;
 
+
+  window.open(
+    "https://wa.me/" +
+    number +
+    "?text=" +
+    encodeURIComponent(message),
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+
+/* ======================================
+   إرسال الهدية للمستلم عبر واتساب
+====================================== */
+
+function openRecipientWhatsApp(id){
+
+  const order =
+    orders.find(
+      item => item.id === id
+    );
+
+  if(!order){
+    return;
+  }
+
+  if(
+    String(order.status || "")
+      .toLowerCase()
+    !==
+    "paid"
+  ){
+    alert("أكد الدفع أول قبل إرسال الهدية.");
+    return;
+  }
+
+  const number =
+    normalizeWhatsAppNumber(
+      order.recipient_phone
+    );
+
+  if(!number){
+    alert("ما في رقم واتساب للمستلم.");
+    return;
+  }
+
+  if(!order.gift_token){
+    alert("هذا الطلب ما عنده رابط هدية.");
+    return;
+  }
+
+  const giftLink =
+    getGiftUrl(order.gift_token);
+
+  const receiver =
+    String(order.receiver || "").trim();
+
+  const message =
+`🎁 ${receiver ? receiver + "، " : ""}وصلتك هدية مميزة من LAHZA ♡
+
+في شخص حب يصنع لك لحظة خاصة ✨
+
+افتح هديتك من هنا:
+${giftLink}
+
+نتمنى لك لحظة جميلة 🤍
+— LAHZA`;
 
   window.open(
     "https://wa.me/" +
