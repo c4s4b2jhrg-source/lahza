@@ -2,580 +2,677 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09070b">
+
 <title>اصنع لحظتك | LAHZA</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Marhey:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Marhey:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+:root{
+  --bg:#080708;
+  --card:#111012;
+  --card2:#171416;
+  --pink:#ff7198;
+  --pink2:#ff8b78;
+  --text:#fff;
+  --muted:#a99da1;
+  --line:rgba(255,255,255,.09);
+  --green:#7ee2aa;
+  --danger:#ff8d8d;
+}
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
   min-height:100vh;
+  color:var(--text);
   background:
-  radial-gradient(circle at top right,rgba(255,67,130,.14),transparent 32%),
-  #08080e;
-  color:#fff;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    radial-gradient(circle at 50% -120px,#4a202b 0,#1a0e12 26%,#080708 58%);
+  font-family:"Noto Kufi Arabic",sans-serif;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
 }
 
 .page{
-  width:min(92%,720px);
+  width:min(100%,760px);
   margin:auto;
-  padding:25px 0 60px;
+  padding:
+    max(22px,env(safe-area-inset-top))
+    16px
+    max(50px,calc(env(safe-area-inset-bottom) + 30px));
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:28px;
 }
 
 .logo{
-  text-align:center;
-  font-weight:950;
-  font-size:27px;
-  margin-bottom:25px;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:3px;
 }
 
 .logo span{
-  color:#ff4f87;
+  color:var(--pink);
 }
 
 .back{
-  color:#888;
-  text-decoration:none;
-  font-size:13px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-h1{
-  font-size:30px;
-  margin:20px 0 5px;
+.hero{
+  margin-bottom:26px;
 }
 
-.sub{
-  color:#85858f;
-  line-height:1.8;
-  font-size:14px;
-  margin-bottom:25px;
+.hero h1{
+  margin:0 0 7px;
+  font-size:clamp(27px,8vw,40px);
+  line-height:1.4;
 }
 
-.card{
-  background:rgba(18,18,25,.93);
-  border:1px solid #272732;
-  border-radius:25px;
-  padding:20px;
-  margin-bottom:14px;
+.hero p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.9;
 }
 
-.cardTitle{
-  font-weight:900;
+.planBox{
+  margin-bottom:20px;
+  padding:18px;
+  border-radius:23px;
+  border:1px solid rgba(255,113,152,.25);
+  background:linear-gradient(145deg,rgba(255,113,152,.1),rgba(255,255,255,.02));
+}
+
+.planTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.planName{
   font-size:17px;
-  margin-bottom:4px;
+  font-weight:900;
 }
 
-.cardDesc{
-  color:#7d7d87;
-  font-size:12px;
-  line-height:1.8;
-  margin-bottom:14px;
+.planPrice{
+  color:var(--pink);
+  font-size:17px;
+  font-weight:900;
+}
+
+.planMini{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.section{
+  margin:16px 0;
+  padding:20px 16px;
+  border:1px solid var(--line);
+  border-radius:25px;
+  background:rgba(255,255,255,.026);
+}
+
+.sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.sectionTitle h2{
+  margin:0;
+  font-size:15px;
+}
+
+.sectionTitle span{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+.field:last-child{
+  margin-bottom:0;
 }
 
 label{
   display:block;
-  margin:15px 2px 7px;
-  color:#aaa;
-  font-size:12px;
+  margin-bottom:7px;
+  color:#e9e2e4;
+  font-size:10px;
 }
 
-input,
-textarea{
+.input,
+textarea,
+select{
   width:100%;
-  border:1px solid #2d2d37;
-  background:#0b0b11;
-  color:#fff;
-  border-radius:15px;
-  padding:15px;
-  font:inherit;
+  border:1px solid var(--line);
   outline:none;
+  border-radius:17px;
+  background:#0c0b0d;
+  color:#fff;
+  padding:14px;
+}
+
+.input:focus,
+textarea:focus,
+select:focus{
+  border-color:rgba(255,113,152,.55);
 }
 
 textarea{
-  min-height:135px;
+  min-height:130px;
   resize:vertical;
   line-height:1.9;
 }
 
-input:focus,
-textarea:focus{
-  border-color:#ff4f87;
+small.help{
+  display:block;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.7;
 }
 
-.choiceGrid{
+.choices{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(2,1fr);
   gap:9px;
-  margin-top:10px;
 }
 
 .choice{
-  min-height:75px;
+  position:relative;
+  min-height:57px;
+  padding:12px 10px;
   border-radius:17px;
-  border:1px solid #2b2b35;
-  background:#0b0b11;
+  border:1px solid var(--line);
+  background:#0d0c0e;
   color:#fff;
-  padding:11px;
-  cursor:pointer;
-  transition:.2s;
+  text-align:center;
 }
 
 .choice.active{
-  border-color:#ff4f87;
-  background:rgba(255,79,135,.08);
-  box-shadow:0 0 0 1px #ff4f87 inset;
+  border-color:var(--pink);
+  background:rgba(255,113,152,.10);
 }
 
-.choice small{
+.choice.locked{
+  opacity:.48;
+}
+
+.lockBadge{
+  position:absolute;
+  top:6px;
+  left:7px;
+  font-size:10px;
+}
+
+.featureLock{
+  position:relative;
+}
+
+.featureLock.locked > :not(.lockedOverlay){
+  opacity:.28;
+  pointer-events:none;
+  user-select:none;
+}
+
+.lockedOverlay{
+  display:none;
+}
+
+.featureLock.locked .lockedOverlay{
+  display:flex;
+  position:absolute;
+  inset:0;
+  z-index:5;
+  border-radius:18px;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  text-align:center;
+  background:rgba(8,7,8,.58);
+  backdrop-filter:blur(3px);
+}
+
+.lockedOverlay div{
+  max-width:260px;
+}
+
+.lockedOverlay strong{
   display:block;
-  color:#777;
   margin-bottom:5px;
-  font-family:Arial,sans-serif;
-}
-
-.choice strong{
-  font-size:19px;
-  font-weight:500;
-}
-
-.font-normal{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
-}
-
-.font-ruqaa{
-  font-family:"Aref Ruqaa",serif!important;
-}
-
-.font-naskh{
-  font-family:"Noto Naskh Arabic",serif!important;
-}
-
-.font-kufi{
-  font-family:"Reem Kufi",sans-serif!important;
-}
-
-.font-marhey{
-  font-family:"Marhey",sans-serif!important;
-}
-
-.previewTitle{
-  color:#777;
+  color:#fff;
   font-size:11px;
-  margin:18px 0 7px;
+}
+
+.lockedOverlay span{
+  color:var(--pink);
+  font-size:9px;
 }
 
 .messagePreview{
-  min-height:120px;
+  margin-top:12px;
+  min-height:95px;
+  padding:18px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background:#0b0a0c;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:20px;
   text-align:center;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  background:linear-gradient(
-    145deg,
-    rgba(255,79,135,.07),
-    rgba(255,255,255,.02)
-  );
-  border:1px solid rgba(255,79,135,.18);
-  border-radius:20px;
-  font-size:24px;
   line-height:1.9;
+  overflow-wrap:anywhere;
 }
 
+.font-normal{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
 
-/* FILE */
+.font-ruqaa{
+  font-family:"Aref Ruqaa",serif;
+}
 
-.fileBox{
-  position:relative;
-  padding:22px;
-  border:1px dashed #444451;
-  border-radius:18px;
+.font-naskh{
+  font-family:"Noto Naskh Arabic",serif;
+}
+
+.font-kufi{
+  font-family:"Reem Kufi",sans-serif;
+}
+
+.font-marhey{
+  font-family:"Marhey",sans-serif;
+}
+
+.upload{
+  border:1px dashed rgba(255,255,255,.18);
+  border-radius:19px;
+  padding:17px;
   text-align:center;
-  background:#0a0a10;
+  background:#0b0a0c;
 }
 
-.fileBox input[type=file]{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  cursor:pointer;
+.upload input{
+  width:100%;
+  color:var(--muted);
+  font-size:9px;
 }
 
-.fileIcon{
-  font-size:28px;
-}
-
-.fileSmall{
-  font-size:11px;
-  color:#777;
-  margin-top:5px;
-}
-
-
-/* PHOTO ORDER */
-
-.orderTitle{
-  display:none;
-  margin-top:18px;
-  margin-bottom:10px;
-  font-weight:850;
-  font-size:13px;
-}
-
-.orderHint{
-  color:#777;
-  font-size:11px;
-  margin-top:4px;
-}
-
-.photosList{
+.photoList{
   display:grid;
   gap:9px;
+  margin-top:14px;
 }
 
-.photoOrderItem{
-  display:flex;
+.photoRow{
+  display:grid;
+  grid-template-columns:58px 1fr auto;
   align-items:center;
-  gap:11px;
-  padding:10px;
-  background:#0a0a10;
-  border:1px solid #292932;
-  border-radius:15px;
-}
-
-.photoOrderNumber{
-  width:28px;
-  height:28px;
-  flex:0 0 28px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:rgba(255,79,135,.12);
-  color:#ff7ca7;
-  font-size:11px;
-  font-weight:900;
+  gap:10px;
+  padding:9px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#0b0a0c;
 }
 
 .photoThumb{
   width:58px;
   height:58px;
-  flex:0 0 58px;
   object-fit:cover;
-  border-radius:11px;
-  background:#111;
+  border-radius:12px;
 }
 
 .photoInfo{
-  flex:1;
   min-width:0;
 }
 
 .photoName{
-  font-size:11px;
-  color:#bbb;
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
+  font-size:9px;
 }
 
-.photoPosition{
-  margin-top:4px;
-  color:#666;
+.photoPos{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.photoControls{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.tinyBtn{
+  width:32px;
+  height:27px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  color:white;
+  background:#181619;
+}
+
+.featuredBtn{
+  margin-top:6px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:5px 8px;
+  color:var(--muted);
+  background:transparent;
+  font-size:7px;
+}
+
+.featuredBtn.active{
+  color:#fff;
+  border-color:var(--pink);
+  background:rgba(255,113,152,.12);
+}
+
+.photoPreview{
+  margin-top:15px;
+  min-height:250px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:22px;
+  background:#09090a;
+}
+
+.photoPreview img{
+  display:block;
+  max-width:100%;
+  width:100%;
+  height:310px;
+}
+
+.photoPreview.soft{
+  border-radius:25px;
+}
+
+.photoPreview.polaroid{
+  padding:8px 8px 36px;
+  border-radius:5px;
+  background:#f7f2eb;
+}
+
+.photoPreview.cinema{
+  padding:6px;
+  background:#000;
+  border-radius:12px;
+}
+
+.photoPreview.glass{
+  padding:7px;
+  border:1px solid rgba(255,255,255,.17);
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(12px);
+}
+
+.photoPreview.contain img{
+  object-fit:contain;
+}
+
+.photoPreview.cover img{
+  object-fit:cover;
+}
+
+.mediaPreview{
+  display:none;
+  margin-top:12px;
+}
+
+.mediaPreview audio,
+.mediaPreview video,
+.voicePreview audio,
+.videoPreview video{
+  width:100%;
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  margin-bottom:12px;
+}
+
+.tab{
+  flex:1;
+  min-height:43px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  color:var(--muted);
+  background:#0c0b0d;
+}
+
+.tab.active{
+  border-color:var(--pink);
+  color:white;
+  background:rgba(255,113,152,.1);
+}
+
+.toggleRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  min-height:52px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.toggleRow:last-child{
+  border-bottom:0;
+}
+
+.toggleText strong{
+  display:block;
+  font-size:10px;
+}
+
+.toggleText span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.switch{
+  position:relative;
+  width:48px;
+  height:27px;
+  flex:0 0 48px;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  border-radius:30px;
+  background:#2a272a;
+  transition:.25s;
+}
+
+.slider::before{
+  content:"";
+  position:absolute;
+  width:21px;
+  height:21px;
+  top:3px;
+  right:3px;
+  border-radius:50%;
+  background:white;
+  transition:.25s;
+}
+
+.switch input:checked + .slider{
+  background:var(--pink);
+}
+
+.switch input:checked + .slider::before{
+  transform:translateX(-21px);
+}
+
+.summary{
+  margin-top:22px;
+  padding:20px;
+  border-radius:24px;
+  border:1px solid rgba(255,113,152,.22);
+  background:linear-gradient(145deg,rgba(255,113,152,.08),rgba(255,255,255,.02));
+}
+
+.summaryRow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:7px 0;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.summaryRow strong{
+  color:#fff;
+}
+
+.total{
+  margin-top:8px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  font-size:17px;
+}
+
+.createBtn{
+  width:100%;
+  min-height:60px;
+  margin-top:17px;
+  border:0;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--pink2),var(--pink));
+  color:#fff;
+  font-weight:900;
+}
+
+.createBtn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.status{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  font-size:9px;
+  line-height:1.7;
+}
+
+.status.show{
+  display:block;
+}
+
+.status.error{
+  color:#ffc5c5;
+  background:rgba(255,90,90,.1);
+}
+
+.status.ok{
+  color:#c9ffe0;
+  background:rgba(70,220,130,.1);
+}
+
+.upgradeNote{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(255,113,152,.18);
+  border-radius:15px;
+  color:var(--muted);
+  font-size:8px;
+  text-align:center;
+  line-height:1.8;
+}
+
+.sectionOrder{
+  display:grid;
+  gap:7px;
+}
+
+.orderItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#0b0a0c;
   font-size:9px;
 }
 
 .orderButtons{
   display:flex;
-  gap:5px;
+  gap:4px;
 }
 
-.orderButton{
-  width:39px;
-  height:39px;
-  border-radius:11px;
-  border:1px solid #33333e;
-  color:white;
-  background:#16161e;
-  cursor:pointer;
-  font-size:17px;
-}
-
-.orderButton:disabled{
-  opacity:.25;
-  cursor:default;
-}
-
-
-/* PHOTO PREVIEW */
-
-.photoPreviewOuter{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin-top:15px;
-}
-
-.photoPreview{
-  position:relative;
-  overflow:hidden;
-  transition:.3s ease;
-  background:#090909;
-}
-
-.photoPreview.medium{
-  width:min(100%,270px);
-  height:310px;
-}
-
-.photoPreview.large{
-  width:min(100%,350px);
-  height:390px;
-}
-
-.photoPreview.full{
-  width:100%;
-  height:430px;
-}
-
-.photoPreview.soft{
-  border-radius:24px;
-  border:1px solid rgba(255,255,255,.12);
-}
-
-.photoPreview.polaroid{
-  background:#f7f2e8;
-  border:10px solid #f7f2e8;
-  border-bottom-width:38px;
-  border-radius:4px;
-}
-
-.photoPreview.cinema{
-  border-radius:5px;
-  border:8px solid #000;
-  box-shadow:0 0 0 1px #343434;
-}
-
-.photoPreview.glass{
-  border-radius:27px;
-  border:1px solid rgba(255,255,255,.25);
-  box-shadow:0 18px 50px rgba(0,0,0,.28);
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(16px);
-  padding:7px;
-}
-
-.photoPreview img{
-  width:100%;
-  height:100%;
-  display:block;
-  border-radius:inherit;
-}
-
-.photoPreview img.contain{
-  object-fit:contain;
-}
-
-.photoPreview img.cover{
-  object-fit:cover;
-}
-
-.photoPlaceholder{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
-  background:
-  radial-gradient(circle at 30% 20%,rgba(255,83,139,.25),transparent 35%),
-  linear-gradient(145deg,#181820,#09090e);
-  font-size:13px;
-}
-
-
-/* TABS */
-
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:13px;
-}
-
-.tab{
-  padding:13px;
-  border-radius:14px;
-  border:1px solid #2b2b35;
-  background:#0b0b11;
-  color:#999;
-  cursor:pointer;
-  font-weight:800;
-}
-
-.tab.active{
-  color:#fff;
-  border-color:#ff4f87;
-  background:rgba(255,79,135,.08);
-}
-
-.panel{
-  display:none;
-}
-
-.panel.active{
-  display:block;
-}
-
-.mediaPreview{
-  display:none;
-  border:1px solid #272730;
-  border-radius:15px;
-  padding:10px;
-  margin-top:12px;
-  background:#09090e;
-}
-
-.mediaPreview audio,
-.mediaPreview video{
-  width:100%;
-  max-height:350px;
-}
-
-.mediaPreview iframe{
-  display:block;
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  border-radius:13px;
-}
-
-
-/* THEMES */
-
-.themeDot{
-  width:35px;
-  height:35px;
-  border-radius:50%;
-  margin:0 auto 7px;
-}
-
-.r{
-  background:linear-gradient(135deg,#ff4f87,#642039);
-}
-
-.m{
-  background:linear-gradient(135deg,#9b8cff,#1c193d);
-}
-
-.s{
-  background:linear-gradient(135deg,#ff9971,#6c3340);
-}
-
-.n{
-  background:linear-gradient(135deg,#fff,#333);
-}
-
-
-/* SUMMARY */
-
-.summary{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.summaryBox{
-  background:#0a0a10;
-  border-radius:13px;
-  padding:12px;
-}
-
-.summaryBox span{
-  color:#666;
-  font-size:10px;
-}
-
-.summaryBox strong{
-  display:block;
-  margin-top:4px;
-}
-
-.info{
-  background:rgba(255,79,135,.06);
-  border:1px solid rgba(255,79,135,.15);
-  border-radius:13px;
-  padding:11px;
-  color:#92888d;
-  line-height:1.8;
-  font-size:11px;
-  margin-top:10px;
-}
-
-.error{
-  display:none;
-  color:#ff7597;
-  font-size:11px;
-  margin-top:7px;
-}
-
-.status{
-  display:none;
-  text-align:center;
-  color:#aaa;
-  margin-top:12px;
-  font-size:12px;
-}
-
-.next{
-  width:100%;
-  border:0;
-  border-radius:18px;
-  padding:17px;
-  color:white;
-  background:linear-gradient(135deg,#ff3474,#ff709e);
-  font-size:16px;
-  font-weight:950;
-  cursor:pointer;
-}
-
-.next:disabled{
-  opacity:.5;
-}
-
-@media(max-width:420px){
-
-  .choiceGrid{
-    gap:7px;
+@media(min-width:640px){
+  .choices.three{
+    grid-template-columns:repeat(3,1fr);
   }
 
-  .card{
-    padding:17px;
+  .choices.four{
+    grid-template-columns:repeat(4,1fr);
   }
 
-  .photoPreview.full{
-    height:390px;
+  .twoCols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
   }
-
-  .photoThumb{
-    width:50px;
-    height:50px;
-    flex-basis:50px;
-  }
-
 }
 </style>
 </head>
@@ -584,607 +681,452 @@ textarea:focus{
 
 <main class="page">
 
-<div class="logo">
-  LAHZA <span>♡</span>
-</div>
-
-<a class="back" href="plans.html">
-  → رجوع
-</a>
-
-<h1>
-  اصنع لحظتك ♡
-</h1>
-
-<div class="sub">
-  جهز الرسالة والصور والأغنية بالشكل اللي تبيه.
-</div>
-
-
-<section class="card">
-
-<div class="cardTitle">
-  تفاصيل الهدية
-</div>
-
-<label>
-  اسم المستلم *
-</label>
-
-<input
-  id="receiver"
-  maxlength="60"
-  placeholder="اسم المستلم">
-
-<label>
-  اسم المرسل
-</label>
-
-<input
-  id="sender"
-  maxlength="60"
-  placeholder="اسمك">
-
-<label>
-  الرسالة *
-</label>
-
-<textarea
-  id="message"
-  maxlength="1500"
-  placeholder="اكتب رسالتك..."></textarea>
-
-<label>
-  اختر خط الرسالة
-</label>
-
-<div class="choiceGrid">
-
-<button
-  type="button"
-  class="choice fontChoice active"
-  data-font="normal">
-
-  <small>عادي</small>
-
-  <strong class="font-normal">
-    لحظة جميلة ♡
-  </strong>
-
-</button>
-
-
-<button
-  type="button"
-  class="choice fontChoice"
-  data-font="ruqaa">
-
-  <small>رقعة</small>
-
-  <strong class="font-ruqaa">
-    لحظة جميلة ♡
-  </strong>
-
-</button>
-
-
-<button
-  type="button"
-  class="choice fontChoice"
-  data-font="naskh">
-
-  <small>ناعم</small>
-
-  <strong class="font-naskh">
-    لحظة جميلة ♡
-  </strong>
-
-</button>
-
-
-<button
-  type="button"
-  class="choice fontChoice"
-  data-font="kufi">
-
-  <small>كوفي</small>
-
-  <strong class="font-kufi">
-    لحظة جميلة ♡
-  </strong>
-
-</button>
-
-
-<button
-  type="button"
-  class="choice fontChoice"
-  data-font="marhey"
-  style="grid-column:1/-1">
-
-  <small>مزخرف</small>
-
-  <strong class="font-marhey">
-    لحظة جميلة ♡
-  </strong>
-
-</button>
-
-</div>
-
-
-<div class="previewTitle">
-  معاينة الرسالة
-</div>
-
-<div
-  id="messagePreview"
-  class="messagePreview font-normal">
-
-  رسالتك بتطلع هنا ♡
-
-</div>
-
-</section>
-
-
-<section class="card">
-
-<div class="cardTitle">
-  شكل الهدية
-</div>
-
-<div class="choiceGrid">
-
-<button
-  type="button"
-  class="choice themeChoice active"
-  data-theme="romantic">
-
-  <div class="themeDot r"></div>
-
-  رومانسي
-
-</button>
-
-<button
-  type="button"
-  class="choice themeChoice"
-  data-theme="midnight">
-
-  <div class="themeDot m"></div>
-
-  منتصف الليل
-
-</button>
-
-<button
-  type="button"
-  class="choice themeChoice"
-  data-theme="sunset">
-
-  <div class="themeDot s"></div>
-
-  غروب
-
-</button>
-
-<button
-  type="button"
-  class="choice themeChoice"
-  data-theme="minimal">
-
-  <div class="themeDot n"></div>
-
-  بسيط
-
-</button>
-
-</div>
-
-</section>
-
-
-<section class="card">
-
-<div class="cardTitle">
-  صور اللحظة 📸
-</div>
-
-<div
-  id="photoLimitText"
-  class="cardDesc">
-</div>
-
-
-<div class="fileBox">
-
-<input
-  id="photos"
-  type="file"
-  accept="image/*"
-  multiple>
-
-<div class="fileIcon">
-  🖼️
-</div>
-
-<strong>
-  اختر الصور
-</strong>
-
-<div class="fileSmall">
-  بعد الاختيار تقدر ترتب الصور بالترتيب اللي تبيه
-</div>
-
-</div>
-
-
-<div
-  id="orderTitle"
-  class="orderTitle">
-
-  ترتيب الصور
-
-  <div class="orderHint">
-    رقم 1 هي أول صورة بتظهر للمستلم.
+  <div class="topbar">
+    <a class="back" href="plans.html">→ رجوع للباقات</a>
+    <div class="logo">LAHZA <span>♡</span></div>
   </div>
 
-</div>
-
-
-<div
-  id="photosList"
-  class="photosList">
-</div>
-
-
-<label>
-  قالب الصورة
-</label>
-
-<div class="choiceGrid">
-
-<button
-  type="button"
-  class="choice frameChoice active"
-  data-frame="soft">
-
-  <small>
-    ناعم
-  </small>
-
-  بدون إطار ثقيل
-
-</button>
-
-
-<button
-  type="button"
-  class="choice frameChoice"
-  data-frame="polaroid">
-
-  <small>
-    Polaroid
-  </small>
-
-  صورة مطبوعة
-
-</button>
-
-
-<button
-  type="button"
-  class="choice frameChoice"
-  data-frame="cinema">
-
-  <small>
-    سينمائي
-  </small>
-
-  إطار أسود
-
-</button>
-
-
-<button
-  type="button"
-  class="choice frameChoice"
-  data-frame="glass">
-
-  <small>
-    زجاجي
-  </small>
-
-  فاخر وشفاف
-
-</button>
-
-</div>
-
-
-<label>
-  حجم الصور
-</label>
-
-<div class="choiceGrid">
-
-<button
-  type="button"
-  class="choice sizeChoice active"
-  data-size="medium">
-
-  متوسط
-
-</button>
-
-
-<button
-  type="button"
-  class="choice sizeChoice"
-  data-size="large">
-
-  كبير
-
-</button>
-
-
-<button
-  type="button"
-  class="choice sizeChoice"
-  data-size="full"
-  style="grid-column:1/-1">
-
-  ملء المساحة
-
-</button>
-
-</div>
-
-
-<label>
-  طريقة عرض الصورة
-</label>
-
-<div class="choiceGrid">
-
-<button
-  type="button"
-  class="choice fitChoice active"
-  data-fit="contain">
-
-  <small>
-    كاملة
-  </small>
-
-  بدون قص
-
-</button>
-
-
-<button
-  type="button"
-  class="choice fitChoice"
-  data-fit="cover">
-
-  <small>
-    تعبئة
-  </small>
-
-  تملأ الإطار
-
-</button>
-
-</div>
-
-
-<div class="previewTitle">
-  معاينة أول صورة
-</div>
-
-
-<div class="photoPreviewOuter">
-
-<div
-  id="photoPreview"
-  class="photoPreview medium soft">
-
-<div
-  id="photoPlaceholder"
-  class="photoPlaceholder">
-
-  اختر صورة عشان تشوف المعاينة
-
-</div>
-
-<img
-  id="previewImage"
-  class="contain"
-  alt=""
-  style="display:none">
-
-</div>
-
-</div>
-
-</section>
-
-
-<section class="card">
-
-<div class="cardTitle">
-  أغنية هاللحظة 🎵
-</div>
-
-<div class="cardDesc">
-  ارفع ملف من جهازك أو حط رابط YouTube.
-</div>
-
-
-<div class="tabs">
-
-<button
-  id="uploadTab"
-  type="button"
-  class="tab active">
-
-  رفع ملف
-
-</button>
-
-
-<button
-  id="linkTab"
-  type="button"
-  class="tab">
-
-  رابط
-
-</button>
-
-</div>
-
-
-<div
-  id="uploadPanel"
-  class="panel active">
-
-<div class="fileBox">
-
-<input
-  id="mediaFile"
-  type="file"
-  accept="audio/*,video/mp4,video/webm,video/quicktime">
-
-<div class="fileIcon">
-  🎵
-</div>
-
-<strong>
-  اختر الأغنية أو المقطع
-</strong>
-
-<div class="fileSmall">
-  MP3 / M4A / WAV / MP4 / MOV
-</div>
-
-</div>
-
-<div
-  id="filePreview"
-  class="mediaPreview">
-</div>
-
-</div>
-
-
-<div
-  id="linkPanel"
-  class="panel">
-
-<label>
-  رابط الأغنية
-</label>
-
-<input
-  id="mediaLink"
-  type="url"
-  placeholder="الصق رابط YouTube">
-
-<div
-  id="linkError"
-  class="error">
-</div>
-
-<div
-  id="linkPreview"
-  class="mediaPreview">
-</div>
-
-<div class="info">
-  روابط YouTube تبقى داخل مشغل YouTube، لذلك ممكن تظهر إعلانات من YouTube نفسه.
-</div>
-
-</div>
-
-</section>
-
-
-<section class="card">
-
-<div class="cardTitle">
-  تاريخ الذكرى 🤍
-</div>
-
-<div class="cardDesc">
-  اختياري
-</div>
-
-<input
-  id="giftDate"
-  type="date">
-
-<div
-  id="dateError"
-  class="error">
-</div>
-
-</section>
-
-
-<section class="card">
-
-<div class="cardTitle">
-  ملخص الطلب
-</div>
-
-<div class="summary">
-
-<div class="summaryBox">
-<span>المناسبة</span>
-<strong id="occasionSummary">—</strong>
-</div>
-
-<div class="summaryBox">
-<span>الباقة</span>
-<strong id="planSummary">—</strong>
-</div>
-
-<div class="summaryBox">
-<span>السعر</span>
-<strong id="priceSummary">—</strong>
-</div>
-
-<div class="summaryBox">
-<span>الثيم</span>
-<strong id="themeSummary">رومانسي</strong>
-</div>
-
-</div>
-
-</section>
-
-
-<button
-  id="nextBtn"
-  class="next"
-  type="button">
-
-  متابعة للدفع ←
-
-</button>
-
-
-<div
-  id="status"
-  class="status">
-</div>
+  <div class="hero">
+    <h1>اصنع لحظتك ♡</h1>
+    <p>
+      خصّص الهدية بطريقتك. بعض المميزات تعتمد على الباقة المختارة.
+    </p>
+  </div>
+
+  <div class="planBox">
+    <div class="planTop">
+      <div>
+        <div id="planName" class="planName">Moment</div>
+        <div id="planDescription" class="planMini"></div>
+      </div>
+
+      <div id="planPrice" class="planPrice">2.900 د.ب</div>
+    </div>
+  </div>
+
+  <!-- BASIC -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>1. الأساسيات</h2>
+      <span>من وإلى ♡</span>
+    </div>
+
+    <div class="field">
+      <label for="receiver">اسم المستلم</label>
+      <input id="receiver" class="input" maxlength="50" placeholder="مثال: نور">
+    </div>
+
+    <div class="field">
+      <label for="sender">اسم المرسل</label>
+      <input id="sender" class="input" maxlength="50" placeholder="مثال: علي">
+    </div>
+
+    <div class="field">
+      <label for="giftDate">تاريخ الذكرى - اختياري</label>
+      <input id="giftDate" class="input" type="date">
+      <small class="help">يستخدم لعداد الوقت داخل الهدية.</small>
+    </div>
+
+    <div class="toggleRow">
+      <div class="toggleText">
+        <strong>إظهار صفحة التاريخ</strong>
+        <span>إذا أضفت تاريخًا، هل تظهر صفحة العداد؟</span>
+      </div>
+
+      <label class="switch">
+        <input id="showDate" type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <!-- MESSAGE -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>2. الرسالة</h2>
+      <span>الكلام الأهم</span>
+    </div>
+
+    <div class="field">
+      <label for="message">رسالتك</label>
+      <textarea id="message" maxlength="1500" placeholder="اكتب الكلام اللي تبيه يوصل له..."></textarea>
+    </div>
+
+    <label>خط الرسالة</label>
+
+    <div id="fontChoices" class="choices">
+      <button class="choice fontChoice active" data-font="normal">عادي</button>
+      <button class="choice fontChoice" data-font="ruqaa">رقعة</button>
+      <button class="choice fontChoice" data-font="naskh">نسخ</button>
+      <button class="choice fontChoice" data-font="kufi">كوفي</button>
+      <button class="choice fontChoice" data-font="marhey">مرح</button>
+    </div>
+
+    <div id="messagePreview" class="messagePreview font-normal">
+      معاينة رسالتك تظهر هنا ♡
+    </div>
+  </section>
+
+  <!-- THEME -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>3. شكل الهدية</h2>
+      <span>الثيم</span>
+    </div>
+
+    <div class="choices">
+      <button class="choice themeChoice active" data-theme="romantic">
+        رومانسي
+      </button>
+
+      <button class="choice themeChoice" data-theme="minimal">
+        مينيمال
+      </button>
+
+      <button class="choice themeChoice premiumTheme" data-theme="midnight">
+        ليلي
+      </button>
+
+      <button class="choice themeChoice premiumTheme" data-theme="sunset">
+        غروب
+      </button>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>4. الصور</h2>
+      <span id="photoLimitText">حتى 15 صورة</span>
+    </div>
+
+    <div class="upload">
+      <input id="photosInput" type="file" accept="image/*" multiple>
+    </div>
+
+    <small class="help">
+      بعد اختيار الصور تقدر تغير ترتيبهم بالأسهم.
+    </small>
+
+    <div id="photoList" class="photoList"></div>
+
+    <div class="twoCols" style="margin-top:16px">
+
+      <div class="field">
+        <label>الإطار</label>
+        <select id="photoFrame">
+          <option value="soft">ناعم</option>
+          <option value="polaroid">Polaroid</option>
+          <option value="cinema">Cinema</option>
+          <option value="glass">Glass</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>الحجم</label>
+        <select id="photoSize">
+          <option value="medium">متوسط</option>
+          <option value="large">كبير</option>
+          <option value="full">كامل</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="field">
+      <label>طريقة عرض الصورة</label>
+      <select id="photoFit">
+        <option value="contain">الصورة كاملة</option>
+        <option value="cover">تملأ الشاشة</option>
+      </select>
+    </div>
+
+    <div id="photoAdvanced" class="featureLock">
+
+      <div class="lockedOverlay">
+        <div>
+          <strong>🔒 تخصيص الصور المتقدم</strong>
+          <span>متوفر في Moment و Forever</span>
+        </div>
+      </div>
+
+      <div class="twoCols">
+
+        <div class="field">
+          <label>مدة كل صورة</label>
+          <select id="photoDuration">
+            <option value="2">2 ثانية</option>
+            <option value="3" selected>3 ثواني</option>
+            <option value="5">5 ثواني</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>حركة الصور</label>
+          <select id="photoMotion">
+            <option value="zoom">زوم ناعم</option>
+            <option value="soft">هادئة</option>
+            <option value="slide">سلايد ناعم</option>
+            <option value="none">بدون حركة</option>
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="photoPreview" class="photoPreview soft contain">
+      <span style="color:var(--muted);font-size:9px">
+        أول صورة بتظهر هنا
+      </span>
+    </div>
+
+  </section>
+
+  <!-- MUSIC -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>5. الموسيقى</h2>
+      <span>اختياري ♪</span>
+    </div>
+
+    <div class="tabs">
+      <button id="musicFileTab" class="tab active" type="button">رفع ملف</button>
+      <button id="musicLinkTab" class="tab" type="button">رابط</button>
+    </div>
+
+    <div id="musicFileBox">
+      <div class="upload">
+        <input
+          id="musicFile"
+          type="file"
+          accept="audio/*,video/mp4,video/webm,video/quicktime">
+      </div>
+    </div>
+
+    <div id="musicLinkBox" style="display:none">
+      <input
+        id="musicLink"
+        class="input"
+        placeholder="رابط YouTube أو رابط صوت مباشر">
+    </div>
+
+    <div id="mediaPreview" class="mediaPreview"></div>
+
+    <div class="toggleRow">
+      <div class="toggleText">
+        <strong>إظهار صفحة الموسيقى</strong>
+        <span>يقدر المستلم يشغلها داخل الهدية.</span>
+      </div>
+
+      <label class="switch">
+        <input id="showMusic" type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div id="continueMusicLock" class="featureLock">
+      <div class="lockedOverlay">
+        <div>
+          <strong>🔒 استمرار الموسيقى</strong>
+          <span>متوفر في Moment و Forever</span>
+        </div>
+      </div>
+
+      <div class="toggleRow">
+        <div class="toggleText">
+          <strong>تكمل الموسيقى بين الصفحات</strong>
+          <span>بدل ما تتوقف بعد صفحة الموسيقى.</span>
+        </div>
+
+        <label class="switch">
+          <input id="musicContinue" type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOMENT FEATURES -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>6. لمسات إضافية</h2>
+      <span>Moment +</span>
+    </div>
+
+    <div id="momentFeatures" class="featureLock">
+
+      <div class="lockedOverlay">
+        <div>
+          <strong>🔒 مميزات Moment</strong>
+          <span>رقّ الباقة لفتح هالمميزات</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>العبارة داخل ورقة الظرف</label>
+        <input
+          id="envelopeText"
+          class="input"
+          maxlength="80"
+          value="لحظة خاصة لك ♡">
+      </div>
+
+      <div class="field">
+        <label>رسالة سرية في النهاية - اختياري</label>
+        <textarea
+          id="secretMessage"
+          maxlength="600"
+          placeholder="باقي لك كلمة أخيرة..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>موعد فتح الهدية - اختياري</label>
+        <input id="openAt" class="input" type="datetime-local">
+        <small class="help">
+          قبل هذا الوقت يشوف المستلم عدًّا تنازليًا ولا تنفتح الهدية.
+        </small>
+      </div>
+
+      <div class="field">
+        <label>مستوى المؤثرات</label>
+        <select id="effectsLevel">
+          <option value="soft">هادئ</option>
+          <option value="normal" selected>عادي</option>
+          <option value="strong">أكثر</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>رسالة صوتية - اختياري</label>
+        <div class="upload">
+          <input id="voiceFile" type="file" accept="audio/*">
+        </div>
+
+        <div id="voicePreview" class="voicePreview" style="margin-top:10px"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOREVER -->
+
+  <section class="section">
+    <div class="sectionTitle">
+      <h2>7. مميزات Forever</h2>
+      <span>الأقوى ♡</span>
+    </div>
+
+    <div id="foreverFeatures" class="featureLock">
+
+      <div class="lockedOverlay">
+        <div>
+          <strong>🔒 مميزات Forever</strong>
+          <span>متوفرة فقط في أعلى باقة</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>PIN سري - اختياري</label>
+        <input
+          id="giftPin"
+          class="input"
+          inputmode="numeric"
+          maxlength="4"
+          placeholder="مثال: 2580">
+      </div>
+
+      <div class="toggleRow">
+        <div class="toggleText">
+          <strong>خلي المرسل مجهولًا</strong>
+          <span>ما يظهر اسم المرسل في نهاية الهدية.</span>
+        </div>
+
+        <label class="switch">
+          <input id="senderAnonymous" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field" style="margin-top:15px">
+        <label>عبارة النهاية</label>
+        <textarea
+          id="finalMessage"
+          maxlength="500"
+          placeholder="مثال: وكل سنة وأنت أجمل لحظة ♡"></textarea>
+      </div>
+
+      <div class="field">
+        <label>فيديو داخل الهدية - اختياري</label>
+        <div class="upload">
+          <input
+            id="videoFile"
+            type="file"
+            accept="video/mp4,video/webm,video/quicktime">
+        </div>
+
+        <div id="videoPreview" class="videoPreview" style="margin-top:10px"></div>
+      </div>
+
+      <div class="field">
+        <label>ترتيب أقسام الهدية</label>
+
+        <div id="sectionOrder" class="sectionOrder"></div>
+
+        <small class="help">
+          الاسم يبقى في البداية والنهاية تبقى آخر شي، وتقدر ترتب الأقسام الوسطية.
+        </small>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SUMMARY -->
+
+  <div class="summary">
+
+    <div class="summaryRow">
+      <span>الباقة</span>
+      <strong id="summaryPlan">Moment</strong>
+    </div>
+
+    <div class="summaryRow">
+      <span>عدد الصور</span>
+      <strong id="summaryPhotos">0</strong>
+    </div>
+
+    <div class="summaryRow">
+      <span>المناسبة</span>
+      <strong id="summaryOccasion">—</strong>
+    </div>
+
+    <div class="summaryRow total">
+      <span>الإجمالي</span>
+      <strong id="summaryPrice">2.900 د.ب</strong>
+    </div>
+
+  </div>
+
+  <button id="createButton" class="createBtn" type="button">
+    متابعة للدفع ♡
+  </button>
+
+  <div id="status" class="status"></div>
+
+  <div class="upgradeNote">
+    بعد المتابعة ينحفظ الطلب بحالة انتظار الدفع، والهدية ما تنفتح إلا بعد تأكيد الدفع.
+  </div>
 
 </main>
 
-
 <script>
-
 const SUPABASE_URL =
 "https://ltuyfewachzbazunuxmd.supabase.co";
 
@@ -1197,156 +1139,167 @@ window.supabase.createClient(
   SUPABASE_KEY
 );
 
-
 const plans = {
-
   mini:{
     name:"Mini",
     price:1.900,
-    photos:5
+    photos:5,
+    rank:1,
+    description:"هدية خفيفة وبسيطة"
   },
 
   moment:{
     name:"Moment",
     price:2.900,
-    photos:15
+    photos:15,
+    rank:2,
+    description:"مميزات أكثر ولمسات خاصة"
   },
 
   forever:{
     name:"Forever",
     price:4.900,
-    photos:30
+    photos:30,
+    rank:3,
+    description:"أقوى تجربة وأكبر تخصيص"
   }
-
 };
 
-
-const occasionNames = {
-
-  love:"حب ❤️",
-  birthday:"عيد ميلاد 🎂",
-  friend:"صداقة 🫂",
-  friendship:"صداقة 🫂",
-  graduation:"تخرج 🎓",
-  sorry:"اعتذار 🤍",
-  apology:"اعتذار 🤍",
-  surprise:"بدون مناسبة ✨",
-  none:"بدون مناسبة ✨"
-
+const occasions = {
+  love:"حب",
+  birthday:"عيد ميلاد",
+  friend:"صداقة",
+  friendship:"صداقة",
+  graduation:"تخرج",
+  sorry:"اعتذار",
+  apology:"اعتذار",
+  surprise:"بدون مناسبة",
+  none:"بدون مناسبة"
 };
 
+const params =
+new URLSearchParams(
+  location.search
+);
 
-const themeNames = {
+let planKey =
+params.get("plan")
+||
+localStorage.getItem("lahzaPlan")
+||
+"moment";
 
-  romantic:"رومانسي",
-  midnight:"منتصف الليل",
-  sunset:"غروب",
-  minimal:"بسيط"
+if(!plans[planKey]){
+  planKey = "moment";
+}
 
-};
-
-
-const fontClasses = {
-
-  normal:"font-normal",
-  ruqaa:"font-ruqaa",
-  naskh:"font-naskh",
-  kufi:"font-kufi",
-  marhey:"font-marhey"
-
-};
-
+const plan =
+plans[planKey];
 
 let occasion =
+params.get("occasion")
+||
 localStorage.getItem("lahzaOccasion")
 ||
 "none";
 
-let plan =
-localStorage.getItem("lahzaPlan")
-||
-"mini";
-
-let theme =
-localStorage.getItem("lahzaTheme")
-||
+let selectedTheme =
 "romantic";
 
 let messageFont =
 "normal";
 
-let photoFrame =
-"soft";
+let selectedPhotoFiles = [];
 
-let photoSize =
-"medium";
+let selectedPhotoThumbURLs = [];
 
-let photoFit =
-"contain";
+let featuredPhotoIndex =
+null;
 
 let musicMode =
-"upload";
+"file";
 
-let mediaPreviewURL =
-null;
+let sectionOrder = [
+  "music",
+  "message",
+  "photos",
+  "date",
+  "surprise",
+  "sender"
+];
 
-let photoPreviewURL =
-null;
-
-/* الصور مرتبة هنا */
-let selectedPhotoFiles =
-[];
-
-let selectedPhotoThumbURLs =
-[];
+const sectionNames = {
+  music:"الموسيقى",
+  message:"الرسالة",
+  photos:"الصور",
+  date:"التاريخ",
+  surprise:"المفاجأة",
+  sender:"اسم المرسل"
+};
 
 
 /* INIT */
 
 function init(){
 
-  if(!plans[plan]){
-    plan="mini";
-  }
+  localStorage.setItem(
+    "lahzaPlan",
+    planKey
+  );
 
+  localStorage.setItem(
+    "lahzaOccasion",
+    occasion
+  );
 
-  document
-  .getElementById("occasionSummary")
-  .textContent =
-  occasionNames[occasion]
-  ||
-  occasion;
+  document.getElementById(
+    "planName"
+  ).textContent =
+  plan.name;
 
-
-  document
-  .getElementById("planSummary")
-  .textContent =
-  plans[plan].name;
-
-
-  document
-  .getElementById("priceSummary")
-  .textContent =
-  plans[plan].price.toFixed(3)
+  document.getElementById(
+    "planPrice"
+  ).textContent =
+  plan.price.toFixed(3)
   +
   " د.ب";
 
+  document.getElementById(
+    "planDescription"
+  ).textContent =
+  plan.description;
 
-  document
-  .getElementById("photoLimitText")
-  .textContent =
-  "الباقة تسمح بحد أقصى "
+  document.getElementById(
+    "photoLimitText"
+  ).textContent =
+  "حتى "
   +
-  plans[plan].photos
+  plan.photos
   +
-  " صورة.";
+  " صورة";
 
+  document.getElementById(
+    "summaryPlan"
+  ).textContent =
+  plan.name;
 
-  document
-  .getElementById("giftDate")
-  .max =
-  todayString();
+  document.getElementById(
+    "summaryPrice"
+  ).textContent =
+  plan.price.toFixed(3)
+  +
+  " د.ب";
 
+  document.getElementById(
+    "summaryOccasion"
+  ).textContent =
+  occasions[occasion]
+  ||
+  occasion;
+
+  applyPlanLocks();
+
+  renderSectionOrder();
 
   updateMessagePreview();
 
@@ -1355,545 +1308,485 @@ function init(){
 }
 
 
-function todayString(){
+function applyPlanLocks(){
 
-  const d =
-  new Date();
+  const isMini =
+  plan.rank === 1;
 
+  const hasMoment =
+  plan.rank >= 2;
 
-  return [
+  const hasForever =
+  plan.rank >= 3;
 
-    d.getFullYear(),
+  document.getElementById(
+    "photoAdvanced"
+  ).classList.toggle(
+    "locked",
+    !hasMoment
+  );
 
-    String(
-      d.getMonth()+1
-    ).padStart(2,"0"),
+  document.getElementById(
+    "continueMusicLock"
+  ).classList.toggle(
+    "locked",
+    !hasMoment
+  );
 
-    String(
-      d.getDate()
-    ).padStart(2,"0")
+  document.getElementById(
+    "momentFeatures"
+  ).classList.toggle(
+    "locked",
+    !hasMoment
+  );
 
-  ].join("-");
+  document.getElementById(
+    "foreverFeatures"
+  ).classList.toggle(
+    "locked",
+    !hasForever
+  );
+
+  document.querySelectorAll(
+    ".premiumTheme"
+  ).forEach(
+    button=>{
+
+      button.classList.toggle(
+        "locked",
+        isMini
+      );
+
+      if(isMini){
+
+        button.innerHTML +=
+        '<span class="lockBadge">🔒</span>';
+
+      }
+
+    }
+  );
 
 }
 
 
 /* MESSAGE */
 
-const messageInput =
-document.getElementById("message");
-
-const messagePreview =
-document.getElementById("messagePreview");
-
-
-messageInput.addEventListener(
+document.getElementById(
+  "message"
+).addEventListener(
   "input",
   updateMessagePreview
 );
 
 
-document
-.querySelectorAll(".fontChoice")
-.forEach(button=>{
-
-  button.addEventListener(
-    "click",
-    ()=>{
-
-      setActive(
-        ".fontChoice",
-        button
-      );
-
-      messageFont =
-      button.dataset.font;
-
-      updateMessagePreview();
-
-    }
-  );
-
-});
-
-
 function updateMessagePreview(){
-
-  messagePreview.className =
-  "messagePreview "
-  +
-  (
-    fontClasses[messageFont]
-    ||
-    "font-normal"
-  );
-
-
-  messagePreview.textContent =
-  messageInput.value.trim()
-  ||
-  "رسالتك بتطلع هنا ♡";
-
-}
-
-
-/* THEME */
-
-document
-.querySelectorAll(".themeChoice")
-.forEach(button=>{
-
-  button.addEventListener(
-    "click",
-    ()=>{
-
-      setActive(
-        ".themeChoice",
-        button
-      );
-
-      theme =
-      button.dataset.theme;
-
-      localStorage.setItem(
-        "lahzaTheme",
-        theme
-      );
-
-      document
-      .getElementById("themeSummary")
-      .textContent =
-      themeNames[theme];
-
-    }
-  );
-
-});
-
-
-/* PHOTO STYLE */
-
-document
-.querySelectorAll(".frameChoice")
-.forEach(button=>{
-
-  button.addEventListener(
-    "click",
-    ()=>{
-
-      setActive(
-        ".frameChoice",
-        button
-      );
-
-      photoFrame =
-      button.dataset.frame;
-
-      updatePhotoPreview();
-
-    }
-  );
-
-});
-
-
-document
-.querySelectorAll(".sizeChoice")
-.forEach(button=>{
-
-  button.addEventListener(
-    "click",
-    ()=>{
-
-      setActive(
-        ".sizeChoice",
-        button
-      );
-
-      photoSize =
-      button.dataset.size;
-
-      updatePhotoPreview();
-
-    }
-  );
-
-});
-
-
-document
-.querySelectorAll(".fitChoice")
-.forEach(button=>{
-
-  button.addEventListener(
-    "click",
-    ()=>{
-
-      setActive(
-        ".fitChoice",
-        button
-      );
-
-      photoFit =
-      button.dataset.fit;
-
-      updatePhotoPreview();
-
-    }
-  );
-
-});
-
-
-function updatePhotoPreview(){
 
   const preview =
   document.getElementById(
-    "photoPreview"
+    "messagePreview"
   );
 
-  const image =
+  const value =
   document.getElementById(
-    "previewImage"
-  );
+    "message"
+  ).value.trim();
 
-
-  preview.className =
-  "photoPreview "
-  +
-  photoSize
-  +
-  " "
-  +
-  photoFrame;
-
-
-  image.className =
-  photoFit;
+  preview.textContent =
+  value
+  ||
+  "معاينة رسالتك تظهر هنا ♡";
 
 }
 
 
-/* SELECT PHOTOS */
+document.querySelectorAll(
+  ".fontChoice"
+).forEach(
+  button=>{
 
-document
-.getElementById("photos")
-.addEventListener(
-  "change",
-  ()=>{
+    button.addEventListener(
+      "click",
+      ()=>{
 
-    const input =
-    document.getElementById(
-      "photos"
-    );
+        document.querySelectorAll(
+          ".fontChoice"
+        ).forEach(
+          item=>item.classList.remove(
+            "active"
+          )
+        );
 
+        button.classList.add(
+          "active"
+        );
 
-    const files =
-    Array.from(
-      input.files || []
-    );
+        messageFont =
+        button.dataset.font;
 
+        const preview =
+        document.getElementById(
+          "messagePreview"
+        );
 
-    if(
-      files.length >
-      plans[plan].photos
-    ){
-
-      alert(
-        "الباقة تسمح بحد أقصى "
+        preview.className =
+        "messagePreview font-"
         +
-        plans[plan].photos
-        +
-        " صورة."
-      );
+        messageFont;
 
-      input.value="";
-
-      clearSelectedPhotos();
-
-      return;
-
-    }
-
-
-    clearThumbURLs();
-
-
-    selectedPhotoFiles =
-    files;
-
-
-    selectedPhotoThumbURLs =
-    selectedPhotoFiles.map(
-      file =>
-      URL.createObjectURL(file)
+      }
     );
-
-
-    renderPhotoOrder();
-
-    updateFirstPhotoPreview();
 
   }
 );
 
 
-/* RENDER ORDER */
+/* THEME */
+
+document.querySelectorAll(
+  ".themeChoice"
+).forEach(
+  button=>{
+
+    button.addEventListener(
+      "click",
+      ()=>{
+
+        if(
+          plan.rank === 1
+          &&
+          [
+            "midnight",
+            "sunset"
+          ].includes(
+            button.dataset.theme
+          )
+        ){
+
+          showStatus(
+            "هالثيم متوفر في Moment و Forever.",
+            "error"
+          );
+
+          return;
+
+        }
+
+        document.querySelectorAll(
+          ".themeChoice"
+        ).forEach(
+          item=>item.classList.remove(
+            "active"
+          )
+        );
+
+        button.classList.add(
+          "active"
+        );
+
+        selectedTheme =
+        button.dataset.theme;
+
+      }
+    );
+
+  }
+);
+
+
+/* PHOTOS */
+
+document.getElementById(
+  "photosInput"
+).addEventListener(
+  "change",
+  event=>{
+
+    const files =
+    Array.from(
+      event.target.files
+      ||
+      []
+    );
+
+    if(
+      files.length >
+      plan.photos
+    ){
+
+      showStatus(
+        "باقتك تسمح بحد أقصى "
+        +
+        plan.photos
+        +
+        " صورة.",
+        "error"
+      );
+
+      event.target.value =
+      "";
+
+      return;
+
+    }
+
+    clearPhotoThumbs();
+
+    selectedPhotoFiles =
+    files;
+
+    selectedPhotoThumbURLs =
+    files.map(
+      file=>URL.createObjectURL(
+        file
+      )
+    );
+
+    featuredPhotoIndex =
+    null;
+
+    renderPhotoOrder();
+
+    updatePhotoPreview();
+
+    updateSummary();
+
+  }
+);
+
+
+function clearPhotoThumbs(){
+
+  selectedPhotoThumbURLs.forEach(
+    url=>{
+
+      try{
+        URL.revokeObjectURL(
+          url
+        );
+      }catch{}
+
+    }
+  );
+
+  selectedPhotoThumbURLs =
+  [];
+
+}
+
 
 function renderPhotoOrder(){
 
-  const list =
+  const holder =
   document.getElementById(
-    "photosList"
+    "photoList"
   );
 
-  const title =
-  document.getElementById(
-    "orderTitle"
-  );
-
-
-  list.innerHTML =
+  holder.innerHTML =
   "";
 
-
-  if(
-    selectedPhotoFiles.length === 0
-  ){
-
-    title.style.display =
-    "none";
-
-    return;
-
-  }
-
-
-  title.style.display =
-  "block";
-
-
   selectedPhotoFiles.forEach(
-    (
-      file,
-      index
-    )=>{
+    (file,index)=>{
 
-      const item =
+      const row =
       document.createElement(
         "div"
       );
 
-
-      item.className =
-      "photoOrderItem";
-
-
-      const number =
-      document.createElement(
-        "div"
-      );
-
-
-      number.className =
-      "photoOrderNumber";
-
-
-      number.textContent =
-      index + 1;
-
+      row.className =
+      "photoRow";
 
       const img =
       document.createElement(
         "img"
       );
 
-
       img.className =
       "photoThumb";
-
 
       img.src =
       selectedPhotoThumbURLs[
         index
       ];
 
-
       const info =
       document.createElement(
         "div"
       );
 
-
       info.className =
       "photoInfo";
-
 
       const name =
       document.createElement(
         "div"
       );
 
-
       name.className =
       "photoName";
 
-
       name.textContent =
       file.name;
-
 
       const pos =
       document.createElement(
         "div"
       );
 
-
       pos.className =
-      "photoPosition";
-
+      "photoPos";
 
       pos.textContent =
-      index === 0
-      ?
-      "تظهر أول صورة"
-      :
-      "الصورة رقم "
+      "الصورة "
       +
-      (index + 1);
-
+      (
+        index + 1
+      )
+      +
+      " من "
+      +
+      selectedPhotoFiles.length;
 
       info.appendChild(
         name
       );
 
-
       info.appendChild(
         pos
       );
 
+      if(
+        plan.rank >= 2
+      ){
 
-      const buttons =
+        const featured =
+        document.createElement(
+          "button"
+        );
+
+        featured.type =
+        "button";
+
+        featured.className =
+        "featuredBtn";
+
+        if(
+          featuredPhotoIndex ===
+          index
+        ){
+
+          featured.classList.add(
+            "active"
+          );
+
+          featured.textContent =
+          "★ الصورة المميزة";
+
+        }else{
+
+          featured.textContent =
+          "اجعلها صورة النهاية";
+
+        }
+
+        featured.onclick =
+        ()=>{
+
+          featuredPhotoIndex =
+          featuredPhotoIndex ===
+          index
+          ?
+          null
+          :
+          index;
+
+          renderPhotoOrder();
+
+        };
+
+        info.appendChild(
+          featured
+        );
+
+      }
+
+      const controls =
       document.createElement(
         "div"
       );
 
-
-      buttons.className =
-      "orderButtons";
-
+      controls.className =
+      "photoControls";
 
       const up =
       document.createElement(
         "button"
       );
 
-
       up.type =
       "button";
 
-
       up.className =
-      "orderButton";
-
+      "tinyBtn";
 
       up.textContent =
       "↑";
 
-
-      up.title =
-      "قدم الصورة";
-
-
       up.disabled =
       index === 0;
 
-
-      up.addEventListener(
-        "click",
-        ()=>{
-
-          movePhoto(
-            index,
-            index - 1
-          );
-
-        }
+      up.onclick =
+      ()=>movePhoto(
+        index,
+        index - 1
       );
-
 
       const down =
       document.createElement(
         "button"
       );
 
-
       down.type =
       "button";
 
-
       down.className =
-      "orderButton";
-
+      "tinyBtn";
 
       down.textContent =
       "↓";
-
-
-      down.title =
-      "أخر الصورة";
-
 
       down.disabled =
       index ===
       selectedPhotoFiles.length - 1;
 
-
-      down.addEventListener(
-        "click",
-        ()=>{
-
-          movePhoto(
-            index,
-            index + 1
-          );
-
-        }
+      down.onclick =
+      ()=>movePhoto(
+        index,
+        index + 1
       );
 
-
-      buttons.appendChild(
+      controls.appendChild(
         up
       );
 
-
-      buttons.appendChild(
+      controls.appendChild(
         down
       );
 
-
-      item.appendChild(
-        number
-      );
-
-
-      item.appendChild(
+      row.appendChild(
         img
       );
 
-
-      item.appendChild(
+      row.appendChild(
         info
       );
 
-
-      item.appendChild(
-        buttons
+      row.appendChild(
+        controls
       );
 
-
-      list.appendChild(
-        item
+      holder.appendChild(
+        row
       );
 
     }
@@ -1901,8 +1794,6 @@ function renderPhotoOrder(){
 
 }
 
-
-/* MOVE PHOTO */
 
 function movePhoto(
   from,
@@ -1915,134 +1806,133 @@ function movePhoto(
     to >=
     selectedPhotoFiles.length
   ){
-
     return;
-
   }
 
+  const featuredFile =
+  featuredPhotoIndex !== null
+  ?
+  selectedPhotoFiles[
+    featuredPhotoIndex
+  ]
+  :
+  null;
 
-  const file =
-  selectedPhotoFiles.splice(
-    from,
-    1
-  )[0];
+  [
+    selectedPhotoFiles[from],
+    selectedPhotoFiles[to]
+  ] = [
+    selectedPhotoFiles[to],
+    selectedPhotoFiles[from]
+  ];
 
+  [
+    selectedPhotoThumbURLs[from],
+    selectedPhotoThumbURLs[to]
+  ] = [
+    selectedPhotoThumbURLs[to],
+    selectedPhotoThumbURLs[from]
+  ];
 
-  selectedPhotoFiles.splice(
-    to,
-    0,
-    file
-  );
+  if(featuredFile){
 
-
-  const thumb =
-  selectedPhotoThumbURLs.splice(
-    from,
-    1
-  )[0];
-
-
-  selectedPhotoThumbURLs.splice(
-    to,
-    0,
-    thumb
-  );
-
-
-  renderPhotoOrder();
-
-  updateFirstPhotoPreview();
-
-}
-
-
-/* FIRST IMAGE PREVIEW */
-
-function updateFirstPhotoPreview(){
-
-  const image =
-  document.getElementById(
-    "previewImage"
-  );
-
-
-  const placeholder =
-  document.getElementById(
-    "photoPlaceholder"
-  );
-
-
-  if(
-    selectedPhotoThumbURLs.length
-    ===
-    0
-  ){
-
-    image.style.display =
-    "none";
-
-
-    image.removeAttribute(
-      "src"
+    featuredPhotoIndex =
+    selectedPhotoFiles.indexOf(
+      featuredFile
     );
 
+  }
 
-    placeholder.style.display =
-    "flex";
+  renderPhotoOrder();
 
+  updatePhotoPreview();
+
+}
+
+
+[
+  "photoFrame",
+  "photoFit",
+  "photoSize"
+].forEach(
+  id=>{
+
+    document.getElementById(
+      id
+    ).addEventListener(
+      "change",
+      updatePhotoPreview
+    );
+
+  }
+);
+
+
+function updatePhotoPreview(){
+
+  const box =
+  document.getElementById(
+    "photoPreview"
+  );
+
+  const frame =
+  document.getElementById(
+    "photoFrame"
+  ).value;
+
+  const fit =
+  document.getElementById(
+    "photoFit"
+  ).value;
+
+  box.className =
+  "photoPreview "
+  +
+  frame
+  +
+  " "
+  +
+  fit;
+
+  box.innerHTML =
+  "";
+
+  if(
+    !selectedPhotoThumbURLs.length
+  ){
+
+    const span =
+    document.createElement(
+      "span"
+    );
+
+    span.style.color =
+    "var(--muted)";
+
+    span.style.fontSize =
+    "9px";
+
+    span.textContent =
+    "أول صورة بتظهر هنا";
+
+    box.appendChild(
+      span
+    );
 
     return;
 
   }
 
+  const img =
+  document.createElement(
+    "img"
+  );
 
-  image.src =
+  img.src =
   selectedPhotoThumbURLs[0];
 
-
-  image.style.display =
-  "block";
-
-
-  placeholder.style.display =
-  "none";
-
-}
-
-
-/* CLEAR PHOTOS */
-
-function clearSelectedPhotos(){
-
-  clearThumbURLs();
-
-
-  selectedPhotoFiles =
-  [];
-
-
-  selectedPhotoThumbURLs =
-  [];
-
-
-  renderPhotoOrder();
-
-  updateFirstPhotoPreview();
-
-}
-
-
-function clearThumbURLs(){
-
-  selectedPhotoThumbURLs
-  .forEach(
-    url => {
-
-      try{
-        URL.revokeObjectURL(url);
-      }catch{}
-
-    }
+  box.appendChild(
+    img
   );
 
 }
@@ -2050,410 +1940,469 @@ function clearThumbURLs(){
 
 /* MUSIC TABS */
 
-document
-.getElementById("uploadTab")
-.addEventListener(
-  "click",
-  ()=>switchMusic("upload")
-);
-
-
-document
-.getElementById("linkTab")
-.addEventListener(
-  "click",
-  ()=>switchMusic("link")
-);
-
-
-function switchMusic(mode){
+document.getElementById(
+  "musicFileTab"
+).onclick =
+()=>{
 
   musicMode =
-  mode;
+  "file";
 
-
-  document
-  .getElementById("uploadTab")
-  .classList
-  .toggle(
-    "active",
-    mode === "upload"
+  document.getElementById(
+    "musicFileTab"
+  ).classList.add(
+    "active"
   );
 
-
-  document
-  .getElementById("linkTab")
-  .classList
-  .toggle(
-    "active",
-    mode === "link"
+  document.getElementById(
+    "musicLinkTab"
+  ).classList.remove(
+    "active"
   );
 
+  document.getElementById(
+    "musicFileBox"
+  ).style.display =
+  "block";
 
-  document
-  .getElementById("uploadPanel")
-  .classList
-  .toggle(
-    "active",
-    mode === "upload"
+  document.getElementById(
+    "musicLinkBox"
+  ).style.display =
+  "none";
+
+};
+
+
+document.getElementById(
+  "musicLinkTab"
+).onclick =
+()=>{
+
+  musicMode =
+  "link";
+
+  document.getElementById(
+    "musicLinkTab"
+  ).classList.add(
+    "active"
   );
 
-
-  document
-  .getElementById("linkPanel")
-  .classList
-  .toggle(
-    "active",
-    mode === "link"
+  document.getElementById(
+    "musicFileTab"
+  ).classList.remove(
+    "active"
   );
 
-}
+  document.getElementById(
+    "musicLinkBox"
+  ).style.display =
+  "block";
+
+  document.getElementById(
+    "musicFileBox"
+  ).style.display =
+  "none";
+
+};
 
 
-/* MEDIA FILE PREVIEW */
-
-document
-.getElementById("mediaFile")
-.addEventListener(
+document.getElementById(
+  "musicFile"
+).addEventListener(
   "change",
-  ()=>{
+  event=>{
 
     const file =
-    document
-    .getElementById("mediaFile")
-    .files[0];
+    event.target.files[0];
 
-
-    const box =
-    document.getElementById(
-      "filePreview"
-    );
-
-
-    box.innerHTML =
-    "";
-
-
-    if(mediaPreviewURL){
-
-      URL.revokeObjectURL(
-        mediaPreviewURL
-      );
-
-      mediaPreviewURL =
-      null;
-
-    }
-
-
-    if(!file){
-
-      box.style.display =
-      "none";
-
-      return;
-
-    }
-
-
-    mediaPreviewURL =
-    URL.createObjectURL(
+    previewMedia(
       file
     );
 
-
-    let media;
-
-
-    if(
-      file.type.startsWith(
-        "video/"
-      )
-    ){
-
-      media =
-      document.createElement(
-        "video"
-      );
-
-    }else{
-
-      media =
-      document.createElement(
-        "audio"
-      );
-
-    }
-
-
-    media.controls =
-    true;
-
-
-    media.src =
-    mediaPreviewURL;
-
-
-    box.appendChild(
-      media
-    );
-
-
-    box.style.display =
-    "block";
-
   }
 );
 
 
-/* LINK PREVIEW */
+function previewMedia(file){
 
-document
-.getElementById("mediaLink")
-.addEventListener(
-  "input",
-  previewLink
-);
-
-
-function previewLink(){
-
-  const value =
-  document
-  .getElementById("mediaLink")
-  .value
-  .trim();
-
-
-  const box =
+  const holder =
   document.getElementById(
-    "linkPreview"
+    "mediaPreview"
   );
 
-
-  const error =
-  document.getElementById(
-    "linkError"
-  );
-
-
-  box.innerHTML =
+  holder.innerHTML =
   "";
 
+  if(!file){
 
-  box.style.display =
-  "none";
-
-
-  error.style.display =
-  "none";
-
-
-  if(!value){
-    return;
-  }
-
-
-  if(!validURL(value)){
-
-    error.textContent =
-    "الرابط غير صحيح.";
-
-
-    error.style.display =
-    "block";
-
+    holder.style.display =
+    "none";
 
     return;
 
   }
 
+  holder.style.display =
+  "block";
 
-  const id =
-  getYouTubeId(
-    value
+  const url =
+  URL.createObjectURL(
+    file
   );
 
-
-  if(id){
-
-    const iframe =
-    document.createElement(
-      "iframe"
-    );
-
-
-    iframe.src =
-    "https://www.youtube.com/embed/"
-    +
-    encodeURIComponent(id);
-
-
-    iframe.allowFullscreen =
-    true;
-
-
-    box.appendChild(
-      iframe
-    );
-
-
-    box.style.display =
-    "block";
-
-
-    return;
-
-  }
-
-
-  const clean =
-  value
-  .split("?")[0]
-  .toLowerCase();
-
-
-  let media;
-
-
   if(
-    clean.endsWith(".mp4")
-    ||
-    clean.endsWith(".mov")
-    ||
-    clean.endsWith(".webm")
+    file.type.startsWith(
+      "video/"
+    )
   ){
 
-    media =
+    const video =
     document.createElement(
       "video"
     );
 
+    video.src =
+    url;
+
+    video.controls =
+    true;
+
+    video.playsInline =
+    true;
+
+    video.style.width =
+    "100%";
+
+    holder.appendChild(
+      video
+    );
+
   }else{
 
-    media =
+    const audio =
     document.createElement(
       "audio"
     );
 
-  }
+    audio.src =
+    url;
 
+    audio.controls =
+    true;
 
-  media.controls =
-  true;
+    audio.style.width =
+    "100%";
 
-
-  media.src =
-  value;
-
-
-  box.appendChild(
-    media
-  );
-
-
-  box.style.display =
-  "block";
-
-}
-
-
-/* URL */
-
-function validURL(value){
-
-  try{
-
-    const url =
-    new URL(value);
-
-
-    return (
-      url.protocol === "https:"
-      ||
-      url.protocol === "http:"
+    holder.appendChild(
+      audio
     );
 
-  }catch{
-
-    return false;
-
   }
 
 }
 
 
-function getYouTubeId(value){
+/* VOICE */
 
-  try{
+document.getElementById(
+  "voiceFile"
+).addEventListener(
+  "change",
+  event=>{
 
-    const url =
-    new URL(value);
+    const file =
+    event.target.files[0];
+
+    const holder =
+    document.getElementById(
+      "voicePreview"
+    );
+
+    holder.innerHTML =
+    "";
+
+    if(!file){
+      return;
+    }
+
+    const audio =
+    document.createElement(
+      "audio"
+    );
+
+    audio.controls =
+    true;
+
+    audio.src =
+    URL.createObjectURL(
+      file
+    );
+
+    holder.appendChild(
+      audio
+    );
+
+  }
+);
 
 
-    let host =
-    url.hostname
-    .toLowerCase()
-    .replace(/^www\./,"");
+/* VIDEO */
+
+document.getElementById(
+  "videoFile"
+).addEventListener(
+  "change",
+  event=>{
+
+    const file =
+    event.target.files[0];
+
+    const holder =
+    document.getElementById(
+      "videoPreview"
+    );
+
+    holder.innerHTML =
+    "";
+
+    if(!file){
+      return;
+    }
+
+    const video =
+    document.createElement(
+      "video"
+    );
+
+    video.controls =
+    true;
+
+    video.playsInline =
+    true;
+
+    video.src =
+    URL.createObjectURL(
+      file
+    );
+
+    holder.appendChild(
+      video
+    );
+
+  }
+);
 
 
-    if(
-      host ===
-      "youtu.be"
-    ){
+/* SECTION ORDER */
 
-      return cleanYT(
-        url.pathname
-        .split("/")
-        .filter(Boolean)[0]
+function renderSectionOrder(){
+
+  const holder =
+  document.getElementById(
+    "sectionOrder"
+  );
+
+  holder.innerHTML =
+  "";
+
+  sectionOrder.forEach(
+    (section,index)=>{
+
+      const row =
+      document.createElement(
+        "div"
+      );
+
+      row.className =
+      "orderItem";
+
+      const name =
+      document.createElement(
+        "span"
+      );
+
+      name.textContent =
+      sectionNames[
+        section
+      ];
+
+      const buttons =
+      document.createElement(
+        "div"
+      );
+
+      buttons.className =
+      "orderButtons";
+
+      const up =
+      document.createElement(
+        "button"
+      );
+
+      up.className =
+      "tinyBtn";
+
+      up.type =
+      "button";
+
+      up.textContent =
+      "↑";
+
+      up.disabled =
+      index === 0;
+
+      up.onclick =
+      ()=>moveSection(
+        index,
+        index - 1
+      );
+
+      const down =
+      document.createElement(
+        "button"
+      );
+
+      down.className =
+      "tinyBtn";
+
+      down.type =
+      "button";
+
+      down.textContent =
+      "↓";
+
+      down.disabled =
+      index ===
+      sectionOrder.length - 1;
+
+      down.onclick =
+      ()=>moveSection(
+        index,
+        index + 1
+      );
+
+      buttons.appendChild(
+        up
+      );
+
+      buttons.appendChild(
+        down
+      );
+
+      row.appendChild(
+        name
+      );
+
+      row.appendChild(
+        buttons
+      );
+
+      holder.appendChild(
+        row
       );
 
     }
+  );
 
+}
+
+
+function moveSection(
+  from,
+  to
+){
+
+  [
+    sectionOrder[from],
+    sectionOrder[to]
+  ] = [
+    sectionOrder[to],
+    sectionOrder[from]
+  ];
+
+  renderSectionOrder();
+
+}
+
+
+/* SUMMARY */
+
+function updateSummary(){
+
+  document.getElementById(
+    "summaryPhotos"
+  ).textContent =
+  selectedPhotoFiles.length
+  +
+  " / "
+  +
+  plan.photos;
+
+}
+
+
+/* YOUTUBE */
+
+function parseYouTube(value){
+
+  try{
+
+    const url =
+    new URL(
+      value
+    );
 
     if(
-      host === "youtube.com"
-      ||
-      host === "m.youtube.com"
-      ||
-      host === "music.youtube.com"
+      url.hostname ===
+      "youtu.be"
     ){
 
-      if(
-        url.pathname ===
-        "/watch"
-      ){
+      return url.pathname
+      .replace(
+        "/",
+        ""
+      )
+      .split("/")[0]
+      ||
+      null;
 
-        return cleanYT(
-          url.searchParams.get("v")
-        );
+    }
 
+    if(
+      url.hostname.includes(
+        "youtube.com"
+      )
+    ){
+
+      const v =
+      url.searchParams.get(
+        "v"
+      );
+
+      if(v){
+        return v;
       }
 
+      const pieces =
+      url.pathname
+      .split("/")
+      .filter(Boolean);
+
+      const special = [
+        "shorts",
+        "embed",
+        "live"
+      ];
 
       if(
-        url.pathname.startsWith(
-          "/shorts/"
-        )
-        ||
-        url.pathname.startsWith(
-          "/embed/"
-        )
-        ||
-        url.pathname.startsWith(
-          "/live/"
+        pieces.length >= 2
+        &&
+        special.includes(
+          pieces[0]
         )
       ){
 
-        const p =
-        url.pathname
-        .split("/")
-        .filter(Boolean);
-
-
-        return cleanYT(
-          p[1]
-        );
+        return pieces[1];
 
       }
 
@@ -2461,258 +2410,65 @@ function getYouTubeId(value){
 
   }catch{}
 
-
   return null;
 
 }
 
 
-function cleanYT(id){
-
-  if(!id){
-    return null;
-  }
-
-
-  return /^[A-Za-z0-9_-]{6,20}$/
-  .test(id)
-  ?
-  id
-  :
-  null;
-
-}
-
-
-/* DATE */
-
-function validateDate(){
-
-  const value =
-  document.getElementById(
-    "giftDate"
-  ).value;
-
-
-  const error =
-  document.getElementById(
-    "dateError"
-  );
-
-
-  error.style.display =
-  "none";
-
-
-  if(!value){
-
-    return true;
-
-  }
-
-
-  if(
-    value >
-    todayString()
-  ){
-
-    error.textContent =
-    "ما تقدر تختار تاريخ مستقبلي.";
-
-
-    error.style.display =
-    "block";
-
-
-    return false;
-
-  }
-
-
-  return true;
-
-}
-
-
-/* MEDIA */
-
-function selectedMedia(){
-
-  if(
-    musicMode ===
-    "upload"
-  ){
-
-    const file =
-    document
-    .getElementById("mediaFile")
-    .files[0];
-
-
-    if(!file){
-
-      return {
-        type:"none"
-      };
-
-    }
-
-
-    return {
-
-      type:
-      file.type.startsWith(
-        "video/"
-      )
-      ?
-      "storage-video"
-      :
-      "storage-audio",
-
-      file
-
-    };
-
-  }
-
-
-  const link =
-  document
-  .getElementById("mediaLink")
-  .value
-  .trim();
-
-
-  if(!link){
-
-    return {
-      type:"none"
-    };
-
-  }
-
-
-  if(!validURL(link)){
-
-    return null;
-
-  }
-
-
-  const id =
-  getYouTubeId(
-    link
-  );
-
-
-  if(id){
-
-    return {
-
-      type:"youtube",
-
-      videoId:id
-
-    };
-
-  }
-
-
-  return {
-
-    type:"external",
-
-    url:link
-
-  };
-
-}
-
-
-/* ACTIVE */
-
-function setActive(
-  selector,
-  button
-){
-
-  document
-  .querySelectorAll(selector)
-  .forEach(item=>{
-
-    item.classList.remove(
-      "active"
-    );
-
-  });
-
-
-  button.classList.add(
-    "active"
-  );
-
-}
-
-
-/* EXTENSION */
+/* UPLOAD HELPERS */
 
 function extension(file){
 
-  if(
-    file.name
-    &&
-    file.name.includes(".")
-  ){
+  const fromName =
+  file.name
+  .split(".")
+  .pop()
+  .toLowerCase()
+  .replace(
+    /[^a-z0-9]/g,
+    ""
+  );
 
-    return file.name
-    .split(".")
-    .pop()
-    .toLowerCase();
-
+  if(fromName){
+    return fromName;
   }
-
 
   if(
     file.type.includes(
       "jpeg"
     )
-  )return "jpg";
-
+  ){
+    return "jpg";
+  }
 
   if(
     file.type.includes(
       "png"
     )
-  )return "png";
-
+  ){
+    return "png";
+  }
 
   if(
     file.type.includes(
       "webp"
     )
-  )return "webp";
-
+  ){
+    return "webp";
+  }
 
   if(
     file.type.includes(
       "mp4"
     )
-  )return "mp4";
-
-
-  if(
-    file.type.includes(
-      "mpeg"
-    )
-  )return "mp3";
-
+  ){
+    return "mp4";
+  }
 
   return "bin";
 
 }
 
-
-/* UPLOAD */
 
 async function uploadFile(
   file,
@@ -2724,234 +2480,175 @@ async function uploadFile(
   } =
   await supabaseClient
   .storage
-  .from("gift-media")
+  .from(
+    "gift-media"
+  )
   .upload(
     path,
     file,
     {
       upsert:false,
-      contentType:
-      file.type
-      ||
-      undefined
+      contentType:file.type
     }
   );
 
-
   if(error){
-
     throw error;
-
   }
-
 
   return path;
 
 }
 
 
-/* SAVE */
+/* CREATE */
 
-document
-.getElementById("nextBtn")
-.addEventListener(
+document.getElementById(
+  "createButton"
+).addEventListener(
   "click",
-  saveGift
+  createGift
 );
 
 
-async function saveGift(){
-
-  const receiver =
-  document
-  .getElementById("receiver")
-  .value
-  .trim();
-
-
-  const sender =
-  document
-  .getElementById("sender")
-  .value
-  .trim();
-
-
-  const message =
-  document
-  .getElementById("message")
-  .value
-  .trim();
-
-
-  const giftDate =
-  document
-  .getElementById("giftDate")
-  .value;
-
-
-  if(!receiver){
-
-    alert(
-      "اكتب اسم المستلم."
-    );
-
-
-    document
-    .getElementById("receiver")
-    .focus();
-
-
-    return;
-
-  }
-
-
-  if(!message){
-
-    alert(
-      "اكتب رسالة الهدية."
-    );
-
-
-    document
-    .getElementById("message")
-    .focus();
-
-
-    return;
-
-  }
-
-
-  if(
-    !validateDate()
-  ){
-
-    return;
-
-  }
-
-
-  const media =
-  selectedMedia();
-
-
-  if(
-    media === null
-  ){
-
-    alert(
-      "الرابط غير صحيح."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    selectedPhotoFiles.length >
-    plans[plan].photos
-  ){
-
-    alert(
-      "عدد الصور أكبر من الحد المسموح."
-    );
-
-    return;
-
-  }
-
+async function createGift(){
 
   const button =
   document.getElementById(
-    "nextBtn"
+    "createButton"
   );
 
-
-  const status =
+  const receiver =
   document.getElementById(
-    "status"
-  );
+    "receiver"
+  ).value.trim();
 
+  const sender =
+  document.getElementById(
+    "sender"
+  ).value.trim();
 
-  button.disabled =
-  true;
+  const message =
+  document.getElementById(
+    "message"
+  ).value.trim();
 
+  if(!receiver){
 
-  button.textContent =
-  "جاري تجهيز هديتك...";
+    showStatus(
+      "اكتب اسم المستلم أول.",
+      "error"
+    );
 
+    return;
 
-  status.style.display =
-  "block";
+  }
 
+  if(!sender){
 
-  status.textContent =
-  "لحظة ♡";
+    showStatus(
+      "اكتب اسم المرسل.",
+      "error"
+    );
 
+    return;
+
+  }
+
+  if(!message){
+
+    showStatus(
+      "اكتب الرسالة.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  if(
+    selectedPhotoFiles.length >
+    plan.photos
+  ){
+
+    showStatus(
+      "عدد الصور أكبر من المسموح في الباقة.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  const pin =
+  document.getElementById(
+    "giftPin"
+  ).value.trim();
+
+  if(
+    plan.rank >= 3
+    &&
+    pin
+    &&
+    !/^\d{4}$/.test(
+      pin
+    )
+  ){
+
+    showStatus(
+      "الـ PIN لازم يكون 4 أرقام.",
+      "error"
+    );
+
+    return;
+
+  }
 
   try{
+
+    button.disabled =
+    true;
+
+    button.textContent =
+    "جاري تجهيز الطلب...";
+
+    showStatus(
+      "نرفع محتوى الهدية ونجهز الطلب ♡",
+      "ok"
+    );
 
     const giftToken =
     crypto.randomUUID();
 
-
-    const orderNumber =
-    "LHZ-"
-    +
-    Date.now()
-    .toString()
-    .slice(-7)
-    +
-    "-"
-    +
-    Math.floor(
-      1000
-      +
-      Math.random()
-      *
-      9000
-    );
-
-
-    /*
-      مهم:
-      نرفع الصور بالترتيب
-      اللي اختاره المرسل
-    */
-
     const photoPaths =
     [];
 
+    let featuredPhotoPath =
+    null;
+
+
+    /* PHOTOS */
 
     for(
-      let i=0;
-      i<selectedPhotoFiles.length;
+      let i = 0;
+      i < selectedPhotoFiles.length;
       i++
     ){
 
       const file =
       selectedPhotoFiles[i];
 
-
-      status.textContent =
-      "رفع الصورة "
-      +
-      (i+1)
-      +
-      " من "
-      +
-      selectedPhotoFiles.length;
-
-
       const path =
       giftToken
       +
       "/photos/"
       +
-      String(i+1)
-      .padStart(2,"0")
+      String(
+        i + 1
+      ).padStart(
+        2,
+        "0"
+      )
       +
       "-"
       +
@@ -2959,147 +2656,263 @@ async function saveGift(){
       +
       "."
       +
-      extension(file);
-
+      extension(
+        file
+      );
 
       await uploadFile(
         file,
         path
       );
 
-
-      /*
-        ترتيب المصفوفة هو نفسه
-        ترتيب العرض في gift.html
-      */
-
       photoPaths.push(
         path
       );
 
+      if(
+        featuredPhotoIndex ===
+        i
+      ){
+
+        featuredPhotoPath =
+        path;
+
+      }
+
     }
 
 
-    let mediaValue =
+    /* MUSIC */
+
+    let audioUrl =
     null;
 
+    if(
+      musicMode ===
+      "file"
+    ){
+
+      const musicFile =
+      document.getElementById(
+        "musicFile"
+      ).files[0];
+
+      if(musicFile){
+
+        const type =
+        musicFile.type.startsWith(
+          "video/"
+        )
+        ?
+        "storage-video:"
+        :
+        "storage-audio:";
+
+        const path =
+        giftToken
+        +
+        "/media/music-"
+        +
+        crypto.randomUUID()
+        +
+        "."
+        +
+        extension(
+          musicFile
+        );
+
+        await uploadFile(
+          musicFile,
+          path
+        );
+
+        audioUrl =
+        type
+        +
+        path;
+
+      }
+
+    }else{
+
+      const link =
+      document.getElementById(
+        "musicLink"
+      ).value.trim();
+
+      if(link){
+
+        const youtubeId =
+        parseYouTube(
+          link
+        );
+
+        audioUrl =
+        youtubeId
+        ?
+        "youtube:"
+        +
+        youtubeId
+        :
+        "external:"
+        +
+        link;
+
+      }
+
+    }
+
+
+    /* VOICE */
+
+    let voiceUrl =
+    null;
 
     if(
-      media.type ===
-      "storage-audio"
-      ||
-      media.type ===
-      "storage-video"
+      plan.rank >= 2
     ){
 
-      status.textContent =
-      "جاري رفع الأغنية...";
+      const voice =
+      document.getElementById(
+        "voiceFile"
+      ).files[0];
 
+      if(voice){
 
-      const path =
-      giftToken
-      +
-      "/media/"
-      +
-      crypto.randomUUID()
-      +
-      "."
-      +
-      extension(
-        media.file
-      );
+        const path =
+        giftToken
+        +
+        "/voice/"
+        +
+        crypto.randomUUID()
+        +
+        "."
+        +
+        extension(
+          voice
+        );
 
+        await uploadFile(
+          voice,
+          path
+        );
 
-      await uploadFile(
-        media.file,
-        path
-      );
+        voiceUrl =
+        path;
 
-
-      mediaValue =
-      media.type
-      +
-      ":"
-      +
-      path;
+      }
 
     }
 
 
-    else if(
-      media.type ===
-      "youtube"
+    /* VIDEO */
+
+    let videoUrl =
+    null;
+
+    if(
+      plan.rank >= 3
     ){
 
-      mediaValue =
-      "youtube:"
-      +
-      media.videoId;
+      const video =
+      document.getElementById(
+        "videoFile"
+      ).files[0];
+
+      if(video){
+
+        const path =
+        giftToken
+        +
+        "/video/"
+        +
+        crypto.randomUUID()
+        +
+        "."
+        +
+        extension(
+          video
+        );
+
+        await uploadFile(
+          video,
+          path
+        );
+
+        videoUrl =
+        path;
+
+      }
 
     }
 
 
-    else if(
-      media.type ===
-      "external"
+    /* OPEN DATE */
+
+    let openAt =
+    null;
+
+    if(
+      plan.rank >= 2
     ){
 
-      mediaValue =
-      "external:"
-      +
-      media.url;
+      const value =
+      document.getElementById(
+        "openAt"
+      ).value;
+
+      if(value){
+
+        openAt =
+        new Date(
+          value
+        ).toISOString();
+
+      }
 
     }
 
 
-    status.textContent =
-    "جاري إنشاء الطلب...";
+    /* ORDER NUMBER */
+
+    const orderNumber =
+    "LHZ-"
+    +
+    Date.now()
+    .toString()
+    .slice(
+      -8
+    );
 
 
-    const {
-      error
-    } =
-    await supabaseClient
-    .from("orders")
-    .insert({
+    const row = {
 
       order_number:
       orderNumber,
 
       receiver,
 
-      sender:
-      sender
-      ||
-      null,
+      sender,
 
       message,
 
-      message_font:
-      messageFont,
-
       gift_date:
-      giftDate
+      document.getElementById(
+        "giftDate"
+      ).value
       ||
       null,
 
       occasion,
 
-      plan,
+      plan:
+      planKey,
 
-      theme,
-
-      photo_frame:
-      photoFrame,
-
-      photo_size:
-      photoSize,
-
-      photo_fit:
-      photoFit,
+      theme:
+      selectedTheme,
 
       price:
-      plans[plan].price,
+      plan.price,
 
       status:
       "pending",
@@ -3107,70 +2920,241 @@ async function saveGift(){
       gift_token:
       giftToken,
 
-      /*
-        هني ينحفظ نفس
-        ترتيب الصور المختار
-      */
       photos:
       photoPaths,
 
       audio_url:
-      mediaValue
+      audioUrl,
 
-    });
+      message_font:
+      messageFont,
+
+      photo_frame:
+      document.getElementById(
+        "photoFrame"
+      ).value,
+
+      photo_size:
+      document.getElementById(
+        "photoSize"
+      ).value,
+
+      photo_fit:
+      document.getElementById(
+        "photoFit"
+      ).value,
+
+      open_at:
+      plan.rank >= 2
+      ?
+      openAt
+      :
+      null,
+
+      envelope_text:
+      plan.rank >= 2
+      ?
+      (
+        document.getElementById(
+          "envelopeText"
+        ).value.trim()
+        ||
+        "لحظة خاصة لك ♡"
+      )
+      :
+      "لحظة خاصة لك ♡",
+
+      secret_message:
+      plan.rank >= 2
+      ?
+      (
+        document.getElementById(
+          "secretMessage"
+        ).value.trim()
+        ||
+        null
+      )
+      :
+      null,
+
+      featured_photo:
+      plan.rank >= 2
+      ?
+      featuredPhotoPath
+      :
+      null,
+
+      photo_duration:
+      plan.rank >= 2
+      ?
+      Number(
+        document.getElementById(
+          "photoDuration"
+        ).value
+      )
+      :
+      3,
+
+      photo_motion:
+      plan.rank >= 2
+      ?
+      document.getElementById(
+        "photoMotion"
+      ).value
+      :
+      "zoom",
+
+      effects_level:
+      plan.rank >= 2
+      ?
+      document.getElementById(
+        "effectsLevel"
+      ).value
+      :
+      "normal",
+
+      music_continue:
+      plan.rank >= 2
+      ?
+      document.getElementById(
+        "musicContinue"
+      ).checked
+      :
+      false,
+
+      show_music:
+      document.getElementById(
+        "showMusic"
+      ).checked,
+
+      show_date:
+      document.getElementById(
+        "showDate"
+      ).checked,
+
+      sender_anonymous:
+      plan.rank >= 3
+      ?
+      document.getElementById(
+        "senderAnonymous"
+      ).checked
+      :
+      false,
+
+      gift_pin:
+      plan.rank >= 3
+      ?
+      (
+        pin
+        ||
+        null
+      )
+      :
+      null,
+
+      final_message:
+      plan.rank >= 3
+      ?
+      (
+        document.getElementById(
+          "finalMessage"
+        ).value.trim()
+        ||
+        null
+      )
+      :
+      null,
+
+      voice_url:
+      plan.rank >= 2
+      ?
+      voiceUrl
+      :
+      null,
+
+      video_url:
+      plan.rank >= 3
+      ?
+      videoUrl
+      :
+      null,
+
+      sections_order:
+      plan.rank >= 3
+      ?
+      [
+        "name",
+        ...sectionOrder,
+        "end"
+      ]
+      :
+      [
+        "name",
+        "music",
+        "message",
+        "photos",
+        "date",
+        "surprise",
+        "sender",
+        "end"
+      ]
+
+    };
+
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+    .from(
+      "orders"
+    )
+    .insert(
+      row
+    )
+    .select(
+      "id,order_number,gift_token"
+    )
+    .single();
 
 
     if(error){
-
       throw error;
-
     }
+
+
+    const localGift = {
+      orderNumber:
+      data.order_number,
+      giftToken:
+      data.gift_token,
+      receiver,
+      sender,
+      occasion,
+      plan:
+      plan.name,
+      planKey,
+      price:
+      plan.price
+    };
 
 
     localStorage.setItem(
       "lahzaGift",
-      JSON.stringify({
-
-        receiver,
-
-        sender,
-
-        message,
-
-        messageFont,
-
-        occasion,
-
-        plan,
-
-        theme,
-
-        photoFrame,
-
-        photoSize,
-
-        photoFit,
-
-        price:
-        plans[plan].price,
-
-        orderNumber,
-
-        giftToken
-
-      })
+      JSON.stringify(
+        localGift
+      )
     );
-
 
     localStorage.setItem(
       "lahzaOrderNumber",
-      orderNumber
+      data.order_number
     );
-
 
     localStorage.setItem(
       "lahzaGiftToken",
-      giftToken
+      data.gift_token
     );
 
 
@@ -3184,19 +3168,52 @@ async function saveGift(){
       error
     );
 
-
-    status.textContent =
-    "صار خطأ وما قدرنا نحفظ الهدية.";
-
+    showStatus(
+      "صار خطأ أثناء إنشاء الطلب: "
+      +
+      (
+        error.message
+        ||
+        "خطأ غير معروف"
+      ),
+      "error"
+    );
 
     button.disabled =
     false;
 
-
     button.textContent =
-    "متابعة للدفع ←";
+    "متابعة للدفع ♡";
 
   }
+
+}
+
+
+/* STATUS */
+
+function showStatus(
+  text,
+  type
+){
+
+  const box =
+  document.getElementById(
+    "status"
+  );
+
+  box.textContent =
+  text;
+
+  box.className =
+  "status show "
+  +
+  type;
+
+  box.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
 
 }
 
@@ -3207,23 +3224,13 @@ window.addEventListener(
   "beforeunload",
   ()=>{
 
-    if(mediaPreviewURL){
-
-      URL.revokeObjectURL(
-        mediaPreviewURL
-      );
-
-    }
-
-
-    clearThumbURLs();
+    clearPhotoThumbs();
 
   }
 );
 
 
 init();
-
 </script>
 
 </body>
