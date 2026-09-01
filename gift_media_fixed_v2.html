@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0810">
+<title>لحظة ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700&family=Reem+Kufi+Ink&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#0b0810;
+  --bg2:#120b18;
+  --card:#17111c;
+  --card2:#211527;
+  --text:#fff4f8;
+  --muted:#c3b4bf;
+  --pink:#ff6fa9;
+  --pink2:#ff9ec5;
+  --purple:#9b73ff;
+  --line:rgba(255,255,255,.10);
+  --soft:rgba(255,111,169,.12);
+  --shadow:0 24px 70px rgba(0,0,0,.38);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(255,111,169,.16),transparent 30%),
+    radial-gradient(circle at 85% 88%,rgba(155,115,255,.13),transparent 28%),
+    linear-gradient(180deg,var(--bg2),var(--bg));
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.screen{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  padding:24px;overflow:auto;overscroll-behavior:contain;
+}
+.screen.active{display:flex}
+.center{width:min(100%,580px);text-align:center;margin:auto}
+.card{
+  background:linear-gradient(180deg,rgba(31,21,38,.94),rgba(19,13,24,.96));
+  border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow);
+}
+.eyebrow{color:var(--pink2);font-size:13px;letter-spacing:.08em;margin-bottom:12px}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(34px,8vw,62px);margin-bottom:12px}
+h2{font-size:clamp(26px,6vw,42px);margin-bottom:12px}
+p{color:var(--muted);line-height:1.9}
+.btn{
+  border:0;border-radius:17px;padding:14px 22px;color:white;font-weight:800;
+  background:linear-gradient(135deg,var(--pink),#ff8db9);box-shadow:0 12px 30px rgba(255,111,169,.22);
+  transition:.18s ease;
+}
+.btn:active,.iconBtn:active{transform:scale(.97)}
+.btn.ghost{background:rgba(255,255,255,.06);border:1px solid var(--line);box-shadow:none}
+.next{margin-top:22px;min-width:160px}
+.tiny{font-size:12px;color:var(--muted)}
+.loadingDot{width:11px;height:11px;border-radius:50%;background:var(--pink);display:inline-block;animation:pulse 1s infinite alternate}
+@keyframes pulse{to{opacity:.25;transform:scale(.75)}}
+
+/* القفل والعداد */
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}
+.countBox{padding:14px 8px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.06)}
+.countBox b{display:block;font-size:26px}.countBox span{font-size:12px;color:var(--muted)}
+.pinWrap{display:flex;justify-content:center;margin:18px 0}
+.pinWrap input{width:190px;max-width:70vw;text-align:center;letter-spacing:.35em;border-radius:16px;border:1px solid var(--line);padding:14px;background:#120f15;color:#fff;outline:none}
+
+/* الظرف */
+.envelopeWrap{position:relative;width:min(94vw,440px);height:520px;margin:auto;perspective:1400px}
+.envelope{
+  position:absolute;left:50%;bottom:58px;width:min(84vw,360px);height:245px;
+  transform:translateX(-50%);border-radius:15px;cursor:pointer;z-index:12;overflow:visible;
+  background:linear-gradient(145deg,#d77a9e,#b94f79);box-shadow:0 26px 70px rgba(0,0,0,.42);
+  transition:transform .9s cubic-bezier(.2,.8,.2,1),filter .7s ease;
+}
+.envelope:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,#d98bad,#c15f87);clip-path:polygon(0 0,50% 53%,100% 0,100% 100%,0 100%);border-radius:14px;z-index:4}
+.envelope:after{content:"";position:absolute;left:0;right:0;bottom:0;height:72%;background:linear-gradient(160deg,#c86288,#a93f69);clip-path:polygon(0 100%,0 25%,50% 70%,100% 25%,100% 100%);border-radius:0 0 14px 14px;z-index:6}
+.flap{position:absolute;left:0;right:0;top:0;height:61%;background:linear-gradient(180deg,#f0a9c3,#cf6f95);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .85s cubic-bezier(.2,.75,.2,1);z-index:12;backface-visibility:hidden}
+.seal{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8db9,#b93c70 72%);display:grid;place-items:center;color:#fff;font-size:27px;z-index:15;box-shadow:0 9px 24px rgba(0,0,0,.28),inset 0 1px 2px rgba(255,255,255,.35);transition:.4s}
+.envelope.open{transform:translateX(-50%) translateY(35px) scale(.93);z-index:5;filter:brightness(.78) saturate(.9)}
+.envelope.open .flap{transform:rotateX(180deg);z-index:1}.envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.55)}
+.letter{
+  position:absolute;left:50%;bottom:84px;width:min(78vw,320px);min-height:320px;padding:58px 28px 76px;border-radius:16px;
+  opacity:0;transform:translateX(-50%) translateY(110px) scale(.92);z-index:2;overflow:hidden;
+  background:linear-gradient(160deg,#5a2940,#32182a);border:1px solid rgba(255,158,197,.27);color:#ffeaf3;
+  box-shadow:0 28px 70px rgba(0,0,0,.42);font-family:"Aref Ruqaa",serif;font-size:23px;line-height:2;text-align:center;
+  transition:transform 1.12s cubic-bezier(.17,.85,.25,1),opacity .35s ease;
+}
+.letter:before{content:"";position:absolute;inset:14px;border:1px solid rgba(255,158,197,.22);border-radius:11px;pointer-events:none}
+.letter:after{content:"♡  ✦  ♡";position:absolute;top:22px;left:50%;transform:translateX(-50%);color:#ff9ec5;font-size:15px;letter-spacing:7px;white-space:nowrap}
+.letter.show{opacity:1;transform:translateX(-50%) translateY(-165px) scale(1);z-index:20}
+.letterText{position:relative;z-index:5;margin-top:20px}.corner{position:absolute;color:rgba(255,158,197,.55);font-size:21px}.c1{top:26px;right:25px}.c2{top:26px;left:25px}.c3{bottom:25px;right:25px}.c4{bottom:25px;left:25px}
+.letterStamp{position:absolute;left:50%;bottom:28px;width:72px;height:72px;transform:translateX(-50%) scale(2.6) rotate(-12deg);opacity:0;display:grid;place-items:center;border-radius:50%;color:#ff9ec5;border:3px double rgba(255,158,197,.78);font-size:32px;background:rgba(47,20,37,.92);box-shadow:inset 0 0 0 5px rgba(255,158,197,.08);z-index:30}
+.letterStamp.stamp{animation:stampHeart .7s cubic-bezier(.2,1.3,.4,1) forwards}
+@keyframes stampHeart{0%{opacity:0;transform:translateX(-50%) scale(2.6) rotate(-12deg)}55%{opacity:1;transform:translateX(-50%) scale(.8) rotate(-7deg)}72%{transform:translateX(-50%) scale(1.1) rotate(-7deg)}100%{opacity:.96;transform:translateX(-50%) scale(1) rotate(-7deg)}}
+.letter.stamped{animation:letterHit .45s ease}
+@keyframes letterHit{50%{transform:translateX(-50%) translateY(-165px) scale(.975)}}
+#envelopeHint{margin-top:4px;transition:.35s}
+
+/* الاسم والرسالة */
+.penStage{position:relative;min-height:230px;display:flex;align-items:center;justify-content:center}
+.writtenName{font-family:"Reem Kufi Ink","Segoe Script",cursive;font-size:clamp(48px,12vw,86px);min-height:100px;color:#ffd7e7;text-shadow:0 0 30px rgba(255,111,169,.15);transition:color .4s ease,font-family .4s ease}
+.pen{position:absolute;font-size:40px;transform:rotate(-18deg);transition:transform .08s linear,left .08s linear,top .08s linear;pointer-events:none}
+.messageBox{position:relative;min-height:260px;text-align:right;white-space:pre-wrap;font-size:23px;line-height:2.05;padding:22px 24px;color:var(--text);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border:1px solid var(--line);max-width:760px;margin:auto}
+.messageText{display:inline}.messagePen{position:absolute;font-size:34px;left:50%;top:40%;transition:.08s linear}
+
+/* الموسيقى */
+.musicDisc{width:165px;height:165px;border-radius:50%;margin:10px auto 18px;background:repeating-radial-gradient(circle,#211725 0 5px,#0f0b12 6px 10px);position:relative;box-shadow:inset 0 0 0 2px #39263f,0 16px 40px rgba(0,0,0,.35)}
+.musicDisc:after{content:"♡";position:absolute;inset:58px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));display:grid;place-items:center;font-size:28px}
+.musicDisc.spin{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+
+/* الصور */
+.photoStage{width:min(92vw,540px);margin:auto}.photoShell{position:relative;margin:auto;transition:.45s ease}.photoShell.soft{padding:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.06);border-radius:24px}.photoShell.polaroid{padding:12px 12px 48px;background:#2b1c30;border:1px solid rgba(255,255,255,.08);border-radius:12px}.photoShell.none{padding:0}.photoShell.small{width:66%}.photoShell.medium{width:84%}.photoShell.large{width:100%}.photoShell img{width:100%;max-height:62vh;display:block;border-radius:16px;background:#0b0b0d;box-shadow:0 18px 50px rgba(0,0,0,.35)}.fit-contain img{object-fit:contain}.fit-cover img{object-fit:cover;aspect-ratio:4/5}.photoShell.zoom img{animation:zoomMove var(--photoDur,3s) ease both}.photoShell.slide img{animation:slideMove var(--photoDur,3s) ease both}.photoShell.softmotion img{animation:softMove var(--photoDur,3s) ease both}@keyframes zoomMove{from{transform:scale(1)}to{transform:scale(1.06)}}@keyframes slideMove{from{transform:translateX(14px);opacity:.65}to{transform:none;opacity:1}}@keyframes softMove{from{filter:blur(3px);opacity:.5}to{filter:none;opacity:1}}
+.photoNav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px}.iconBtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff}.progress{height:4px;background:rgba(255,255,255,.09);border-radius:99px;overflow:hidden;margin:14px auto 0;width:80%}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--purple));transition:width .2s}
+
+/* التاريخ */
+.dateIntro{margin-bottom:16px;color:#ffd8e7;font-size:18px;font-weight:700;opacity:0;transform:translateY(8px);transition:.45s ease}.dateIntro.show{opacity:1;transform:none}
+.dateGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.dateUnit{padding:14px 7px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));opacity:0;transform:translateY(14px) scale(.97);transition:.46s cubic-bezier(.2,.8,.2,1)}
+.dateUnit.show{opacity:1;transform:none}.dateUnit b{display:block;font-size:26px;color:#fff0f6}.dateUnit span{font-size:11px;color:var(--muted)}
+.dateNote{min-height:28px;margin-top:12px}
+
+.secret{font-size:22px;line-height:2;color:#ffe8f1}.featured img{width:min(86vw,440px);max-height:62vh;object-fit:contain;border-radius:22px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.08)}
+video,audio{width:100%;border-radius:18px;margin-top:14px;background:#0b0b0d}
+.particle{position:fixed;pointer-events:none;z-index:9999;animation:floatUp 1.4s ease forwards}@keyframes floatUp{to{transform:translateY(-90px) scale(1.35);opacity:0}}
+
+/* الثيمات - كلها داكنة ومتناسقة */
+.theme-midnight{--bg:#070b17;--bg2:#0b1020;--card:#0d1426;--card2:#151d34;--pink:#7b8cff;--pink2:#a8b2ff;--purple:#6f5cff;--soft:rgba(123,140,255,.12)}
+.theme-sunset{--bg:#190b12;--bg2:#241018;--card:#2c151f;--card2:#341922;--pink:#ff7b78;--pink2:#ffc59d;--purple:#f3946b;--soft:rgba(255,123,120,.12)}
+.theme-minimal{--bg:#0d0d10;--bg2:#151218;--card:#1b171e;--card2:#231d26;--text:#faf4f7;--muted:#b7acb2;--pink:#d78aa5;--pink2:#e6a8bc;--purple:#aa8cc8;--line:rgba(255,255,255,.08)}
+.screen.active .center{animation:screenIn .52s cubic-bezier(.2,.8,.2,1)}@keyframes screenIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
+
+@media(max-width:520px){.countdown{grid-template-columns:repeat(2,1fr)}.dateGrid{grid-template-columns:repeat(2,1fr)}.envelopeWrap{height:490px}.letter{min-height:305px;font-size:21px}.letter.show{transform:translateX(-50%) translateY(-150px) scale(1)}@keyframes letterHit{50%{transform:translateX(-50%) translateY(-150px) scale(.975)}}}
+@media(max-height:650px){.envelopeWrap{transform:scale(.9);transform-origin:center}.screen{padding:14px}}
+
+/* LAHZA EXPERIENCE 100 */
+body{min-height:100dvh;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
+.screen{min-height:100dvh;padding:max(18px,env(safe-area-inset-top)) 20px max(18px,env(safe-area-inset-bottom));transition:opacity .42s ease,transform .42s ease}
+.screen.active{animation:lahzaScene .65s cubic-bezier(.2,.8,.2,1)}
+@keyframes lahzaScene{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+#experienceProgress{position:fixed;top:0;right:0;left:0;height:3px;background:rgba(255,255,255,.055);z-index:9998}
+#experienceProgress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--pink),var(--pink2));box-shadow:0 0 16px rgba(255,111,169,.35);transition:width .65s cubic-bezier(.2,.8,.2,1)}
+#floatingMusic{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(14px,env(safe-area-inset-bottom));width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:rgba(20,15,24,.82);backdrop-filter:blur(12px);color:var(--text);z-index:9000;display:none;place-items:center;font-size:18px;box-shadow:0 12px 34px rgba(0,0,0,.3)}
+#floatingMusic.show{display:grid}#floatingMusic.playing{animation:musicGlow 1.8s ease-in-out infinite}
+@keyframes musicGlow{50%{box-shadow:0 0 0 7px rgba(255,111,169,.08),0 12px 34px rgba(0,0,0,.3)}}
+.card{background:linear-gradient(145deg,rgba(31,24,35,.88),rgba(18,15,22,.84));box-shadow:0 24px 70px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.035)}
+.photoShell.polaroid{background:#241d25;border:1px solid rgba(255,255,255,.08)}
+.photoShell{overflow:hidden}.photoShell:before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none;z-index:2}
+.dateIntro{opacity:0;transform:translateY(8px);transition:.5s ease;color:var(--pink2);margin:4px 0 18px}.dateIntro.show{opacity:1;transform:none}
+.dateUnit{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));box-shadow:inset 0 1px rgba(255,255,255,.035)}
+.dateUnit b{font-variant-numeric:tabular-nums}
+.endMark{width:72px;height:72px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;border:1px solid rgba(255,111,169,.28);background:radial-gradient(circle,rgba(255,111,169,.16),rgba(255,111,169,.03));font-size:31px;animation:endBeat 2.2s ease-in-out infinite}
+@keyframes endBeat{50%{transform:scale(1.06);box-shadow:0 0 32px rgba(255,111,169,.13)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+</style>
+</head>
+<body>
+<div id="experienceProgress"><i></i></div>
+<button id="floatingMusic" type="button" aria-label="تشغيل أو إيقاف الموسيقى">♫</button>
+<section id="loading" class="screen active"><div class="center"><div class="loadingDot"></div><p style="margin-top:14px">نجهز لحظتك…</p></div></section>
+<section id="locked" class="screen"><div class="center card"><h2>الهدية مو متاحة للحين</h2><p id="lockedText">تأكد من الرابط أو حالة الدفع.</p></div></section>
+<section id="countdownScreen" class="screen"><div class="center card"><div class="eyebrow">موعد فتح الهدية</div><h2>باقي شوي ♡</h2><div id="countdown" class="countdown"></div><p>بتنفتح الهدية تلقائياً في وقتها.</p></div></section>
+<section id="pinScreen" class="screen"><div class="center card"><div class="eyebrow">لحظة خاصة</div><h2>أدخل رمز الهدية</h2><div class="pinWrap"><input id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••"></div><button class="btn" id="pinBtn">فتح الهدية ♡</button><p id="pinError" class="tiny" style="margin-top:12px"></p></div></section>
+
+<section id="envelopeScreen" class="screen"><div class="center"><div class="eyebrow">وصلك شيء خاص</div><div class="envelopeWrap"><div id="letter" class="letter"><span class="corner c1">♡</span><span class="corner c2">✦</span><span class="corner c3">✦</span><span class="corner c4">♡</span><div id="letterText" class="letterText"></div><div id="letterStamp" class="letterStamp">♡</div></div><div id="envelope" class="envelope"><div class="flap"></div><div class="seal">♡</div></div></div><p id="envelopeHint">اضغط على الظرف</p></div></section>
+
+<section id="nameScreen" class="screen"><div class="center"><div class="eyebrow">هذه اللحظة إلى</div><div class="penStage"><div id="writtenName" class="writtenName"></div><div id="namePen" class="pen">✒️</div></div><button class="btn next" onclick="nextStep()">كمّل ♡</button></div></section>
+
+<section id="musicScreen" class="screen"><div class="center card"><div class="eyebrow">اسمعها شوي</div><h2>في أغنية لهاللحظة ♡</h2><div id="disc" class="musicDisc"></div><div id="musicPlayer"></div><div class="actions"><button id="musicToggle" class="btn">تشغيل</button><button class="btn ghost" onclick="nextStep()">التالي</button></div></div></section>
+
+<section id="messageScreen" class="screen"><div class="center card" style="width:min(94vw,820px)"><div class="eyebrow">رسالة لك من القلب</div><div id="messageBox" class="messageBox"><span id="messageText" class="messageText"></span><span id="messagePen" class="messagePen">✒️</span></div><button class="btn next" onclick="nextStep()">خذ وقتك واقرأها ♡</button></div></section>
+
+<section id="voiceScreen" class="screen"><div class="center card">
+<div class="eyebrow">رسالة صوتية</div>
+<h2>اسمعها بصوت صاحب اللحظة ♡</h2>
+<div id="voiceWave" style="display:flex;justify-content:center;align-items:end;gap:5px;height:54px;margin:18px 0">
+  <i style="width:5px;height:18px;background:var(--pink);border-radius:8px"></i>
+  <i style="width:5px;height:32px;background:var(--pink2);border-radius:8px"></i>
+  <i style="width:5px;height:24px;background:var(--purple);border-radius:8px"></i>
+  <i style="width:5px;height:42px;background:var(--pink);border-radius:8px"></i>
+  <i style="width:5px;height:28px;background:var(--pink2);border-radius:8px"></i>
+  <i style="width:5px;height:36px;background:var(--purple);border-radius:8px"></i>
+</div>
+<div id="voicePlayer"></div>
+<button class="btn next" onclick="nextStep()">التالي</button>
+</div></section>
+
+<section id="photosScreen" class="screen"><div class="center"><div class="eyebrow">ذكرياتكم</div><h2 style="font-size:28px">صور تستاهل تنعاد ♡</h2><div class="photoStage"><div id="photoShell" class="photoShell soft medium fit-contain"><img id="photoImg" alt="ذكرى"></div><div class="photoNav"><button class="iconBtn" id="prevPhoto">‹</button><span id="photoCounter">1 / 1</span><button class="iconBtn" id="nextPhoto">›</button></div><div class="progress"><i id="photoProgress"></i></div></div><button class="btn next" onclick="nextStep()">كمّل</button></div></section>
+
+<section id="videoScreen" class="screen"><div class="center card"><div class="eyebrow">شي زيادة لك</div><h2>لحظة تتحرك ♡</h2><div id="videoPlayer"></div><button class="btn next" onclick="nextStep()">التالي</button></div></section>
+
+<section id="dateScreen" class="screen"><div class="center card"><div class="eyebrow">من هاليوم إلى اليوم</div><div id="dateIntro" class="dateIntro"></div><div id="dateGrid" class="dateGrid"></div><p id="dateNote" class="dateNote"></p><button class="btn next" onclick="nextStep()">التالي</button></div></section>
+
+<section id="featuredScreen" class="screen"><div class="center featured"><div class="eyebrow">صورة لها مكان مختلف</div><h2>هذي بالذات ♡</h2><img id="featuredImg" alt="الصورة المميزة"><button class="btn next" onclick="nextStep()">كمّل</button></div></section>
+
+<section id="surpriseScreen" class="screen"><div class="center card"><div class="eyebrow">لحظة…</div><h2>باقي شي واحد ♡</h2><p>مو كل شيء ينقال من البداية.</p><button class="btn" onclick="nextStep()">افتح المفاجأة</button></div></section>
+
+<section id="secretScreen" class="screen"><div class="center card"><div class="eyebrow">بينكم وبس</div><div id="secretText" class="secret"></div><button class="btn next" onclick="nextStep()">كمّل</button></div></section>
+
+<section id="senderScreen" class="screen"><div class="center card"><div class="eyebrow">ومن صاحب هاللحظة؟</div><h2 id="senderName"></h2><p>اختار لك هالهدية عشان تبقى ذكرى ♡</p><button class="btn next" onclick="nextStep()">النهاية</button></div></section>
+
+<section id="endScreen" class="screen"><div class="center card"><div class="eyebrow">لحظة ♡</div><h2>وخلاص… صارت ذكرى</h2><p id="finalMessage">بعض الهدايا ما تنحط في علبة.</p><div class="actions"><button class="btn" id="shareBtn">مشاركة الهدية</button><button class="btn ghost" id="restartBtn">إعادتها من البداية</button></div></div></section>
+
+<script>
+const SUPABASE_URL="https://ltuyfewachzbazunuxmd.supabase.co";
+const SUPABASE_KEY="sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let gift=null,token=null,steps=[],stepIndex=0;
+let photoUrls=[],photoIndex=0,photoTimer=null,dateTimer=null,dateRevealDone=false;
+let musicType=null,musicObj=null,ytPlayer=null,ytReady=false,ytApiLoading=false;
+let envelopeOpened=false;
+const screens=[...document.querySelectorAll('.screen')];
+const $=id=>document.getElementById(id);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* تعريف مبكر لدالة القرص حتى تكون متاحة لكل أحداث الموسيقى */
+window.setDisc=function(on){
+  const disc=document.getElementById('disc');
+  const btn=document.getElementById('musicToggle');
+  const floating=document.getElementById('floatingMusic');
+  if(disc) disc.classList.toggle('spin',!!on);
+  if(btn) btn.textContent=on?'إيقاف':'تشغيل';
+  if(floating) floating.classList.toggle('playing',!!on);
+};
+const setDisc=window.setDisc;
+function qs(name){return new URLSearchParams(location.search).get(name)}
+function show(id){screens.forEach(s=>s.classList.remove('active'));const el=$(id);if(el)el.classList.add('active')}
+function applyTheme(){document.body.classList.remove('theme-midnight','theme-sunset','theme-minimal');if(gift?.theme==='midnight')document.body.classList.add('theme-midnight');if(gift?.theme==='sunset')document.body.classList.add('theme-sunset');if(gift?.theme==='minimal')document.body.classList.add('theme-minimal')}
+function fontFamily(v){return {classic:'"Aref Ruqaa",serif',soft:'"Tajawal",sans-serif',handwritten:'"Reem Kufi Ink",cursive',elegant:'"Noto Kufi Arabic",sans-serif',modern:'"Cairo",sans-serif'}[v]||'"Aref Ruqaa",serif'}
+function randomNameStyle(){
+  const fonts=['"Reem Kufi Ink",cursive','"Aref Ruqaa",serif','"Tajawal",sans-serif','"Cairo",sans-serif','"Noto Kufi Arabic",sans-serif'];
+  const colors=['#ffd7e7','#ff9ec5','#d8c7ff','#ffc59d','#f8b8d2','#cfd6ff'];
+  const el=$('writtenName');
+  if(!el)return;
+  el.style.fontFamily=fonts[Math.floor(Math.random()*fonts.length)];
+  el.style.color=colors[Math.floor(Math.random()*colors.length)];
+}
+
+
+async function loadGift(){
+  token=qs('token');
+  if(!token){show('locked');return}
+  try{
+    const {data,error}=await sb.rpc('get_paid_gift',{p_token:token});
+    if(error)throw error;
+    const row=Array.isArray(data)?data[0]:data;
+    if(!row){show('locked');return}
+    gift=row;applyTheme();prepareGift();syncFloatingMusic();handleGate();
+    loadMedia().catch(e=>console.warn('media preload',e));
+  }catch(e){console.error(e);$('lockedText').textContent='صار خطأ بتحميل الهدية. تأكد من الرابط وحالة الطلب.';show('locked')}
+}
+
+function handleGate(){
+  if(gift.open_at){const openAt=new Date(gift.open_at);if(openAt.getTime()>Date.now()){show('countdownScreen');startCountdown(openAt);return}}
+  if(gift.gift_pin&&String(gift.gift_pin).trim()){show('pinScreen');return}
+  startGift();
+}
+function startCountdown(openAt){clearInterval(dateTimer);const el=$('countdown');const tick=()=>{let d=Math.max(0,openAt-Date.now());if(d<=0){clearInterval(dateTimer);if(gift.gift_pin&&String(gift.gift_pin).trim())show('pinScreen');else startGift();return}const days=Math.floor(d/86400000);d%=86400000;const h=Math.floor(d/3600000);d%=3600000;const m=Math.floor(d/60000);d%=60000;const s=Math.floor(d/1000);el.innerHTML=unit(days,'يوم')+unit(h,'ساعة')+unit(m,'دقيقة')+unit(s,'ثانية')};tick();dateTimer=setInterval(tick,1000)}
+function unit(n,t){return `<div class="countBox"><b>${n}</b><span>${t}</span></div>`}
+$('pinBtn').onclick=()=>{const v=$('pinInput').value.trim();if(v===String(gift.gift_pin).trim()){$('pinError').textContent='';startGift()}else $('pinError').textContent='الرمز مو صحيح.'}
+
+function normalizeStoragePath(value,kind=''){
+  if(!value)return '';
+  let p=String(value).trim();
+  if(/^https?:\/\//i.test(p)){
+    try{const u=new URL(p);const marker='/gift-media/';const i=u.pathname.indexOf(marker);if(i>=0)p=u.pathname.slice(i+marker.length);else return value}catch{return value}
+  }
+  try{p=decodeURIComponent(p)}catch{}
+  p=p.replace(/^\/+/, '').replace(/^gift-media\//i,'').replace(/^storage-audio:/,'').replace(/^storage-video:/,'');
+  if(token&&!p.startsWith(token+'/')){
+    if(p.startsWith('photos/')||p.startsWith('voice/')||p.startsWith('video/')||p.startsWith('media/'))p=token+'/'+p;
+    else if(kind==='photo'&&!p.includes('/'))p=token+'/photos/'+p;
+    else if(kind==='voice'&&!p.includes('/'))p=token+'/voice/'+p;
+    else if(kind==='video'&&!p.includes('/'))p=token+'/video/'+p;
+    else if(kind==='media'&&!p.includes('/'))p=token+'/media/'+p;
+  }
+  return p;
+}
+async function storageUrl(value,kind=''){
+  if(!value)return null;
+  const raw=String(value).trim();
+
+  if(/^https?:\/\//i.test(raw) && !raw.includes('/storage/v1/')) return raw;
+
+  let p=normalizeStoragePath(raw,kind);
+  if(!p)return null;
+
+  const fileName=p.split('/').filter(Boolean).pop()||'';
+  const candidates=[p];
+
+  if(token){
+    const noToken=p.startsWith(token+'/') ? p.slice(token.length+1) : p;
+    candidates.push(token+'/'+noToken);
+
+    if(fileName){
+      if(kind==='photo'){
+        candidates.push(token+'/photos/'+fileName);
+        candidates.push('photos/'+token+'/'+fileName);
+      }
+      if(kind==='voice'){
+        candidates.push(token+'/voice/'+fileName);
+        candidates.push(token+'/voices/'+fileName);
+        candidates.push('voice/'+token+'/'+fileName);
+      }
+      if(kind==='video'){
+        candidates.push(token+'/video/'+fileName);
+        candidates.push(token+'/videos/'+fileName);
+        candidates.push('video/'+token+'/'+fileName);
+      }
+      if(kind==='media'){
+        candidates.push(token+'/media/'+fileName);
+        candidates.push(token+'/audio/'+fileName);
+        candidates.push(token+'/music/'+fileName);
+        candidates.push('media/'+token+'/'+fileName);
+      }
+    }
+  }
+
+  for(const path of [...new Set(candidates.filter(Boolean))]){
+    try{
+      const {data,error}=await sb.storage.from('gift-media').createSignedUrl(path,3600);
+      if(!error&&data?.signedUrl)return data.signedUrl;
+    }catch(_){}
+  }
+
+  console.warn('LAHZA: media file not found',{kind,value:raw});
+  return null;
+}
+async function loadMedia(){
+  const arr=Array.isArray(gift.photos)?gift.photos:[];
+  photoUrls=arr.map(p=>{
+    const path=typeof p==='string'?p:(p?.path||p?.url||'');
+    return {path,url:(/^https?:\/\//i.test(path)&&!String(path).includes('/storage/v1/'))?path:null};
+  }).filter(x=>x.path);
+
+  if(photoUrls[0]&&!photoUrls[0].url){
+    photoUrls[0].url=await storageUrl(photoUrls[0].path,'photo');
+  }
+}
+
+function prepareGift(){
+  $('letterText').textContent=gift.envelope_text||'لحظة خاصة لك ♡';
+  $('messageBox').style.fontFamily=fontFamily(gift.message_font);
+  $('secretText').textContent=gift.secret_message||'';
+  $('senderName').textContent=gift.sender_anonymous?'شخص يحبك':(gift.sender||'شخص يحبك');
+  $('finalMessage').textContent=gift.final_message||'بعض الهدايا ما تنحط في علبة.';
+  setupPhotos();setupMusic();setupVoice();setupVideo();setupFeatured();buildSteps();
+}
+function buildSteps(){
+  const fallback=['name','music','message','photos','date','surprise','sender','end'];
+  const base=Array.isArray(gift.sections_order)&&gift.sections_order.length?gift.sections_order:fallback;
+  const out=[];
+  for(const s of base){
+    if(s==='music'&&(!gift.audio_url||gift.show_music===false))continue;
+    if(s==='photos'&&!(Array.isArray(gift.photos)&&gift.photos.length))continue;
+    if(s==='date'&&(!gift.gift_date||gift.show_date===false))continue;
+    if(s==='sender'&&gift.sender_anonymous)continue;
+    if(s==='message'&&!gift.message)continue;
+    out.push(s);
+    if(s==='message'&&gift.voice_url)out.push('voice');
+    if(s==='photos'){if(gift.video_url)out.push('video');if(gift.featured_photo)out.push('featured')}
+    if(s==='surprise'&&gift.secret_message)out.push('secret');
+  }
+  if(!out.includes('end'))out.push('end');
+  steps=[...new Set(out)];
+}
+
+function startGift(){
+  envelopeOpened=false;dateRevealDone=false;
+  $('envelope').classList.remove('open');$('letter').classList.remove('show','stamped');$('letterStamp').classList.remove('stamp');$('envelopeHint').style.opacity='1';
+  show('envelopeScreen');
+}
+$('envelope').onclick=async()=>{
+  if(envelopeOpened)return;envelopeOpened=true;
+  $('envelope').classList.add('open');$('envelopeHint').style.opacity='0';
+  await sleep(650);$('letter').classList.add('show');
+  await sleep(1900);$('letter').classList.add('stamped');$('letterStamp').classList.add('stamp');
+  await sleep(1500);beginSteps();
+}
+function beginSteps(){stepIndex=0;showStep(steps[0]||'end')}
+function nextStep(){cleanupStep(steps[stepIndex]);stepIndex++;if(stepIndex>=steps.length)stepIndex=steps.length-1;showStep(steps[stepIndex]||'end')}
+function cleanupStep(s){if(s==='photos')clearTimeout(photoTimer);if(s==='date')clearInterval(dateTimer);if(s==='music'&&gift.music_continue===false)pauseMusic()}
+function showStep(s){const map={name:'nameScreen',music:'musicScreen',message:'messageScreen',voice:'voiceScreen',photos:'photosScreen',video:'videoScreen',date:'dateScreen',featured:'featuredScreen',surprise:'surpriseScreen',secret:'secretScreen',sender:'senderScreen',end:'endScreen'};show(map[s]||'endScreen');updateExperienceProgress();if(s==='name')animateName();if(s==='message')animateMessage();if(s==='photos')startPhoto(0);if(s==='date')startDate()}
+function updateExperienceProgress(){const bar=document.querySelector('#experienceProgress i');if(!bar)return;const pct=steps.length?Math.max(0,Math.min(100,((stepIndex+1)/steps.length)*100)):0;bar.style.width=pct+'%'}
+
+async function animateName(){randomNameStyle();const el=$('writtenName'),pen=$('namePen');el.textContent='';pen.style.opacity=1;const text=(gift.receiver||'لك')+' ♡';for(let i=0;i<text.length;i++){el.textContent+=text[i];const x=Math.min(82,18+(i/Math.max(1,text.length))*64);pen.style.left=x+'%';pen.style.top=(48+Math.sin(i)*5)+'%';await sleep(115)}await sleep(350);pen.style.opacity=0}
+async function animateMessage(){const el=$('messageText'),pen=$('messagePen');el.textContent='';pen.style.opacity=1;const t=gift.message||'';for(let i=0;i<t.length;i++){el.textContent+=t[i];const lines=Math.floor(i/24);pen.style.left=(18+(i%24)*2.6)+'%';pen.style.top=Math.min(82,18+lines*13)+'%';await sleep(38)}await sleep(420);pen.style.opacity=0}
+
+function setupPhotos(){
+  const shell=$('photoShell');shell.className='photoShell';
+  const frame=['soft','polaroid','none'].includes(gift.photo_frame)?gift.photo_frame:'soft';
+  const size=['small','medium','large'].includes(gift.photo_size)?gift.photo_size:'medium';
+  const fit=['contain','cover'].includes(gift.photo_fit)?gift.photo_fit:'contain';
+  shell.classList.add(frame,size,'fit-'+fit);shell.style.setProperty('--photoDur',(Number(gift.photo_duration)||3)+'s');
+  $('prevPhoto').onclick=()=>photoUrls.length&&startPhoto((photoIndex-1+photoUrls.length)%photoUrls.length);
+  $('nextPhoto').onclick=()=>photoUrls.length&&startPhoto((photoIndex+1)%photoUrls.length);
+}
+async function startPhoto(index){
+  clearTimeout(photoTimer);
+  if(!photoUrls.length)return;
+
+  photoIndex=index;
+  const item=photoUrls[index];
+  const img=$('photoImg'),shell=$('photoShell');
+
+  if(!item.url)item.url=await storageUrl(item.path,'photo');
+
+  if(!item.url){
+    if(photoUrls.length>1){
+      const next=(index+1)%photoUrls.length;
+      if(next!==index)return startPhoto(next);
+    }
+    $('photoCounter').textContent='تعذر تحميل الصورة';
+    return;
+  }
+
+  shell.classList.remove('zoom','slide','softmotion');
+  void shell.offsetWidth;
+  const motion=gift.photo_motion||'softmotion';
+  if(['zoom','slide','softmotion'].includes(motion))shell.classList.add(motion);
+
+  img.src=item.url;
+  $('photoCounter').textContent=`${index+1} / ${photoUrls.length}`;
+  $('photoProgress').style.width=((index+1)/photoUrls.length*100)+'%';
+
+  const nextIndex=(index+1)%photoUrls.length;
+  const nextItem=photoUrls[nextIndex];
+  if(nextItem&&!nextItem.url){
+    storageUrl(nextItem.path,'photo').then(u=>{if(u)nextItem.url=u});
+  }
+
+  const dur=Math.max(2,Number(gift.photo_duration)||3);
+  photoTimer=setTimeout(()=>{
+    if($('photosScreen').classList.contains('active'))startPhoto(nextIndex)
+  },dur*1000);
+}
+
+function youtubeId(url){try{const u=new URL(url);if(u.hostname.includes('youtu.be'))return u.pathname.slice(1);if(u.searchParams.get('v'))return u.searchParams.get('v');const m=u.pathname.match(/\/embed\/([^/?]+)/);return m?.[1]||null}catch{return null}}
+function loadYouTubeApi(){if(window.YT?.Player){ytReady=true;return Promise.resolve()}return new Promise(resolve=>{if(ytApiLoading){const t=setInterval(()=>{if(window.YT?.Player){clearInterval(t);ytReady=true;resolve()}},200);return}ytApiLoading=true;const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);const old=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=()=>{ytReady=true;if(typeof old==='function')old();resolve()}})}
+async function setupMusic(){
+  const holder=$('musicPlayer');holder.innerHTML='';musicType=null;musicObj=null;ytPlayer=null;
+  if(!gift.audio_url)return;
+  const yid=youtubeId(String(gift.audio_url));
+  if(yid){musicType='youtube';holder.innerHTML='<div id="ytMusic"></div>';await loadYouTubeApi();ytPlayer=new YT.Player('ytMusic',{height:'1',width:'1',videoId:yid,playerVars:{playsinline:1,controls:0,rel:0},events:{onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){$('disc').classList.add('spin');$('musicToggle').textContent='إيقاف'}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.ENDED){$('disc').classList.remove('spin');$('musicToggle').textContent='تشغيل'}}}});return}
+  musicType='audio';let src=await storageUrl(gift.audio_url,'media');if(!src&&/^https?:\/\//i.test(String(gift.audio_url)))src=gift.audio_url;if(src){const a=document.createElement('audio');a.src=src;a.preload='metadata';holder.appendChild(a);musicObj=a;a.onplay=()=>setDisc(true);a.onpause=()=>setDisc(false);a.onended=()=>setDisc(false)}
+}
+$('musicToggle').onclick=()=>{if(musicType==='youtube'&&ytPlayer){const state=ytPlayer.getPlayerState();if(state===YT.PlayerState.PLAYING)ytPlayer.pauseVideo();else ytPlayer.playVideo()}else if(musicObj){if(musicObj.paused)musicObj.play().catch(()=>{});else musicObj.pause()}}
+function pauseMusic(){if(musicType==='youtube'&&ytPlayer?.pauseVideo)ytPlayer.pauseVideo();if(musicObj&&!musicObj.paused)musicObj.pause();setDisc(false)}
+
+async function setupVoice(){
+  const holder=$('voicePlayer');holder.innerHTML='';
+  if(!gift.voice_url)return;
+  const src=await storageUrl(gift.voice_url,'voice');
+  if(src){
+    const a=document.createElement('audio');
+    a.controls=true;a.src=src;a.preload='metadata';
+    holder.appendChild(a);
+    const bars=[...document.querySelectorAll('#voiceWave i')];
+    const animate=on=>bars.forEach((b,i)=>{b.style.animation=on?`pulse ${(0.55+i*.07).toFixed(2)}s ease-in-out infinite alternate`:'none'});
+    a.onplay=()=>animate(true);a.onpause=()=>animate(false);a.onended=()=>animate(false);
+  }
+}
+async function setupVideo(){const holder=$('videoPlayer');holder.innerHTML='';if(!gift.video_url)return;const src=await storageUrl(gift.video_url,'video');if(src){const v=document.createElement('video');v.controls=true;v.playsInline=true;v.src=src;holder.appendChild(v)}}
+async function setupFeatured(){if(!gift.featured_photo)return;const src=await storageUrl(gift.featured_photo,'photo');if(src)$('featuredImg').src=src}
+
+function diffParts(start,end){
+  let years=end.getFullYear()-start.getFullYear();let months=end.getMonth()-start.getMonth();let days=end.getDate()-start.getDate();
+  if(days<0){months--;const prevMonthDays=new Date(end.getFullYear(),end.getMonth(),0).getDate();days+=prevMonthDays}
+  if(months<0){years--;months+=12}
+  const base=new Date(start);base.setFullYear(start.getFullYear()+years);base.setMonth(start.getMonth()+months);base.setDate(start.getDate()+days);
+  let ms=Math.max(0,end-base);const hours=Math.floor(ms/3600000);ms%=3600000;const minutes=Math.floor(ms/60000);ms%=60000;const seconds=Math.floor(ms/1000);
+  return {years,months,days,hours,minutes,seconds};
+}
+function buildDateUnits(){
+  return [['years','سنة'],['months','شهر'],['days','يوم'],['hours','ساعة'],['minutes','دقيقة'],['seconds','ثانية']]
+    .map(([k,t])=>`<div class="dateUnit" data-k="${k}"><b>0</b><span>${t}</span></div>`).join('')
+}
+function updateDateValues(parts){
+  document.querySelectorAll('#dateGrid .dateUnit').forEach(el=>{
+    const k=el.dataset.k,b=el.querySelector('b');if(b)b.textContent=parts[k]
+  })
+}
+async function animateDateCounter(parts){
+  const order=['years','months','days','hours','minutes','seconds'];
+  const units=[...document.querySelectorAll('#dateGrid .dateUnit')];
+  for(let i=0;i<order.length;i++){
+    const el=units[i]; if(!el)continue;
+    el.classList.add('show');
+    const b=el.querySelector('b');
+    const target=Math.max(0,Number(parts[order[i]])||0);
+    const steps=Math.min(target,24);
+    if(target===0){b.textContent='0'}
+    else{
+      for(let s=1;s<=steps;s++){
+        b.textContent=Math.round(target*s/steps);
+        await sleep(70);
+      }
+      b.textContent=target;
+    }
+    await sleep(420);
+  }
+}
+function startDate(){
+  clearInterval(dateTimer);
+  const raw=String(gift.gift_date||'');
+  const m=raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const start=m?new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),0,0,0):new Date(raw);
+  if(isNaN(start.getTime())){nextStep();return}
+  $('dateIntro').textContent=`من ${start.toLocaleDateString('ar-BH',{year:'numeric',month:'long',day:'numeric'})} إلى اليوم ♡`;
+  const parts=diffParts(start,new Date());
+  $('dateGrid').innerHTML=buildDateUnits();
+  $('dateNote').textContent='';
+  requestAnimationFrame(()=>$('dateIntro').classList.add('show'));
+  animateDateCounter(parts).then(()=>{
+    clearInterval(dateTimer);
+    dateTimer=setInterval(()=>updateDateValues(diffParts(start,new Date())),1000);
+  });
+}
+
+$('shareBtn').onclick=async()=>{const data={title:'لحظة ♡',text:'وصلك شيء خاص ♡',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);alert('تم نسخ رابط الهدية')}}catch{}}
+$('restartBtn').onclick=()=>{pauseMusic();clearTimeout(photoTimer);clearInterval(dateTimer);window.scrollTo(0,0);startGift()}
+
+function spawnParticle(x,y){if((gift.effects_level||'normal')==='off')return;const p=document.createElement('div');p.className='particle';p.textContent=Math.random()>.5?'♡':'✦';p.style.left=x+'px';p.style.top=y+'px';p.style.color=Math.random()>.5?'var(--pink)':'var(--pink2)';document.body.appendChild(p);setTimeout(()=>p.remove(),1500)}
+document.addEventListener('pointerdown',e=>{if((gift?.effects_level||'normal')!=='off')spawnParticle(e.clientX,e.clientY)},{passive:true});
+
+
+const floatingMusic=$('floatingMusic');
+if(floatingMusic){floatingMusic.onclick=()=>{const b=$('musicToggle');if(b)b.click()}}
+function syncFloatingMusic(){if(!floatingMusic)return;const has=!!gift?.audio_url;floatingMusic.classList.toggle('show',has && gift?.show_music!==false)}
+
+loadGift();
+</script>
+<script src="analytics.js" defer></script>
+</body>
+</html>
