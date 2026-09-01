@@ -846,7 +846,18 @@
           <input id="sender" maxlength="60" placeholder="مثال: علي">
         </div>
 
-        
+        <div id="customerPhoneField">
+          <label>رقم واتساب صاحب الطلب</label>
+          <input
+            id="phone"
+            type="tel"
+            inputmode="numeric"
+            dir="ltr"
+            autocomplete="tel"
+            maxlength="20"
+            placeholder="مثال: 3XXXXXXX أو 9733XXXXXXX"
+          >
+        </div>
 
         <div>
           <label>تاريخ الذكرى</label>
@@ -863,7 +874,7 @@
             <input id="autoSendGift" type="checkbox">
             <span>
               <b>أرسلوا الهدية للمستلم بعد تأكيد الدفع</b>
-              <small>إذا فعلتها، حط رقم واتساب المستلم تحت.</small>
+              <small>إذا فعلتها، بيطلع لك رقم واتساب المستلم. وإذا ما فعلتها، بنتواصل مع صاحب الطلب على رقمه فوق.</small>
             </span>
           </label>
 
@@ -2705,7 +2716,7 @@ function updateSummary(){
     </div>
 
     <div class="sumrow">
-      <span>واتساب</span>
+      <span>واتساب صاحب الطلب</span>
       <b style="direction:ltr">
         ${escapeHTML(
           $("phone")
@@ -3365,6 +3376,49 @@ updateSummary();
     document.querySelectorAll('.wizardPage').forEach(p=>{
       observer.observe(p,{attributes:true,attributeFilter:['class']});
     });
+  });
+})();
+</script>
+
+
+<script>
+/* LAHZA: عند اختيار إرسال الهدية بواسطة لحظة، نخفي رقم صاحب الطلب ونظهر رقم المستلم */
+(function(){
+  function syncGiftDeliveryPhones(){
+    const autoSend = document.getElementById("autoSendGift");
+    const customerField = document.getElementById("customerPhoneField");
+    const customerPhone = document.getElementById("phone");
+    const recipientPhone = document.getElementById("recipientPhone");
+
+    if(!autoSend || !customerField) return;
+
+    if(autoSend.checked){
+      customerField.style.display = "none";
+      if(customerPhone){
+        customerPhone.required = false;
+        customerPhone.disabled = true;
+      }
+      if(recipientPhone){
+        recipientPhone.required = true;
+      }
+    }else{
+      customerField.style.display = "";
+      if(customerPhone){
+        customerPhone.disabled = false;
+        customerPhone.required = true;
+      }
+      if(recipientPhone){
+        recipientPhone.required = false;
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    const autoSend = document.getElementById("autoSendGift");
+    if(autoSend){
+      autoSend.addEventListener("change", syncGiftDeliveryPhones);
+      syncGiftDeliveryPhones();
+    }
   });
 })();
 </script>
