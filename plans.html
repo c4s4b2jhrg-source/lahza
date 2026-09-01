@@ -2,142 +2,600 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#100d13">
-  <title>اختر باقتك | LAHZA</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#100d13"
+  >
+
+  <title>
+    اختر باقتك | LAHZA
+  </title>
+
   <style>
+
     :root{
-      --bg:#0d0a0f;--card:#171219;--line:#382b3b;--text:#fff8fb;
-      --muted:#b7aab4;--pink:#f58aae;--pink2:#ffb5cc;--gold:#ffd58a;
-      --shadow:0 24px 70px rgba(0,0,0,.34)
+      --bg:#0d0a0f;
+      --card:#171219;
+      --line:#382b3b;
+      --text:#fff8fb;
+      --muted:#b7aab4;
+      --pink:#f58aae;
+      --pink2:#ffb5cc;
+      --gold:#ffd58a;
+
+      --shadow:
+      0 24px 70px
+      rgba(0,0,0,.34);
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:
-      radial-gradient(circle at 50% -8%,rgba(245,138,174,.15),transparent 34%),
-      linear-gradient(180deg,#100c12,#0a080c 75%);color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
-    body{min-height:100vh}
-    .wrap{width:min(900px,100%);margin:auto;padding:22px 16px 46px}
-    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
-    .brand{font-weight:950;letter-spacing:1.5px;font-size:20px}
-    .back{color:var(--muted);text-decoration:none;font-size:14px}
-    .hero{text-align:center;margin:18px auto 28px;max-width:620px}
-    .hero h1{font-size:34px;line-height:1.2;margin:0 0 10px}
-    .hero p{color:var(--muted);line-height:1.8;margin:0}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html,
+    body{
+      margin:0;
+      min-height:100%;
+
+      background:
+      radial-gradient(
+        circle at 50% -8%,
+        rgba(245,138,174,.15),
+        transparent 34%
+      ),
+      linear-gradient(
+        180deg,
+        #100c12,
+        #0a080c 75%
+      );
+
+      color:var(--text);
+
+      font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Tahoma,
+      Arial,
+      sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+    }
+
+    .wrap{
+      width:min(900px,100%);
+      margin:auto;
+      padding:22px 16px 46px;
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+    }
+
+    .brand{
+      font-weight:950;
+      letter-spacing:1.5px;
+      font-size:20px;
+    }
+
+    .back{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    .hero{
+      text-align:center;
+      margin:18px auto 28px;
+      max-width:620px;
+    }
+
+    .hero h1{
+      font-size:34px;
+      line-height:1.2;
+      margin:0 0 10px;
+    }
+
+    .hero p{
+      color:var(--muted);
+      line-height:1.8;
+      margin:0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:
+      repeat(3,1fr);
+
+      gap:14px;
+    }
+
     .plan{
-      position:relative;background:rgba(23,18,25,.9);border:1px solid var(--line);
-      border-radius:25px;padding:21px;box-shadow:var(--shadow);overflow:hidden
+      position:relative;
+
+      background:
+      rgba(23,18,25,.9);
+
+      border:
+      1px solid var(--line);
+
+      border-radius:25px;
+
+      padding:21px;
+
+      box-shadow:
+      var(--shadow);
+
+      overflow:hidden;
     }
-    .plan.popular{border-color:rgba(245,138,174,.62);transform:translateY(-5px)}
+
+    .plan.popular{
+      border-color:
+      rgba(245,138,174,.62);
+
+      transform:
+      translateY(-5px);
+    }
+
     .popularTag{
-      position:absolute;top:13px;left:13px;background:rgba(245,138,174,.12);
-      border:1px solid rgba(245,138,174,.28);color:#ffd8e5;border-radius:999px;
-      padding:6px 10px;font-size:11px;font-weight:900
+      position:absolute;
+
+      top:13px;
+      left:13px;
+
+      background:
+      rgba(245,138,174,.12);
+
+      border:
+      1px solid
+      rgba(245,138,174,.28);
+
+      color:#ffd8e5;
+
+      border-radius:999px;
+
+      padding:6px 10px;
+
+      font-size:11px;
+      font-weight:900;
     }
-    .name{font-size:23px;font-weight:950;margin:5px 0 6px}
-    .desc{font-size:13px;line-height:1.7;color:var(--muted);min-height:44px}
-    .price{display:flex;align-items:end;gap:7px;margin:18px 0 17px}
-    .price strong{font-size:42px;line-height:1}
-    .price span{color:var(--muted);font-size:14px;padding-bottom:4px}
-    .features{list-style:none;padding:0;margin:0 0 20px}
-    .features li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.055);font-size:14px;line-height:1.55}
-    .features li:last-child{border-bottom:0}
-    .yes::before{content:"✓";color:#ffb4cc;font-weight:900;margin-left:8px}
-    .lock{color:#8f828d}
-    .lock::before{content:"🔒";font-size:12px;margin-left:7px}
+
+    .name{
+      font-size:23px;
+      font-weight:950;
+      margin:5px 0 6px;
+    }
+
+    .desc{
+      font-size:13px;
+      line-height:1.7;
+      color:var(--muted);
+      min-height:44px;
+    }
+
+    .price{
+      display:flex;
+      align-items:end;
+      gap:7px;
+      margin:18px 0 17px;
+    }
+
+    .price strong{
+      font-size:42px;
+      line-height:1;
+    }
+
+    .price span{
+      color:var(--muted);
+      font-size:14px;
+      padding-bottom:4px;
+    }
+
+    .features{
+      list-style:none;
+      padding:0;
+      margin:0 0 20px;
+    }
+
+    .features li{
+      padding:8px 0;
+
+      border-bottom:
+      1px solid
+      rgba(255,255,255,.055);
+
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    .features li:last-child{
+      border-bottom:0;
+    }
+
+    .yes::before{
+      content:"✓";
+
+      color:#ffb4cc;
+
+      font-weight:900;
+
+      margin-left:8px;
+    }
+
+    .lock{
+      color:#8f828d;
+    }
+
+    .lock::before{
+      content:"🔒";
+
+      font-size:12px;
+
+      margin-left:7px;
+    }
+
     .choose{
-      display:block;width:100%;text-align:center;text-decoration:none;border:0;border-radius:16px;
-      padding:14px;font-weight:900;background:#271f2a;color:var(--text)
+      display:block;
+
+      width:100%;
+
+      text-align:center;
+
+      text-decoration:none;
+
+      border:0;
+
+      border-radius:16px;
+
+      padding:14px;
+
+      font-weight:900;
+
+      background:#271f2a;
+
+      color:var(--text);
     }
-    .popular .choose{background:linear-gradient(135deg,var(--pink),#ff739f);color:#281018}
+
+    .popular .choose{
+      background:
+      linear-gradient(
+        135deg,
+        var(--pink),
+        #ff739f
+      );
+
+      color:#281018;
+    }
+
     .note{
-      margin-top:20px;text-align:center;color:#938791;font-size:12px;line-height:1.7
+      margin-top:20px;
+
+      text-align:center;
+
+      color:#938791;
+
+      font-size:12px;
+
+      line-height:1.7;
     }
+
     @media(max-width:760px){
-      .grid{grid-template-columns:1fr}
-      .plan.popular{transform:none}
-      .desc{min-height:auto}
-      .hero h1{font-size:29px}
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .plan.popular{
+        transform:none;
+      }
+
+      .desc{
+        min-height:auto;
+      }
+
+      .hero h1{
+        font-size:29px;
+      }
     }
+
   </style>
 </head>
+
 <body>
+
   <main class="wrap">
+
     <div class="top">
-      <a class="back" href="occasion.html">رجوع</a>
-      <div class="brand">LAHZA ♡</div>
+
+      <a
+        class="back"
+        href="occasion.html"
+      >
+        رجوع
+      </a>
+
+      <div class="brand">
+        LAHZA ♡
+      </div>
+
     </div>
 
+
     <section class="hero">
-      <h1>اختر اللحظة اللي تناسبك</h1>
-      <p>كل باقة تعطيك تجربة مختلفة. اختر اللي يناسب هديتك، وبعدها نبدأ نصنعها.</p>
+
+      <h1>
+        اختر اللحظة اللي تناسبك
+      </h1>
+
+      <p>
+        كل باقة تعطيك تجربة مختلفة.
+        اختر اللي يناسب هديتك،
+        وبعدها نبدأ نصنعها.
+      </p>
+
     </section>
+
 
     <section class="grid">
+
+
+      <!-- MINI -->
+
       <article class="plan">
-        <div class="name">Mini</div>
-        <div class="desc">هدية خفيفة وحلوة للمواقف البسيطة.</div>
-        <div class="price"><strong>1</strong><span>د.ب</span></div>
+
+        <div class="name">
+          Mini
+        </div>
+
+        <div class="desc">
+          هدية خفيفة وحلوة
+          للمواقف البسيطة.
+        </div>
+
+        <div class="price">
+          <strong>1</strong>
+          <span>د.ب</span>
+        </div>
+
         <ul class="features">
-          <li class="yes">حتى 5 صور</li>
-          <li class="yes">رسالة + موسيقى</li>
-          <li class="yes">اختيار الخط وترتيب الصور</li>
-          <li class="yes">انتقالات أساسية</li>
-          <li class="lock">فتح بموعد محدد</li>
-          <li class="lock">رسالة صوتية</li>
+
+          <li class="yes">
+            حتى 5 صور
+          </li>
+
+          <li class="yes">
+            رسالة + موسيقى
+          </li>
+
+          <li class="yes">
+            اختيار الخط وترتيب الصور
+          </li>
+
+          <li class="yes">
+            انتقالات أساسية
+          </li>
+
+          <li class="lock">
+            فتح بموعد محدد
+          </li>
+
+          <li class="lock">
+            رسالة صوتية
+          </li>
+
         </ul>
-        <a class="choose" data-plan="mini" href="create.html?plan=mini">اختيار Mini</a>
+
+        <a
+          class="choose"
+          data-plan="mini"
+          href="create.html?plan=mini"
+        >
+          اختيار Mini
+        </a>
+
       </article>
+
+
+      <!-- MOMENT -->
 
       <article class="plan popular">
-        <div class="popularTag">الأكثر اختيارًا</div>
-        <div class="name">Moment</div>
-        <div class="desc">تجربة أكمل فيها مفاجآت وتخصيص أكثر.</div>
-        <div class="price"><strong>2</strong><span>د.ب</span></div>
+
+        <div class="popularTag">
+          الأكثر اختيارًا
+        </div>
+
+        <div class="name">
+          Moment
+        </div>
+
+        <div class="desc">
+          تجربة أكمل فيها
+          مفاجآت وتخصيص أكثر.
+        </div>
+
+        <div class="price">
+          <strong>2</strong>
+          <span>د.ب</span>
+        </div>
+
         <ul class="features">
-          <li class="yes">حتى 15 صورة</li>
-          <li class="yes">كل الثيمات والخطوط</li>
-          <li class="yes">رسالة صوتية</li>
-          <li class="yes">فتح بموعد محدد</li>
-          <li class="yes">رسالة سرية وصورة مميزة</li>
-          <li class="yes">تحكم بحركة ومدة الصور</li>
+
+          <li class="yes">
+            حتى 15 صورة
+          </li>
+
+          <li class="yes">
+            كل الثيمات والخطوط
+          </li>
+
+          <li class="yes">
+            رسالة صوتية
+          </li>
+
+          <li class="yes">
+            فتح بموعد محدد
+          </li>
+
+          <li class="yes">
+            رسالة سرية وصورة مميزة
+          </li>
+
+          <li class="yes">
+            تحكم بحركة ومدة الصور
+          </li>
+
         </ul>
-        <a class="choose" data-plan="moment" href="create.html?plan=moment">اختيار Moment</a>
+
+        <a
+          class="choose"
+          data-plan="moment"
+          href="create.html?plan=moment"
+        >
+          اختيار Moment
+        </a>
+
       </article>
+
+
+      <!-- FOREVER -->
 
       <article class="plan">
-        <div class="name">Forever</div>
-        <div class="desc">أقوى باقة للحظات الكبيرة والذكريات الطويلة.</div>
-        <div class="price"><strong>3</strong><span>د.ب</span></div>
+
+        <div class="name">
+          Forever
+        </div>
+
+        <div class="desc">
+          أقوى باقة للحظات الكبيرة
+          والذكريات الطويلة.
+        </div>
+
+        <div class="price">
+          <strong>3</strong>
+          <span>د.ب</span>
+        </div>
+
         <ul class="features">
-          <li class="yes">حتى 30 صورة</li>
-          <li class="yes">كل مزايا Moment</li>
-          <li class="yes">فيديو داخل الهدية</li>
-          <li class="yes">PIN لفتح الهدية</li>
-          <li class="yes">مرسل مجهول</li>
-          <li class="yes">نهاية وترتيب أقسام مخصص</li>
+
+          <li class="yes">
+            حتى 30 صورة
+          </li>
+
+          <li class="yes">
+            كل مزايا Moment
+          </li>
+
+          <li class="yes">
+            فيديو داخل الهدية
+          </li>
+
+          <li class="yes">
+            PIN لفتح الهدية
+          </li>
+
+          <li class="yes">
+            مرسل مجهول
+          </li>
+
+          <li class="yes">
+            نهاية وترتيب أقسام مخصص
+          </li>
+
         </ul>
-        <a class="choose" data-plan="forever" href="create.html?plan=forever">اختيار Forever</a>
+
+        <a
+          class="choose"
+          data-plan="forever"
+          href="create.html?plan=forever"
+        >
+          اختيار Forever
+        </a>
+
       </article>
+
     </section>
 
-    <div class="note">الأسعار: Mini = 1 د.ب • Moment = 2 د.ب • Forever = 3 د.ب</div>
+
+    <div class="note">
+      الأسعار:
+      Mini = 1 د.ب
+      •
+      Moment = 2 د.ب
+      •
+      Forever = 3 د.ب
+    </div>
+
   </main>
 
-<script>
-  // Preserve the selected occasion if occasion.html passes it in the URL.
-  const params = new URLSearchParams(location.search);
-  const occasion = params.get("occasion") || localStorage.getItem("lahzaOccasion") || "";
 
-  if (occasion) {
-    localStorage.setItem("lahzaOccasion", occasion);
-    document.querySelectorAll("[data-plan]").forEach(a => {
-      const u = new URL(a.href, location.href);
-      u.searchParams.set("occasion", occasion);
-      a.href = u.pathname.split("/").pop() + u.search;
-    });
-  }
-</script>
+  <!-- حفظ المناسبة المختارة -->
+
+  <script>
+
+    const params =
+      new URLSearchParams(
+        location.search
+      );
+
+    const occasion =
+      params.get("occasion") ||
+      localStorage.getItem(
+        "lahzaOccasion"
+      ) ||
+      "";
+
+    if(occasion){
+
+      localStorage.setItem(
+        "lahzaOccasion",
+        occasion
+      );
+
+      document
+        .querySelectorAll(
+          "[data-plan]"
+        )
+        .forEach(a=>{
+
+          const url =
+            new URL(
+              a.href,
+              location.href
+            );
+
+          url.searchParams.set(
+            "occasion",
+            occasion
+          );
+
+          a.href =
+            url.pathname
+              .split("/")
+              .pop()
+            +
+            url.search;
+
+        });
+
+    }
+
+  </script>
+
+
+  <!-- عداد زوار LAHZA -->
+
+  <script src="analytics.js"></script>
+
 </body>
 </html>
