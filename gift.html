@@ -138,9 +138,32 @@ video,audio{width:100%;border-radius:18px;margin-top:14px;background:#0b0b0d}
 
 @media(max-width:520px){.countdown{grid-template-columns:repeat(2,1fr)}.dateGrid{grid-template-columns:repeat(2,1fr)}.envelopeWrap{height:490px}.letter{min-height:305px;font-size:21px}.letter.show{transform:translateX(-50%) translateY(-150px) scale(1)}@keyframes letterHit{50%{transform:translateX(-50%) translateY(-150px) scale(.975)}}}
 @media(max-height:650px){.envelopeWrap{transform:scale(.9);transform-origin:center}.screen{padding:14px}}
+
+/* LAHZA EXPERIENCE 100 */
+body{min-height:100dvh;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
+.screen{min-height:100dvh;padding:max(18px,env(safe-area-inset-top)) 20px max(18px,env(safe-area-inset-bottom));transition:opacity .42s ease,transform .42s ease}
+.screen.active{animation:lahzaScene .65s cubic-bezier(.2,.8,.2,1)}
+@keyframes lahzaScene{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+#experienceProgress{position:fixed;top:0;right:0;left:0;height:3px;background:rgba(255,255,255,.055);z-index:9998}
+#experienceProgress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--pink),var(--pink2));box-shadow:0 0 16px rgba(255,111,169,.35);transition:width .65s cubic-bezier(.2,.8,.2,1)}
+#floatingMusic{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(14px,env(safe-area-inset-bottom));width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:rgba(20,15,24,.82);backdrop-filter:blur(12px);color:var(--text);z-index:9000;display:none;place-items:center;font-size:18px;box-shadow:0 12px 34px rgba(0,0,0,.3)}
+#floatingMusic.show{display:grid}#floatingMusic.playing{animation:musicGlow 1.8s ease-in-out infinite}
+@keyframes musicGlow{50%{box-shadow:0 0 0 7px rgba(255,111,169,.08),0 12px 34px rgba(0,0,0,.3)}}
+.card{background:linear-gradient(145deg,rgba(31,24,35,.88),rgba(18,15,22,.84));box-shadow:0 24px 70px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.035)}
+.photoShell.polaroid{background:#241d25;border:1px solid rgba(255,255,255,.08)}
+.photoShell{overflow:hidden}.photoShell:before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none;z-index:2}
+.dateIntro{opacity:0;transform:translateY(8px);transition:.5s ease;color:var(--pink2);margin:4px 0 18px}.dateIntro.show{opacity:1;transform:none}
+.dateUnit{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));box-shadow:inset 0 1px rgba(255,255,255,.035)}
+.dateUnit b{font-variant-numeric:tabular-nums}
+.endMark{width:72px;height:72px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;border:1px solid rgba(255,111,169,.28);background:radial-gradient(circle,rgba(255,111,169,.16),rgba(255,111,169,.03));font-size:31px;animation:endBeat 2.2s ease-in-out infinite}
+@keyframes endBeat{50%{transform:scale(1.06);box-shadow:0 0 32px rgba(255,111,169,.13)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
 </style>
 </head>
 <body>
+<div id="experienceProgress"><i></i></div>
+<button id="floatingMusic" type="button" aria-label="تشغيل أو إيقاف الموسيقى">♫</button>
 <section id="loading" class="screen active"><div class="center"><div class="loadingDot"></div><p style="margin-top:14px">نجهز لحظتك…</p></div></section>
 <section id="locked" class="screen"><div class="center card"><h2>الهدية مو متاحة للحين</h2><p id="lockedText">تأكد من الرابط أو حالة الدفع.</p></div></section>
 <section id="countdownScreen" class="screen"><div class="center card"><div class="eyebrow">موعد فتح الهدية</div><h2>باقي شوي ♡</h2><div id="countdown" class="countdown"></div><p>بتنفتح الهدية تلقائياً في وقتها.</p></div></section>
@@ -285,7 +308,8 @@ $('envelope').onclick=async()=>{
 function beginSteps(){stepIndex=0;showStep(steps[0]||'end')}
 function nextStep(){cleanupStep(steps[stepIndex]);stepIndex++;if(stepIndex>=steps.length)stepIndex=steps.length-1;showStep(steps[stepIndex]||'end')}
 function cleanupStep(s){if(s==='photos')clearTimeout(photoTimer);if(s==='date')clearInterval(dateTimer);if(s==='music'&&gift.music_continue===false)pauseMusic()}
-function showStep(s){const map={name:'nameScreen',music:'musicScreen',message:'messageScreen',voice:'voiceScreen',photos:'photosScreen',video:'videoScreen',date:'dateScreen',featured:'featuredScreen',surprise:'surpriseScreen',secret:'secretScreen',sender:'senderScreen',end:'endScreen'};show(map[s]||'endScreen');if(s==='name')animateName();if(s==='message')animateMessage();if(s==='photos')startPhoto(0);if(s==='date')startDate()}
+function showStep(s){const map={name:'nameScreen',music:'musicScreen',message:'messageScreen',voice:'voiceScreen',photos:'photosScreen',video:'videoScreen',date:'dateScreen',featured:'featuredScreen',surprise:'surpriseScreen',secret:'secretScreen',sender:'senderScreen',end:'endScreen'};show(map[s]||'endScreen');updateExperienceProgress();if(s==='name')animateName();if(s==='message')animateMessage();if(s==='photos')startPhoto(0);if(s==='date')startDate()}
+function updateExperienceProgress(){const bar=document.querySelector('#experienceProgress i');if(!bar)return;const pct=steps.length?Math.max(0,Math.min(100,((stepIndex+1)/steps.length)*100)):0;bar.style.width=pct+'%'}
 
 async function animateName(){const el=$('writtenName'),pen=$('namePen');el.textContent='';pen.style.opacity=1;const text=(gift.receiver||'لك')+' ♡';for(let i=0;i<text.length;i++){el.textContent+=text[i];const x=Math.min(82,18+(i/Math.max(1,text.length))*64);pen.style.left=x+'%';pen.style.top=(48+Math.sin(i)*5)+'%';await sleep(115)}await sleep(350);pen.style.opacity=0}
 async function animateMessage(){const el=$('messageText'),pen=$('messagePen');el.textContent='';pen.style.opacity=1;const t=gift.message||'';for(let i=0;i<t.length;i++){el.textContent+=t[i];const lines=Math.floor(i/24);pen.style.left=(18+(i%24)*2.6)+'%';pen.style.top=Math.min(82,18+lines*13)+'%';await sleep(38)}await sleep(420);pen.style.opacity=0}
@@ -341,6 +365,13 @@ $('restartBtn').onclick=()=>{pauseMusic();clearTimeout(photoTimer);clearInterval
 
 function spawnParticle(x,y){if((gift.effects_level||'normal')==='off')return;const p=document.createElement('div');p.className='particle';p.textContent=Math.random()>.5?'♡':'✦';p.style.left=x+'px';p.style.top=y+'px';p.style.color=Math.random()>.5?'var(--pink)':'var(--pink2)';document.body.appendChild(p);setTimeout(()=>p.remove(),1500)}
 document.addEventListener('pointerdown',e=>{if((gift?.effects_level||'normal')!=='off')spawnParticle(e.clientX,e.clientY)},{passive:true});
+
+
+const floatingMusic=$('floatingMusic');
+if(floatingMusic){floatingMusic.onclick=()=>toggleMusic()}
+const _setDisc=setDisc;
+setDisc=function(on){_setDisc(on);if(floatingMusic){floatingMusic.classList.toggle('playing',!!on);floatingMusic.textContent=on?'Ⅱ':'♫'}};
+function syncFloatingMusic(){if(!floatingMusic)return;const has=!!gift?.audio_url;floatingMusic.classList.toggle('show',has && gift?.show_music!==false)}
 
 loadGift();
 </script>
