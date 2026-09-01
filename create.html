@@ -3232,5 +3232,59 @@ updateSummary();
 
 <script src="analytics.js"></script>
 
+
+<script>
+/* LAHZA: زر Next/التالي في كيبورد iPhone و Android ينتقل للحقل التالي */
+(function(){
+  function getStepFields(){
+    const visible = [...document.querySelectorAll('.wizardPage.wizardVisible input, .wizardPage.wizardVisible select, .wizardPage.wizardVisible textarea')]
+      .filter(el => !el.disabled && el.type !== 'hidden' && el.type !== 'file' &&
+                    el.type !== 'checkbox' && el.type !== 'radio' &&
+                    el.offsetParent !== null);
+    return visible;
+  }
+
+  function refreshKeyboardHints(){
+    const fields = getStepFields();
+    fields.forEach((el,i)=>{
+      if(el.tagName === 'TEXTAREA') return;
+      el.setAttribute('enterkeyhint', i === fields.length - 1 ? 'done' : 'next');
+    });
+  }
+
+  function goNextFrom(el){
+    const fields = getStepFields();
+    const i = fields.indexOf(el);
+    if(i >= 0 && i < fields.length - 1){
+      fields[i+1].focus({preventScroll:true});
+      setTimeout(()=>fields[i+1].scrollIntoView({behavior:'smooth',block:'center'}),50);
+      return true;
+    }
+    return false;
+  }
+
+  document.addEventListener('keydown', e=>{
+    const el=e.target;
+    if(!el.matches('input,select')) return;
+    if(e.key !== 'Enter') return;
+    if(goNextFrom(el)) e.preventDefault();
+  });
+
+  document.addEventListener('focusin', e=>{
+    if(e.target.matches('input,select,textarea')) refreshKeyboardHints();
+  });
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    refreshKeyboardHints();
+
+    /* لو تغيرت خطوة الفورم، نعيد تحديد Next/Done */
+    const observer=new MutationObserver(refreshKeyboardHints);
+    document.querySelectorAll('.wizardPage').forEach(p=>{
+      observer.observe(p,{attributes:true,attributeFilter:['class']});
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
