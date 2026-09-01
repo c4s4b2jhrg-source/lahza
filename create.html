@@ -458,7 +458,59 @@
     #phone{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}#giftDate{direction:ltr;text-align:left}
     @media(max-width:640px){.hero{padding-bottom:16px}.wizardDot{width:62px;font-size:10px}.wizardLine{max-width:38px}.section.wizardVisible{margin-top:14px}}
 
-  </style>
+  
+
+    /* LAHZA mobile responsive fix */
+    @media (max-width:640px){
+      html,body{max-width:100%;overflow-x:hidden}
+      .wrap{width:100%;padding:14px 14px 112px}
+      .top{margin-bottom:12px}
+      .hero{padding:18px;border-radius:22px;margin-bottom:10px}
+      .hero h1{font-size:30px}
+      .hero p{font-size:14px;line-height:1.7}
+
+      .wizardHead{margin:0 -2px;padding:10px 0 7px;overflow:hidden}
+      .wizardTrack{width:100%;max-width:none;justify-content:space-between;gap:0}
+      .wizardDot{width:58px;min-width:58px;font-size:10px;flex:0 0 58px}
+      .wizardDot b{width:30px;height:30px}
+      .wizardLine{min-width:12px;max-width:none;flex:1;margin:15px 3px 0}
+
+      .section{width:100%;max-width:100%;padding:17px 14px;border-radius:22px;margin-top:12px;overflow:hidden}
+      .sectionHead{margin-bottom:14px}
+      .sectionHead h2{font-size:21px}
+      .grid,.cards{grid-template-columns:minmax(0,1fr);width:100%;gap:12px}
+      .grid>*,.cards>*,.full{min-width:0;max-width:100%;grid-column:1/-1}
+
+      label{font-size:13px}
+      input,textarea,select{display:block;width:100%;max-width:100%;min-width:0;border-radius:15px;padding:14px 13px;font-size:16px}
+      textarea{min-height:112px}
+      #phone,#giftDate{width:100%;max-width:100%;direction:ltr;text-align:left}
+
+      .checks{display:grid;width:100%;grid-template-columns:1fr;gap:9px}
+      .check{width:100%;max-width:100%;min-width:0;padding:11px 12px;justify-content:flex-start;overflow:hidden}
+      .check input{flex:0 0 auto}
+
+      .choice{width:100%;min-width:0}
+      .photoRow{grid-template-columns:54px minmax(0,1fr);width:100%;min-width:0}
+      .photoRow img{width:54px;height:54px}
+      .rowBtns{grid-column:1/-1;width:100%}
+      .audioCard,.orderItem,.preview{width:100%;max-width:100%;min-width:0}
+
+      .sticky{padding:10px 14px calc(10px + env(safe-area-inset-bottom));}
+      .stickyInner{width:100%;max-width:100%}
+      .wizardActions{width:100%;gap:8px}
+      .wizardActions .submit{min-width:0}
+      .wizardBack{min-width:88px;padding:14px 12px}
+      .submit{padding:16px 12px;font-size:17px;border-radius:18px}
+    }
+
+    @media (max-width:390px){
+      .wrap{padding-left:10px;padding-right:10px}
+      .section{padding-left:12px;padding-right:12px}
+      .wizardDot{width:54px;min-width:54px}
+      .wizardLine{margin-left:1px;margin-right:1px}
+    }
+</style>
 </head>
 
 <body>
