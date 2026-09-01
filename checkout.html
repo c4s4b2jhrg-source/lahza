@@ -1,314 +1,1163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#100d13" />
-  <title>إتمام الطلب | LAHZA</title>
-  <style>
-    :root{
-      --bg:#0e0b10;--card:#17131a;--soft:#211a24;--line:#362a3b;
-      --text:#fff8fb;--muted:#bcaeb9;--pink:#f58aae;--pink2:#ffb2ca;
-      --green:#22c55e;--shadow:0 24px 70px rgba(0,0,0,.34)
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:
-      radial-gradient(circle at 50% -10%,rgba(245,138,174,.13),transparent 34%),
-      linear-gradient(180deg,#100d13,#0b090d 70%);color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
-    body{min-height:100vh}
-    button{font:inherit}
-    .wrap{width:min(620px,100%);margin:auto;padding:22px 16px 42px}
-    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-    .brand{font-size:19px;font-weight:900;letter-spacing:1.4px}
-    .back{color:var(--muted);text-decoration:none;font-size:14px}
-    h1{font-size:30px;line-height:1.25;margin:6px 0 8px}
-    .lead{color:var(--muted);line-height:1.8;margin:0 0 22px}
-    .stepper{display:flex;align-items:center;gap:7px;margin-bottom:20px}
-    .stepDot{
-      flex:1;height:6px;background:#2a222d;border-radius:999px;overflow:hidden;
-      transition:.25s ease
-    }
-    .stepDot.active{background:linear-gradient(90deg,var(--pink),var(--pink2))}
-    .card{
-      background:rgba(23,19,26,.88);border:1px solid var(--line);border-radius:25px;
-      padding:20px;box-shadow:var(--shadow)
-    }
-    .screen{display:none;animation:in .28s ease}
-    .screen.active{display:block}
-    @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .eyebrow{font-size:13px;color:var(--pink2);font-weight:800;margin-bottom:8px}
-    .title{font-size:23px;font-weight:900;margin:0 0 8px}
-    .sub{font-size:14px;color:var(--muted);line-height:1.75;margin:0 0 18px}
-    .orderBox,.payBox{
-      border:1px solid var(--line);background:rgba(255,255,255,.025);
-      border-radius:20px;padding:16px;margin:14px 0
-    }
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}
-    .row+.row{border-top:1px solid rgba(255,255,255,.055)}
-    .label{color:var(--muted);font-size:14px}
-    .value{font-weight:800;text-align:left}
-    .price{
-      display:flex;align-items:end;justify-content:center;gap:8px;margin:18px 0 8px
-    }
-    .price strong{font-size:48px;line-height:1}
-    .price span{color:var(--muted);font-size:15px;padding-bottom:5px}
-    .ibanBox{
-      margin:16px 0 6px;padding:14px;border:1px solid var(--line);border-radius:16px;
-      background:#0d0b0f;text-align:right
-    }
-    .ibanLabel{font-size:12px;color:var(--muted);margin-bottom:7px}
-    .ibanRow{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .ibanCode{
-      direction:ltr;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-      font-size:15px;font-weight:900;word-break:break-all;color:#ffd5e3
-    }
-    .copyIban{
-      flex:0 0 auto;border:1px solid rgba(245,138,174,.3);background:rgba(245,138,174,.08);
-      color:var(--pink2);border-radius:11px;padding:8px 10px;font-weight:900
-    }
-    .notice{
-      padding:13px 14px;border-radius:15px;background:rgba(245,138,174,.08);
-      border:1px solid rgba(245,138,174,.2);font-size:13px;line-height:1.7;color:#ecdce4
-    }
-    .check{
-      display:flex;align-items:flex-start;gap:10px;padding:15px;margin:16px 0 0;
-      border:1px solid var(--line);border-radius:16px;cursor:pointer;background:#120f15
-    }
-    .check input{width:20px;height:20px;accent-color:var(--pink);margin-top:1px}
-    .check b{display:block;margin-bottom:4px}
-    .check small{color:var(--muted);line-height:1.5}
-    .actions{display:flex;gap:10px;margin-top:18px}
-    .btn{
-      flex:1;border:0;border-radius:16px;padding:15px 16px;font-weight:900;cursor:pointer;
-      transition:.15s ease
-    }
-    .btn:active{transform:scale(.98)}
-    .primary{background:linear-gradient(135deg,var(--pink),#ff719e);color:#261019}
-    .secondary{background:#241d27;color:var(--text);border:1px solid var(--line)}
-    .btn:disabled{opacity:.4;cursor:not-allowed}
-    .wa{
-      width:100%;border:0;border-radius:17px;padding:16px;background:#25D366;color:#071c0f;
-      font-weight:900;font-size:16px;cursor:pointer;margin-top:16px
-    }
-    .orderNum{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      background:#0d0b0f;border:1px dashed #4a3b50;border-radius:16px;padding:13px 14px;margin:14px 0
-    }
-    .orderNum code{color:#ffd3e1;font-size:14px;direction:ltr}
-    .copy{background:none;border:0;color:var(--pink2);font-weight:800;cursor:pointer}
-    .doneIcon{
-      width:62px;height:62px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;
-      background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);font-size:28px
-    }
-    .center{text-align:center}
-    .tiny{font-size:12px;color:#8f828d;line-height:1.7;margin-top:12px}
-    .planBadge{
-      display:inline-flex;align-items:center;border:1px solid rgba(245,138,174,.25);
-      background:rgba(245,138,174,.08);color:#ffd5e3;border-radius:999px;
-      padding:7px 11px;font-size:12px;font-weight:800
-    }
-    @media(max-width:420px){
-      h1{font-size:26px}.card{padding:17px}.price strong{font-size:42px}
-      .actions{flex-direction:column-reverse}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0b10">
+
+<title>إتمام الطلب | LAHZA</title>
+
+<style>
+:root{
+  --bg:#0d0b10;
+  --card:#17131b;
+  --text:#fff8fb;
+  --muted:#b8aeb5;
+  --pink:#ff6fa9;
+  --pink2:#ff9fc7;
+  --line:rgba(255,255,255,.10);
+  --green:#42d786;
+  --shadow:0 22px 60px rgba(0,0,0,.34);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+
+  background:
+    radial-gradient(circle at 15% 8%,rgba(255,111,169,.13),transparent 27%),
+    radial-gradient(circle at 90% 90%,rgba(132,84,255,.10),transparent 30%),
+    var(--bg);
+}
+
+button{
+  font:inherit;
+}
+
+.wrap{
+  width:min(100% - 28px,700px);
+  margin:auto;
+  padding:25px 0 60px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:900;
+}
+
+.back{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+}
+
+.hero{
+  text-align:center;
+  margin:25px 0 28px;
+}
+
+.hero .icon{
+  width:65px;
+  height:65px;
+  margin:0 auto 15px;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  font-size:29px;
+
+  background:
+    rgba(255,111,169,.11);
+
+  border:
+    1px solid rgba(255,111,169,.25);
+}
+
+.hero h1{
+  margin:0 0 9px;
+  font-size:34px;
+}
+
+.hero p{
+  color:var(--muted);
+  line-height:1.8;
+  margin:0;
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.stepIndicator{
+  padding:10px 7px;
+  text-align:center;
+  border-radius:14px;
+  font-size:12px;
+  color:#817681;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+}
+
+.stepIndicator.active{
+  color:#ffe1ec;
+  border-color:rgba(255,111,169,.45);
+  background:rgba(255,111,169,.10);
+}
+
+.stepIndicator.done{
+  color:#9be6ba;
+  border-color:rgba(66,215,134,.30);
+  background:rgba(66,215,134,.07);
+}
+
+.card{
+  border:1px solid var(--line);
+  background:rgba(23,19,27,.80);
+  backdrop-filter:blur(14px);
+  border-radius:27px;
+  padding:23px;
+  box-shadow:var(--shadow);
+}
+
+.pageStep{
+  display:none;
+}
+
+.pageStep.active{
+  display:block;
+  animation:show .35s ease;
+}
+
+@keyframes show{
+  from{
+    opacity:0;
+    transform:translateY(7px);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.number{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(255,111,169,.12);
+  color:var(--pink2);
+  font-weight:900;
+  margin-bottom:13px;
+}
+
+h2{
+  margin:0 0 8px;
+  font-size:23px;
+}
+
+.description{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+  margin-bottom:20px;
+}
+
+.summary{
+  display:grid;
+  gap:0;
+  border:1px solid var(--line);
+  border-radius:19px;
+  padding:5px 16px;
+  background:rgba(0,0,0,.12);
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.row span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.row b{
+  text-align:left;
+}
+
+.price{
+  color:#ffd4e4;
+  font-size:19px;
+}
+
+.paybox{
+  border:1px solid rgba(255,111,169,.24);
+  background:rgba(255,111,169,.055);
+  border-radius:21px;
+  padding:18px;
+}
+
+.payLabel{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:8px;
+}
+
+.iban{
+  direction:ltr;
+  text-align:center;
+  word-break:break-all;
+  font-weight:900;
+  letter-spacing:.7px;
+  font-size:16px;
+  padding:15px 10px;
+  border-radius:14px;
+  background:#100d13;
+  border:1px solid var(--line);
+}
+
+.amountBox{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:13px;
+  padding:13px;
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+}
+
+.amountBox span{
+  color:var(--muted);
+}
+
+.amountBox b{
+  font-size:21px;
+}
+
+.copyBtn{
+  width:100%;
+  border:1px solid var(--line);
+  color:white;
+  background:rgba(255,255,255,.06);
+  padding:13px;
+  border-radius:14px;
+  margin-top:11px;
+  cursor:pointer;
+  font-weight:800;
+}
+
+.copyBtn:active{
+  transform:scale(.99);
+}
+
+.warning{
+  margin-top:15px;
+  border-radius:16px;
+  padding:13px;
+  color:#d3c7cf;
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--line);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.whatsappBox{
+  text-align:center;
+  padding:10px 0;
+}
+
+.waIcon{
+  width:74px;
+  height:74px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 15px;
+  border-radius:50%;
+  background:rgba(66,215,134,.10);
+  border:1px solid rgba(66,215,134,.25);
+  font-size:33px;
+}
+
+.waText{
+  color:var(--muted);
+  line-height:1.9;
+  font-size:14px;
+  max-width:470px;
+  margin:0 auto 18px;
+}
+
+.orderTag{
+  display:inline-block;
+  padding:9px 14px;
+  margin-bottom:17px;
+  border-radius:999px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);
+  font-size:13px;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  margin-top:20px;
+}
+
+.btn{
+  flex:1;
+  border:0;
+  border-radius:16px;
+  padding:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.primary{
+  background:linear-gradient(135deg,var(--pink),#ff91ba);
+  color:white;
+  box-shadow:0 10px 28px rgba(255,111,169,.20);
+}
+
+.secondary{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  color:white;
+}
+
+.whatsapp{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  border-radius:17px;
+  padding:16px;
+  font-weight:900;
+  color:#071a0f;
+  background:linear-gradient(135deg,#54e394,#34c977);
+  box-shadow:0 10px 30px rgba(66,215,134,.15);
+}
+
+.small{
+  margin-top:12px;
+  color:#766b74;
+  font-size:11px;
+  text-align:center;
+  line-height:1.7;
+}
+
+.missing{
+  text-align:center;
+  padding:35px 15px;
+}
+
+.missing h2{
+  margin-bottom:10px;
+}
+
+.missing p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.missing a{
+  display:inline-block;
+  margin-top:15px;
+  color:white;
+  background:var(--pink);
+  padding:13px 20px;
+  border-radius:15px;
+  text-decoration:none;
+  font-weight:800;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translate(-50%,20px);
+  background:#fff;
+  color:#151018;
+  border-radius:999px;
+  padding:11px 17px;
+  font-size:13px;
+  font-weight:800;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:100;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+@media(max-width:550px){
+  .wrap{
+    width:min(100% - 22px,700px);
+  }
+
+  .hero h1{
+    font-size:29px;
+  }
+
+  .card{
+    padding:19px;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .stepIndicator{
+    font-size:11px;
+  }
+
+  .iban{
+    font-size:14px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="top">
-      <a class="back" href="create.html">رجوع</a>
-      <div class="brand">LAHZA ♡</div>
+
+<div class="wrap">
+
+  <div class="top">
+    <a class="back" href="create.html">
+      ← رجوع
+    </a>
+
+    <div class="logo">
+      LAHZA ♡
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="icon">♡</div>
+
+    <h1>
+      باقي خطوة على لحظتك.
+    </h1>
+
+    <p>
+      راجع الطلب، حوّل المبلغ،
+      وبعدها أرسل لنا إثبات التحويل.
+    </p>
+  </section>
+
+  <div id="mainContent">
+
+    <div class="steps">
+
+      <div
+        id="indicator1"
+        class="stepIndicator active"
+      >
+        1 • الطلب
+      </div>
+
+      <div
+        id="indicator2"
+        class="stepIndicator"
+      >
+        2 • التحويل
+      </div>
+
+      <div
+        id="indicator3"
+        class="stepIndicator"
+      >
+        3 • الإثبات
+      </div>
+
     </div>
 
-    <h1>باقي آخر خطوة ✨</h1>
-    <p class="lead">بنمشي معاك خطوة خطوة. كل ما تخلص خطوة اضغط التالي.</p>
+    <div class="card">
 
-    <div class="stepper" aria-label="تقدم الطلب">
-      <div class="stepDot active" id="dot1"></div>
-      <div class="stepDot" id="dot2"></div>
-      <div class="stepDot" id="dot3"></div>
+      <!-- STEP 1 -->
+
+      <section
+        id="step1"
+        class="pageStep active"
+      >
+
+        <div class="number">1</div>
+
+        <h2>
+          راجع طلبك
+        </h2>
+
+        <div class="description">
+          تأكد من البيانات والمبلغ قبل التحويل.
+        </div>
+
+        <div class="summary">
+
+          <div class="row">
+            <span>رقم الطلب</span>
+            <b id="orderNumber">
+              —
+            </b>
+          </div>
+
+          <div class="row">
+            <span>المستلم</span>
+            <b id="receiver">
+              —
+            </b>
+          </div>
+
+          <div class="row">
+            <span>الباقة</span>
+            <b id="plan">
+              —
+            </b>
+          </div>
+
+          <div class="row">
+            <span>المبلغ</span>
+            <b
+              id="price"
+              class="price"
+            >
+              —
+            </b>
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn primary"
+            onclick="goStep(2)"
+          >
+            البيانات صحيحة — التالي
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- STEP 2 -->
+
+      <section
+        id="step2"
+        class="pageStep"
+      >
+
+        <div class="number">2</div>
+
+        <h2>
+          حوّل المبلغ
+        </h2>
+
+        <div class="description">
+          حوّل قيمة الطلب إلى رقم الآيبان التالي.
+        </div>
+
+        <div class="paybox">
+
+          <div class="payLabel">
+            IBAN
+          </div>
+
+          <div
+            id="iban"
+            class="iban"
+          >
+            BH18NBOB00005000139050
+          </div>
+
+          <button
+            class="copyBtn"
+            onclick="copyIBAN()"
+          >
+            نسخ الآيبان
+          </button>
+
+          <div class="amountBox">
+            <span>
+              المبلغ المطلوب
+            </span>
+
+            <b id="payAmount">
+              —
+            </b>
+          </div>
+
+          <div class="amountBox">
+            <span>
+              رقم الطلب
+            </span>
+
+            <b id="payOrder">
+              —
+            </b>
+          </div>
+
+        </div>
+
+        <div class="warning">
+          احتفظ بصورة أو لقطة شاشة لإثبات التحويل.
+          بتحتاج ترسلها لنا في الخطوة الجاية.
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn secondary"
+            onclick="goStep(1)"
+          >
+            رجوع
+          </button>
+
+          <button
+            class="btn primary"
+            onclick="goStep(3)"
+          >
+            تم التحويل — التالي
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- STEP 3 -->
+
+      <section
+        id="step3"
+        class="pageStep"
+      >
+
+        <div class="number">3</div>
+
+        <div class="whatsappBox">
+
+          <div class="waIcon">
+            ✓
+          </div>
+
+          <h2>
+            أرسل إثبات التحويل
+          </h2>
+
+          <div class="waText">
+            اضغط الزر تحت، بيفتح لك واتساب
+            برسالة جاهزة فيها رقم الطلب والمبلغ.
+            أرفق صورة التحويل وأرسلها لنا.
+          </div>
+
+          <div
+            id="orderTag"
+            class="orderTag"
+          >
+            طلب —
+          </div>
+
+          <a
+            id="whatsappBtn"
+            class="whatsapp"
+            href="#"
+            target="_blank"
+            rel="noopener"
+          >
+            إرسال الإثبات عبر واتساب
+          </a>
+
+          <div class="small">
+            فتح واتساب ما يعني إن الدفع تأكد تلقائيًا.
+            بعد مراجعة التحويل وتأكيد الطلب،
+            يتم تجهيز رابط الهدية.
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn secondary"
+            onclick="goStep(2)"
+          >
+            رجوع
+          </button>
+
+        </div>
+
+      </section>
+
     </div>
 
-    <section class="card">
-      <div class="screen active" data-step="1">
-        <div class="eyebrow">الخطوة 1 من 3</div>
-        <h2 class="title">راجع طلبك</h2>
-        <p class="sub">تأكد من الباقة والمبلغ قبل ما تكمل.</p>
+  </div>
 
-        <div class="orderBox">
-          <div class="row">
-            <span class="label">الباقة</span>
-            <span class="value"><span class="planBadge" id="planName">Moment</span></span>
-          </div>
-          <div class="row">
-            <span class="label">إلى</span>
-            <span class="value" id="receiver">—</span>
-          </div>
-          <div class="row">
-            <span class="label">رقم الطلب</span>
-            <span class="value" id="orderShort">—</span>
-          </div>
-        </div>
+  <div
+    id="missing"
+    class="card missing"
+    style="display:none"
+  >
 
-        <div class="price">
-          <strong id="price1">2.000</strong><span>د.ب</span>
-        </div>
+    <h2>
+      ما لقينا طلبك
+    </h2>
 
-        <button class="btn primary" type="button" onclick="go(2)">كل شي تمام — التالي</button>
-      </div>
+    <p>
+      ارجع وأنشئ الهدية من جديد،
+      وبعد الحفظ بنجيبك مباشرة لصفحة الدفع.
+    </p>
 
-      <div class="screen" data-step="2">
-        <div class="eyebrow">الخطوة 2 من 3</div>
-        <h2 class="title">حوّل مبلغ الطلب</h2>
-        <p class="sub">استخدم طريقة الدفع/التحويل الخاصة بـ LAHZA، وبعد ما يكتمل التحويل علّم على المربع تحت.</p>
+    <a href="occasion.html">
+      ابدأ لحظتك ♡
+    </a>
 
-        <div class="payBox center">
-          <div class="label">المبلغ المطلوب</div>
-          <div class="price">
-            <strong id="price2">2.000</strong><span>د.ب</span>
-          </div>
+  </div>
 
-          <div class="ibanBox">
-            <div class="ibanLabel">الآيبان للتحويل</div>
-            <div class="ibanRow">
-              <div class="ibanCode" id="ibanText">BH18NBOB00005000139050</div>
-              <button class="copyIban" type="button" onclick="copyIban()">نسخ</button>
-            </div>
-          </div>
+</div>
 
-          <div class="notice">مهم: تأكد من الآيبان والمبلغ قبل التحويل، واحتفظ برقم الطلب. بنضيفه تلقائيًا في رسالة إثبات الدفع.</div>
-        </div>
+<div
+  id="toast"
+  class="toast"
+>
+  تم النسخ ✓
+</div>
 
-        <label class="check">
-          <input type="checkbox" id="paidCheck" onchange="document.getElementById('toProof').disabled=!this.checked">
-          <span>
-            <b>تم التحويل</b>
-            <small>أؤكد إني حولت المبلغ وأبي أرسل إثبات الدفع.</small>
-          </span>
-        </label>
-
-        <div class="actions">
-          <button class="btn secondary" type="button" onclick="go(1)">رجوع</button>
-          <button class="btn primary" id="toProof" type="button" onclick="go(3)" disabled>التالي — إرسال الإثبات</button>
-        </div>
-      </div>
-
-      <div class="screen" data-step="3">
-        <div class="doneIcon">✓</div>
-        <div class="center">
-          <div class="eyebrow">الخطوة 3 من 3</div>
-          <h2 class="title">أرسل إثبات الدفع</h2>
-          <p class="sub">اضغط الزر تحت. بنفتح لك واتساب برسالة جاهزة فيها رقم الطلب والباقة والمبلغ، وأنت أرفق صورة التحويل وأرسلها.</p>
-        </div>
-
-        <div class="orderNum">
-          <code id="orderFull">—</code>
-          <button class="copy" type="button" onclick="copyOrder()">نسخ</button>
-        </div>
-
-        <button class="wa" type="button" onclick="openWhatsApp()">فتح واتساب وإرسال الإثبات</button>
-
-        <div class="notice" style="margin-top:14px">
-          إرسال الإثبات لا يفتح الهدية تلقائيًا. بعد مراجعة الدفع وتأكيده، يصير رابط الهدية جاهز.
-        </div>
-
-        <div class="actions">
-          <button class="btn secondary" type="button" onclick="go(2)">رجوع</button>
-        </div>
-
-        <div class="tiny center">لا تحذف رقم الطلب لين يكتمل التأكيد.</div>
-      </div>
-    </section>
-  </main>
 
 <script>
-  const WHATSAPP_NUMBER = "97333021058";
-  const PAYMENT_IBAN = "BH18NBOB00005000139050";
 
-  const PLANS = {
-    mini:    {name:"Mini",    price:1},
-    moment:  {name:"Moment",  price:2},
-    forever: {name:"Forever", price:3}
-  };
+const IBAN =
+"BH18NBOB00005000139050";
 
-  function safeJSON(v){
-    try{return JSON.parse(v)}catch{return null}
+const WHATSAPP_NUMBER =
+"97333021058";
+
+
+let gift = null;
+
+
+try{
+
+  gift =
+  JSON.parse(
+    localStorage.getItem(
+      "lahzaGift"
+    )
+  );
+
+}
+catch(e){
+
+  gift = null;
+
+}
+
+
+const planNames = {
+  mini:"Mini",
+  moment:"Moment",
+  forever:"Forever"
+};
+
+
+function safeText(value){
+
+  return String(
+    value ?? ""
+  );
+
+}
+
+
+function money(value){
+
+  const n =
+  Number(value);
+
+  if(
+    Number.isNaN(n)
+  ){
+
+    return "—";
+
   }
 
-  const gift = safeJSON(localStorage.getItem("lahzaGift")) || {};
+  return n.toFixed(3)
+  +
+  " د.ب";
+
+}
+
+
+function showMissing(){
+
+  document
+  .getElementById(
+    "mainContent"
+  )
+  .style
+  .display =
+  "none";
+
+  document
+  .getElementById(
+    "missing"
+  )
+  .style
+  .display =
+  "block";
+
+}
+
+
+function loadOrder(){
+
+  if(
+    !gift ||
+    !gift.orderNumber
+  ){
+
+    showMissing();
+    return;
+
+  }
+
+
   const orderNumber =
-    localStorage.getItem("lahzaOrderNumber") ||
-    gift.order_number ||
-    gift.orderNumber ||
-    "غير متوفر";
+  safeText(
+    gift.orderNumber
+  );
 
-  const rawPlan = String(gift.plan || new URLSearchParams(location.search).get("plan") || "moment").toLowerCase();
-  const planKey = PLANS[rawPlan] ? rawPlan : "moment";
-  const plan = PLANS[planKey];
 
-  document.getElementById("planName").textContent = plan.name;
-  document.getElementById("receiver").textContent = gift.receiver || gift.recipient || "—";
-  document.getElementById("orderShort").textContent =
-    orderNumber === "غير متوفر" ? orderNumber : String(orderNumber).slice(-8);
-  document.getElementById("orderFull").textContent = orderNumber;
-  document.getElementById("price1").textContent = plan.price.toFixed(3);
-  document.getElementById("price2").textContent = plan.price.toFixed(3);
+  const receiver =
+  safeText(
+    gift.receiver ||
+    "—"
+  );
 
-  // Keep checkout price consistent in local storage for later pages.
-  gift.plan = planKey;
-  gift.price = plan.price;
-  localStorage.setItem("lahzaGift", JSON.stringify(gift));
 
-  function go(step){
-    document.querySelectorAll(".screen").forEach(el=>{
-      el.classList.toggle("active", Number(el.dataset.step) === step);
-    });
-    for(let i=1;i<=3;i++){
-      document.getElementById("dot"+i).classList.toggle("active", i<=step);
-    }
-    window.scrollTo({top:0,behavior:"smooth"});
+  const planKey =
+  String(
+    gift.plan ||
+    ""
+  )
+  .toLowerCase();
+
+
+  let price =
+  Number(
+    gift.price
+  );
+
+
+  if(
+    !price &&
+    planKey==="mini"
+  ){
+    price=1;
   }
 
-  async function copyIban(){
-    try{
-      await navigator.clipboard.writeText(PAYMENT_IBAN);
-      const b=document.querySelector(".copyIban");
-      const old=b.textContent;b.textContent="تم ✓";
-      setTimeout(()=>b.textContent=old,1200);
-    }catch{
-      alert("الآيبان: "+PAYMENT_IBAN);
-    }
+
+  if(
+    !price &&
+    planKey==="moment"
+  ){
+    price=2;
   }
 
-  async function copyOrder(){
-    try{
-      await navigator.clipboard.writeText(orderNumber);
-      const b=document.querySelector(".copy");
-      const old=b.textContent;b.textContent="تم ✓";
-      setTimeout(()=>b.textContent=old,1200);
-    }catch{
-      alert("رقم الطلب: "+orderNumber);
-    }
+
+  if(
+    !price &&
+    planKey==="forever"
+  ){
+    price=3;
   }
 
-  function openWhatsApp(){
-    const receiver = gift.receiver || gift.recipient || "—";
-    const msg =
-`هلا LAHZA 👋
-تم تحويل مبلغ الطلب وأرفقت إثبات الدفع.
+
+  const planName =
+  planNames[planKey]
+  ||
+  gift.plan
+  ||
+  "—";
+
+
+  document
+  .getElementById(
+    "orderNumber"
+  )
+  .textContent =
+  orderNumber;
+
+
+  document
+  .getElementById(
+    "receiver"
+  )
+  .textContent =
+  receiver;
+
+
+  document
+  .getElementById(
+    "plan"
+  )
+  .textContent =
+  planName;
+
+
+  document
+  .getElementById(
+    "price"
+  )
+  .textContent =
+  money(price);
+
+
+  document
+  .getElementById(
+    "payAmount"
+  )
+  .textContent =
+  money(price);
+
+
+  document
+  .getElementById(
+    "payOrder"
+  )
+  .textContent =
+  orderNumber;
+
+
+  document
+  .getElementById(
+    "orderTag"
+  )
+  .textContent =
+  "طلب "
+  +
+  orderNumber;
+
+
+  const message =
+`هلا 👋
+
+تم تحويل مبلغ طلب LAHZA ♡
 
 رقم الطلب: ${orderNumber}
-الباقة: ${plan.name}
-المبلغ: ${plan.price.toFixed(3)} د.ب
-الآيبان: ${PAYMENT_IBAN}
-المستلم: ${receiver}
+الباقة: ${planName}
+المبلغ: ${money(price)}
 
-مرفق صورة إثبات الدفع.`;
+IBAN:
+${IBAN}
 
-    const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
-    window.open(url,"_blank","noopener,noreferrer");
+برفق لكم إثبات التحويل في هالمحادثة. ♡`;
+
+
+  const waURL =
+  "https://wa.me/"
+  +
+  WHATSAPP_NUMBER
+  +
+  "?text="
+  +
+  encodeURIComponent(
+    message
+  );
+
+
+  document
+  .getElementById(
+    "whatsappBtn"
+  )
+  .href =
+  waURL;
+
+}
+
+
+function goStep(number){
+
+  document
+  .querySelectorAll(
+    ".pageStep"
+  )
+  .forEach(
+    el =>
+    el.classList
+    .remove("active")
+  );
+
+
+  document
+  .getElementById(
+    "step"+number
+  )
+  .classList
+  .add("active");
+
+
+  for(
+    let i=1;
+    i<=3;
+    i++
+  ){
+
+    const indicator =
+    document
+    .getElementById(
+      "indicator"+i
+    );
+
+
+    indicator
+    .classList
+    .remove(
+      "active",
+      "done"
+    );
+
+
+    if(i<number){
+
+      indicator
+      .classList
+      .add("done");
+
+    }
+
+    else if(i===number){
+
+      indicator
+      .classList
+      .add("active");
+
+    }
+
   }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+async function copyIBAN(){
+
+  try{
+
+    await navigator
+    .clipboard
+    .writeText(
+      IBAN
+    );
+
+    showToast(
+      "تم نسخ الآيبان ✓"
+    );
+
+  }
+
+  catch(e){
+
+    const area =
+    document
+    .createElement(
+      "textarea"
+    );
+
+    area.value =
+    IBAN;
+
+    document
+    .body
+    .appendChild(area);
+
+    area.select();
+
+    document
+    .execCommand(
+      "copy"
+    );
+
+    area.remove();
+
+    showToast(
+      "تم نسخ الآيبان ✓"
+    );
+
+  }
+
+}
+
+
+function showToast(text){
+
+  const toast =
+  document
+  .getElementById(
+    "toast"
+  );
+
+
+  toast.textContent =
+  text;
+
+
+  toast
+  .classList
+  .add("show");
+
+
+  setTimeout(
+    () =>
+    toast
+    .classList
+    .remove("show"),
+    1800
+  );
+
+}
+
+
+loadOrder();
+
 </script>
+
+
+<!-- عداد زوار LAHZA -->
+<script src="analytics.js"></script>
+
 </body>
 </html>
