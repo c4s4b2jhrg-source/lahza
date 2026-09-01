@@ -778,6 +778,38 @@
   .autoSendToggle small{font-size:9px}
   #recipientPhone{font-size:16px!important}
 }
+
+/* ===== LAHZA mixed gift themes + final preview ===== */
+.themeCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.themeCard{position:relative;overflow:hidden;min-height:118px;border:1px solid var(--line);border-radius:19px;padding:10px;cursor:pointer;background:#211b24;transition:.2s ease}
+.themeCard:hover{transform:translateY(-2px)}
+.themeCard.active{border-color:var(--pink);box-shadow:0 0 0 2px rgba(255,111,169,.22)}
+.themeCard.locked{opacity:.5;cursor:not-allowed}
+.themeMini{height:67px;border-radius:13px;margin-bottom:8px;display:grid;place-items:center;position:relative;overflow:hidden}
+.themeMini:after{content:"";width:56%;height:43px;border-radius:5px;box-shadow:0 7px 18px #0003}
+.themeCard b{display:block;font-size:13px}.themeCard small{font-size:10px;color:var(--muted)}
+.themeCard[data-theme="romantic"] .themeMini{background:linear-gradient(145deg,#ead0d5,#f9eef0)}
+.themeCard[data-theme="romantic"] .themeMini:after{background:#fff9f5;border-bottom:8px solid #a75463}
+.themeCard[data-theme="minimal"] .themeMini{background:#e9e5de}
+.themeCard[data-theme="minimal"] .themeMini:after{background:#fff;border:1px solid #d0cbc2;border-radius:1px}
+.themeCard[data-theme="midnight"] .themeMini{background:radial-gradient(circle at 25% 25%,#56516f,#11111d 70%)}
+.themeCard[data-theme="midnight"] .themeMini:before{content:"✦  ·  ✧";position:absolute;top:7px;color:#fff4b5;letter-spacing:5px}
+.themeCard[data-theme="midnight"] .themeMini:after{background:#211f31;border:1px solid #8c83a9}
+.themeCard[data-theme="sunset"] .themeMini{background:linear-gradient(145deg,#7d3f61,#e88969 52%,#f5c178)}
+.themeCard[data-theme="sunset"] .themeMini:after{background:#fff0dc;border:2px solid #d99269;transform:rotate(-2deg)}
+.themePreviewBtn{width:100%;margin-top:12px;border:1px solid rgba(255,111,169,.38);background:rgba(255,111,169,.12);color:#ffe5ef;border-radius:16px;padding:13px;font-weight:900;cursor:pointer}
+.giftModal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(5,4,7,.82);backdrop-filter:blur(12px)}
+.giftModal.show{display:flex}.giftModalBox{width:min(100%,520px);max-height:90vh;overflow:auto;border:1px solid var(--line);background:#17131b;border-radius:26px;padding:13px;box-shadow:var(--shadow)}
+.giftModalTop{display:flex;align-items:center;justify-content:space-between;padding:3px 4px 12px}.giftModalClose{border:1px solid var(--line);background:#ffffff0b;color:white;border-radius:12px;padding:8px 12px;cursor:pointer}
+.giftStage{position:relative;overflow:hidden;min-height:510px;border-radius:21px;padding:28px 20px;display:flex;align-items:center;justify-content:center;text-align:center}
+.giftPaper{position:relative;z-index:2;width:min(100%,380px);padding:27px 21px;border-radius:9px;box-shadow:0 18px 45px #0004}
+.giftPhoto{width:132px;height:148px;margin:0 auto 19px;background:#d8d3d5 center/cover no-repeat;display:grid;place-items:center;color:#655b60;font-size:12px}
+.giftReceiver{font-size:12px;opacity:.72;margin-bottom:7px}.giftMessage{font-size:20px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}.giftSender{font-size:12px;margin-top:14px;opacity:.72}
+.giftStage.romantic{background:linear-gradient(145deg,#e7cbd1,#f8edef)}.giftStage.romantic .giftPaper{background:#fff9f5;color:#573d42}.giftStage.romantic .giftPhoto{border:8px solid #fff;border-bottom-width:22px;transform:rotate(-2deg)}.giftStage.romantic:after{content:"♡   ♡   ♡";position:absolute;top:20px;color:#a45c69;font-size:25px;letter-spacing:10px}
+.giftStage.minimal{background:#ebe7df}.giftStage.minimal .giftPaper{background:#fff;color:#292726;border-radius:1px}.giftStage.minimal .giftPhoto{border:1px solid #d4d0c9}.giftStage.minimal:after{content:"LAHZA";position:absolute;bottom:16px;font-size:10px;letter-spacing:6px;color:#777}
+.giftStage.midnight{background:radial-gradient(circle at 25% 20%,#514c68,#11111d 68%)}.giftStage.midnight .giftPaper{background:#201e2e;color:#fff;border:1px solid #ffffff25}.giftStage.midnight .giftPhoto{border:6px double #d8c985}.giftStage.midnight:after{content:"✦   ·   ✧   ·   ✦";position:absolute;top:22px;color:#fff1a8;font-size:25px;letter-spacing:8px}
+.giftStage.sunset{background:linear-gradient(155deg,#713c60,#d97568 52%,#efba76)}.giftStage.sunset .giftPaper{background:#fff0dc;color:#58372f;border:2px solid #d28a64;transform:rotate(-.5deg)}.giftStage.sunset .giftPhoto{border:9px solid #fff3e3;border-bottom-width:23px;transform:rotate(2deg)}.giftStage.sunset:after{content:"☀︎";position:absolute;top:15px;left:24px;font-size:48px;color:#ffd59488}
+@media(max-width:640px){.themeCards{grid-template-columns:repeat(2,minmax(0,1fr))}.themeCard{min-height:105px;padding:8px}.themeMini{height:57px}.giftStage{min-height:440px;padding:22px 15px}.giftPaper{padding:23px 16px}.giftPhoto{width:112px;height:128px}.giftMessage{font-size:18px}}
 </style>
 
 </head>
@@ -990,29 +1022,35 @@
         </div>
       </div>
 
-      <div id="themeChoices" class="cards">
+      <div id="themeChoices" class="themeCards">
 
-        <div class="choice active" data-theme="romantic">
-          <b>Romantic</b>
-          <small>وردي هادي</small>
+        <div class="themeCard choice active" data-theme="romantic">
+          <div class="themeMini"></div>
+          <b>Love Letter 💌</b>
+          <small>رسالة حب + بولارويد + ختم</small>
         </div>
 
-        <div class="choice" data-theme="minimal">
-          <b>Minimal</b>
-          <small>فاتح ونظيف</small>
+        <div class="themeCard choice" data-theme="minimal">
+          <div class="themeMini"></div>
+          <b>Minimal Luxury 🤍</b>
+          <small>أبيض نظيف وفخم</small>
         </div>
 
-        <div class="choice" data-theme="midnight">
-          <b>Midnight</b>
-          <small>ليل أزرق</small>
+        <div class="themeCard choice" data-theme="midnight">
+          <div class="themeMini"></div>
+          <b>Midnight ✨</b>
+          <small>ليل + نجوم + إطار فاخر</small>
         </div>
 
-        <div class="choice" data-theme="sunset">
-          <b>Sunset</b>
-          <small>دفء وغروب</small>
+        <div class="themeCard choice" data-theme="sunset">
+          <div class="themeMini"></div>
+          <b>Vintage Sunset 📸</b>
+          <small>غروب + ورق ذكريات</small>
         </div>
 
       </div>
+
+      <button id="themePreviewBtn" class="themePreviewBtn" type="button">معاينة الهدية كاملة 🎁</button>
 
     </section>
 
@@ -1050,13 +1088,14 @@
       >
 
         <div>
-          <label>إطار الصورة</label>
+          <label>إطار الصورة داخل الثيم</label>
 
-          <select id="photoFrame">
+          <select id="photoFrame" class="hide" aria-hidden="true">
             <option value="soft">ناعم</option>
             <option value="polaroid">Polaroid</option>
             <option value="none">بدون إطار</option>
           </select>
+          <div id="mixedFrameName" class="choice" style="cursor:default"><b>بولارويد فاخر</b><small>يتغير تلقائياً مع الثيم</small></div>
         </div>
 
         <div>
@@ -1394,8 +1433,24 @@
         class="summary"
       ></div>
 
+      <button id="summaryPreviewBtn" class="themePreviewBtn" type="button">معاينة الهدية قبل الدفع 🎁</button>
+
     </section>
 
+  </div>
+
+  <div id="giftPreviewModal" class="giftModal" aria-hidden="true">
+    <div class="giftModalBox" role="dialog" aria-modal="true" aria-label="معاينة الهدية">
+      <div class="giftModalTop"><b>معاينة هديتك ♡</b><button id="closeGiftPreview" class="giftModalClose" type="button">إغلاق</button></div>
+      <div id="giftPreviewStage" class="giftStage romantic">
+        <div class="giftPaper">
+          <div id="giftPreviewPhoto" class="giftPhoto">صورتك</div>
+          <div id="giftPreviewReceiver" class="giftReceiver">إلى شخص مميز ♡</div>
+          <div id="giftPreviewMessage" class="giftMessage">معاينة رسالتك بتطلع هنا ♡</div>
+          <div id="giftPreviewSender" class="giftSender">من شخص يحبك</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="sticky">
@@ -1672,6 +1727,58 @@ function updatePreview(){
 
   updateSummary();
 
+  if($("giftPreviewModal")?.classList.contains("show")){
+    renderGiftPreview();
+  }
+
+}
+
+const THEME_FRAMES = {
+  romantic:{value:"polaroid",label:"بولارويد فاخر"},
+  minimal:{value:"none",label:"إطار نظيف وبسيط"},
+  midnight:{value:"soft",label:"إطار ليلي مزدوج"},
+  sunset:{value:"polaroid",label:"بولارويد ذكريات"}
+};
+
+function syncMixedFrame(){
+  const frame=THEME_FRAMES[theme] || THEME_FRAMES.romantic;
+  $("photoFrame").value=frame.value;
+  const box=$("mixedFrameName");
+  if(box) box.innerHTML=`<b>${frame.label}</b><small>يتغير تلقائياً مع الثيم</small>`;
+}
+
+function renderGiftPreview(){
+  const stage=$("giftPreviewStage");
+  if(!stage) return;
+  syncMixedFrame();
+  stage.className="giftStage "+theme;
+  stage.style.fontFamily=fontCSS(messageFont);
+  $("giftPreviewReceiver").textContent="إلى "+($("receiver").value.trim() || "شخص مميز")+" ♡";
+  $("giftPreviewMessage").textContent=$("message").value.trim() || "معاينة رسالتك بتطلع هنا ♡";
+  $("giftPreviewSender").textContent=$("senderAnonymous").checked
+    ? "من شخص يحبك"
+    : "من "+($("sender").value.trim() || "شخص يحبك");
+  const photo=$("giftPreviewPhoto");
+  if(photos.length){
+    photo.style.backgroundImage=`url("${photos[0].url}")`;
+    photo.textContent="";
+  }else{
+    photo.style.backgroundImage="none";
+    photo.textContent="صورتك";
+  }
+}
+
+function openGiftPreview(){
+  renderGiftPreview();
+  $("giftPreviewModal").classList.add("show");
+  $("giftPreviewModal").setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+
+function closeGiftPreview(){
+  $("giftPreviewModal").classList.remove("show");
+  $("giftPreviewModal").setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
 }
 
 $("message")
@@ -1755,10 +1862,22 @@ document
     theme =
     el.dataset.theme;
 
+    syncMixedFrame();
+
     updateSummary();
 
   }
 );
+
+$("themePreviewBtn").addEventListener("click",openGiftPreview);
+$("summaryPreviewBtn").addEventListener("click",openGiftPreview);
+$("closeGiftPreview").addEventListener("click",closeGiftPreview);
+$("giftPreviewModal").addEventListener("click",e=>{
+  if(e.target===$("giftPreviewModal")) closeGiftPreview();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape" && $("giftPreviewModal").classList.contains("show")) closeGiftPreview();
+});
 
 $("photoInput")
 .addEventListener(
@@ -2545,8 +2664,8 @@ function validate(){
   );
 
   if(
-    phoneDigits.length<8 ||
-    phoneDigits.length>15
+    !$('autoSendGift')?.checked &&
+    (phoneDigits.length<8 || phoneDigits.length>15)
   ){
     return "رقم الواتساب غير صحيح.";
   }
@@ -2741,6 +2860,11 @@ function updateSummary(){
     <div class="sumrow">
       <span>الصور</span>
       <b>${photos.length}</b>
+    </div>
+
+    <div class="sumrow">
+      <span>ستايل الهدية</span>
+      <b>${({romantic:"Love Letter",minimal:"Minimal Luxury",midnight:"Midnight",sunset:"Vintage Sunset"})[theme]}</b>
     </div>
 
     <div class="sumrow">
@@ -3313,6 +3437,8 @@ async () => {
   }
 
 };
+
+syncMixedFrame();
 
 setPlanUI();
 
