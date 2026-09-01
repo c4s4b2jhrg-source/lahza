@@ -4,55 +4,37 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0d0a0f">
+
 <title>لوحة الإدارة | LAHZA</title>
 
 <style>
 :root{
   --bg:#0d0a0f;
   --card:#171219;
-  --card2:#1d171f;
   --line:#382c3c;
   --text:#fff8fb;
   --muted:#b7aab4;
   --pink:#f58aae;
-  --pink2:#ffb7cd;
   --green:#31d17c;
   --yellow:#f3c969;
   --red:#ff6b7d;
-  --shadow:0 20px 65px rgba(0,0,0,.32);
 }
 
 *{
   box-sizing:border-box;
 }
 
-html,
 body{
   margin:0;
-  min-height:100%;
+  min-height:100vh;
   background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(245,138,174,.12),
-      transparent 35%
-    ),
-    linear-gradient(
-      180deg,
-      #100c12,
-      #0a080c 72%
-    );
+    radial-gradient(circle at 50% -10%,rgba(245,138,174,.12),transparent 35%),
+    linear-gradient(180deg,#100c12,#0a080c 72%);
   color:var(--text);
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Tahoma,
-    Arial,
-    sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
 }
 
-button,
-input{
+button,input{
   font:inherit;
 }
 
@@ -63,70 +45,51 @@ button{
 .wrap{
   width:min(1180px,100%);
   margin:auto;
-  padding:18px 14px 48px;
-}
-
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:18px;
+  padding:18px 14px 50px;
 }
 
 .brand{
-  font-size:20px;
+  font-size:21px;
   font-weight:950;
-  letter-spacing:1.4px;
+  letter-spacing:1.5px;
 }
 
-.ghost{
-  border:1px solid var(--line);
-  background:#211a23;
-  color:var(--text);
-  border-radius:13px;
-  padding:10px 13px;
+.muted{
+  color:var(--muted);
 }
 
 .login{
   width:min(440px,100%);
   margin:9vh auto 0;
-  background:rgba(23,18,25,.92);
+  padding:25px;
+  border-radius:25px;
+  background:rgba(23,18,25,.94);
   border:1px solid var(--line);
-  border-radius:26px;
-  padding:24px;
-  box-shadow:var(--shadow);
 }
 
-h1{
-  margin:0 0 8px;
-  font-size:28px;
-}
-
-.muted{
-  color:var(--muted);
-  line-height:1.7;
+.login h1{
+  margin:20px 0 7px;
 }
 
 .field{
-  margin-top:14px;
+  margin-top:15px;
 }
 
 .field label{
   display:block;
-  color:var(--muted);
   font-size:13px;
+  color:var(--muted);
   margin-bottom:7px;
 }
 
 .input{
   width:100%;
-  border:1px solid var(--line);
-  background:#0f0c11;
-  color:var(--text);
-  border-radius:15px;
   padding:13px 14px;
-  outline:0;
+  border-radius:14px;
+  border:1px solid var(--line);
+  outline:none;
+  background:#0f0c11;
+  color:white;
 }
 
 .input:focus{
@@ -135,16 +98,11 @@ h1{
 
 .primary{
   width:100%;
-  margin-top:16px;
+  margin-top:17px;
+  padding:14px;
   border:0;
   border-radius:15px;
-  padding:14px 16px;
-  background:
-    linear-gradient(
-      135deg,
-      var(--pink),
-      #ff739f
-    );
+  background:linear-gradient(135deg,#f58aae,#ff739f);
   color:#2a1019;
   font-weight:950;
 }
@@ -153,52 +111,54 @@ h1{
   display:none;
 }
 
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.ghost{
+  padding:10px 13px;
+  border-radius:13px;
+  border:1px solid var(--line);
+  background:#211a23;
+  color:white;
+}
+
 /* الإحصائيات */
 
 .stats{
   display:grid;
-  grid-template-columns:
-    repeat(7,1fr);
-  gap:11px;
+  grid-template-columns:repeat(7,1fr);
+  gap:10px;
   margin:15px 0;
 }
 
 .stat{
-  background:
-    rgba(23,18,25,.9);
-  border:1px solid var(--line);
-  border-radius:19px;
+  min-height:100px;
   padding:15px;
+  border-radius:19px;
+  background:rgba(23,18,25,.92);
+  border:1px solid var(--line);
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:12px;
 }
 
 .stat b{
   display:block;
+  margin-top:7px;
   font-size:25px;
-  margin-top:5px;
+  direction:ltr;
 }
-
-.stat span{
-  font-size:12px;
-  color:var(--muted);
-}
-
-/* أون لاين */
 
 .onlineStat{
   position:relative;
   overflow:hidden;
-}
-
-.onlineStat:after{
-  content:"";
-  position:absolute;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:
-    rgba(49,209,124,.09);
-  left:-20px;
-  bottom:-25px;
 }
 
 .liveDot{
@@ -206,39 +166,32 @@ h1{
   width:7px;
   height:7px;
   border-radius:50%;
-  background:#31d17c;
+  background:var(--green);
   margin-left:5px;
-  box-shadow:
-    0 0 0 4px
-    rgba(49,209,124,.10);
-  animation:
-    onlinePulse 1.6s
-    infinite;
+  box-shadow:0 0 0 4px rgba(49,209,124,.12);
+  animation:pulse 1.5s infinite;
 }
 
-@keyframes onlinePulse{
+@keyframes pulse{
   50%{
-    opacity:.45;
-    box-shadow:
-      0 0 0 8px
-      rgba(49,209,124,0);
+    opacity:.5;
+    box-shadow:0 0 0 8px rgba(49,209,124,0);
   }
 }
 
-/* البحث والفلاتر */
+/* البحث */
 
 .toolbar{
   display:grid;
-  grid-template-columns:
-    1fr auto;
+  grid-template-columns:1fr auto;
   gap:10px;
   margin:15px 0;
 }
 
 .filters{
   display:flex;
-  gap:7px;
   flex-wrap:wrap;
+  gap:7px;
 }
 
 .filter{
@@ -251,53 +204,71 @@ h1{
 }
 
 .filter.active{
-  background:
-    rgba(245,138,174,.13);
-  border-color:
-    rgba(245,138,174,.45);
+  background:rgba(245,138,174,.13);
+  border-color:rgba(245,138,174,.45);
   color:#ffd8e5;
 }
 
-/* التحديد الجماعي */
+/* التحديد */
 
 .bulkbar{
   display:flex;
   align-items:center;
   gap:9px;
   flex-wrap:wrap;
-  margin:10px 0 14px;
   padding:11px 12px;
-  background:
-    rgba(23,18,25,.9);
-  border:1px solid var(--line);
+  margin-bottom:14px;
   border-radius:17px;
+  background:rgba(23,18,25,.9);
+  border:1px solid var(--line);
 }
 
 .bulkbar .spacer{
   flex:1;
 }
 
-.bulkcheck{
+.check{
   width:19px;
   height:19px;
   accent-color:var(--pink);
 }
 
-.bulkdelete{
-  border:
-    1px solid
-    rgba(255,107,125,.3);
-  background:
-    rgba(255,107,125,.09);
-  color:#ff9aa7;
-  border-radius:12px;
-  padding:9px 12px;
-  font-weight:900;
+.btn{
+  padding:10px 12px;
+  border-radius:13px;
+  border:1px solid var(--line);
+  background:#231b26;
+  color:white;
+  font-weight:850;
 }
 
-.bulkdelete:disabled{
+.btn:disabled{
   opacity:.4;
   cursor:not-allowed;
+}
+
+.confirm{
+  color:#8df0ba;
+  border-color:rgba(49,209,124,.28);
+  background:rgba(49,209,124,.1);
+}
+
+.archive{
+  color:#abc8ff;
+  border-color:rgba(117,167,255,.25);
+  background:rgba(117,167,255,.08);
+}
+
+.restore{
+  color:#8df0ba;
+  border-color:rgba(49,209,124,.25);
+  background:rgba(49,209,124,.08);
+}
+
+.danger{
+  color:#ff9aa7;
+  border-color:rgba(255,107,125,.28);
+  background:rgba(255,107,125,.08);
 }
 
 /* الطلبات */
@@ -308,61 +279,63 @@ h1{
 }
 
 .order{
-  background:
-    rgba(23,18,25,.92);
-  border:1px solid var(--line);
-  border-radius:22px;
   padding:17px;
-  box-shadow:
-    0 10px 35px
-    rgba(0,0,0,.18);
+  border-radius:22px;
+  background:rgba(23,18,25,.93);
+  border:1px solid var(--line);
 }
 
 .orderHead{
   display:flex;
   justify-content:space-between;
-  gap:12px;
   align-items:flex-start;
+  gap:12px;
+}
+
+.orderTitle{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
 }
 
 .orderNo{
-  font-size:13px;
-  color:var(--muted);
   direction:ltr;
   text-align:right;
+  color:var(--muted);
+  font-size:12px;
 }
 
 .receiver{
+  margin-top:4px;
   font-size:20px;
   font-weight:950;
-  margin-top:3px;
 }
 
 .badge{
   display:inline-flex;
-  border-radius:999px;
   padding:7px 10px;
+  border-radius:999px;
   font-size:12px;
   font-weight:900;
   white-space:nowrap;
 }
 
-.pending{
-  background:
-    rgba(243,201,105,.12);
+.badge.pending{
   color:#f6d887;
-  border:
-    1px solid
-    rgba(243,201,105,.25);
+  border:1px solid rgba(243,201,105,.25);
+  background:rgba(243,201,105,.12);
 }
 
-.paid{
-  background:
-    rgba(49,209,124,.11);
+.badge.paid{
   color:#89efb8;
-  border:
-    1px solid
-    rgba(49,209,124,.24);
+  border:1px solid rgba(49,209,124,.24);
+  background:rgba(49,209,124,.11);
+}
+
+.badge.archived{
+  color:#b8cfff;
+  border:1px solid rgba(117,167,255,.25);
+  background:rgba(117,167,255,.09);
 }
 
 .meta{
@@ -373,11 +346,11 @@ h1{
 }
 
 .chip{
-  background:#211a23;
-  border:1px solid #302635;
-  color:#d6cbd3;
-  border-radius:999px;
   padding:7px 10px;
+  border-radius:999px;
+  border:1px solid #302635;
+  background:#211a23;
+  color:#d6cbd3;
   font-size:12px;
 }
 
@@ -388,81 +361,34 @@ h1{
   margin-top:13px;
 }
 
-.btn{
-  border:1px solid var(--line);
-  background:#231b26;
-  color:var(--text);
-  border-radius:13px;
-  padding:10px 12px;
-  font-weight:850;
-}
-
-.btn.confirm{
-  background:
-    rgba(49,209,124,.11);
-  border-color:
-    rgba(49,209,124,.28);
-  color:#8df0ba;
-}
-
-.btn.archive{
-  background:
-    rgba(117,167,255,.08);
-  border-color:
-    rgba(117,167,255,.25);
-  color:#a9c8ff;
-}
-
-.btn.restore{
-  background:
-    rgba(49,209,124,.08);
-  border-color:
-    rgba(49,209,124,.25);
-  color:#8df0ba;
-}
-
-.btn.danger{
-  background:
-    rgba(255,107,125,.08);
-  border-color:
-    rgba(255,107,125,.28);
-  color:#ff9aa7;
-  margin-inline-start:auto;
-}
-
-/* التفاصيل */
-
 .details{
   display:none;
   margin-top:14px;
-  padding-top:13px;
-  border-top:
-    1px solid
-    rgba(255,255,255,.07);
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.07);
 }
 
 .details.open{
   display:block;
 }
 
-.grid{
+.detailGrid{
   display:grid;
-  grid-template-columns:
-    repeat(2,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:9px;
 }
 
 .detail{
-  background:#100d12;
-  border-radius:14px;
   padding:11px;
+  border-radius:14px;
+  background:#100d12;
 }
 
 .detail span{
   display:block;
-  font-size:11px;
-  color:var(--muted);
   margin-bottom:4px;
+  color:var(--muted);
+  font-size:11px;
 }
 
 .detail b{
@@ -472,81 +398,59 @@ h1{
 
 .message{
   margin-top:9px;
-  background:#100d12;
-  border-radius:14px;
   padding:12px;
+  border-radius:14px;
+  background:#100d12;
   line-height:1.8;
   white-space:pre-wrap;
 }
 
-.empty{
-  text-align:center;
-  padding:42px 14px;
-  color:var(--muted);
-}
-
+.empty,
 .loading{
+  padding:40px 14px;
   text-align:center;
-  padding:35px;
   color:var(--muted);
 }
 
 .toast{
   position:fixed;
+  z-index:100;
   left:50%;
   bottom:20px;
-  transform:
-    translateX(-50%)
-    translateY(20px);
-
-  background:#211a23;
-  border:1px solid var(--line);
-  padding:11px 15px;
-  border-radius:14px;
+  transform:translate(-50%,20px);
   opacity:0;
   pointer-events:none;
+  padding:11px 15px;
+  border-radius:14px;
+  background:#211a23;
+  border:1px solid var(--line);
   transition:.2s;
-  z-index:20;
-  box-shadow:var(--shadow);
 }
 
 .toast.show{
   opacity:1;
-  transform:
-    translateX(-50%)
-    translateY(0);
+  transform:translate(-50%,0);
 }
 
-@media(max-width:980px){
-
+@media(max-width:1000px){
   .stats{
-    grid-template-columns:
-      repeat(4,1fr);
+    grid-template-columns:repeat(4,1fr);
   }
-
 }
 
-@media(max-width:760px){
-
+@media(max-width:700px){
   .stats{
-    grid-template-columns:
-      repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
   }
 
   .toolbar{
     grid-template-columns:1fr;
   }
 
-  .grid{
+  .detailGrid{
     grid-template-columns:1fr;
   }
-
-  .btn.danger{
-    margin-inline-start:0;
-  }
-
 }
-
 </style>
 </head>
 
@@ -555,211 +459,113 @@ h1{
 <div class="wrap">
 
   <!-- تسجيل الدخول -->
+  <section id="login" class="login">
 
-  <div
-    id="login"
-    class="login"
-  >
+    <div class="brand">LAHZA ♡</div>
 
-    <div class="brand">
-      LAHZA ♡
-    </div>
-
-    <h1 style="margin-top:18px">
-      لوحة الإدارة
-    </h1>
+    <h1>لوحة الإدارة</h1>
 
     <div class="muted">
       سجّل دخولك بحساب الأدمن.
     </div>
 
     <div class="field">
-
-      <label>
-        الإيميل
-      </label>
-
+      <label>الإيميل</label>
       <input
         id="email"
         class="input"
         type="email"
         autocomplete="username"
       >
-
     </div>
 
     <div class="field">
-
-      <label>
-        كلمة المرور
-      </label>
-
+      <label>كلمة المرور</label>
       <input
         id="password"
         class="input"
         type="password"
         autocomplete="current-password"
       >
-
     </div>
 
-    <button
-      id="loginBtn"
-      class="primary"
-    >
+    <button id="loginBtn" class="primary">
       دخول
     </button>
 
     <div
       id="loginError"
-      class="muted"
-      style="
-        margin-top:12px;
-        color:#ff9aa7
-      "
+      style="margin-top:12px;color:#ff9aa7"
     ></div>
 
-  </div>
+  </section>
 
 
-  <!-- التطبيق -->
+  <!-- لوحة الإدارة -->
+  <main id="app">
 
-  <div id="app">
-
-    <div class="top">
+    <header class="top">
 
       <div>
-
-        <div class="brand">
-          LAHZA ♡
-        </div>
-
-        <div
-          class="muted"
-          style="
-            font-size:12px;
-            margin-top:3px
-          "
-        >
+        <div class="brand">LAHZA ♡</div>
+        <div class="muted" style="font-size:12px;margin-top:3px">
           إدارة الطلبات
         </div>
-
       </div>
 
-      <button
-        class="ghost"
-        id="logoutBtn"
-      >
+      <button id="logoutBtn" class="ghost">
         تسجيل خروج
       </button>
 
-    </div>
+    </header>
 
 
     <!-- الإحصائيات -->
-
     <section class="stats">
 
       <div class="stat">
-
-        <span>
-          الطلبات النشطة
-        </span>
-
-        <b id="statAll">
-          0
-        </b>
-
+        <span>الطلبات النشطة</span>
+        <b id="statAll">0</b>
       </div>
-
 
       <div class="stat">
-
-        <span>
-          بانتظار الدفع
-        </span>
-
-        <b id="statPending">
-          0
-        </b>
-
+        <span>بانتظار الدفع</span>
+        <b id="statPending">0</b>
       </div>
-
 
       <div class="stat">
-
-        <span>
-          مدفوعة
-        </span>
-
-        <b id="statPaid">
-          0
-        </b>
-
+        <span>الطلبات المدفوعة</span>
+        <b id="statPaid">0</b>
       </div>
-
 
       <div class="stat">
-
-        <span>
-          المحذوفة
-        </span>
-
-        <b id="statArchived">
-          0
-        </b>
-
+        <span>المحذوفة</span>
+        <b id="statArchived">0</b>
       </div>
-
 
       <div class="stat">
-
-        <span>
-          إجمالي المبيعات
-        </span>
-
-        <b id="statSales">
-          0.000
-        </b>
-
-        <span>
-          د.ب
-        </span>
-
+        <span>إجمالي المبيعات</span>
+        <b id="statSales">0.000</b>
+        <span>د.ب</span>
       </div>
-
 
       <div class="stat">
-
-        <span>
-          إجمالي الزوار
-        </span>
-
-        <b id="statVisitors">
-          0
-        </b>
-
+        <span>إجمالي الزوار</span>
+        <b id="statVisitors">0</b>
       </div>
-
 
       <div class="stat onlineStat">
-
         <span>
           <i class="liveDot"></i>
           أون لاين الآن
         </span>
-
-        <b id="statOnline">
-          0
-        </b>
-
+        <b id="statOnline">0</b>
       </div>
 
     </section>
 
 
-    <!-- البحث -->
-
+    <!-- البحث والفلاتر -->
     <section class="toolbar">
 
       <input
@@ -770,31 +576,19 @@ h1{
 
       <div class="filters">
 
-        <button
-          class="filter active"
-          data-filter="all"
-        >
+        <button class="filter active" data-filter="all">
           الكل
         </button>
 
-        <button
-          class="filter"
-          data-filter="pending"
-        >
+        <button class="filter" data-filter="pending">
           بانتظار الدفع
         </button>
 
-        <button
-          class="filter"
-          data-filter="paid"
-        >
+        <button class="filter" data-filter="paid">
           مدفوع
         </button>
 
-        <button
-          class="filter"
-          data-filter="archived"
-        >
+        <button class="filter" data-filter="archived">
           المحذوفة
         </button>
 
@@ -803,269 +597,197 @@ h1{
     </section>
 
 
-    <!-- تحديد جماعي -->
+    <!-- التحديد الجماعي -->
+    <section class="bulkbar">
 
-    <div class="bulkbar">
+      <input id="selectAll" class="check" type="checkbox">
 
-      <input
-        id="selectAll"
-        class="bulkcheck"
-        type="checkbox"
-      >
-
-      <label
-        for="selectAll"
-        style="font-weight:850"
-      >
+      <label for="selectAll">
         تحديد الظاهر
       </label>
 
-      <span
-        id="selectedCount"
-        class="muted"
-        style="font-size:12px"
-      >
+      <span id="selectedCount" class="muted">
         0 محدد
-      </span>
-
-      <span
-        class="muted"
-        style="font-size:11px"
-      >
-        الحذف العادي يشيل الطلب من لوحتك فقط
       </span>
 
       <span class="spacer"></span>
 
-      <button
-        id="archiveSelected"
-        class="btn archive"
-        disabled
-      >
+      <button id="archiveSelected" class="btn archive" disabled>
         حذف المحدد
       </button>
 
-      <button
-        id="deleteSelected"
-        class="bulkdelete"
-        disabled
-      >
+      <button id="deleteSelected" class="btn danger" disabled>
         🗑 حذف نهائي
       </button>
 
-    </div>
+    </section>
 
 
-    <div
-      id="orders"
-      class="orders"
-    >
-
+    <section id="orders" class="orders">
       <div class="loading">
         جاري تحميل الطلبات...
       </div>
+    </section>
 
-    </div>
-
-  </div>
+  </main>
 
 </div>
 
-
-<div
-  class="toast"
-  id="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- نظام الزوار -->
-<script src="analytics.js"></script>
-
 <script>
 
+/* ======================================
+   إعدادات Supabase
+====================================== */
+
 const SUPABASE_URL =
-"https://ltuyfewachzbazunuxmd.supabase.co";
+  "https://ltuyfewachzbazunuxmd.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
+  "sb_publishable_UL-3si425vxRnBAGcgtDJA_Xw5VB3yN";
 
 const ADMIN_EMAIL =
-"adelhussain66@gmail.com";
-
+  "adelhussain66@gmail.com";
 
 const sb =
-supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-let orders=[];
+/* ======================================
+   المتغيرات
+====================================== */
 
-let currentFilter=
-"all";
-
-let selected=
-new Set();
-
-
-const $ =
-s =>
-document.querySelector(s);
+let orders = [];
+let currentFilter = "all";
+let selected = new Set();
 
 
-const esc =
-v =>
-String(v??"")
-.replace(
-  /[&<>"']/g,
-  m=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    "\"":"&quot;",
-    "'":"&#039;"
-  }[m])
-);
+const $ = selector =>
+  document.querySelector(selector);
 
 
-const money =
-v =>
-(Number(v)||0)
-.toFixed(3);
+function esc(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      char => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[char])
+    );
+
+}
 
 
-const fmtDate =
-v=>{
+function money(value){
 
-  if(!v){
+  return (Number(value) || 0)
+    .toFixed(3);
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
     return "—";
   }
 
   try{
 
-    return new Intl
-    .DateTimeFormat(
+    return new Intl.DateTimeFormat(
       "ar-BH",
       {
         dateStyle:"medium",
         timeStyle:"short"
       }
-    )
-    .format(
-      new Date(v)
+    ).format(
+      new Date(value)
     );
 
-  }
+  }catch{
 
-  catch{
-
-    return v;
+    return value;
 
   }
-
-};
-
-
-function toast(msg){
-
-  const t =
-  $("#toast");
-
-  t.textContent=
-  msg;
-
-  t.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    toast._t
-  );
-
-  toast._t =
-  setTimeout(
-    ()=>
-    t.classList.remove(
-      "show"
-    ),
-    1800
-  );
 
 }
 
 
-function giftUrl(token){
+function showToast(message){
 
-  const dir =
-  location.pathname
-  .replace(
-    /admin\.html.*$/i,
-    ""
-  );
+  const el = $("#toast");
+
+  el.textContent = message;
+  el.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer =
+    setTimeout(
+      () => el.classList.remove("show"),
+      1900
+    );
+
+}
+
+
+function getGiftUrl(token){
+
+  const directory =
+    location.pathname.replace(
+      /admin\.html.*$/i,
+      ""
+    );
 
   return (
-    location.origin
-    +
-    dir
-    +
-    "gift.html?token="
-    +
-    encodeURIComponent(
-      token
-    )
+    location.origin +
+    directory +
+    "gift.html?token=" +
+    encodeURIComponent(token)
   );
 
 }
 
 
-/* =========================
+/* ======================================
    تسجيل الدخول
-========================= */
+====================================== */
 
 async function checkSession(){
 
-  const {
-    data
-  } =
-  await sb.auth
-  .getSession();
-
+  const {data} =
+    await sb.auth.getSession();
 
   const user =
-  data?.session?.user;
-
+    data?.session?.user;
 
   if(
-    user?.email
-    ?.toLowerCase()
+    user?.email?.toLowerCase()
     ===
-    ADMIN_EMAIL
-    .toLowerCase()
+    ADMIN_EMAIL.toLowerCase()
   ){
 
     showApp();
 
-    loadOrders();
+    await loadOrders();
+    await refreshVisitorStats();
 
-    refreshVisitorStats();
+  }else{
 
-  }
-
-  else{
-
-    $("#login")
-    .style
-    .display=
-    "block";
-
-
-    $("#app")
-    .style
-    .display=
-    "none";
+    $("#login").style.display = "block";
+    $("#app").style.display = "none";
 
   }
 
@@ -1074,69 +796,51 @@ async function checkSession(){
 
 async function login(){
 
-  $("#loginError")
-  .textContent=
-  "";
+  $("#loginError").textContent = "";
 
+  const button = $("#loginBtn");
 
-  $("#loginBtn")
-  .disabled=
-  true;
-
+  button.disabled = true;
+  button.textContent = "جاري الدخول...";
 
   const email =
-  $("#email")
-  .value
-  .trim();
-
+    $("#email").value.trim();
 
   const password =
-  $("#password")
-  .value;
-
+    $("#password").value;
 
   if(
     email.toLowerCase()
     !==
-    ADMIN_EMAIL
-    .toLowerCase()
+    ADMIN_EMAIL.toLowerCase()
   ){
 
-    $("#loginError")
-    .textContent=
-    "هذا الحساب غير مصرح له.";
+    $("#loginError").textContent =
+      "هذا الحساب غير مصرح له.";
 
-
-    $("#loginBtn")
-    .disabled=
-    false;
+    button.disabled = false;
+    button.textContent = "دخول";
 
     return;
 
   }
 
 
-  const {
-    data,
-    error
-  } =
-  await sb.auth
-  .signInWithPassword({
-    email,
-    password
-  });
+  const {data,error} =
+    await sb.auth.signInWithPassword({
+      email,
+      password
+    });
 
 
-  $("#loginBtn")
-  .disabled=
-  false;
+  button.disabled = false;
+  button.textContent = "دخول";
 
 
   if(error){
 
-    $("#loginError")
-    .textContent=
-    error.message;
+    $("#loginError").textContent =
+      error.message;
 
     return;
 
@@ -1144,20 +848,15 @@ async function login(){
 
 
   if(
-    data.user?.email
-    ?.toLowerCase()
+    data.user?.email?.toLowerCase()
     !==
-    ADMIN_EMAIL
-    .toLowerCase()
+    ADMIN_EMAIL.toLowerCase()
   ){
 
-    await sb.auth
-    .signOut();
+    await sb.auth.signOut();
 
-
-    $("#loginError")
-    .textContent=
-    "هذا الحساب غير مصرح له.";
+    $("#loginError").textContent =
+      "هذا الحساب غير مصرح له.";
 
     return;
 
@@ -1166,307 +865,261 @@ async function login(){
 
   showApp();
 
-  loadOrders();
-
-  refreshVisitorStats();
+  await loadOrders();
+  await refreshVisitorStats();
 
 }
 
 
 function showApp(){
 
-  $("#login")
-  .style
-  .display=
-  "none";
-
-
-  $("#app")
-  .style
-  .display=
-  "block";
+  $("#login").style.display = "none";
+  $("#app").style.display = "block";
 
 }
 
 
-/* =========================
+/* ======================================
    تحميل الطلبات
-========================= */
+====================================== */
 
 async function loadOrders(){
 
-  $("#orders")
-  .innerHTML=
-  '<div class="loading">جاري تحميل الطلبات...</div>';
+  $("#orders").innerHTML =
+    '<div class="loading">جاري تحميل الطلبات...</div>';
 
 
-  const {
-    data,
-    error
-  } =
-  await sb
-  .from("orders")
-  .select("*")
-  .order(
-    "created_at",
-    {
-      ascending:false
-    }
-  );
+  const {data,error} =
+    await sb
+      .from("orders")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
   if(error){
 
-    $("#orders")
-    .innerHTML=
-    '<div class="empty">تعذر تحميل الطلبات: '
-    +
-    esc(
-      error.message
-    )
-    +
-    '</div>';
+    $("#orders").innerHTML =
+      `<div class="empty">
+        تعذر تحميل الطلبات:
+        ${esc(error.message)}
+      </div>`;
 
     return;
 
   }
 
 
-  orders =
-  data
-  ||
-  [];
+  orders = data || [];
 
-
-  render();
+  renderOrders();
 
 }
 
 
-/* =========================
-   عرض الطلبات
-========================= */
+/* ======================================
+   فلترة الطلبات
+====================================== */
 
-function render(){
+function filteredOrders(){
 
-  const q =
-  $("#search")
-  .value
-  .trim()
-  .toLowerCase();
-
-
-  const filtered =
-  orders.filter(
-    o=>{
-
-      const status =
-      (
-        o.status
-        ||
-        "pending"
-      )
+  const query =
+    $("#search")
+      .value
+      .trim()
       .toLowerCase();
 
+  return orders.filter(order => {
 
-      const archived =
-      !!o.archived;
+    const archived =
+      !!order.archived;
 
-
-      if(
-        currentFilter
-        ===
-        "archived"
-        &&
-        !archived
-      ){
-        return false;
-      }
+    const status =
+      String(
+        order.status || "pending"
+      ).toLowerCase();
 
 
-      if(
-        currentFilter
-        ===
-        "all"
-        &&
-        archived
-      ){
-        return false;
-      }
-
-
-      if(
-        currentFilter
-        ===
-        "pending"
-        &&
-        (
-          archived
-          ||
-          status
-          !==
-          "pending"
-        )
-      ){
-        return false;
-      }
-
-
-      if(
-        currentFilter
-        ===
-        "paid"
-        &&
-        (
-          archived
-          ||
-          status
-          !==
-          "paid"
-        )
-      ){
-        return false;
-      }
-
-
-      if(!q){
-        return true;
-      }
-
-
-      return (
-        String(
-          o.order_number
-          ||
-          ""
-        )
-        .toLowerCase()
-        .includes(q)
-
-        ||
-
-        String(
-          o.receiver
-          ||
-          ""
-        )
-        .toLowerCase()
-        .includes(q)
-
-        ||
-
-        String(
-          o.sender
-          ||
-          ""
-        )
-        .toLowerCase()
-        .includes(q)
-
-        ||
-
-        String(
-          o.phone
-          ||
-          ""
-        )
-        .replace(
-          /\D/g,
-          ""
-        )
-        .includes(
-          q.replace(
-            /\D/g,
-            ""
-          )
-        )
-      );
-
+    if(
+      currentFilter === "all"
+      &&
+      archived
+    ){
+      return false;
     }
-  );
 
+
+    if(
+      currentFilter === "archived"
+      &&
+      !archived
+    ){
+      return false;
+    }
+
+
+    if(
+      currentFilter === "pending"
+      &&
+      (
+        archived
+        ||
+        status !== "pending"
+      )
+    ){
+      return false;
+    }
+
+
+    if(
+      currentFilter === "paid"
+      &&
+      (
+        archived
+        ||
+        status !== "paid"
+      )
+    ){
+      return false;
+    }
+
+
+    if(!query){
+      return true;
+    }
+
+
+    const phoneQuery =
+      query.replace(/\D/g,"");
+
+    const phone =
+      String(order.phone || "")
+        .replace(/\D/g,"");
+
+
+    return (
+
+      String(order.order_number || "")
+        .toLowerCase()
+        .includes(query)
+
+      ||
+
+      String(order.receiver || "")
+        .toLowerCase()
+        .includes(query)
+
+      ||
+
+      String(order.sender || "")
+        .toLowerCase()
+        .includes(query)
+
+      ||
+
+      (
+        phoneQuery
+        &&
+        phone.includes(phoneQuery)
+      )
+
+    );
+
+  });
+
+}
+
+
+/* ======================================
+   الإحصائيات الخاصة بالطلبات
+====================================== */
+
+function updateOrderStats(){
 
   const active =
-  orders.filter(
-    o=>!o.archived
-  );
+    orders.filter(
+      order => !order.archived
+    );
 
 
-  $("#statAll")
-  .textContent=
-  active.length;
+  const pending =
+    active.filter(
+      order =>
+        String(order.status || "pending")
+        .toLowerCase()
+        ===
+        "pending"
+    );
 
 
-  $("#statPending")
-  .textContent=
-  active.filter(
-    o=>
-    (
-      o.status
-      ||
-      "pending"
-    )
-    ===
-    "pending"
-  )
-  .length;
+  const paid =
+    active.filter(
+      order =>
+        String(order.status || "")
+        .toLowerCase()
+        ===
+        "paid"
+    );
 
 
-  $("#statPaid")
-  .textContent=
-  active.filter(
-    o=>
-    o.status
-    ===
-    "paid"
-  )
-  .length;
+  const archived =
+    orders.filter(
+      order => !!order.archived
+    );
 
 
-  $("#statArchived")
-  .textContent=
-  orders.filter(
-    o=>!!o.archived
-  )
-  .length;
-
-
-  $("#statSales")
-  .textContent=
-  money(
+  const sales =
     orders
-    .filter(
-      o=>
-      o.status
-      ===
-      "paid"
-    )
-    .reduce(
-      (
-        s,
-        o
-      )=>
-      s
-      +
-      (
-        Number(
-          o.price
-        )
-        ||
+      .filter(
+        order =>
+          String(order.status || "")
+          .toLowerCase()
+          ===
+          "paid"
+      )
+      .reduce(
+        (sum,order) =>
+          sum + (Number(order.price) || 0),
         0
-      ),
-      0
-    )
-  );
+      );
 
 
-  if(
-    !filtered.length
-  ){
+  $("#statAll").textContent =
+    active.length;
 
-    $("#orders")
-    .innerHTML=
-    '<div class="empty">ما في طلبات تطابق البحث.</div>';
+  $("#statPending").textContent =
+    pending.length;
+
+  $("#statPaid").textContent =
+    paid.length;
+
+  $("#statArchived").textContent =
+    archived.length;
+
+  $("#statSales").textContent =
+    money(sales);
+
+}
+
+
+/* ======================================
+   عرض الطلبات
+====================================== */
+
+function renderOrders(){
+
+  updateOrderStats();
+
+  const list =
+    filteredOrders();
+
+
+  if(!list.length){
+
+    $("#orders").innerHTML =
+      '<div class="empty">ما في طلبات تطابق البحث.</div>';
 
     updateBulkUI();
 
@@ -1475,120 +1128,71 @@ function render(){
   }
 
 
-  $("#orders")
-  .innerHTML=
-  filtered
-  .map(
-    o=>{
+  $("#orders").innerHTML =
+    list.map(order => {
 
       const paid =
-      o.status
-      ===
-      "paid";
-
+        String(order.status || "")
+          .toLowerCase()
+        ===
+        "paid";
 
       const archived =
-      !!o.archived;
-
+        !!order.archived;
 
       const photos =
-      Array.isArray(
-        o.photos
-      )
-      ?
-      o.photos.length
-      :
-      0;
+        Array.isArray(order.photos)
+        ? order.photos.length
+        : 0;
 
 
-      const media =
-      [
+      let badgeClass = "pending";
+      let badgeText = "بانتظار الدفع";
 
-        photos
-        ?
-        `${photos} صور`
-        :
-        "",
 
-        o.voice_url
-        ?
-        "فويس"
-        :
-        "",
+      if(paid){
 
-        o.video_url
-        ?
-        "فيديو"
-        :
-        "",
+        badgeClass = "paid";
+        badgeText = "مدفوع ✓";
 
-        o.audio_url
-        ?
-        "موسيقى"
-        :
-        "",
+      }
 
-        o.open_at
-        ?
-        "موعد فتح"
-        :
-        "",
 
-        o.gift_pin
-        ?
-        "PIN"
-        :
-        ""
+      if(archived){
 
-      ]
-      .filter(
-        Boolean
-      );
+        badgeClass = "archived";
+        badgeText = "محذوف";
+
+      }
 
 
       return `
-      <article
-        class="order"
-        id="order-${esc(o.id)}"
-      >
+
+      <article class="order">
 
         <div class="orderHead">
 
-          <div
-            style="
-              display:flex;
-              gap:10px;
-              align-items:flex-start
-            "
-          >
+          <div class="orderTitle">
 
             <input
-              class="bulkcheck orderSelect"
               type="checkbox"
-              data-id="${esc(o.id)}"
-              ${selected.has(o.id)?"checked":""}
-              onchange="
-                toggleSelect(
-                  '${esc(o.id)}',
-                  this.checked
-                )
-              "
+              class="check orderCheck"
+              data-id="${esc(order.id)}"
+              ${selected.has(order.id) ? "checked" : ""}
             >
 
             <div>
 
               <div class="orderNo">
                 ${esc(
-                  o.order_number
-                  ||
-                  o.id
+                  order.order_number ||
+                  order.id
                 )}
               </div>
 
               <div class="receiver">
                 ${esc(
-                  o.receiver
-                  ||
+                  order.receiver ||
                   "بدون اسم"
                 )}
               </div>
@@ -1598,27 +1202,8 @@ function render(){
           </div>
 
 
-          <span
-            class="
-              badge
-              ${paid?"paid":"pending"}
-            "
-          >
-
-            ${
-              archived
-              ?
-              "مؤرشف"
-              :
-              (
-                paid
-                ?
-                "مدفوع ✓"
-                :
-                "بانتظار الدفع"
-              )
-            }
-
+          <span class="badge ${badgeClass}">
+            ${badgeText}
           </span>
 
         </div>
@@ -1628,40 +1213,64 @@ function render(){
 
           <span class="chip">
             ${esc(
-              (
-                o.plan
-                ||
-                "—"
-              )
-              .toUpperCase()
+              String(order.plan || "—")
+                .toUpperCase()
             )}
           </span>
 
           <span class="chip">
-            ${money(o.price)} د.ب
+            ${money(order.price)} د.ب
           </span>
 
           <span class="chip">
             ${esc(
-              o.occasion
-              ||
+              order.occasion ||
               "بدون مناسبة"
             )}
           </span>
 
-          <span class="chip">
-            ${fmtDate(
-              o.created_at
-            )}
-          </span>
+          ${
+            order.phone
+            ?
+            `<span class="chip">
+              📱 ${esc(order.phone)}
+            </span>`
+            :
+            ""
+          }
 
           ${
-            media
-            .map(
-              x=>
-              `<span class="chip">${esc(x)}</span>`
-            )
-            .join("")
+            photos
+            ?
+            `<span class="chip">
+              ${photos} صور
+            </span>`
+            :
+            ""
+          }
+
+          ${
+            order.audio_url
+            ?
+            '<span class="chip">موسيقى</span>'
+            :
+            ""
+          }
+
+          ${
+            order.voice_url
+            ?
+            '<span class="chip">فويس</span>'
+            :
+            ""
+          }
+
+          ${
+            order.video_url
+            ?
+            '<span class="chip">فيديو</span>'
+            :
+            ""
           }
 
         </div>
@@ -1670,20 +1279,12 @@ function render(){
         <div class="actions">
 
           ${
-            (
-              !paid
-              &&
-              !archived
-            )
+            !paid && !archived
             ?
             `
             <button
               class="btn confirm"
-              onclick="
-                confirmPayment(
-                  '${esc(o.id)}'
-                )
-              "
+              onclick="confirmPayment('${esc(order.id)}')"
             >
               تأكيد الدفع
             </button>
@@ -1699,52 +1300,33 @@ function render(){
             `
             <button
               class="btn"
-              onclick="
-                copyGift(
-                  '${esc(
-                    o.gift_token
-                    ||
-                    ""
-                  )}'
-                )
-              "
+              onclick="copyGift('${esc(order.gift_token || "")}')"
             >
               نسخ رابط الهدية
             </button>
 
             <button
               class="btn"
-              onclick="
-                openGift(
-                  '${esc(
-                    o.gift_token
-                    ||
-                    ""
-                  )}'
-                )
-              "
+              onclick="openGift('${esc(order.gift_token || "")}')"
             >
               فتح الهدية
             </button>
+            `
+            :
+            ""
+          }
 
-            ${
-              o.phone
-              ?
-              `
-              <button
-                class="btn confirm"
-                onclick="
-                  openCustomerWhatsApp(
-                    '${esc(o.id)}'
-                  )
-                "
-              >
-                واتساب العميل
-              </button>
-              `
-              :
-              ""
-            }
+
+          ${
+            paid && order.phone
+            ?
+            `
+            <button
+              class="btn confirm"
+              onclick="openCustomerWhatsApp('${esc(order.id)}')"
+            >
+              واتساب العميل
+            </button>
             `
             :
             ""
@@ -1753,11 +1335,7 @@ function render(){
 
           <button
             class="btn"
-            onclick="
-              toggleDetails(
-                '${esc(o.id)}'
-              )
-            "
+            onclick="toggleDetails('${esc(order.id)}')"
           >
             تفاصيل
           </button>
@@ -1769,24 +1347,16 @@ function render(){
             `
             <button
               class="btn restore"
-              onclick="
-                restoreOrder(
-                  '${esc(o.id)}'
-                )
-              "
+              onclick="restoreOrder('${esc(order.id)}')"
             >
-              ↩ استرجاع
+              استرجاع
             </button>
             `
             :
             `
             <button
               class="btn archive"
-              onclick="
-                archiveOrder(
-                  '${esc(o.id)}'
-                )
-              "
+              onclick="archiveOrder('${esc(order.id)}')"
             >
               حذف
             </button>
@@ -1796,11 +1366,7 @@ function render(){
 
           <button
             class="btn danger"
-            onclick="
-              deleteOrder(
-                '${esc(o.id)}'
-              )
-            "
+            onclick="deleteOrder('${esc(order.id)}')"
           >
             🗑 حذف نهائي
           </button>
@@ -1810,161 +1376,93 @@ function render(){
 
         <div
           class="details"
-          id="details-${esc(o.id)}"
+          id="details-${esc(order.id)}"
         >
 
-          <div class="grid">
+          <div class="detailGrid">
 
             <div class="detail">
-
-              <span>
-                المرسل
-              </span>
-
+              <span>المرسل</span>
               <b>
-                ${esc(
-                  o.sender_anonymous
+                ${
+                  order.sender_anonymous
                   ?
                   "مجهول"
                   :
-                  (
-                    o.sender
-                    ||
-                    "—"
-                  )
-                )}
+                  esc(order.sender || "—")
+                }
               </b>
-
             </div>
 
 
             <div class="detail">
-
-              <span>
-                رقم واتساب
-              </span>
-
-              <b
-                style="
-                  direction:ltr;
-                  text-align:right
-                "
-              >
-                ${esc(
-                  o.phone
-                  ||
-                  "—"
-                )}
-              </b>
-
+              <span>المستلم</span>
+              <b>${esc(order.receiver || "—")}</b>
             </div>
 
 
             <div class="detail">
-
-              <span>
-                التاريخ المختار
-              </span>
-
-              <b>
-                ${esc(
-                  o.gift_date
-                  ||
-                  "—"
-                )}
+              <span>رقم واتساب</span>
+              <b dir="ltr">
+                ${esc(order.phone || "—")}
               </b>
-
             </div>
 
 
             <div class="detail">
-
-              <span>
-                الثيم
-              </span>
-
-              <b>
-                ${esc(
-                  o.theme
-                  ||
-                  "—"
-                )}
+              <span>رقم الطلب</span>
+              <b dir="ltr">
+                ${esc(order.order_number || "—")}
               </b>
-
             </div>
 
 
             <div class="detail">
-
-              <span>
-                وقت تأكيد الدفع
-              </span>
-
-              <b>
-                ${fmtDate(
-                  o.paid_at
-                )}
-              </b>
-
+              <span>تاريخ إنشاء الطلب</span>
+              <b>${formatDate(order.created_at)}</b>
             </div>
 
 
             <div class="detail">
-
-              <span>
-                وقت الفتح
-              </span>
-
-              <b>
-                ${fmtDate(
-                  o.open_at
-                )}
-              </b>
-
+              <span>تأكيد الدفع</span>
+              <b>${formatDate(order.paid_at)}</b>
             </div>
 
 
             <div class="detail">
+              <span>موعد فتح الهدية</span>
+              <b>${formatDate(order.open_at)}</b>
+            </div>
 
-              <span>
-                التوكن
-              </span>
 
-              <b
-                style="
-                  direction:ltr;
-                  text-align:right
-                "
-              >
-                ${esc(
-                  o.gift_token
-                  ||
-                  "—"
-                )}
-              </b>
+            <div class="detail">
+              <span>التاريخ المختار</span>
+              <b>${esc(order.gift_date || "—")}</b>
+            </div>
 
+
+            <div class="detail">
+              <span>الثيم</span>
+              <b>${esc(order.theme || "—")}</b>
+            </div>
+
+
+            <div class="detail">
+              <span>الخطة</span>
+              <b>${esc(order.plan || "—")}</b>
             </div>
 
           </div>
 
 
           ${
-            o.message
+            order.message
             ?
             `
             <div class="message">
-
-              <b
-                style="
-                  display:block;
-                  margin-bottom:5px
-                "
-              >
-                الرسالة
-              </b>
-
-              ${esc(o.message)}
-
+              <b>الرسالة</b>
+              <br>
+              ${esc(order.message)}
             </div>
             `
             :
@@ -1974,755 +1472,110 @@ function render(){
         </div>
 
       </article>
+
       `;
 
-    }
-  )
-  .join("");
+    }).join("");
 
 
-  updateBulkUI();
+  document
+    .querySelectorAll(".orderCheck")
+    .forEach(check => {
 
-}
+      check.addEventListener(
+        "change",
+        () => {
 
+          const id =
+            check.dataset.id;
 
-/* =========================
-   التحديد الجماعي
-========================= */
+          if(check.checked){
 
-function visibleOrderIds(){
+            selected.add(id);
 
-  const q =
-  $("#search")
-  .value
-  .trim()
-  .toLowerCase();
+          }else{
 
+            selected.delete(id);
 
-  return orders
-  .filter(
-    o=>{
+          }
 
-      const status =
-      (
-        o.status
-        ||
-        "pending"
-      )
-      .toLowerCase();
-
-
-      const archived =
-      !!o.archived;
-
-
-      if(
-        currentFilter
-        ===
-        "archived"
-        &&
-        !archived
-      ){
-        return false;
-      }
-
-
-      if(
-        currentFilter
-        ===
-        "all"
-        &&
-        archived
-      ){
-        return false;
-      }
-
-
-      if(
-        currentFilter
-        ===
-        "pending"
-        &&
-        (
-          archived
-          ||
-          status
-          !==
-          "pending"
-        )
-      ){
-        return false;
-      }
-
-
-      if(
-        currentFilter
-        ===
-        "paid"
-        &&
-        (
-          archived
-          ||
-          status
-          !==
-          "paid"
-        )
-      ){
-        return false;
-      }
-
-
-      if(!q){
-        return true;
-      }
-
-
-      return (
-        String(
-          o.order_number
-          ||
-          ""
-        )
-        .toLowerCase()
-        .includes(q)
-
-        ||
-
-        String(
-          o.receiver
-          ||
-          ""
-        )
-        .toLowerCase()
-        .includes(q)
-
-        ||
-
-        String(
-          o.sender
-          ||
-          ""
-        )
-        .toLowerCase()
-        .includes(q)
-
-        ||
-
-        String(
-          o.phone
-          ||
-          ""
-        )
-        .replace(
-          /\D/g,
-          ""
-        )
-        .includes(
-          q.replace(
-            /\D/g,
-            ""
-          )
-        )
-      );
-
-    }
-  )
-  .map(
-    o=>o.id
-  );
-
-}
-
-
-function toggleSelect(
-  id,
-  checked
-){
-
-  if(checked){
-
-    selected.add(id);
-
-  }
-
-  else{
-
-    selected.delete(id);
-
-  }
-
-
-  updateBulkUI();
-
-}
-
-
-function updateBulkUI(){
-
-  const ids =
-  visibleOrderIds();
-
-
-  const selectedVisible =
-  ids.filter(
-    id=>
-    selected.has(id)
-  )
-  .length;
-
-
-  $("#selectedCount")
-  .textContent=
-  selected.size
-  +
-  " محدد";
-
-
-  $("#deleteSelected")
-  .disabled=
-  selected.size
-  ===
-  0;
-
-
-  $("#archiveSelected")
-  .disabled=
-  selected.size
-  ===
-  0;
-
-
-  $("#selectAll")
-  .checked=
-  ids.length
-  >
-  0
-  &&
-  selectedVisible
-  ===
-  ids.length;
-
-
-  $("#selectAll")
-  .indeterminate=
-  selectedVisible
-  >
-  0
-  &&
-  selectedVisible
-  <
-  ids.length;
-
-}
-
-
-/* =========================
-   حذف عادي
-========================= */
-
-async function archiveOrder(id){
-
-  const o =
-  orders.find(
-    x=>x.id===id
-  );
-
-
-  if(!o){
-    return;
-  }
-
-
-  if(
-    !confirm(
-      `حذف الطلب ${
-        o.order_number
-        ||
-        ""
-      } من لوحة الإدارة؟
-
-رابط الهدية عند الزبون بيظل شغال وما راح تنحذف الملفات.`
-    )
-  ){
-    return;
-  }
-
-
-  const now =
-  new Date()
-  .toISOString();
-
-
-  const {
-    error
-  } =
-  await sb
-  .from("orders")
-  .update({
-    archived:true,
-    archived_at:now
-  })
-  .eq(
-    "id",
-    id
-  );
-
-
-  if(error){
-
-    alert(
-      "تعذر أرشفة الطلب: "
-      +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  o.archived=true;
-  o.archived_at=now;
-
-
-  selected.delete(id);
-
-
-  render();
-
-
-  toast(
-    "تم حذف الطلب من القائمة"
-  );
-
-}
-
-
-/* =========================
-   استرجاع
-========================= */
-
-async function restoreOrder(id){
-
-  const o =
-  orders.find(
-    x=>x.id===id
-  );
-
-
-  if(!o){
-    return;
-  }
-
-
-  const {
-    error
-  } =
-  await sb
-  .from("orders")
-  .update({
-    archived:false,
-    archived_at:null
-  })
-  .eq(
-    "id",
-    id
-  );
-
-
-  if(error){
-
-    alert(
-      "تعذر استرجاع الطلب: "
-      +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  o.archived=false;
-  o.archived_at=null;
-
-
-  selected.delete(id);
-
-
-  render();
-
-
-  toast(
-    "تم استرجاع الطلب"
-  );
-
-}
-
-
-/* =========================
-   حذف المحدد عادي
-========================= */
-
-async function archiveSelectedOrders(){
-
-  const ids=[
-    ...selected
-  ];
-
-
-  if(!ids.length){
-    return;
-  }
-
-
-  if(
-    !confirm(
-      `حذف ${ids.length} طلب من لوحة الإدارة؟
-
-روابط الهدايا عند الزباين بتظل شغالة.`
-    )
-  ){
-    return;
-  }
-
-
-  $("#archiveSelected")
-  .disabled=true;
-
-
-  $("#archiveSelected")
-  .textContent=
-  "جاري الحذف...";
-
-
-  const now =
-  new Date()
-  .toISOString();
-
-
-  const {
-    error
-  } =
-  await sb
-  .from("orders")
-  .update({
-    archived:true,
-    archived_at:now
-  })
-  .in(
-    "id",
-    ids
-  );
-
-
-  $("#archiveSelected")
-  .textContent=
-  "حذف المحدد";
-
-
-  if(error){
-
-    $("#archiveSelected")
-    .disabled=false;
-
-
-    alert(
-      "تعذر أرشفة الطلبات: "
-      +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  orders.forEach(
-    o=>{
-
-      if(
-        selected.has(
-          o.id
-        )
-      ){
-
-        o.archived=true;
-        o.archived_at=now;
-
-      }
-
-    }
-  );
-
-
-  selected.clear();
-
-
-  render();
-
-
-  toast(
-    `تم حذف ${ids.length} طلب من القائمة`
-  );
-
-}
-
-
-/* =========================
-   حذف المحدد نهائي
-========================= */
-
-async function deleteSelectedOrders(){
-
-  const ids=[
-    ...selected
-  ];
-
-
-  if(!ids.length){
-    return;
-  }
-
-
-  const chosen =
-  orders.filter(
-    o=>
-    selected.has(
-      o.id
-    )
-  );
-
-
-  const paidCount =
-  chosen.filter(
-    o=>
-    o.status
-    ===
-    "paid"
-  )
-  .length;
-
-
-  let msg =
-`⚠️ حذف نهائي
-
-متأكد تبي تحذف ${ids.length} طلب؟
-
-روابط الهدايا لهالطلبات بتتوقف.
-
-إذا بس تبي تشيلهم من لوحة الإدارة استخدم "حذف المحدد".`;
-
-
-  if(paidCount){
-
-    msg +=
-    `
-
-من بينهم ${paidCount} طلب مدفوع.`;
-
-  }
-
-
-  if(
-    !confirm(msg)
-  ){
-    return;
-  }
-
-
-  $("#deleteSelected")
-  .disabled=true;
-
-
-  $("#deleteSelected")
-  .textContent=
-  "جاري الحذف...";
-
-
-  for(
-    const o
-    of chosen
-  ){
-
-    const paths =
-    extractStoragePaths(o);
-
-
-    if(
-      paths.length
-    ){
-
-      try{
-
-        const {
-          error
-        } =
-        await sb.storage
-        .from(
-          "gift-media"
-        )
-        .remove(
-          paths
-        );
-
-
-        if(error){
-
-          console.warn(
-            "storage cleanup",
-            o.id,
-            error.message
-          );
+          updateBulkUI();
 
         }
+      );
 
-      }
-
-      catch(e){
-
-        console.warn(
-          "storage cleanup",
-          o.id,
-          e
-        );
-
-      }
-
-    }
-
-  }
+    });
 
 
-  const {
-    error
-  } =
-  await sb
-  .from("orders")
-  .delete()
-  .in(
-    "id",
-    ids
-  );
-
-
-  $("#deleteSelected")
-  .textContent=
-  "🗑 حذف نهائي";
-
-
-  if(error){
-
-    $("#deleteSelected")
-    .disabled=false;
-
-
-    alert(
-      "تعذر حذف الطلبات: "
-      +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  orders=
-  orders.filter(
-    o=>
-    !selected.has(
-      o.id
-    )
-  );
-
-
-  selected.clear();
-
-
-  render();
-
-
-  toast(
-    `تم حذف ${ids.length} طلب نهائيًا`
-  );
+  updateBulkUI();
 
 }
 
 
-/* =========================
+/* ======================================
    التفاصيل
-========================= */
+====================================== */
 
 function toggleDetails(id){
 
-  document
-  .getElementById(
-    "details-"+id
-  )
-  ?.classList
-  .toggle(
-    "open"
-  );
+  const element =
+    document.getElementById(
+      "details-" + id
+    );
+
+  if(element){
+
+    element.classList.toggle("open");
+
+  }
 
 }
 
 
-/* =========================
+/* ======================================
    تأكيد الدفع
-========================= */
+====================================== */
 
 async function confirmPayment(id){
 
-  const o =
-  orders.find(
-    x=>x.id===id
-  );
+  const order =
+    orders.find(
+      item => item.id === id
+    );
 
-
-  if(!o){
+  if(!order){
     return;
   }
 
 
-  if(
-    !confirm(
-      `تأكيد استلام مبلغ طلب ${
-        o.order_number
-        ||
-        ""
-      }؟`
-    )
-  ){
+  const ok =
+    confirm(
+      `تأكيد استلام مبلغ الطلب ${order.order_number || ""}؟`
+    );
+
+  if(!ok){
     return;
   }
 
 
   const paidAt =
-  new Date()
-  .toISOString();
+    new Date().toISOString();
 
 
-  const {
-    error
-  } =
-  await sb
-  .from("orders")
-  .update({
-    status:"paid",
-    paid_at:paidAt
-  })
-  .eq(
-    "id",
-    id
-  );
+  const {error} =
+    await sb
+      .from("orders")
+      .update({
+        status:"paid",
+        paid_at:paidAt
+      })
+      .eq("id",id);
 
 
   if(error){
 
     alert(
-      "تعذر تأكيد الدفع: "
-      +
+      "تعذر تأكيد الدفع: " +
       error.message
     );
 
@@ -2731,189 +1584,44 @@ async function confirmPayment(id){
   }
 
 
-  o.status=
-  "paid";
+  order.status = "paid";
+  order.paid_at = paidAt;
 
-  o.paid_at=
-  paidAt;
+  renderOrders();
 
-
-  render();
-
-
-  toast(
-    "تم تأكيد الدفع ✓"
-  );
+  showToast("تم تأكيد الدفع ✓");
 
 }
 
 
-/* =========================
-   واتساب العميل
-========================= */
-
-function normalizeWhatsAppNumber(v){
-
-  let n =
-  String(
-    v
-    ||
-    ""
-  )
-  .replace(
-    /\D/g,
-    ""
-  );
-
-
-  if(!n){
-    return "";
-  }
-
-
-  if(
-    n.startsWith(
-      "00"
-    )
-  ){
-
-    n =
-    n.slice(2);
-
-  }
-
-
-  if(
-    n.length
-    ===
-    8
-  ){
-
-    n =
-    "973"
-    +
-    n;
-
-  }
-
-
-  return n;
-
-}
-
-
-function openCustomerWhatsApp(id){
-
-  const o =
-  orders.find(
-    x=>x.id===id
-  );
-
-
-  if(!o){
-    return;
-  }
-
-
-  const n =
-  normalizeWhatsAppNumber(
-    o.phone
-  );
-
-
-  if(!n){
-
-    return alert(
-      "ما في رقم واتساب محفوظ لهالطلب."
-    );
-
-  }
-
-
-  if(
-    o.status
-    !==
-    "paid"
-  ){
-
-    return alert(
-      "أكد الدفع أول قبل إرسال رابط الهدية."
-    );
-
-  }
-
-
-  const url =
-  giftUrl(
-    o.gift_token
-  );
-
-
-  const msg =
-`هلا 👋
-تم تأكيد طلبك في LAHZA ♡
-
-رقم الطلب: ${o.order_number||"—"}
-
-وهذا رابط الهدية:
-${url}
-
-نتمنى لكم لحظة جميلة ♡`;
-
-
-  window.open(
-    "https://wa.me/"
-    +
-    n
-    +
-    "?text="
-    +
-    encodeURIComponent(
-      msg
-    ),
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-}
-
-
-/* =========================
+/* ======================================
    رابط الهدية
-========================= */
+====================================== */
 
 async function copyGift(token){
 
   if(!token){
 
-    return alert(
-      "هذا الطلب ما عنده رابط هدية."
-    );
+    alert("هذا الطلب ما عنده رابط هدية.");
+    return;
 
   }
 
 
   const url =
-  giftUrl(token);
+    getGiftUrl(token);
 
 
   try{
 
-    await navigator
-    .clipboard
-    .writeText(url);
+    await navigator.clipboard.writeText(url);
 
+    showToast("تم نسخ رابط الهدية");
 
-    toast(
-      "تم نسخ رابط الهدية"
-    );
-
-  }
-
-  catch{
+  }catch{
 
     prompt(
-      "انسخ الرابط:",
+      "انسخ رابط الهدية:",
       url
     );
 
@@ -2926,15 +1634,13 @@ function openGift(token){
 
   if(!token){
 
-    return alert(
-      "هذا الطلب ما عنده رابط هدية."
-    );
+    alert("هذا الطلب ما عنده رابط هدية.");
+    return;
 
   }
 
-
   window.open(
-    giftUrl(token),
+    getGiftUrl(token),
     "_blank",
     "noopener,noreferrer"
   );
@@ -2942,212 +1648,137 @@ function openGift(token){
 }
 
 
-/* =========================
-   ملفات الهدية
-========================= */
+/* ======================================
+   واتساب العميل
+====================================== */
 
-function extractStoragePaths(o){
+function normalizeWhatsAppNumber(value){
 
-  const paths=[];
-
-
-  const add =
-  v=>{
-
-    if(
-      !v
-      ||
-      typeof v
-      !==
-      "string"
-    ){
-      return;
-    }
+  let number =
+    String(value || "")
+      .replace(/\D/g,"");
 
 
-    let p =
-    v.trim();
+  if(number.startsWith("00")){
 
-
-    if(
-      /^https?:\/\//i
-      .test(p)
-    ){
-
-      try{
-
-        const u =
-        new URL(p);
-
-
-        const mark =
-        "/gift-media/";
-
-
-        const i =
-        u.pathname
-        .indexOf(
-          mark
-        );
-
-
-        if(i>=0){
-
-          p =
-          decodeURIComponent(
-            u.pathname
-            .slice(
-              i+
-              mark.length
-            )
-          );
-
-        }
-
-        else{
-
-          return;
-
-        }
-
-      }
-
-      catch{
-
-        return;
-
-      }
-
-    }
-
-
-    p =
-    p
-    .replace(
-      /^storage-(?:audio|video):/,
-      ""
-    )
-    .replace(
-      /^\/+/,
-      ""
-    )
-    .replace(
-      /^gift-media\//,
-      ""
-    );
-
-
-    if(p){
-
-      paths.push(p);
-
-    }
-
-  };
-
-
-  if(
-    Array.isArray(
-      o.photos
-    )
-  ){
-
-    o.photos
-    .forEach(
-      x=>
-      add(
-        typeof x
-        ===
-        "string"
-        ?
-        x
-        :
-        (
-          x?.path
-          ||
-          x?.url
-          ||
-          ""
-        )
-      )
-    );
+    number =
+      number.slice(2);
 
   }
 
 
-  add(
-    o.audio_url
-  );
+  if(number.length === 8){
 
-  add(
-    o.voice_url
-  );
+    number =
+      "973" + number;
 
-  add(
-    o.video_url
-  );
-
-  add(
-    o.featured_photo
-  );
+  }
 
 
-  return [
-    ...new Set(paths)
-  ];
+  return number;
 
 }
 
 
-/* =========================
-   حذف نهائي
-========================= */
+function openCustomerWhatsApp(id){
 
-async function deleteOrder(id){
-
-  const o =
-  orders.find(
-    x=>x.id===id
-  );
+  const order =
+    orders.find(
+      item => item.id === id
+    );
 
 
-  if(!o){
+  if(!order){
     return;
   }
 
 
-  const label =
-  o.order_number
-  ||
-  id;
+  const number =
+    normalizeWhatsAppNumber(
+      order.phone
+    );
 
 
-  const paid =
-  o.status
-  ===
-  "paid";
+  if(!number){
+
+    alert(
+      "ما في رقم واتساب محفوظ لهذا الطلب."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    String(order.status || "")
+      .toLowerCase()
+    !==
+    "paid"
+  ){
+
+    alert(
+      "أكد الدفع أول قبل إرسال رابط الهدية."
+    );
+
+    return;
+
+  }
+
+
+  const giftLink =
+    getGiftUrl(
+      order.gift_token
+    );
+
+
+  const message =
+`هلا 👋
+تم تأكيد طلبك في LAHZA ♡
+
+رقم الطلب: ${order.order_number || "—"}
+
+وهذا رابط الهدية:
+${giftLink}
+
+نتمنى لكم لحظة جميلة ♡`;
+
+
+  window.open(
+    "https://wa.me/" +
+    number +
+    "?text=" +
+    encodeURIComponent(message),
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* ======================================
+   الحذف العادي = أرشفة
+====================================== */
+
+async function archiveOrder(id){
+
+  const order =
+    orders.find(
+      item => item.id === id
+    );
+
+
+  if(!order){
+    return;
+  }
 
 
   const ok =
-  confirm(
+    confirm(
+`حذف الطلب ${order.order_number || ""} من لوحة الإدارة؟
 
-    paid
-
-    ?
-
-`⚠️ هذا الطلب مدفوع.
-
-متأكد تبي تحذف الطلب ${label} نهائيًا؟
-
-رابط الهدية بيتوقف.`
-
-    :
-
-`متأكد تبي تحذف الطلب ${label} نهائيًا؟
-
-رابط الهدية بيتوقف.`
-
-  );
+رابط الهدية عند العميل بيظل شغال.`
+    );
 
 
   if(!ok){
@@ -3155,71 +1786,24 @@ async function deleteOrder(id){
   }
 
 
-  const paths =
-  extractStoragePaths(o);
+  const archivedAt =
+    new Date().toISOString();
 
 
-  if(
-    paths.length
-  ){
-
-    try{
-
-      const {
-        error:
-        storageError
-      } =
-      await sb.storage
-      .from(
-        "gift-media"
-      )
-      .remove(
-        paths
-      );
-
-
-      if(
-        storageError
-      ){
-
-        console.warn(
-          "تعذر حذف بعض ملفات الهدية:",
-          storageError.message
-        );
-
-      }
-
-    }
-
-    catch(e){
-
-      console.warn(
-        "storage cleanup",
-        e
-      );
-
-    }
-
-  }
-
-
-  const {
-    error
-  } =
-  await sb
-  .from("orders")
-  .delete()
-  .eq(
-    "id",
-    id
-  );
+  const {error} =
+    await sb
+      .from("orders")
+      .update({
+        archived:true,
+        archived_at:archivedAt
+      })
+      .eq("id",id);
 
 
   if(error){
 
     alert(
-      "تعذر حذف الطلب: "
-      +
+      "تعذر حذف الطلب: " +
       error.message
     );
 
@@ -3228,247 +1812,753 @@ async function deleteOrder(id){
   }
 
 
-  orders=
-  orders.filter(
-    x=>x.id!==id
+  order.archived = true;
+  order.archived_at = archivedAt;
+
+  selected.delete(id);
+
+  renderOrders();
+
+  showToast(
+    "تم حذف الطلب من لوحة الإدارة"
   );
+
+}
+
+
+/* ======================================
+   استرجاع الطلب
+====================================== */
+
+async function restoreOrder(id){
+
+  const order =
+    orders.find(
+      item => item.id === id
+    );
+
+
+  if(!order){
+    return;
+  }
+
+
+  const {error} =
+    await sb
+      .from("orders")
+      .update({
+        archived:false,
+        archived_at:null
+      })
+      .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "تعذر استرجاع الطلب: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  order.archived = false;
+  order.archived_at = null;
+
+  selected.delete(id);
+
+  renderOrders();
+
+  showToast("تم استرجاع الطلب");
+
+}
+
+
+/* ======================================
+   استخراج ملفات الطلب
+====================================== */
+
+function extractStoragePaths(order){
+
+  const paths = [];
+
+
+  function add(value){
+
+    if(
+      !value
+      ||
+      typeof value !== "string"
+    ){
+      return;
+    }
+
+
+    let path =
+      value.trim();
+
+
+    if(
+      /^https?:\/\//i.test(path)
+    ){
+
+      try{
+
+        const url =
+          new URL(path);
+
+        const marker =
+          "/gift-media/";
+
+        const index =
+          url.pathname.indexOf(marker);
+
+
+        if(index < 0){
+          return;
+        }
+
+
+        path =
+          decodeURIComponent(
+            url.pathname.slice(
+              index + marker.length
+            )
+          );
+
+      }catch{
+
+        return;
+
+      }
+
+    }
+
+
+    path =
+      path
+        .replace(
+          /^storage-(?:audio|video):/,
+          ""
+        )
+        .replace(/^\/+/,"")
+        .replace(/^gift-media\//,"");
+
+
+    if(path){
+
+      paths.push(path);
+
+    }
+
+  }
+
+
+  if(
+    Array.isArray(order.photos)
+  ){
+
+    order.photos.forEach(photo => {
+
+      if(typeof photo === "string"){
+
+        add(photo);
+
+      }else{
+
+        add(
+          photo?.path ||
+          photo?.url ||
+          ""
+        );
+
+      }
+
+    });
+
+  }
+
+
+  add(order.audio_url);
+  add(order.voice_url);
+  add(order.video_url);
+  add(order.featured_photo);
+
+
+  return [...new Set(paths)];
+
+}
+
+
+/* ======================================
+   حذف نهائي
+====================================== */
+
+async function deleteOrder(id){
+
+  const order =
+    orders.find(
+      item => item.id === id
+    );
+
+
+  if(!order){
+    return;
+  }
+
+
+  const paid =
+    String(order.status || "")
+      .toLowerCase()
+    ===
+    "paid";
+
+
+  const message =
+    paid
+    ?
+`⚠️ هذا الطلب مدفوع.
+
+متأكد تبي تحذف الطلب ${order.order_number || ""} نهائيًا؟
+
+رابط الهدية بيتوقف.`
+    :
+`متأكد تبي تحذف الطلب ${order.order_number || ""} نهائيًا؟
+
+رابط الهدية بيتوقف.`;
+
+
+  if(!confirm(message)){
+    return;
+  }
+
+
+  const paths =
+    extractStoragePaths(order);
+
+
+  if(paths.length){
+
+    try{
+
+      const {error:storageError} =
+        await sb.storage
+          .from("gift-media")
+          .remove(paths);
+
+
+      if(storageError){
+
+        console.warn(
+          "تعذر حذف بعض الملفات:",
+          storageError.message
+        );
+
+      }
+
+    }catch(error){
+
+      console.warn(error);
+
+    }
+
+  }
+
+
+  const {error} =
+    await sb
+      .from("orders")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "تعذر حذف الطلب نهائيًا: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  orders =
+    orders.filter(
+      item => item.id !== id
+    );
 
 
   selected.delete(id);
 
+  renderOrders();
 
-  render();
-
-
-  toast(
+  showToast(
     "تم حذف الطلب نهائيًا"
   );
 
 }
 
 
-/* =========================
-   عداد الزوار
-========================= */
+/* ======================================
+   التحديد الجماعي
+====================================== */
 
-async function refreshVisitorStats(){
+function visibleIds(){
+
+  return filteredOrders()
+    .map(order => order.id);
+
+}
+
+
+function updateBulkUI(){
+
+  const visible =
+    visibleIds();
+
+
+  const selectedVisible =
+    visible.filter(
+      id => selected.has(id)
+    );
+
+
+  $("#selectedCount").textContent =
+    selected.size + " محدد";
+
+
+  $("#archiveSelected").disabled =
+    selected.size === 0;
+
+
+  $("#deleteSelected").disabled =
+    selected.size === 0;
+
+
+  $("#selectAll").checked =
+    visible.length > 0
+    &&
+    selectedVisible.length
+    ===
+    visible.length;
+
+
+  $("#selectAll").indeterminate =
+    selectedVisible.length > 0
+    &&
+    selectedVisible.length
+    <
+    visible.length;
+
+}
+
+
+/* ======================================
+   حذف جماعي عادي
+====================================== */
+
+async function archiveSelectedOrders(){
+
+  const ids =
+    [...selected];
+
+
+  if(!ids.length){
+    return;
+  }
+
 
   if(
-    !window
-    .LahzaAnalytics
+    !confirm(
+`حذف ${ids.length} طلب من لوحة الإدارة؟
+
+روابط الهدايا عند العملاء بتظل شغالة.`
+    )
   ){
     return;
   }
 
 
-  try{
-
-    const s =
-    await LahzaAnalytics
-    .getStats();
+  const archivedAt =
+    new Date().toISOString();
 
 
-    const visitors =
-    document
-    .getElementById(
-      "statVisitors"
+  const {error} =
+    await sb
+      .from("orders")
+      .update({
+        archived:true,
+        archived_at:archivedAt
+      })
+      .in("id",ids);
+
+
+  if(error){
+
+    alert(
+      "تعذر حذف الطلبات: " +
+      error.message
     );
 
+    return;
 
-    const online =
-    document
-    .getElementById(
-      "statOnline"
-    );
+  }
 
 
-    if(visitors){
+  orders.forEach(order => {
 
-      visitors
-      .textContent =
-      Number(
-        s.total_visitors
-        ||
-        0
-      )
-      .toLocaleString(
-        "ar-BH"
-      );
+    if(selected.has(order.id)){
+
+      order.archived = true;
+      order.archived_at = archivedAt;
 
     }
 
+  });
 
-    if(online){
 
-      online
-      .textContent =
-      Number(
-        s.online_now
-        ||
-        0
-      )
-      .toLocaleString(
-        "ar-BH"
-      );
+  selected.clear();
+
+  renderOrders();
+
+  showToast(
+    "تم حذف الطلبات من لوحة الإدارة"
+  );
+
+}
+
+
+/* ======================================
+   حذف جماعي نهائي
+====================================== */
+
+async function deleteSelectedOrders(){
+
+  const ids =
+    [...selected];
+
+
+  if(!ids.length){
+    return;
+  }
+
+
+  if(
+    !confirm(
+`⚠️ حذف نهائي
+
+متأكد تبي تحذف ${ids.length} طلب نهائيًا؟
+
+روابط الهدايا لهذي الطلبات بتتوقف.`
+    )
+  ){
+    return;
+  }
+
+
+  const chosen =
+    orders.filter(
+      order => selected.has(order.id)
+    );
+
+
+  for(const order of chosen){
+
+    const paths =
+      extractStoragePaths(order);
+
+
+    if(paths.length){
+
+      try{
+
+        await sb.storage
+          .from("gift-media")
+          .remove(paths);
+
+      }catch(error){
+
+        console.warn(error);
+
+      }
 
     }
 
   }
 
-  catch(e){
+
+  const {error} =
+    await sb
+      .from("orders")
+      .delete()
+      .in("id",ids);
+
+
+  if(error){
+
+    alert(
+      "تعذر حذف الطلبات نهائيًا: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  orders =
+    orders.filter(
+      order => !selected.has(order.id)
+    );
+
+
+  selected.clear();
+
+  renderOrders();
+
+  showToast(
+    "تم الحذف النهائي"
+  );
+
+}
+
+
+/* ======================================
+   إحصائيات الزوار
+
+   مهم:
+   الأدمن هنا لا يشغل analytics.js
+   لذلك دخولك للأدمن لا ينحسب كزائر.
+====================================== */
+
+async function getVisitorStats(){
+
+  try{
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/rpc/get_site_stats",
+        {
+          method:"POST",
+
+          headers:{
+            apikey:SUPABASE_KEY,
+            Authorization:
+              "Bearer " +
+              SUPABASE_KEY,
+            "Content-Type":
+              "application/json"
+          },
+
+          body:"{}"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        await response.text()
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    return Array.isArray(data)
+      ?
+      data[0]
+      :
+      data;
+
+  }catch(error){
 
     console.warn(
-      "visitor stats",
-      e
+      "Visitor stats:",
+      error
     );
+
+
+    return {
+      total_visitors:0,
+      online_now:0
+    };
 
   }
 
 }
 
 
-/* =========================
+async function refreshVisitorStats(){
+
+  const stats =
+    await getVisitorStats();
+
+
+  /* en-US = الأرقام تطلع 1 2 3 */
+  $("#statVisitors").textContent =
+    Number(
+      stats?.total_visitors || 0
+    ).toLocaleString("en-US");
+
+
+  $("#statOnline").textContent =
+    Number(
+      stats?.online_now || 0
+    ).toLocaleString("en-US");
+
+}
+
+
+/* ======================================
    الأحداث
-========================= */
+====================================== */
 
 $("#loginBtn")
-.addEventListener(
-  "click",
-  login
-);
+  .addEventListener(
+    "click",
+    login
+  );
 
 
 $("#password")
-.addEventListener(
-  "keydown",
-  e=>{
+  .addEventListener(
+    "keydown",
+    event => {
 
-    if(
-      e.key
-      ===
-      "Enter"
-    ){
+      if(event.key === "Enter"){
 
-      login();
+        login();
+
+      }
 
     }
-
-  }
-);
+  );
 
 
 $("#logoutBtn")
-.addEventListener(
-  "click",
-  async()=>{
+  .addEventListener(
+    "click",
+    async () => {
 
-    await sb.auth
-    .signOut();
+      await sb.auth.signOut();
 
-    location.reload();
+      location.reload();
 
-  }
-);
+    }
+  );
 
 
 $("#search")
-.addEventListener(
-  "input",
-  render
-);
-
-
-$("#selectAll")
-.addEventListener(
-  "change",
-  e=>{
-
-    const ids =
-    visibleOrderIds();
-
-
-    ids.forEach(
-      id=>
-      e.target.checked
-      ?
-      selected.add(id)
-      :
-      selected.delete(id)
-    );
-
-
-    render();
-
-  }
-);
-
-
-$("#archiveSelected")
-.addEventListener(
-  "click",
-  archiveSelectedOrders
-);
-
-
-$("#deleteSelected")
-.addEventListener(
-  "click",
-  deleteSelectedOrders
-);
+  .addEventListener(
+    "input",
+    renderOrders
+  );
 
 
 document
-.querySelectorAll(
-  ".filter"
-)
-.forEach(
-  btn=>
-  btn.addEventListener(
-    "click",
-    ()=>{
+  .querySelectorAll(".filter")
+  .forEach(button => {
 
-      document
-      .querySelectorAll(
-        ".filter"
-      )
-      .forEach(
-        x=>
-        x.classList.remove(
-          "active"
-        )
-      );
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(".filter")
+          .forEach(item =>
+            item.classList.remove("active")
+          );
 
 
-      btn.classList.add(
-        "active"
-      );
+        button.classList.add("active");
+
+        currentFilter =
+          button.dataset.filter;
+
+        selected.clear();
+
+        renderOrders();
+
+      }
+    );
+
+  });
 
 
-      currentFilter =
-      btn.dataset.filter;
+$("#selectAll")
+  .addEventListener(
+    "change",
+    event => {
+
+      const ids =
+        visibleIds();
 
 
-      render();
+      ids.forEach(id => {
+
+        if(event.target.checked){
+
+          selected.add(id);
+
+        }else{
+
+          selected.delete(id);
+
+        }
+
+      });
+
+
+      renderOrders();
 
     }
-  )
-);
+  );
 
 
-/* تحديث الزوار كل 15 ثانية */
+$("#archiveSelected")
+  .addEventListener(
+    "click",
+    archiveSelectedOrders
+  );
 
-setTimeout(
-  refreshVisitorStats,
-  700
-);
+
+$("#deleteSelected")
+  .addEventListener(
+    "click",
+    deleteSelectedOrders
+  );
 
 
+/* تحديث عداد الزوار كل 15 ثانية */
 setInterval(
-  refreshVisitorStats,
+  () => {
+
+    if(
+      $("#app").style.display
+      !==
+      "none"
+    ){
+
+      refreshVisitorStats();
+
+    }
+
+  },
   15000
 );
 
 
+/* تشغيل الصفحة */
 checkSession();
 
 </script>
