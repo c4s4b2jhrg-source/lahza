@@ -1468,6 +1468,8 @@
         class="status"
       ></div>
 
+      <div id="draftStatus" style="min-height:18px;margin-top:5px;text-align:center;color:var(--muted);font-size:11px"></div>
+
     </div>
 
   </div>
@@ -1478,19 +1480,6 @@
  const map={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9','۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
  function normalizeOne(id){const e=document.getElementById(id);if(e)e.value=e.value.replace(/[٠-٩۰-۹]/g,d=>map[d]).replace(/[^\d+]/g,'')}
  function normalizePhone(){normalizeOne('phone');normalizeOne('recipientPhone')}
- function stepError(message){const el=document.getElementById('status');if(el){el.textContent=message;el.className='status error'};return false}
- function canContinue(){
-   if(wizardStep===1){
-     if(!document.getElementById('receiver')?.value.trim())return stepError('اكتب اسم المستلم أول.');
-     const auto=document.getElementById('autoSendGift')?.checked;
-     const phone=(auto?document.getElementById('recipientPhone')?.value:document.getElementById('phone')?.value)||'';
-     const digits=phone.replace(/\D/g,'');
-     if(digits.length<8||digits.length>15)return stepError(auto?'اكتب رقم واتساب المستلم بشكل صحيح.':'اكتب رقم واتساب صاحب الطلب بشكل صحيح.');
-   }
-   if(wizardStep===2&&!document.getElementById('message')?.value.trim())return stepError('اكتب رسالة الهدية أول.');
-   const el=document.getElementById('status');if(el){el.textContent='';el.className='status'}
-   return true;
- }
  function render(){document.querySelectorAll('.wizardPage').forEach(e=>e.classList.toggle('wizardVisible',+e.dataset.wizardStep===wizardStep));document.querySelectorAll('.wizardDot').forEach(e=>{const n=+e.dataset.dot;e.classList.toggle('active',n===wizardStep);e.classList.toggle('done',n<wizardStep)});document.getElementById('wizardPrev')?.classList.toggle('hide',wizardStep===1);document.getElementById('wizardNext')?.classList.toggle('hide',wizardStep===4);document.getElementById('submitBtn')?.classList.toggle('hide',wizardStep!==4);window.scrollTo({top:0,behavior:'smooth'})}
  document.addEventListener('DOMContentLoaded',()=>{
    const p=document.getElementById('phone');
@@ -1500,7 +1489,7 @@
    const wrap=document.getElementById('recipientPhoneWrap');
    const syncAuto=()=>{if(wrap)wrap.classList.toggle('hide',!auto?.checked);if(!auto?.checked&&rp)rp.value='';};
    auto?.addEventListener('change',syncAuto); syncAuto();
-   document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();if(!canContinue())return;wizardStep=Math.min(4,wizardStep+1);render()});
+   document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();wizardStep=Math.min(4,wizardStep+1);render()});
    document.getElementById('wizardPrev')?.addEventListener('click',()=>{wizardStep=Math.max(1,wizardStep-1);render()});
    render()
  })
@@ -1575,15 +1564,6 @@ localStorage.getItem(
   "lahzaOccasion"
 ) ||
 "بدون مناسبة";
-
-occasion = ({
-  love:"حب",
-  birthday:"عيد ميلاد",
-  friend:"صداقة",
-  graduation:"تخرج",
-  sorry:"اعتذار",
-  surprise:"بدون مناسبة"
-})[occasion] || occasion;
 
 let messageFont =
 "classic";
@@ -3381,6 +3361,11 @@ async () => {
       throw error;
     }
 
+    localStorage.removeItem(
+      "lahzaCreateDraft:" + planKey
+    );
+    document.dispatchEvent(new Event("lahza:order-saved"));
+
     localStorage
     .setItem(
       "lahzaPlan",
@@ -3470,6 +3455,138 @@ updatePreview();
 
 updateSummary();
 
+</script>
+
+<script>
+/* حفظ تلقائي لمسودة الهدية (الحقول والاختيارات فقط) */
+(function(){
+  const key = "lahzaCreateDraft:" + planKey;
+  const fieldIds = [
+    "receiver","sender","phone","recipientPhone","message","giftDate",
+    "photoFrame","photoSize","photoFit","openAt","envelopeText",
+    "secretMessage","photoDuration","photoMotion","effectsLevel",
+    "musicUrl","giftPin","finalMessage"
+  ];
+  const checkIds = [
+    "autoSendGift","senderAnonymous","musicContinue","showMusic","showDate"
+  ];
+  let timer = null;
+  let enabled = true;
+
+  function saveDraft(){
+    if(!enabled) return;
+    const fields = {};
+    const checks = {};
+
+    fieldIds.forEach(id => {
+      const element = document.getElementById(id);
+      if(element) fields[id] = element.value;
+    });
+
+    checkIds.forEach(id => {
+      const element = document.getElementById(id);
+      if(element) checks[id] = element.checked;
+    });
+
+    localStorage.setItem(key,JSON.stringify({
+      fields,
+      checks,
+      theme,
+      messageFont,
+      sectionOrder,
+      savedAt:Date.now()
+    }));
+
+    const status = document.getElementById("draftStatus");
+    if(status){
+      status.textContent = "تم حفظ المسودة تلقائيًا ✓";
+      clearTimeout(saveDraft.statusTimer);
+      saveDraft.statusTimer = setTimeout(() => {
+        status.textContent = "";
+      },1800);
+    }
+  }
+
+  function queueSave(){
+    if(!enabled) return;
+    clearTimeout(timer);
+    timer = setTimeout(saveDraft,350);
+  }
+
+  function restoreDraft(){
+    let draft;
+
+    try{
+      draft = JSON.parse(localStorage.getItem(key) || "null");
+    }catch{
+      draft = null;
+    }
+
+    if(!draft) return;
+
+    Object.entries(draft.fields || {}).forEach(([id,value]) => {
+      const element = document.getElementById(id);
+      if(element && element.type !== "file") element.value = value ?? "";
+    });
+
+    Object.entries(draft.checks || {}).forEach(([id,value]) => {
+      const element = document.getElementById(id);
+      if(element) element.checked = !!value;
+    });
+
+    if(["romantic","minimal","midnight","sunset"].includes(draft.theme)){
+      theme = draft.theme;
+    }
+
+    if(["classic","soft","handwritten","elegant","modern"].includes(draft.messageFont)){
+      messageFont = draft.messageFont;
+    }
+
+    if(Array.isArray(draft.sectionOrder)){
+      sectionOrder = draft.sectionOrder;
+    }
+
+    document.querySelectorAll("#themeChoices .choice").forEach(element => {
+      element.classList.toggle("active",element.dataset.theme === theme);
+    });
+
+    document.querySelectorAll("#fontChoices .choice").forEach(element => {
+      element.classList.toggle("active",element.dataset.font === messageFont);
+    });
+
+    document.getElementById("autoSendGift")?.dispatchEvent(new Event("change"));
+    syncMixedFrame();
+    setPlanUI();
+    renderOrder();
+    updatePreview();
+    updateSummary();
+
+    const status = document.getElementById("draftStatus");
+    if(status) status.textContent = "رجعنا مسودتك المحفوظة ✓";
+  }
+
+  restoreDraft();
+
+  document.addEventListener("lahza:order-saved",() => {
+    enabled = false;
+    clearTimeout(timer);
+    localStorage.removeItem(key);
+  });
+
+  document.addEventListener("input",event => {
+    if(event.target.matches("input:not([type=file]),textarea")) queueSave();
+  });
+
+  document.addEventListener("change",event => {
+    if(event.target.matches("input:not([type=file]),select,textarea")) queueSave();
+  });
+
+  document.addEventListener("click",event => {
+    if(event.target.closest("#themeChoices .choice,#fontChoices .choice,#orderList button")){
+      queueSave();
+    }
+  });
+})();
 </script>
 
 <script src="analytics.js"></script>
