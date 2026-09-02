@@ -1,0 +1,27 @@
+/* LAHZA shared experience polish */
+:root{color-scheme:dark;--tap:48px;--safe-bottom:max(18px,env(safe-area-inset-bottom));--focus:#ffd2e4}
+html{scroll-behavior:smooth;text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+body{padding-bottom:env(safe-area-inset-bottom);animation:lahzaReady .24s ease both}
+@keyframes lahzaReady{from{opacity:.35}to{opacity:1}}
+button,a,input,select,textarea{touch-action:manipulation}
+button,a[role="button"]{min-height:var(--tap)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus)!important;outline-offset:3px}
+input,select,textarea{font-size:16px!important}
+img,video{max-width:100%}
+img{content-visibility:auto}
+::selection{background:rgba(255,111,169,.34);color:#fff}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,158,197,.38);border-radius:999px}
+.lahza-network{position:fixed;z-index:100000;top:max(10px,env(safe-area-inset-top));left:50%;translate:-50% -140%;padding:10px 16px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:#21131d;color:#fff;font:700 13px/1.4 Tajawal,Arial,sans-serif;box-shadow:0 14px 40px rgba(0,0,0,.38);transition:translate .3s ease;white-space:nowrap}
+.lahza-network.show{translate:-50% 0}
+.lahza-network.online{background:#153425}
+.lahza-top-progress{position:fixed;z-index:99999;top:0;right:0;width:0;height:3px;background:linear-gradient(90deg,#ff6fa9,#ffd0e2,#9b73ff);box-shadow:0 0 14px #ff6fa9;transition:width .08s linear}
+.lahza-to-top{position:fixed;z-index:9990;left:16px;bottom:var(--safe-bottom);width:48px;height:48px;border:1px solid rgba(255,255,255,.12);border-radius:50%;display:grid;place-items:center;background:rgba(22,15,27,.88);color:#fff;box-shadow:0 12px 34px rgba(0,0,0,.3);backdrop-filter:blur(14px);opacity:0;transform:translateY(14px);pointer-events:none;transition:.24s ease}
+.lahza-to-top.show{opacity:1;transform:none;pointer-events:auto}
+.lahza-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:lahzaRipple .55s ease-out;pointer-events:none}
+@keyframes lahzaRipple{to{transform:scale(4);opacity:0}}
+@media (hover:hover){button,a,.btn{transition:transform .2s ease,filter .2s ease,box-shadow .2s ease}button:hover,.btn:hover{filter:brightness(1.08)}a:hover{text-underline-offset:4px}}
+@media(max-width:640px){.card{border-radius:22px!important}.btn,button{min-height:50px}.lahza-to-top{width:46px;height:46px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(prefers-contrast:more){:root{--focus:#fff}.card,input,select,textarea{border-color:rgba(255,255,255,.35)!important}}
+@media print{.lahza-network,.lahza-top-progress,.lahza-to-top,nav,footer{display:none!important}body{background:#fff!important;color:#111!important}}

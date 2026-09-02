@@ -1,5 +1,5 @@
-const CACHE="lahza-shell-v1";
-const SHELL=["./","./index.html","./occasion.html","./plans.html","./create.html","./checkout.html","./privacy.html","./terms.html","./icon.svg"];
+const CACHE="lahza-shell-v2";
+const SHELL=["./","./index.html","./occasion.html","./plans.html","./create.html","./checkout.html","./privacy.html","./terms.html","./icon.svg","./polish.css","./polish.js"];
 
 self.addEventListener("install",event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).catch(()=>{}));

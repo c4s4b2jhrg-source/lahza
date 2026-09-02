@@ -162,14 +162,15 @@ p{color:var(--muted);line-height:1.9}
   position:absolute;
   left:50%;
   bottom:92px;
-  width:min(84vw,420px);
-  min-height:270px;
-  padding:54px 34px 74px;
-  border-radius:18px;
+  width:min(88vw,470px);
+  height:285px;
+  min-height:285px;
+  padding:52px 38px 72px;
+  border-radius:12px;
   opacity:0;
   transform:translateX(-50%) translateY(115px) scale(.94);
   z-index:2;
-  overflow:hidden;
+  overflow:auto;
   background:
     radial-gradient(circle at 18% 14%,rgba(255,158,197,.08),transparent 25%),
     linear-gradient(160deg,#5b2a42,#32182a);
@@ -178,7 +179,7 @@ p{color:var(--muted);line-height:1.9}
   box-shadow:0 30px 80px rgba(0,0,0,.44);
   font-family:"Aref Ruqaa",serif;
   font-size:24px;
-  line-height:2;
+  line-height:1.8;
   text-align:center;
   transition:
     transform 1.15s cubic-bezier(.17,.85,.25,1),
@@ -188,9 +189,9 @@ p{color:var(--muted);line-height:1.9}
 .letter:before{
   content:"";
   position:absolute;
-  inset:16px;
+  inset:14px;
   border:1px solid rgba(255,158,197,.24);
-  border-radius:12px;
+  border-radius:7px;
   pointer-events:none
 }
 
@@ -349,7 +350,7 @@ video,audio{width:100%;border-radius:18px;margin-top:14px;background:#0b0b0d}
 .theme-minimal{--bg:#0d0d10;--bg2:#151218;--card:#1b171e;--card2:#231d26;--text:#faf4f7;--muted:#b7acb2;--pink:#d78aa5;--pink2:#e6a8bc;--purple:#aa8cc8;--line:rgba(255,255,255,.08)}
 .screen.active .center{animation:screenIn .52s cubic-bezier(.2,.8,.2,1)}@keyframes screenIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
 
-@media(max-width:520px){.countdown{grid-template-columns:repeat(2,1fr)}.dateGrid{grid-template-columns:repeat(2,1fr)}.envelopeWrap{height:490px}.letter{min-height:305px;font-size:21px}.letter.show{transform:translateX(-50%) translateY(-150px) scale(1)}@keyframes letterHit{50%{transform:translateX(-50%) translateY(-150px) scale(.975)}}}
+@media(max-width:520px){.countdown{grid-template-columns:repeat(2,1fr)}.dateGrid{grid-template-columns:repeat(2,1fr)}.envelopeWrap{height:490px}.letter{width:min(90vw,430px);height:270px;min-height:270px;padding:48px 26px 68px;font-size:20px}.letter.show{transform:translateX(-50%) translateY(-150px) scale(1)}@keyframes letterHit{50%{transform:translateX(-50%) translateY(-150px) scale(.975)}}}
 @media(max-height:650px){.envelopeWrap{transform:scale(.9);transform-origin:center}.screen{padding:14px}}
 
 /* LAHZA EXPERIENCE 100 */
@@ -378,6 +379,8 @@ body{min-height:100dvh;overscroll-behavior:none;-webkit-font-smoothing:antialias
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 
 </style>
+<link rel="stylesheet" href="./polish.css">
+<script src="./polish.js" defer></script>
 </head>
 <body>
 <div id="experienceProgress"><i></i></div>
