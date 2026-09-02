@@ -339,10 +339,44 @@ p{color:var(--muted);line-height:1.9}
 video,audio{width:100%;border-radius:18px;margin-top:14px;background:#0b0b0d}
 .particle{position:fixed;pointer-events:none;z-index:9999;animation:floatUp 1.4s ease forwards}@keyframes floatUp{to{transform:translateY(-90px) scale(1.35);opacity:0}}
 
-/* الثيمات - كلها داكنة ومتناسقة */
+/* الثيمات المكس: كل ثيم يغيّر الجو والبطاقات والظرف وإطار الصور */
+.theme-romantic{--bg:#170d13;--bg2:#24121c;--card:#291621;--card2:#361b29;--pink:#e66f9b;--pink2:#ffc0d7;--purple:#a55b83;--soft:rgba(230,111,155,.12)}
 .theme-midnight{--bg:#070b17;--bg2:#0b1020;--card:#0d1426;--card2:#151d34;--pink:#7b8cff;--pink2:#a8b2ff;--purple:#6f5cff;--soft:rgba(123,140,255,.12)}
 .theme-sunset{--bg:#190b12;--bg2:#241018;--card:#2c151f;--card2:#341922;--pink:#ff7b78;--pink2:#ffc59d;--purple:#f3946b;--soft:rgba(255,123,120,.12)}
-.theme-minimal{--bg:#0d0d10;--bg2:#151218;--card:#1b171e;--card2:#231d26;--text:#faf4f7;--muted:#b7acb2;--pink:#d78aa5;--pink2:#e6a8bc;--purple:#aa8cc8;--line:rgba(255,255,255,.08)}
+.theme-minimal{--bg:#e9e4dc;--bg2:#f5f2ec;--card:#fffdfa;--card2:#f3eee7;--text:#292724;--muted:#746f68;--pink:#9b7b70;--pink2:#7f6a62;--purple:#b39b8f;--line:rgba(45,38,33,.13)}
+
+.theme-romantic .card{background:linear-gradient(145deg,rgba(70,34,51,.94),rgba(34,17,27,.96));border-color:rgba(255,192,215,.16)}
+.theme-romantic .envelope{background:linear-gradient(145deg,#d982a3,#ad466f)}
+.theme-romantic .photoShell.polaroid{background:#fff8f3;padding:12px 12px 48px;transform:rotate(-1deg)}
+
+.theme-midnight body,.theme-midnight{background:radial-gradient(circle at 20% 14%,#34304d,#080b16 62%,#05070e)}
+.theme-midnight .card{background:linear-gradient(145deg,rgba(22,28,52,.94),rgba(8,12,27,.96));border-color:rgba(168,178,255,.18)}
+.theme-midnight .envelope{background:linear-gradient(145deg,#373c70,#20264d)}
+.theme-midnight .envelope:before{background:linear-gradient(145deg,#4a518d,#29305f)}
+.theme-midnight .envelope:after{background:linear-gradient(160deg,#30376b,#171d43)}
+.theme-midnight .flap{background:linear-gradient(180deg,#6972b5,#343c78)}
+.theme-midnight .seal{background:radial-gradient(circle at 35% 30%,#d9c77c,#86702e 72%)}
+.theme-midnight .letter{background:radial-gradient(circle at 20% 14%,rgba(168,178,255,.10),transparent 26%),linear-gradient(160deg,#252b51,#10152f);border-color:rgba(216,201,133,.38)}
+.theme-midnight .letter:after{content:"✦   LAHZA   ✦";color:#e6d890}
+.theme-midnight .photoShell.soft,.theme-midnight .photoShell.polaroid{border:4px double rgba(216,201,133,.7);background:#12172d}
+
+.theme-sunset{background:linear-gradient(155deg,#35162b,#7c384b 48%,#b56552)}
+.theme-sunset .card{background:linear-gradient(145deg,rgba(88,42,47,.92),rgba(40,20,28,.96));border-color:rgba(255,197,157,.21);transform:rotate(-.15deg)}
+.theme-sunset .envelope{background:linear-gradient(145deg,#d9896d,#a95062)}
+.theme-sunset .envelope:before{background:linear-gradient(145deg,#e6a07c,#bd6470)}
+.theme-sunset .envelope:after{background:linear-gradient(160deg,#c36b67,#963f58)}
+.theme-sunset .flap{background:linear-gradient(180deg,#f2b58e,#cb7475)}
+.theme-sunset .letter{background:linear-gradient(160deg,#5d302f,#382023);border-color:rgba(255,197,157,.35)}
+.theme-sunset .photoShell.polaroid{background:#ead9bd;color:#35281f;padding:12px 12px 48px;border-radius:3px;transform:rotate(1.3deg);box-shadow:0 18px 50px #0005}
+
+.theme-minimal{background:linear-gradient(155deg,#f6f3ed,#e5dfd6);color:var(--text)}
+.theme-minimal .card{background:rgba(255,253,250,.9);box-shadow:0 22px 55px rgba(61,49,42,.12);border-radius:5px}
+.theme-minimal .btn{color:#fff;background:#292724;box-shadow:none;border-radius:5px}.theme-minimal .btn.ghost{color:#292724;background:transparent;border-color:#a99f95}
+.theme-minimal .envelope{background:#d8d0c6;border-radius:3px;box-shadow:0 22px 55px rgba(61,49,42,.2)}
+.theme-minimal .envelope:before{background:#e7e0d7;border-radius:3px}.theme-minimal .envelope:after{background:#c8beb2;border-radius:0 0 3px 3px}.theme-minimal .flap{background:#f0ebe4}.theme-minimal .seal{background:#2d2a27;color:#fff}
+.theme-minimal .letter{background:#fffdfa;color:#292724;border-color:#cfc6bc;border-radius:2px;box-shadow:0 24px 55px rgba(61,49,42,.18)}
+.theme-minimal .letter:before{border-color:#d9d1c8;border-radius:0}.theme-minimal .letter:after{content:"LAHZA";color:#716b65;letter-spacing:6px}.theme-minimal .corner{color:#8c837b}
+.theme-minimal .letterStamp{color:#292724;border-color:#716b65;background:#fffdfa}.theme-minimal .writtenName,.theme-minimal .secret{color:#292724;text-shadow:none}.theme-minimal .messageBox{background:#fffdfa;color:#292724;border-radius:3px}.theme-minimal .photoShell.soft{background:#fffdfa;border-color:#cfc6bc;border-radius:3px}.theme-minimal .photoShell.polaroid{background:#fffdfa;border-color:#cfc6bc;border-radius:2px}.theme-minimal .photoShell img{background:#ddd6cd}.theme-minimal .iconBtn{color:#292724;background:#fffdfa}.theme-minimal .dateUnit b{color:#292724}.theme-minimal #floatingMusic{background:#fffdfa;color:#292724}
 .screen.active .center{animation:screenIn .52s cubic-bezier(.2,.8,.2,1)}@keyframes screenIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
 
 @media(max-width:520px){.countdown{grid-template-columns:repeat(2,1fr)}.dateGrid{grid-template-columns:repeat(2,1fr)}.envelopeWrap{height:490px}.letter{min-height:305px;font-size:21px}.letter.show{transform:translateX(-50%) translateY(-150px) scale(1)}@keyframes letterHit{50%{transform:translateX(-50%) translateY(-150px) scale(.975)}}}
@@ -441,7 +475,7 @@ window.setDisc=function(on){
 const setDisc=window.setDisc;
 function qs(name){return new URLSearchParams(location.search).get(name)}
 function show(id){screens.forEach(s=>s.classList.remove('active'));const el=$(id);if(el)el.classList.add('active')}
-function applyTheme(){document.body.classList.remove('theme-midnight','theme-sunset','theme-minimal');if(gift?.theme==='midnight')document.body.classList.add('theme-midnight');if(gift?.theme==='sunset')document.body.classList.add('theme-sunset');if(gift?.theme==='minimal')document.body.classList.add('theme-minimal')}
+function applyTheme(){const chosen=['romantic','midnight','sunset','minimal'].includes(gift?.theme)?gift.theme:'romantic';document.body.classList.remove('theme-romantic','theme-midnight','theme-sunset','theme-minimal');document.body.classList.add('theme-'+chosen)}
 function fontFamily(v){return {classic:'"Aref Ruqaa",serif',soft:'"Tajawal",sans-serif',handwritten:'"Reem Kufi Ink",cursive',elegant:'"Noto Kufi Arabic",sans-serif',modern:'"Cairo",sans-serif'}[v]||'"Aref Ruqaa",serif'}
 function randomNameStyle(){
   const fonts=['"Reem Kufi Ink",cursive','"Aref Ruqaa",serif','"Tajawal",sans-serif','"Cairo",sans-serif','"Noto Kufi Arabic",sans-serif'];
