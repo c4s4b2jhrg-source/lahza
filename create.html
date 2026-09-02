@@ -167,6 +167,13 @@
       border-color:rgba(255,111,169,.55)
     }
 
+    input.fieldError,textarea.fieldError,select.fieldError{
+      border-color:#ff6f86!important;
+      box-shadow:0 0 0 4px rgba(255,76,110,.14)!important;
+      animation:fieldShake .3s ease
+    }
+    @keyframes fieldShake{25%{transform:translateX(5px)}50%{transform:translateX(-5px)}75%{transform:translateX(3px)}}
+
     textarea{
       min-height:120px;
       resize:vertical;
@@ -816,6 +823,8 @@
 @media(max-width:640px){.themeCards{grid-template-columns:repeat(2,minmax(0,1fr))}.themeCard{min-height:105px;padding:8px}.themeMini{height:57px}.giftStage{min-height:440px;padding:22px 15px}.giftPaper{padding:23px 16px}.giftPhoto{width:112px;height:128px}.giftMessage{font-size:18px}}
 </style>
 
+  <link rel="stylesheet" href="./polish.css">
+  <script src="./polish.js" defer></script>
 </head>
 
 <body>
@@ -876,12 +885,12 @@
 
         <div>
           <label>اسم المستلم</label>
-          <input id="receiver" maxlength="60" placeholder="مثال: نور">
+          <input id="receiver" maxlength="60" required autocomplete="name" placeholder="مثال: نور">
         </div>
 
         <div>
           <label>اسم المرسل</label>
-          <input id="sender" maxlength="60" placeholder="مثال: علي">
+          <input id="sender" maxlength="60" required autocomplete="name" placeholder="مثال: علي">
         </div>
 
         <div id="customerPhoneField">
@@ -893,6 +902,7 @@
             dir="ltr"
             autocomplete="tel"
             maxlength="20"
+            required
             placeholder="مثال: 3XXXXXXX أو 9733XXXXXXX"
           >
         </div>
@@ -956,6 +966,7 @@
       <textarea
         id="message"
         maxlength="1800"
+        required
         placeholder="اكتب رسالتك هنا…"
       ></textarea>
 
@@ -1486,6 +1497,26 @@
  const map={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9','۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
  function normalizeOne(id){const e=document.getElementById(id);if(e)e.value=e.value.replace(/[٠-٩۰-۹]/g,d=>map[d]).replace(/[^\d+]/g,'')}
  function normalizePhone(){normalizeOne('phone');normalizeOne('recipientPhone')}
+ function fail(id,message){
+   const el=document.getElementById(id),status=document.getElementById('status');
+   if(status){status.textContent=message;status.className='status error'}
+   if(el){el.classList.add('fieldError');el.setAttribute('aria-invalid','true');el.focus({preventScroll:true});el.scrollIntoView({behavior:'smooth',block:'center'})}
+   return false;
+ }
+ function validStep(){
+   document.querySelectorAll('.fieldError').forEach(el=>{el.classList.remove('fieldError');el.removeAttribute('aria-invalid')});
+   const status=document.getElementById('status');if(status){status.textContent='';status.className='status'}
+   if(wizardStep===1){
+     if(!document.getElementById('receiver')?.value.trim())return fail('receiver','اكتب اسم المستلم أول.');
+     if(!document.getElementById('senderAnonymous')?.checked&&!document.getElementById('sender')?.value.trim())return fail('sender','اكتب اسم المرسل أول.');
+     const auto=document.getElementById('autoSendGift')?.checked;
+     const phone=(document.getElementById(auto?'recipientPhone':'phone')?.value||'').replace(/\D/g,'');
+     if(phone.length<8||phone.length>15)return fail(auto?'recipientPhone':'phone',auto?'اكتب رقم واتساب المستلم بشكل صحيح.':'اكتب رقم واتسابك بشكل صحيح.');
+     if(document.getElementById('showDate')?.checked&&!document.getElementById('giftDate')?.value)return fail('giftDate','اختار تاريخ الذكرى أول.');
+   }
+   if(wizardStep===2&&!document.getElementById('message')?.value.trim())return fail('message','اكتب رسالة الهدية أول.');
+   return true;
+ }
  function render(){document.querySelectorAll('.wizardPage').forEach(e=>e.classList.toggle('wizardVisible',+e.dataset.wizardStep===wizardStep));document.querySelectorAll('.wizardDot').forEach(e=>{const n=+e.dataset.dot;e.classList.toggle('active',n===wizardStep);e.classList.toggle('done',n<wizardStep)});document.getElementById('wizardPrev')?.classList.toggle('hide',wizardStep===1);document.getElementById('wizardNext')?.classList.toggle('hide',wizardStep===4);document.getElementById('submitBtn')?.classList.toggle('hide',wizardStep!==4);window.scrollTo({top:0,behavior:'smooth'})}
  document.addEventListener('DOMContentLoaded',()=>{
    const p=document.getElementById('phone');
@@ -1495,7 +1526,7 @@
    const wrap=document.getElementById('recipientPhoneWrap');
    const syncAuto=()=>{if(wrap)wrap.classList.toggle('hide',!auto?.checked);if(!auto?.checked&&rp)rp.value='';};
    auto?.addEventListener('change',syncAuto); syncAuto();
-   document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();wizardStep=Math.min(4,wizardStep+1);render()});
+   document.getElementById('wizardNext')?.addEventListener('click',()=>{normalizePhone();if(!validStep())return;wizardStep=Math.min(4,wizardStep+1);render()});
    document.getElementById('wizardPrev')?.addEventListener('click',()=>{wizardStep=Math.max(1,wizardStep-1);render()});
    render()
  })
