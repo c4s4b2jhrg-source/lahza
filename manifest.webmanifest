@@ -1,0 +1,15 @@
+{
+  "name": "LAHZA | لحظة",
+  "short_name": "لحظة",
+  "description": "اصنع هدية رقمية خاصة في رابط واحد.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#08080f",
+  "theme_color": "#ff4f87",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

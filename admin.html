@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0d0a0f">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
 
 <title>لوحة الإدارة | LAHZA</title>
 
@@ -204,6 +206,12 @@ button{
   flex-wrap:wrap;
   gap:7px;
 }
+
+.adminTools{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.adminTools .input{width:auto;min-width:165px;padding:9px 12px}
+.workflowSelect{width:auto;min-width:145px;padding:9px 10px;border-radius:12px;border:1px solid var(--line);background:#100d12;color:#fff}
+.adminNote{width:100%;min-height:76px;margin-top:7px;padding:11px;border:1px solid var(--line);border-radius:12px;background:#0f0c11;color:#fff;resize:vertical}
+.reportGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.reportBox{padding:14px;border-radius:15px;background:#100d12}.reportBox span{display:block;color:var(--muted);font-size:12px}.reportBox b{display:block;margin-top:5px;font-size:22px}
 
 .filter{
   border:1px solid var(--line);
@@ -570,9 +578,12 @@ button{
   }
 
   .editGrid,
-  .editChecks{
+  .editChecks,
+  .reportGrid{
     grid-template-columns:1fr;
   }
+
+  .adminTools .input{width:100%}
 }
 </style>
 </head>
@@ -710,6 +721,18 @@ button{
 
       </div>
 
+      <div class="adminTools">
+        <select id="sortOrders" class="input">
+          <option value="newest">الأحدث أولًا</option>
+          <option value="oldest">الأقدم أولًا</option>
+          <option value="priceHigh">السعر الأعلى</option>
+          <option value="priceLow">السعر الأقل</option>
+        </select>
+        <button id="todayFilter" class="btn" type="button">إرسال اليوم</button>
+        <button id="openReports" class="btn" type="button">التقارير</button>
+        <button id="enableNotifications" class="btn confirm" type="button">تنبيه الطلبات</button>
+      </div>
+
     </section>
 
 
@@ -836,6 +859,10 @@ button{
         <label for="editGiftPin">رمز فتح الهدية</label>
         <input id="editGiftPin" class="input" inputmode="numeric" maxlength="12" dir="ltr">
       </div>
+      <div class="editField full">
+        <label>معاينة الملفات الحالية</label>
+        <div id="editMediaPreview" class="reportGrid"><div class="muted">جاري تجهيز المعاينة...</div></div>
+      </div>
       <div class="editField full" style="padding-top:8px;border-top:1px solid var(--line)">
         <label for="editPhotos">استبدال الصور كلها</label>
         <input id="editPhotos" class="input" type="file" accept="image/*" multiple>
@@ -916,6 +943,14 @@ button{
   </form>
 </div>
 
+<div id="reportsModal" class="editModal" aria-hidden="true">
+  <div class="editBox" style="width:min(520px,100%)">
+    <div class="editHead"><h2>تقارير الطلبات</h2><button id="closeReports" class="ghost" type="button">✕</button></div>
+    <div id="reportGrid" class="reportGrid"></div>
+    <div class="editActions"><button id="exportOrders" class="primary" type="button">تحميل تقرير CSV</button><button id="cancelReports" class="ghost" type="button">إغلاق</button></div>
+  </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -948,6 +983,23 @@ const sb =
 let orders = [];
 let currentFilter = "all";
 let selected = new Set();
+let adminMeta = {};
+let ordersChannel = null;
+
+try{
+  adminMeta = JSON.parse(localStorage.getItem("lahzaAdminOrderMeta") || "{}") || {};
+}catch{
+  adminMeta = {};
+}
+
+function getOrderMeta(id){
+  return adminMeta[id] || {workflow:"new",note:"",sent_at:null};
+}
+
+function saveOrderMeta(id,patch){
+  adminMeta[id] = {...getOrderMeta(id),...patch};
+  localStorage.setItem("lahzaAdminOrderMeta",JSON.stringify(adminMeta));
+}
 
 
 const $ = selector =>
@@ -1249,7 +1301,45 @@ async function loadOrders(){
   orders = data || [];
 
   renderOrders();
+  startOrderRealtime();
 
+}
+
+
+function startOrderRealtime(){
+  if(ordersChannel) return;
+
+  ordersChannel = sb
+    .channel("lahza-admin-orders")
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"orders"},payload => {
+      if(!orders.some(order => order.id === payload.new.id)){
+        orders.unshift(payload.new);
+        renderOrders();
+        showToast("وصل طلب جديد 🎁");
+        if("Notification" in window && Notification.permission === "granted"){
+          new Notification("طلب جديد في لحظة",{body:`${payload.new.receiver || "هدية جديدة"} — ${payload.new.order_number || ""}`,icon:"./icon.svg"});
+        }
+      }
+    })
+    .on("postgres_changes",{event:"UPDATE",schema:"public",table:"orders"},payload => {
+      const index = orders.findIndex(order => order.id === payload.new.id);
+      if(index >= 0){ orders[index] = payload.new; renderOrders(); }
+    })
+    .on("postgres_changes",{event:"DELETE",schema:"public",table:"orders"},payload => {
+      orders = orders.filter(order => order.id !== payload.old.id);
+      renderOrders();
+    })
+    .subscribe();
+}
+
+
+async function enableOrderNotifications(){
+  if(!("Notification" in window)){
+    alert("التنبيهات غير مدعومة في هذا المتصفح.");
+    return;
+  }
+  const permission = await Notification.requestPermission();
+  showToast(permission === "granted" ? "تم تشغيل تنبيهات الطلبات ✓" : "ما تم السماح بالتنبيهات");
 }
 
 
@@ -1265,7 +1355,7 @@ function filteredOrders(){
       .trim()
       .toLowerCase();
 
-  return orders.filter(order => {
+  const filtered = orders.filter(order => {
 
     const archived =
       !!order.archived;
@@ -1319,6 +1409,14 @@ function filteredOrders(){
       return false;
     }
 
+    if(currentFilter === "today"){
+      const today = new Date().toISOString().slice(0,10);
+      const sendDate = String(order.open_at || order.gift_date || "").slice(0,10);
+      if(archived || sendDate !== today){
+        return false;
+      }
+    }
+
 
     if(!query){
       return true;
@@ -1330,6 +1428,10 @@ function filteredOrders(){
 
     const phone =
       String(order.phone || "")
+        .replace(/\D/g,"");
+
+    const recipientPhone =
+      String(order.recipient_phone || "")
         .replace(/\D/g,"");
 
 
@@ -1356,11 +1458,20 @@ function filteredOrders(){
       (
         phoneQuery
         &&
-        phone.includes(phoneQuery)
+        (phone.includes(phoneQuery) || recipientPhone.includes(phoneQuery))
       )
 
     );
 
+  });
+
+  const sort = $("#sortOrders")?.value || "newest";
+
+  return filtered.sort((a,b) => {
+    if(sort === "oldest") return new Date(a.created_at) - new Date(b.created_at);
+    if(sort === "priceHigh") return (Number(b.price)||0) - (Number(a.price)||0);
+    if(sort === "priceLow") return (Number(a.price)||0) - (Number(b.price)||0);
+    return new Date(b.created_at) - new Date(a.created_at);
   });
 
 }
@@ -1458,6 +1569,56 @@ function editSalesTotal(){
     $("#salesAmount").select();
   },50);
 
+}
+
+
+function openReportsModal(){
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
+  const weekStart = new Date(now);
+  weekStart.setDate(now.getDate()-6);
+  weekStart.setHours(0,0,0,0);
+
+  const paid = orders.filter(order => String(order.status).toLowerCase() === "paid");
+  const todayOrders = orders.filter(order => String(order.created_at || "").slice(0,10) === today);
+  const weekOrders = orders.filter(order => new Date(order.created_at) >= weekStart);
+  const todaySales = paid.filter(order => String(order.paid_at || order.created_at || "").slice(0,10) === today).reduce((sum,order)=>sum+(Number(order.price)||0),0);
+  const weekSales = paid.filter(order => new Date(order.paid_at || order.created_at) >= weekStart).reduce((sum,order)=>sum+(Number(order.price)||0),0);
+
+  $("#reportGrid").innerHTML = `
+    <div class="reportBox"><span>طلبات اليوم</span><b>${todayOrders.length}</b></div>
+    <div class="reportBox"><span>مبيعات اليوم</span><b>${money(todaySales)} د.ب</b></div>
+    <div class="reportBox"><span>طلبات آخر 7 أيام</span><b>${weekOrders.length}</b></div>
+    <div class="reportBox"><span>مبيعات آخر 7 أيام</span><b>${money(weekSales)} د.ب</b></div>
+    <div class="reportBox"><span>كل الطلبات المدفوعة</span><b>${paid.length}</b></div>
+    <div class="reportBox"><span>متوسط الطلب</span><b>${money(paid.length ? paid.reduce((s,o)=>s+(Number(o.price)||0),0)/paid.length : 0)} د.ب</b></div>`;
+
+  $("#reportsModal").classList.add("show");
+  $("#reportsModal").setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+}
+
+
+function closeReportsModal(){
+  $("#reportsModal").classList.remove("show");
+  $("#reportsModal").setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+
+
+function exportOrdersCsv(){
+  const rows = [["رقم الطلب","المستلم","المرسل","الهاتف","هاتف المستلم","السعر","الدفع","تاريخ الطلب"]];
+  orders.forEach(order => rows.push([
+    order.order_number || "",order.receiver || "",order.sender || "",order.phone || "",order.recipient_phone || "",
+    money(order.price),String(order.status).toLowerCase() === "paid" ? "مدفوع" : "غير مدفوع",formatDate(order.created_at)
+  ]));
+  const csv = "\uFEFF" + rows.map(row => row.map(value => `"${String(value).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const url = URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `lahza-orders-${new Date().toISOString().slice(0,10)}.csv`;
+  link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
 
@@ -1564,6 +1725,14 @@ function renderOrders(){
         Array.isArray(order.photos)
         ? order.photos.length
         : 0;
+
+      const localMeta = getOrderMeta(order.id);
+      const workflowLabels = {
+        new:"جديد",
+        preparing:"قيد التجهيز",
+        ready:"جاهز",
+        sent:"تم الإرسال"
+      };
 
 
       let badgeClass = "pending";
@@ -1708,6 +1877,13 @@ function renderOrders(){
 
         <div class="actions">
 
+          <select class="workflowSelect" onchange="changeWorkflow('${esc(order.id)}',this.value)">
+            <option value="new" ${localMeta.workflow === "new" ? "selected" : ""}>جديد</option>
+            <option value="preparing" ${localMeta.workflow === "preparing" ? "selected" : ""}>قيد التجهيز</option>
+            <option value="ready" ${localMeta.workflow === "ready" ? "selected" : ""}>جاهز</option>
+            <option value="sent" ${localMeta.workflow === "sent" ? "selected" : ""}>تم الإرسال</option>
+          </select>
+
           ${
             !paid && !archived
             ?
@@ -1807,6 +1983,8 @@ function renderOrders(){
           >
             ✏️ تعديل الهدية
           </button>
+
+          <button class="btn" onclick="duplicateOrder('${esc(order.id)}')">تكرار الهدية</button>
 
 
           ${
@@ -1950,6 +2128,13 @@ function renderOrders(){
             ""
           }
 
+          <div class="message">
+            <b>ملاحظات الأدمن</b>
+            <textarea id="note-${esc(order.id)}" class="adminNote" placeholder="ملاحظة خاصة ما تظهر للزبون">${esc(localMeta.note || "")}</textarea>
+            <button class="btn" style="margin-top:7px" onclick="saveAdminNote('${esc(order.id)}')">حفظ الملاحظة</button>
+            ${localMeta.sent_at ? `<div class="muted" style="margin-top:7px;font-size:11px">وقت الإرسال: ${formatDate(localMeta.sent_at)}</div>` : ""}
+          </div>
+
         </div>
 
       </article>
@@ -2010,6 +2195,53 @@ function toggleDetails(id){
 
   }
 
+}
+
+
+function changeWorkflow(id,value){
+  const allowed = ["new","preparing","ready","sent"];
+  if(!allowed.includes(value)) return;
+  saveOrderMeta(id,{
+    workflow:value,
+    sent_at:value === "sent" ? (getOrderMeta(id).sent_at || new Date().toISOString()) : getOrderMeta(id).sent_at
+  });
+  showToast("تم تحديث حالة الطلب ✓");
+}
+
+
+function saveAdminNote(id){
+  const textarea = document.getElementById("note-" + id);
+  if(!textarea) return;
+  saveOrderMeta(id,{note:textarea.value.trim()});
+  showToast("تم حفظ الملاحظة ✓");
+}
+
+
+async function duplicateOrder(id){
+  const order = orders.find(item => item.id === id);
+  if(!order || !confirm("إنشاء نسخة جديدة من هذي الهدية؟")) return;
+
+  const copy = {...order};
+  ["id","created_at","paid_at","archived_at"].forEach(key => delete copy[key]);
+  copy.order_number = "LHZ-" + Date.now().toString().slice(-8);
+  copy.gift_token = adminUuid();
+  copy.status = "pending";
+  copy.archived = false;
+
+  const {data,error} = await sb
+    .from("orders")
+    .insert(copy)
+    .select("*")
+    .single();
+
+  if(error){
+    alert("تعذر تكرار الهدية: " + error.message);
+    return;
+  }
+
+  orders.unshift(data);
+  renderOrders();
+  showToast("تم إنشاء نسخة جديدة ✓");
 }
 
 
@@ -2107,6 +2339,86 @@ function youtubeVideoId(value){
 }
 
 
+async function adminMediaUrl(value){
+  if(!value) return null;
+  const raw = String(value);
+  if(raw.startsWith("external:")) return raw.slice(9);
+  if(/^https?:\/\//i.test(raw)) return raw;
+  const path = raw.replace(/^storage-(?:audio|video):/,"").replace(/^\/+/,"").replace(/^gift-media\//,"");
+  const {data,error} = await sb.storage.from("gift-media").createSignedUrl(path,1800);
+  return error ? null : data?.signedUrl;
+}
+
+
+async function renderEditMediaPreview(order){
+  const holder = $("#editMediaPreview");
+  holder.innerHTML = "";
+  const items = [];
+
+  for(const photo of (Array.isArray(order.photos) ? order.photos.slice(0,4) : [])){
+    const value = typeof photo === "string" ? photo : (photo?.path || photo?.url);
+    const url = await adminMediaUrl(value);
+    if(url) items.push({type:"image",url,label:"صورة"});
+  }
+
+  if(order.audio_url){
+    const youtubeId = String(order.audio_url).startsWith("youtube:") ? String(order.audio_url).slice(8) : youtubeVideoId(order.audio_url);
+    if(youtubeId) items.push({type:"link",url:"https://youtu.be/" + youtubeId,label:"فتح أغنية YouTube"});
+    else{
+      const url = await adminMediaUrl(order.audio_url);
+      if(url) items.push({type:"audio",url,label:"الأغنية"});
+    }
+  }
+
+  if(order.voice_url){
+    const url = await adminMediaUrl(order.voice_url);
+    if(url) items.push({type:"audio",url,label:"الفويس"});
+  }
+
+  if(order.video_url){
+    const url = await adminMediaUrl(order.video_url);
+    if(url) items.push({type:"video",url,label:"الفيديو"});
+  }
+
+  if(!items.length){
+    holder.innerHTML = '<div class="muted">ما في ملفات للمعاينة.</div>';
+    return;
+  }
+
+  items.forEach(item => {
+    const box = document.createElement("div");
+    box.className = "reportBox";
+    const title = document.createElement("span");
+    title.textContent = item.label;
+    box.appendChild(title);
+
+    if(item.type === "image"){
+      const image = document.createElement("img");
+      image.src = item.url;
+      image.style.cssText = "width:100%;height:120px;object-fit:cover;border-radius:10px;margin-top:7px";
+      box.appendChild(image);
+    }else if(item.type === "link"){
+      const link = document.createElement("a");
+      link.href = item.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.className = "btn";
+      link.style.cssText = "display:block;margin-top:7px;text-decoration:none;text-align:center";
+      link.textContent = item.label;
+      box.appendChild(link);
+    }else{
+      const media = document.createElement(item.type);
+      media.src = item.url;
+      media.controls = true;
+      media.style.cssText = "width:100%;margin-top:7px";
+      box.appendChild(media);
+    }
+
+    holder.appendChild(box);
+  });
+}
+
+
 function openEdit(id){
 
   const order = orders.find(
@@ -2157,6 +2469,10 @@ function openEdit(id){
     `الصور الحالية: ${Array.isArray(order.photos) ? order.photos.length : 0}`;
   $("#editMusicInfo").textContent =
     order.audio_url ? "في أغنية حالية" : "ما في أغنية حاليًا";
+
+  renderEditMediaPreview(order).catch(() => {
+    $("#editMediaPreview").innerHTML = '<div class="muted">تعذرت المعاينة.</div>';
+  });
 
   $("#editModal").classList.add("show");
   $("#editModal").setAttribute("aria-hidden","false");
@@ -2700,6 +3016,12 @@ ${giftLink}
 
 نتمنى لك لحظة جميلة 🤍
 — LAHZA`;
+
+  saveOrderMeta(id,{
+    workflow:"sent",
+    sent_at:new Date().toISOString()
+  });
+  renderOrders();
 
   window.open(
     "https://wa.me/" +
@@ -3417,6 +3739,26 @@ $("#search")
     renderOrders
   );
 
+$("#sortOrders").addEventListener("change",renderOrders);
+
+$("#todayFilter").addEventListener("click",event => {
+  const active = currentFilter === "today";
+  currentFilter = active ? "all" : "today";
+  event.currentTarget.textContent = active ? "إرسال اليوم" : "عرض الكل";
+  document.querySelectorAll(".filter").forEach(button => button.classList.toggle("active",active && button.dataset.filter === "all"));
+  selected.clear();
+  renderOrders();
+});
+
+$("#openReports").addEventListener("click",openReportsModal);
+$("#closeReports").addEventListener("click",closeReportsModal);
+$("#cancelReports").addEventListener("click",closeReportsModal);
+$("#exportOrders").addEventListener("click",exportOrdersCsv);
+$("#enableNotifications").addEventListener("click",enableOrderNotifications);
+$("#reportsModal").addEventListener("click",event => {
+  if(event.target === $("#reportsModal")) closeReportsModal();
+});
+
 
 document
   .querySelectorAll(".filter")
@@ -3437,6 +3779,8 @@ document
 
         currentFilter =
           button.dataset.filter;
+
+        $("#todayFilter").textContent = "إرسال اليوم";
 
         selected.clear();
 

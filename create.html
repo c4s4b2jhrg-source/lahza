@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>اصنع لحظتك | LAHZA</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <script src="./pwa.js" defer></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700&family=Reem+Kufi+Ink&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -45,6 +47,8 @@
       gap:12px;
       margin-bottom:22px
     }
+
+    .supportLink{display:inline-flex;align-items:center;gap:6px;color:#93edb7;text-decoration:none;font-size:12px;border:1px solid rgba(49,209,124,.22);background:rgba(49,209,124,.08);padding:8px 11px;border-radius:999px}
 
     .brand{
       font-weight:900;
@@ -826,6 +830,8 @@
       <div class="brand">
         LAHZA ♡
       </div>
+
+      <a class="supportLink" href="https://wa.me/97333021058?text=%D9%87%D9%84%D8%A7%D8%8C%20%D8%B9%D9%86%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%87%D8%AF%D9%8A%D8%A9%20%D9%84%D8%AD%D8%B8%D8%A9" target="_blank" rel="noopener">واتساب المساعدة</a>
     </div>
 
     <section class="hero">
@@ -1584,6 +1590,13 @@ let voiceBlob = null;
 let recordTimerInterval = null;
 
 let recordStartedAt = 0;
+let uploadInProgress = false;
+
+window.addEventListener("beforeunload",event => {
+  if(!uploadInProgress) return;
+  event.preventDefault();
+  event.returnValue = "";
+});
 
 let sectionOrder = [
   "music",
@@ -1881,10 +1894,46 @@ document.addEventListener("keydown",e=>{
   if(e.key==="Escape" && $("giftPreviewModal").classList.contains("show")) closeGiftPreview();
 });
 
+async function compressImage(file){
+  if(!file.type.startsWith("image/") || file.type === "image/gif" || file.size < 700000){
+    return file;
+  }
+
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+
+    image.onload = () => {
+      const maxSide = 1800;
+      const scale = Math.min(1,maxSide / Math.max(image.width,image.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(image.width * scale);
+      canvas.height = Math.round(image.height * scale);
+      canvas.getContext("2d",{alpha:false}).drawImage(image,0,0,canvas.width,canvas.height);
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob(blob => {
+        if(!blob || blob.size >= file.size){
+          resolve(file);
+          return;
+        }
+        resolve(new File([blob],file.name.replace(/\.[^.]+$/,".webp"),{type:"image/webp"}));
+      },"image/webp",.84);
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve(file);
+    };
+
+    image.src = url;
+  });
+}
+
 $("photoInput")
 .addEventListener(
   "change",
-  e => {
+  async e => {
 
     const add =
     [...e.target.files];
@@ -1905,7 +1954,11 @@ $("photoInput")
       return;
     }
 
-    add.forEach(
+    setStatus("نجهز الصور عشان ترفع أسرع…");
+
+    const optimized = await Promise.all(add.map(compressImage));
+
+    optimized.forEach(
       file =>
       photos.push({
         file,
@@ -1919,6 +1972,7 @@ $("photoInput")
     e.target.value="";
 
     renderPhotos();
+    setStatus("تم تجهيز الصور ✓","success");
 
   }
 );
@@ -2943,6 +2997,8 @@ async () => {
   $("submitBtn")
   .disabled = true;
 
+  uploadInProgress = true;
+
   setStatus(
     "قاعد نحفظ لحظتك…"
   );
@@ -2959,6 +3015,20 @@ async () => {
     .toString()
     .slice(-8);
 
+    const selectedMusicFile = $("musicFile").files[0];
+    const selectedVideoFile = $("videoFile").files[0];
+    const totalUploads = Math.max(1,
+      photos.length +
+      (selectedMusicFile ? 1 : 0) +
+      (voiceBlob && plan.rank>=2 ? 1 : 0) +
+      (selectedVideoFile && plan.rank>=3 ? 1 : 0)
+    );
+    let finishedUploads = 0;
+    const uploadProgress = label => {
+      const percent = Math.min(99,Math.round((finishedUploads / totalUploads) * 100));
+      setStatus(`${label} — ${percent}%`);
+    };
+
     const photoPaths = [];
 
     for(
@@ -2967,9 +3037,7 @@ async () => {
       i++
     ){
 
-      setStatus(
-        `نرفع الصور ${i+1}/${photos.length}…`
-      );
+      uploadProgress(`نرفع الصور ${i+1}/${photos.length}…`);
 
       const f =
       photos[i].file;
@@ -2986,13 +3054,13 @@ async () => {
         path
       );
 
+      finishedUploads++;
+
     }
 
     let audioUrl = null;
 
-    const musicFile =
-    $("musicFile")
-    .files[0];
+    const musicFile = selectedMusicFile;
 
     const musicUrl =
     $("musicUrl")
@@ -3012,6 +3080,9 @@ async () => {
         musicFile,
         path
       );
+
+      finishedUploads++;
+      uploadProgress("تم رفع الموسيقى");
 
       audioUrl =
       (
@@ -3061,13 +3132,14 @@ async () => {
         giftToken
       );
 
+      finishedUploads++;
+      uploadProgress("تم رفع الفويس");
+
     }
 
     let videoUrl = null;
 
-    const videoFile =
-    $("videoFile")
-    .files[0];
+    const videoFile = selectedVideoFile;
 
     if(
       plan.rank>=3 &&
@@ -3085,6 +3157,9 @@ async () => {
         videoFile,
         p
       );
+
+      finishedUploads++;
+      uploadProgress("تم رفع الفيديو");
 
       videoUrl = p;
 
@@ -3361,6 +3436,8 @@ async () => {
       throw error;
     }
 
+    uploadInProgress = false;
+
     localStorage.removeItem(
       "lahzaCreateDraft:" + planKey
     );
@@ -3415,6 +3492,8 @@ async () => {
   }
 
   catch(e){
+
+    uploadInProgress = false;
 
     console.error(e);
 

@@ -14,6 +14,13 @@
     content="#08080f"
   >
 
+  <meta name="description" content="اصنع هدية رقمية خاصة تجمع الرسالة والصور والأغنية في رابط واحد.">
+  <meta property="og:title" content="LAHZA | لحظة">
+  <meta property="og:description" content="مو كل هدية تنحط في علبة. اصنع لحظة تبقى.">
+  <meta property="og:type" content="website">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <script src="./pwa.js" defer></script>
+
   <title>LAHZA | لحظة</title>
 
   <style>
@@ -133,6 +140,20 @@
       width:100%;
       max-width:700px;
     }
+
+    .sparkles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+    .sparkles i{position:absolute;color:rgba(255,105,153,.34);font-style:normal;animation:floatHeart 7s ease-in-out infinite}
+    .sparkles i:nth-child(1){right:9%;top:22%;font-size:24px}.sparkles i:nth-child(2){left:12%;top:31%;font-size:15px;animation-delay:-2s}.sparkles i:nth-child(3){right:18%;bottom:16%;font-size:17px;animation-delay:-4s}
+    @keyframes floatHeart{50%{transform:translateY(-18px) rotate(8deg);opacity:.7}}
+
+    .showcase{width:min(1000px,calc(100% - 32px));margin:0 auto 30px;display:grid;grid-template-columns:1.05fr .95fr;gap:18px;position:relative;z-index:2}
+    .previewCard,.stepsCard{border:1px solid #292934;background:linear-gradient(145deg,rgba(22,19,28,.94),rgba(12,11,17,.96));border-radius:26px;padding:24px;box-shadow:0 22px 60px rgba(0,0,0,.22)}
+    .miniEnvelope{height:200px;display:grid;place-items:center;position:relative;overflow:hidden;border-radius:20px;background:radial-gradient(circle at 50% 15%,rgba(255,79,135,.17),transparent 42%),#0d0c13}
+    .miniEnvelope:before{content:"";width:210px;height:125px;border-radius:13px;background:linear-gradient(145deg,#d87c9f,#ad426d);clip-path:polygon(0 0,50% 48%,100% 0,100% 100%,0 100%);box-shadow:0 22px 45px rgba(0,0,0,.3)}
+    .miniEnvelope:after{content:"♡";position:absolute;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#bd4674;color:#fff;font-size:23px;box-shadow:0 8px 18px #0004}
+    .showcase h2{font-size:23px;margin:0 0 8px}.showcase p{font-size:14px;margin:0;color:#aaa}
+    .stepsList{display:grid;gap:10px;margin-top:18px}.stepItem{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #272530;border-radius:16px;background:#121119}.stepItem b{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:rgba(255,79,135,.13);color:#ff7da6}.stepItem span{font-size:14px;color:#ddd}
+    .trustRow{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin:18px 0 0}.trustRow span{font-size:11px;color:#aaa;border:1px solid #292934;background:#121219;padding:7px 10px;border-radius:999px}
 
 
     .tag{
@@ -299,6 +320,8 @@
       z-index:2;
     }
 
+    footer a{color:#777;text-decoration:none;margin:0 7px}
+
 
     @media(max-width:600px){
 
@@ -329,6 +352,8 @@
       .start{
         padding:16px 30px;
       }
+
+      .showcase{grid-template-columns:1fr}.previewCard,.stepsCard{padding:18px}.miniEnvelope{height:170px}
 
     }
 
@@ -376,6 +401,8 @@
 <body>
 
   <div class="page">
+
+    <div class="sparkles"><i>♡</i><i>✦</i><i>♡</i></div>
 
     <nav>
 
@@ -452,9 +479,28 @@
 
     </main>
 
+    <section class="showcase" aria-label="كيف تعمل لحظة">
+      <div class="previewCard">
+        <div class="miniEnvelope"></div>
+        <h2 style="margin-top:18px">هدية تبدأ بظرف… وتنتهي بذكرى</h2>
+        <p>رسالة وصور وأغنية وفيديو داخل تجربة مرتبة تفتح خطوة بخطوة.</p>
+        <div class="trustRow"><span>رابط خاص</span><span>يعمل على الجوال</span><button id="installApp" type="button" style="border:1px solid #292934;background:#121219;color:#bbb;padding:7px 10px;border-radius:999px">أضف للشاشة الرئيسية</button></div>
+      </div>
+      <div class="stepsCard">
+        <h2>ثلاث خطوات وبس</h2>
+        <p>اختر، صمّم، وأرسل اللحظة.</p>
+        <div class="stepsList">
+          <div class="stepItem"><b>1</b><span>اختر المناسبة والباقة</span></div>
+          <div class="stepItem"><b>2</b><span>أضف رسالتك وذكرياتكم</span></div>
+          <div class="stepItem"><b>3</b><span>استلم الرابط وشاركه</span></div>
+        </div>
+        <a href="./occasion.html" class="start" style="display:block;text-align:center;margin-top:18px">اصنع هديتك الآن ♡</a>
+      </div>
+    </section>
+
 
     <footer>
-      LAHZA © 2026
+      LAHZA © 2026 · <a href="./privacy.html">الخصوصية</a><a href="./terms.html">الشروط</a>
     </footer>
 
   </div>
@@ -473,6 +519,21 @@
 
 
   <script>
+
+    let installPrompt = null;
+    window.addEventListener("beforeinstallprompt",event => {
+      event.preventDefault();
+      installPrompt = event;
+    });
+    document.getElementById("installApp")?.addEventListener("click",async () => {
+      if(installPrompt){
+        installPrompt.prompt();
+        await installPrompt.userChoice;
+        installPrompt = null;
+      }else{
+        alert("في الآيفون: اضغط مشاركة ثم اختر إضافة إلى الشاشة الرئيسية.");
+      }
+    });
 
     /*
       ننتظر analytics.js بدون
