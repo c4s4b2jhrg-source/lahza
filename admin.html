@@ -830,6 +830,45 @@ button{
   </form>
 </div>
 
+<div id="salesModal" class="editModal" aria-hidden="true">
+  <form id="salesForm" class="editBox" style="width:min(430px,100%)">
+    <div class="editHead">
+      <div>
+        <h2>تعديل إجمالي المبيعات</h2>
+        <div class="muted" style="font-size:12px;margin-top:5px">
+          اكتب المبلغ بالدينار البحريني
+        </div>
+      </div>
+      <button id="closeSales" class="ghost" type="button">✕</button>
+    </div>
+
+    <div class="editField">
+      <label for="salesAmount">المبلغ</label>
+      <div style="position:relative">
+        <input
+          id="salesAmount"
+          class="input"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          step="0.001"
+          placeholder="0.000"
+          dir="ltr"
+          style="font-size:25px;font-weight:900;padding-left:55px"
+          required
+        >
+        <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:850">د.ب</span>
+      </div>
+    </div>
+
+    <div class="editActions" style="flex-wrap:wrap">
+      <button id="saveSales" class="primary" type="submit">حفظ المبلغ</button>
+      <button id="resetSales" class="btn archive" type="button">رجوع تلقائي</button>
+      <button id="cancelSales" class="ghost" type="button">إلغاء</button>
+    </div>
+  </form>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1307,35 +1346,38 @@ function updateOrderStats(){
 
 function editSalesTotal(){
 
-  const current =
+  $("#salesAmount").value =
     $("#statSales").textContent;
 
-  const value = prompt(
-`اكتب إجمالي المبيعات الجديد بالدينار.
+  $("#salesModal").classList.add("show");
+  $("#salesModal").setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
 
-مثال: 12.500
+  setTimeout(() => {
+    $("#salesAmount").focus();
+    $("#salesAmount").select();
+  },50);
 
-للرجوع للحساب التلقائي، امسح الرقم واضغط موافق.`,
-    current
-  );
+}
 
-  if(value === null){
-    return;
-  }
 
-  const clean = value.trim();
+function closeSalesModal(){
 
-  if(!clean){
-    localStorage.removeItem("lahzaAdminSalesOverride");
-    updateOrderStats();
-    showToast("رجع المبلغ تلقائيًا ✓");
-    return;
-  }
+  $("#salesModal").classList.remove("show");
+  $("#salesModal").setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
 
-  const amount = Number(clean.replace(",","."));
+}
+
+
+function saveSalesTotal(event){
+
+  event.preventDefault();
+
+  const amount = Number($("#salesAmount").value);
 
   if(!Number.isFinite(amount) || amount < 0){
-    alert("اكتب مبلغ صحيح، مثال: 12.500");
+    showToast("اكتب مبلغ صحيح");
     return;
   }
 
@@ -1345,7 +1387,18 @@ function editSalesTotal(){
   );
 
   updateOrderStats();
-  showToast("تم تعديل إجمالي المبيعات ✓");
+  closeSalesModal();
+  showToast("تم تعديل المبلغ ✓");
+
+}
+
+
+function resetSalesTotal(){
+
+  localStorage.removeItem("lahzaAdminSalesOverride");
+  updateOrderStats();
+  closeSalesModal();
+  showToast("رجع المبلغ تلقائيًا ✓");
 
 }
 
@@ -3083,6 +3136,45 @@ $("#editSales")
   );
 
 
+$("#salesForm")
+  .addEventListener(
+    "submit",
+    saveSalesTotal
+  );
+
+
+$("#closeSales")
+  .addEventListener(
+    "click",
+    closeSalesModal
+  );
+
+
+$("#cancelSales")
+  .addEventListener(
+    "click",
+    closeSalesModal
+  );
+
+
+$("#resetSales")
+  .addEventListener(
+    "click",
+    resetSalesTotal
+  );
+
+
+$("#salesModal")
+  .addEventListener(
+    "click",
+    event => {
+      if(event.target === $("#salesModal")){
+        closeSalesModal();
+      }
+    }
+  );
+
+
 $("#editForm")
   .addEventListener(
     "submit",
@@ -3127,6 +3219,14 @@ document.addEventListener(
       $("#editModal").classList.contains("show")
     ){
       closeEdit();
+    }
+
+    if(
+      event.key === "Escape"
+      &&
+      $("#salesModal").classList.contains("show")
+    ){
+      closeSalesModal();
     }
 
   }
