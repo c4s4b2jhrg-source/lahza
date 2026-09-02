@@ -432,6 +432,98 @@ button{
   transform:translate(-50%,0);
 }
 
+/* نافذة تعديل الهدية */
+.editModal{
+  position:fixed;
+  z-index:200;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(5,3,6,.78);
+  backdrop-filter:blur(7px);
+}
+
+.editModal.show{
+  display:flex;
+}
+
+.editBox{
+  width:min(760px,100%);
+  max-height:92vh;
+  overflow:auto;
+  padding:20px;
+  border-radius:24px;
+  border:1px solid var(--line);
+  background:#171219;
+  box-shadow:0 24px 70px rgba(0,0,0,.5);
+}
+
+.editHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.editHead h2{
+  margin:0;
+  font-size:21px;
+}
+
+.editGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.editField label{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.editField.full{
+  grid-column:1/-1;
+}
+
+.editField textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+.editChecks{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:14px;
+}
+
+.editCheck{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px;
+  border-radius:14px;
+  background:#100d12;
+  color:#ded3dc;
+}
+
+.editActions{
+  display:flex;
+  gap:9px;
+  margin-top:16px;
+}
+
+.editActions .primary{
+  width:auto;
+  flex:1;
+  margin:0;
+}
+
 @media(max-width:1000px){
   .stats{
     grid-template-columns:repeat(4,1fr);
@@ -448,6 +540,11 @@ button{
   }
 
   .detailGrid{
+    grid-template-columns:1fr;
+  }
+
+  .editGrid,
+  .editChecks{
     grid-template-columns:1fr;
   }
 }
@@ -634,6 +731,100 @@ button{
 </div>
 
 <div id="toast" class="toast"></div>
+
+<div id="editModal" class="editModal" aria-hidden="true">
+  <form id="editForm" class="editBox">
+    <div class="editHead">
+      <div>
+        <h2>تعديل الهدية</h2>
+        <div id="editOrderNumber" class="muted" style="font-size:12px;margin-top:4px"></div>
+      </div>
+      <button id="closeEdit" class="ghost" type="button">✕</button>
+    </div>
+
+    <div class="editGrid">
+      <div class="editField">
+        <label for="editReceiver">اسم المستلم</label>
+        <input id="editReceiver" class="input" maxlength="80" required>
+      </div>
+      <div class="editField">
+        <label for="editSender">اسم المرسل</label>
+        <input id="editSender" class="input" maxlength="80">
+      </div>
+      <div class="editField">
+        <label for="editPhone">رقم واتساب العميل</label>
+        <input id="editPhone" class="input" inputmode="tel" dir="ltr">
+      </div>
+      <div class="editField">
+        <label for="editRecipientPhone">رقم واتساب المستلم</label>
+        <input id="editRecipientPhone" class="input" inputmode="tel" dir="ltr">
+      </div>
+      <div class="editField">
+        <label for="editOccasion">المناسبة</label>
+        <input id="editOccasion" class="input" maxlength="80">
+      </div>
+      <div class="editField">
+        <label for="editGiftDate">التاريخ المختار</label>
+        <input id="editGiftDate" class="input" type="date">
+      </div>
+      <div class="editField">
+        <label for="editOpenAt">موعد فتح الهدية</label>
+        <input id="editOpenAt" class="input" type="datetime-local">
+      </div>
+      <div class="editField">
+        <label for="editTheme">الثيم</label>
+        <select id="editTheme" class="input">
+          <option value="romantic">Love Letter</option>
+          <option value="minimal">Minimal Luxury</option>
+          <option value="midnight">Midnight</option>
+          <option value="sunset">Vintage Sunset</option>
+        </select>
+      </div>
+      <div class="editField">
+        <label for="editFont">خط الرسالة</label>
+        <select id="editFont" class="input">
+          <option value="classic">كلاسيكي</option>
+          <option value="soft">ناعم</option>
+          <option value="handwritten">يدوي</option>
+          <option value="elegant">أنيق</option>
+          <option value="modern">عصري</option>
+        </select>
+      </div>
+      <div class="editField">
+        <label for="editEnvelopeText">النص على الظرف</label>
+        <input id="editEnvelopeText" class="input" maxlength="120">
+      </div>
+      <div class="editField full">
+        <label for="editMessage">رسالة الهدية</label>
+        <textarea id="editMessage" class="input" maxlength="4000" required></textarea>
+      </div>
+      <div class="editField full">
+        <label for="editSecretMessage">الرسالة السرية</label>
+        <textarea id="editSecretMessage" class="input" maxlength="2000"></textarea>
+      </div>
+      <div class="editField full">
+        <label for="editFinalMessage">الرسالة النهائية</label>
+        <textarea id="editFinalMessage" class="input" maxlength="2000"></textarea>
+      </div>
+      <div class="editField">
+        <label for="editGiftPin">رمز فتح الهدية</label>
+        <input id="editGiftPin" class="input" inputmode="numeric" maxlength="12" dir="ltr">
+      </div>
+    </div>
+
+    <div class="editChecks">
+      <label class="editCheck"><input id="editAnonymous" class="check" type="checkbox"> المرسل مجهول</label>
+      <label class="editCheck"><input id="editAutoSend" class="check" type="checkbox"> إرسال للمستلم</label>
+      <label class="editCheck"><input id="editShowDate" class="check" type="checkbox"> إظهار التاريخ</label>
+      <label class="editCheck"><input id="editShowMusic" class="check" type="checkbox"> إظهار الموسيقى</label>
+    </div>
+
+    <div class="editActions">
+      <button id="saveEdit" class="primary" type="submit">حفظ التعديلات</button>
+      <button id="cancelEdit" class="ghost" type="button">إلغاء</button>
+    </div>
+  </form>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1366,6 +1557,13 @@ function renderOrders(){
             تفاصيل
           </button>
 
+          <button
+            class="btn confirm"
+            onclick="openEdit('${esc(order.id)}')"
+          >
+            ✏️ تعديل الهدية
+          </button>
+
 
           ${
             archived
@@ -1567,6 +1765,181 @@ function toggleDetails(id){
     element.classList.toggle("open");
 
   }
+
+}
+
+
+/* ======================================
+   تعديل الهدية
+====================================== */
+
+function toLocalDateTime(value){
+
+  if(!value){
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return "";
+  }
+
+  const pad = number =>
+    String(number).padStart(2,"0");
+
+  return (
+    date.getFullYear() + "-" +
+    pad(date.getMonth()+1) + "-" +
+    pad(date.getDate()) + "T" +
+    pad(date.getHours()) + ":" +
+    pad(date.getMinutes())
+  );
+
+}
+
+
+function setSelectValue(element,value,fallback){
+
+  const wanted = String(value || fallback);
+
+  element.value = wanted;
+
+  if(!element.value){
+    element.value = fallback;
+  }
+
+}
+
+
+function openEdit(id){
+
+  const order = orders.find(
+    item => item.id === id
+  );
+
+  if(!order){
+    return;
+  }
+
+  $("#editForm").dataset.id = id;
+  $("#editOrderNumber").textContent =
+    order.order_number || id;
+
+  $("#editReceiver").value = order.receiver || "";
+  $("#editSender").value = order.sender || "";
+  $("#editPhone").value = order.phone || "";
+  $("#editRecipientPhone").value = order.recipient_phone || "";
+  $("#editOccasion").value = order.occasion || "";
+  $("#editGiftDate").value = order.gift_date || "";
+  $("#editOpenAt").value = toLocalDateTime(order.open_at);
+  $("#editEnvelopeText").value = order.envelope_text || "";
+  $("#editMessage").value = order.message || "";
+  $("#editSecretMessage").value = order.secret_message || "";
+  $("#editFinalMessage").value = order.final_message || "";
+  $("#editGiftPin").value = order.gift_pin || "";
+
+  setSelectValue($("#editTheme"),order.theme,"romantic");
+  setSelectValue($("#editFont"),order.message_font,"classic");
+
+  $("#editAnonymous").checked = !!order.sender_anonymous;
+  $("#editAutoSend").checked = !!order.auto_send;
+  $("#editShowDate").checked = order.show_date !== false;
+  $("#editShowMusic").checked = order.show_music !== false;
+
+  $("#editModal").classList.add("show");
+  $("#editModal").setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+
+  setTimeout(
+    () => $("#editReceiver").focus(),
+    50
+  );
+
+}
+
+
+function closeEdit(){
+
+  $("#editModal").classList.remove("show");
+  $("#editModal").setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+  $("#editForm").removeAttribute("data-id");
+
+}
+
+
+async function saveGiftEdit(event){
+
+  event.preventDefault();
+
+  const id = $("#editForm").dataset.id;
+  const order = orders.find(
+    item => item.id === id
+  );
+
+  if(!order){
+    closeEdit();
+    return;
+  }
+
+  const receiver = $("#editReceiver").value.trim();
+  const message = $("#editMessage").value.trim();
+
+  if(!receiver || !message){
+    alert("اكتب اسم المستلم ورسالة الهدية.");
+    return;
+  }
+
+  const openValue = $("#editOpenAt").value;
+  const autoSend = $("#editAutoSend").checked;
+
+  const changes = {
+    receiver,
+    sender:$("#editSender").value.trim(),
+    phone:$("#editPhone").value.trim() || null,
+    recipient_phone:autoSend
+      ? ($("#editRecipientPhone").value.trim() || null)
+      : null,
+    auto_send:autoSend,
+    occasion:$("#editOccasion").value.trim() || "بدون مناسبة",
+    gift_date:$("#editGiftDate").value || null,
+    open_at:openValue
+      ? new Date(openValue).toISOString()
+      : null,
+    theme:$("#editTheme").value,
+    message_font:$("#editFont").value,
+    envelope_text:$("#editEnvelopeText").value.trim() || "لحظة خاصة لك ♡",
+    message,
+    secret_message:$("#editSecretMessage").value.trim() || null,
+    final_message:$("#editFinalMessage").value.trim() || null,
+    gift_pin:$("#editGiftPin").value.trim() || null,
+    sender_anonymous:$("#editAnonymous").checked,
+    show_date:$("#editShowDate").checked,
+    show_music:$("#editShowMusic").checked
+  };
+
+  const button = $("#saveEdit");
+  button.disabled = true;
+  button.textContent = "جاري الحفظ...";
+
+  const {error} = await sb
+    .from("orders")
+    .update(changes)
+    .eq("id",id);
+
+  button.disabled = false;
+  button.textContent = "حفظ التعديلات";
+
+  if(error){
+    alert("تعذر حفظ التعديلات: " + error.message);
+    return;
+  }
+
+  Object.assign(order,changes);
+  closeEdit();
+  renderOrders();
+  showToast("تم تعديل الهدية ✓");
 
 }
 
@@ -2646,6 +3019,56 @@ $("#deleteSelected")
     "click",
     deleteSelectedOrders
   );
+
+
+$("#editForm")
+  .addEventListener(
+    "submit",
+    saveGiftEdit
+  );
+
+
+$("#closeEdit")
+  .addEventListener(
+    "click",
+    closeEdit
+  );
+
+
+$("#cancelEdit")
+  .addEventListener(
+    "click",
+    closeEdit
+  );
+
+
+$("#editModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(event.target === $("#editModal")){
+        closeEdit();
+      }
+
+    }
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Escape"
+      &&
+      $("#editModal").classList.contains("show")
+    ){
+      closeEdit();
+    }
+
+  }
+);
 
 
 /* تحديث عداد الزوار كل 15 ثانية */
