@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /lahza/admin.html
+Disallow: /lahza/checkout.html
+Disallow: /lahza/success.html
+Disallow: /lahza/gift.html
+
+Sitemap: https://c4s4b2jhrg-source.github.io/lahza/sitemap.xml
