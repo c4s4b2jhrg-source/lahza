@@ -848,10 +848,9 @@ button{
         <input
           id="salesAmount"
           class="input"
-          type="number"
+          type="text"
           inputmode="decimal"
-          min="0"
-          step="0.001"
+          pattern="[0-9٠-٩۰-۹.,٫]*"
           placeholder="0.000"
           dir="ltr"
           style="font-size:25px;font-weight:900;padding-left:55px"
@@ -1370,11 +1369,32 @@ function closeSalesModal(){
 }
 
 
+function normalizeArabicNumber(value){
+
+  const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+  const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+
+  return String(value || "")
+    .replace(/[٠-٩]/g,char => arabicDigits.indexOf(char))
+    .replace(/[۰-۹]/g,char => persianDigits.indexOf(char))
+    .replace(/[٫,]/g,".")
+    .replace(/[^0-9.]/g,"")
+    .replace(/(\..*)\./g,"$1");
+
+}
+
+
 function saveSalesTotal(event){
 
   event.preventDefault();
 
-  const amount = Number($("#salesAmount").value);
+  const normalized = normalizeArabicNumber(
+    $("#salesAmount").value
+  );
+
+  $("#salesAmount").value = normalized;
+
+  const amount = Number(normalized);
 
   if(!Number.isFinite(amount) || amount < 0){
     showToast("اكتب مبلغ صحيح");
@@ -3140,6 +3160,18 @@ $("#salesForm")
   .addEventListener(
     "submit",
     saveSalesTotal
+  );
+
+
+$("#salesAmount")
+  .addEventListener(
+    "input",
+    event => {
+      const normalized = normalizeArabicNumber(event.target.value);
+      if(event.target.value !== normalized){
+        event.target.value = normalized;
+      }
+    }
   );
 
 
