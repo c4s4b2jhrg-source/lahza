@@ -322,6 +322,20 @@
 
     footer a{color:#777;text-decoration:none;margin:0 7px}
 
+    .homeSection{width:min(1000px,calc(100% - 32px));margin:22px auto 34px;position:relative;z-index:2}
+    .sectionTitle{text-align:center;margin-bottom:18px}.sectionTitle small{color:#ff9ec5;font-weight:800}.sectionTitle h2{font-size:clamp(26px,5vw,40px);margin:7px 0}.sectionTitle p{margin:0 auto;color:#96919b;font-size:14px}
+    .occasionGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .occasionLink{min-height:135px;padding:18px 12px;border:1px solid #292934;border-radius:23px;background:linear-gradient(145deg,#17131c,#0e0d13);color:#fff;text-decoration:none;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;box-shadow:0 15px 40px rgba(0,0,0,.18)}
+    .occasionLink i{font-style:normal;font-size:35px;filter:drop-shadow(0 8px 18px rgba(255,111,169,.25))}.occasionLink b{font-size:15px}.occasionLink span{font-size:11px;color:#8f8994}
+    .demoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .demoGift{position:relative;overflow:hidden;min-height:260px;border:1px solid #2d2834;border-radius:27px;padding:22px;background:radial-gradient(circle at 85% 10%,rgba(255,111,169,.18),transparent 35%),#121017;text-align:right}
+    .demoGift:nth-child(2){background:radial-gradient(circle at 85% 10%,rgba(121,139,255,.22),transparent 35%),#10121b}.demoGift:nth-child(3){background:radial-gradient(circle at 85% 10%,rgba(255,188,109,.18),transparent 35%),#17120f}
+    .demoGift .giftIcon{width:76px;height:58px;margin:12px auto 28px;border-radius:10px;background:linear-gradient(145deg,#e990b2,#b74773);position:relative;box-shadow:0 18px 38px rgba(0,0,0,.3)}
+    .demoGift .giftIcon:before{content:'♡';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:24px}.demoGift h3{font-size:19px;margin:0 0 8px}.demoGift p{font-size:13px;margin:0;color:#96919b}.demoGift .chip{display:inline-block;margin-top:16px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:#d9d4dc;font-size:11px}
+    .benefitGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.benefit{padding:20px;border-radius:22px;border:1px solid #282530;background:rgba(18,16,23,.78)}.benefit strong{display:block;margin:8px 0;color:#fff}.benefit span{font-size:13px;color:#918b96;line-height:1.7}.benefit i{font-style:normal;font-size:25px}
+    .faq{display:grid;gap:10px;width:min(760px,100%);margin:auto}.faq details{border:1px solid #292630;border-radius:18px;background:#121016;padding:16px 18px}.faq summary{cursor:pointer;font-weight:800;color:#f2edf3}.faq details p{font-size:13px;margin:12px 0 0;color:#98919c}
+    .mobileStart{display:none}
+
 
     @media(max-width:600px){
 
@@ -354,6 +368,9 @@
       }
 
       .showcase{grid-template-columns:1fr}.previewCard,.stepsCard{padding:18px}.miniEnvelope{height:170px}
+      .occasionGrid{grid-template-columns:repeat(2,1fr)}.occasionLink{min-height:120px}.demoGrid,.benefitGrid{grid-template-columns:1fr}.demoGift{min-height:220px}
+      .mobileStart{display:block;position:fixed;z-index:9000;right:14px;left:14px;bottom:max(12px,env(safe-area-inset-bottom));padding:15px;border-radius:17px;text-align:center;text-decoration:none;color:#fff;font-weight:900;background:linear-gradient(135deg,#ff5d9c,#9b73ff);box-shadow:0 15px 45px rgba(0,0,0,.45)}
+      footer{padding-bottom:90px}
 
     }
 
@@ -499,6 +516,46 @@
         <a href="./occasion.html" class="start" style="display:block;text-align:center;margin-top:18px">اصنع هديتك الآن ♡</a>
       </div>
     </section>
+
+    <section class="homeSection">
+      <div class="sectionTitle"><small>ابدأ من إحساسك</small><h2>وش المناسبة؟</h2><p>اختارها ونجهّز لك الجو المناسب من البداية.</p></div>
+      <div class="occasionGrid">
+        <a class="occasionLink" href="./plans.html?occasion=birthday"><i>🎂</i><b>عيد ميلاد</b><span>فرحة وذكريات</span></a>
+        <a class="occasionLink" href="./plans.html?occasion=love"><i>🤍</i><b>حب</b><span>كلام من القلب</span></a>
+        <a class="occasionLink" href="./plans.html?occasion=apology"><i>🕊️</i><b>اعتذار</b><span>بداية أجمل</span></a>
+        <a class="occasionLink" href="./plans.html?occasion=thanks"><i>✨</i><b>شكر</b><span>لشخص يستاهل</span></a>
+      </div>
+    </section>
+
+    <section class="homeSection">
+      <div class="sectionTitle"><small>شكل التجربة</small><h2>هدية مو مجرد رسالة</h2><p>كل لحظة لها ألوان وحركة وإحساس مختلف.</p></div>
+      <div class="demoGrid">
+        <article class="demoGift"><div class="giftIcon"></div><h3>الظرف الرومانسي</h3><p>يفتح بختم قلب وتطلع منه بطاقة مصممة للشخص.</p><span class="chip">حب وذكرى</span></article>
+        <article class="demoGift"><div class="giftIcon" style="background:linear-gradient(145deg,#7687ce,#354581)"></div><h3>ليلة ونجوم</h3><p>ألوان هادئة تناسب المفاجآت واللحظات الخاصة.</p><span class="chip">منتصف الليل</span></article>
+        <article class="demoGift"><div class="giftIcon" style="background:linear-gradient(145deg,#f2b37f,#bf655c)"></div><h3>دفء الذكريات</h3><p>صور وأغنية ورسالة تظهر خطوة بخطوة.</p><span class="chip">صوركم معًا</span></article>
+      </div>
+    </section>
+
+    <section class="homeSection">
+      <div class="sectionTitle"><small>ليش لحظة؟</small><h2>صغيرة بالحجم، كبيرة بالإحساس</h2></div>
+      <div class="benefitGrid">
+        <div class="benefit"><i>🔒</i><strong>رابط خاص</strong><span>ما يشوف الهدية إلا الشخص اللي ترسل له الرابط.</span></div>
+        <div class="benefit"><i>📱</i><strong>تشتغل على الجوال</strong><span>بدون تحميل تطبيق أو إنشاء حساب.</span></div>
+        <div class="benefit"><i>🎨</i><strong>مصنوعة بطريقتك</strong><span>رسالتك وصورك وأغنيتك داخل تصميم واحد.</span></div>
+      </div>
+    </section>
+
+    <section class="homeSection">
+      <div class="sectionTitle"><small>قبل ما تبدأ</small><h2>أسئلة سريعة</h2></div>
+      <div class="faq">
+        <details><summary>شلون توصل الهدية؟</summary><p>بعد تجهيزها تستلم رابط خاص وترسله للشخص، أو تختار إننا نرسله له.</p></details>
+        <details><summary>هل يحتاج تطبيق؟</summary><p>لا، تنفتح مباشرة من المتصفح على الجوال.</p></details>
+        <details><summary>أقدر أحدد وقت فتحها؟</summary><p>إي، في الباقات الداعمة تقدر تحدد اليوم والوقت.</p></details>
+        <details><summary>أقدر أضيف صور وأغنية؟</summary><p>إي، وتختلف الكمية والمزايا حسب الباقة.</p></details>
+      </div>
+    </section>
+
+    <a class="mobileStart" href="./occasion.html">ابدأ هديتك الآن ♡</a>
 
 
     <footer>
