@@ -131,7 +131,7 @@ button{
 
 .stats{
   display:grid;
-  grid-template-columns:repeat(7,1fr);
+  grid-template-columns:repeat(6,1fr);
   gap:10px;
   margin:15px 0;
 }
@@ -154,6 +154,17 @@ button{
   margin-top:7px;
   font-size:25px;
   direction:ltr;
+}
+
+.statEdit{
+  margin-top:7px;
+  padding:5px 9px;
+  border-radius:9px;
+  border:1px solid var(--line);
+  background:#211a23;
+  color:#ffd8e5;
+  font-size:11px;
+  font-weight:850;
 }
 
 .onlineStat{
@@ -636,14 +647,11 @@ button{
       </div>
 
       <div class="stat">
-        <span>المحذوفة</span>
-        <b id="statArchived">0</b>
-      </div>
-
-      <div class="stat">
         <span>إجمالي المبيعات</span>
         <b id="statSales">0.000</b>
         <span>د.ب</span>
+        <button id="editSales" class="statEdit" type="button">تعديل المبلغ</button>
+        <span id="statSalesMode" style="display:block;margin-top:5px"></span>
       </div>
 
       <div class="stat">
@@ -683,10 +691,6 @@ button{
 
         <button class="filter" data-filter="paid">
           مدفوع
-        </button>
-
-        <button class="filter" data-filter="archived">
-          المحذوفة
         </button>
 
       </div>
@@ -1255,12 +1259,6 @@ function updateOrderStats(){
     );
 
 
-  const archived =
-    orders.filter(
-      order => !!order.archived
-    );
-
-
   const sales =
     orders
       .filter(
@@ -1286,11 +1284,68 @@ function updateOrderStats(){
   $("#statPaid").textContent =
     paid.length;
 
-  $("#statArchived").textContent =
-    archived.length;
+  const savedOverride =
+    localStorage.getItem("lahzaAdminSalesOverride");
+
+  const hasOverride =
+    savedOverride !== null
+    &&
+    savedOverride !== "";
 
   $("#statSales").textContent =
-    money(sales);
+    hasOverride
+    ? money(savedOverride)
+    : money(sales);
+
+  $("#statSalesMode").textContent =
+    hasOverride
+    ? "مبلغ يدوي"
+    : "محسوب تلقائيًا";
+
+}
+
+
+function editSalesTotal(){
+
+  const current =
+    $("#statSales").textContent;
+
+  const value = prompt(
+`اكتب إجمالي المبيعات الجديد بالدينار.
+
+مثال: 12.500
+
+للرجوع للحساب التلقائي، امسح الرقم واضغط موافق.`,
+    current
+  );
+
+  if(value === null){
+    return;
+  }
+
+  const clean = value.trim();
+
+  if(!clean){
+    localStorage.removeItem("lahzaAdminSalesOverride");
+    updateOrderStats();
+    showToast("رجع المبلغ تلقائيًا ✓");
+    return;
+  }
+
+  const amount = Number(clean.replace(",","."));
+
+  if(!Number.isFinite(amount) || amount < 0){
+    alert("اكتب مبلغ صحيح، مثال: 12.500");
+    return;
+  }
+
+  localStorage.setItem(
+    "lahzaAdminSalesOverride",
+    amount.toFixed(3)
+  );
+
+  updateOrderStats();
+  showToast("تم تعديل إجمالي المبيعات ✓");
 
 }
 
@@ -2239,7 +2294,7 @@ ${giftLink}
 
 
 /* ======================================
-   الحذف العادي = أرشفة
+   الحذف العادي = إخفاء من لوحة الإدارة
 ====================================== */
 
 async function archiveOrder(id){
@@ -2257,7 +2312,7 @@ async function archiveOrder(id){
 
   const ok =
     confirm(
-`حذف الطلب ${order.order_number || ""} من لوحة الإدارة؟
+`إخفاء الطلب ${order.order_number || ""} من لوحة الإدارة؟
 
 رابط الهدية عند العميل بيظل شغال.`
     );
@@ -2302,7 +2357,7 @@ async function archiveOrder(id){
   renderOrders();
 
   showToast(
-    "تم حذف الطلب من لوحة الإدارة"
+    "تم إخفاء الطلب من لوحة الإدارة"
   );
 
 }
@@ -2657,7 +2712,7 @@ async function archiveSelectedOrders(){
 
   if(
     !confirm(
-`حذف ${ids.length} طلب من لوحة الإدارة؟
+`إخفاء ${ids.length} طلب من لوحة الإدارة؟
 
 روابط الهدايا عند العملاء بتظل شغالة.`
     )
@@ -2709,7 +2764,7 @@ async function archiveSelectedOrders(){
   renderOrders();
 
   showToast(
-    "تم حذف الطلبات من لوحة الإدارة"
+    "تم إخفاء الطلبات من لوحة الإدارة"
   );
 
 }
@@ -3018,6 +3073,13 @@ $("#deleteSelected")
   .addEventListener(
     "click",
     deleteSelectedOrders
+  );
+
+
+$("#editSales")
+  .addEventListener(
+    "click",
+    editSalesTotal
   );
 
 
