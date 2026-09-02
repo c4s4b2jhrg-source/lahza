@@ -430,6 +430,9 @@ button{
   bottom:20px;
   transform:translate(-50%,20px);
   opacity:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
   pointer-events:none;
   padding:11px 15px;
   border-radius:14px;
@@ -441,6 +444,18 @@ button{
 .toast.show{
   opacity:1;
   transform:translate(-50%,0);
+  pointer-events:auto;
+}
+
+.toastAction{
+  display:none;
+  border:0;
+  border-radius:9px;
+  padding:7px 10px;
+  background:var(--pink);
+  color:#2a1019;
+  font-weight:950;
+  white-space:nowrap;
 }
 
 /* نافذة تعديل الهدية */
@@ -734,7 +749,10 @@ button{
 
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast">
+  <span id="toastText"></span>
+  <button id="toastAction" class="toastAction" type="button">تراجع</button>
+</div>
 
 <div id="editModal" class="editModal" aria-hidden="true">
   <form id="editForm" class="editBox">
@@ -766,6 +784,10 @@ button{
       <div class="editField">
         <label for="editOccasion">المناسبة</label>
         <input id="editOccasion" class="input" maxlength="80">
+      </div>
+      <div class="editField">
+        <label for="editPrice">سعر الطلب (د.ب)</label>
+        <input id="editPrice" class="input" type="text" inputmode="decimal" pattern="[0-9٠-٩۰-۹.,٫]*" placeholder="0.000" dir="ltr">
       </div>
       <div class="editField">
         <label for="editGiftDate">التاريخ المختار</label>
@@ -813,6 +835,32 @@ button{
       <div class="editField">
         <label for="editGiftPin">رمز فتح الهدية</label>
         <input id="editGiftPin" class="input" inputmode="numeric" maxlength="12" dir="ltr">
+      </div>
+      <div class="editField full" style="padding-top:8px;border-top:1px solid var(--line)">
+        <label for="editPhotos">استبدال الصور كلها</label>
+        <input id="editPhotos" class="input" type="file" accept="image/*" multiple>
+        <div id="editPhotosInfo" class="muted" style="font-size:11px;margin-top:6px"></div>
+        <label class="editCheck" style="margin-top:8px"><input id="removePhotos" class="check" type="checkbox"> حذف الصور الحالية</label>
+      </div>
+      <div class="editField full">
+        <label for="editMusicFile">استبدال الأغنية بملف</label>
+        <input id="editMusicFile" class="input" type="file" accept="audio/*,video/*">
+      </div>
+      <div class="editField full">
+        <label for="editMusicUrl">أو استبدالها برابط YouTube / صوت</label>
+        <input id="editMusicUrl" class="input" placeholder="الصق الرابط هنا" dir="ltr">
+        <div id="editMusicInfo" class="muted" style="font-size:11px;margin-top:6px"></div>
+        <label class="editCheck" style="margin-top:8px"><input id="removeMusic" class="check" type="checkbox"> حذف الأغنية الحالية</label>
+      </div>
+      <div class="editField">
+        <label for="editVoiceFile">استبدال الفويس</label>
+        <input id="editVoiceFile" class="input" type="file" accept="audio/*">
+        <label class="editCheck" style="margin-top:8px"><input id="removeVoice" class="check" type="checkbox"> حذف الفويس الحالي</label>
+      </div>
+      <div class="editField">
+        <label for="editVideoFile">استبدال الفيديو</label>
+        <input id="editVideoFile" class="input" type="file" accept="video/*">
+        <label class="editCheck" style="margin-top:8px"><input id="removeVideo" class="check" type="checkbox"> حذف الفيديو الحالي</label>
       </div>
     </div>
 
@@ -961,8 +1009,11 @@ function formatDate(value){
 function showToast(message){
 
   const el = $("#toast");
+  const action = $("#toastAction");
 
-  el.textContent = message;
+  $("#toastText").textContent = message;
+  action.style.display = "none";
+  action.onclick = null;
   el.classList.add("show");
 
   clearTimeout(showToast.timer);
@@ -972,6 +1023,56 @@ function showToast(message){
       () => el.classList.remove("show"),
       1900
     );
+
+}
+
+
+function showUndoToast(ids){
+
+  const el = $("#toast");
+  const action = $("#toastAction");
+
+  $("#toastText").textContent =
+    ids.length === 1 ? "تم إخفاء الطلب" : "تم إخفاء الطلبات";
+  action.textContent = "تراجع";
+  action.style.display = "block";
+  el.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  action.onclick = async () => {
+
+    action.disabled = true;
+
+    const {error} = await sb
+      .from("orders")
+      .update({archived:false,archived_at:null})
+      .in("id",ids);
+
+    action.disabled = false;
+
+    if(error){
+      alert("تعذر التراجع: " + error.message);
+      return;
+    }
+
+    orders.forEach(order => {
+      if(ids.includes(order.id)){
+        order.archived = false;
+        order.archived_at = null;
+      }
+    });
+
+    renderOrders();
+    showToast("تم التراجع ✓");
+
+  };
+
+  showToast.timer = setTimeout(() => {
+    el.classList.remove("show");
+    action.style.display = "none";
+    action.onclick = null;
+  },10000);
 
 }
 
@@ -1622,6 +1723,21 @@ function renderOrders(){
             ""
           }
 
+          ${
+            paid && !archived
+            ?
+            `
+            <button
+              class="btn archive"
+              onclick="markUnpaid('${esc(order.id)}')"
+            >
+              تحويل لغير مدفوع
+            </button>
+            `
+            :
+            ""
+          }
+
 
           ${
             paid
@@ -1940,6 +2056,57 @@ function setSelectValue(element,value,fallback){
 }
 
 
+function adminUuid(){
+  return crypto.randomUUID
+    ? crypto.randomUUID()
+    : Date.now() + "-" + Math.random().toString(16).slice(2);
+}
+
+
+function fileExtension(file){
+
+  const fromName = String(file?.name || "")
+    .split(".")
+    .pop()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g,"");
+
+  return fromName || "bin";
+
+}
+
+
+async function uploadAdminFile(file,path){
+
+  const {error} = await sb.storage
+    .from("gift-media")
+    .upload(path,file,{
+      upsert:false,
+      contentType:file.type || undefined
+    });
+
+  if(error){
+    throw error;
+  }
+
+  return path;
+
+}
+
+
+function youtubeVideoId(value){
+
+  const text = String(value || "").trim();
+
+  const match = text.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([A-Za-z0-9_-]{6,})/
+  );
+
+  return match ? match[1] : "";
+
+}
+
+
 function openEdit(id){
 
   const order = orders.find(
@@ -1959,6 +2126,7 @@ function openEdit(id){
   $("#editPhone").value = order.phone || "";
   $("#editRecipientPhone").value = order.recipient_phone || "";
   $("#editOccasion").value = order.occasion || "";
+  $("#editPrice").value = money(order.price);
   $("#editGiftDate").value = order.gift_date || "";
   $("#editOpenAt").value = toLocalDateTime(order.open_at);
   $("#editEnvelopeText").value = order.envelope_text || "";
@@ -1974,6 +2142,21 @@ function openEdit(id){
   $("#editAutoSend").checked = !!order.auto_send;
   $("#editShowDate").checked = order.show_date !== false;
   $("#editShowMusic").checked = order.show_music !== false;
+
+  $("#editPhotos").value = "";
+  $("#editMusicFile").value = "";
+  $("#editMusicUrl").value = "";
+  $("#editVoiceFile").value = "";
+  $("#editVideoFile").value = "";
+  $("#removePhotos").checked = false;
+  $("#removeMusic").checked = false;
+  $("#removeVoice").checked = false;
+  $("#removeVideo").checked = false;
+
+  $("#editPhotosInfo").textContent =
+    `الصور الحالية: ${Array.isArray(order.photos) ? order.photos.length : 0}`;
+  $("#editMusicInfo").textContent =
+    order.audio_url ? "في أغنية حالية" : "ما في أغنية حاليًا";
 
   $("#editModal").classList.add("show");
   $("#editModal").setAttribute("aria-hidden","false");
@@ -2021,6 +2204,15 @@ async function saveGiftEdit(event){
 
   const openValue = $("#editOpenAt").value;
   const autoSend = $("#editAutoSend").checked;
+  const normalizedPrice = normalizeArabicNumber($("#editPrice").value);
+  const price = Number(normalizedPrice);
+
+  if(!Number.isFinite(price) || price < 0){
+    alert("اكتب سعر صحيح للطلب.");
+    return;
+  }
+
+  $("#editPrice").value = price.toFixed(3);
 
   const changes = {
     receiver,
@@ -2031,6 +2223,7 @@ async function saveGiftEdit(event){
       : null,
     auto_send:autoSend,
     occasion:$("#editOccasion").value.trim() || "بدون مناسبة",
+    price:price,
     gift_date:$("#editGiftDate").value || null,
     open_at:openValue
       ? new Date(openValue).toISOString()
@@ -2047,27 +2240,151 @@ async function saveGiftEdit(event){
     show_music:$("#editShowMusic").checked
   };
 
-  const button = $("#saveEdit");
-  button.disabled = true;
-  button.textContent = "جاري الحفظ...";
+  const photoFiles = [...$("#editPhotos").files];
+  const musicFile = $("#editMusicFile").files[0];
+  const musicUrl = $("#editMusicUrl").value.trim();
+  const voiceFile = $("#editVoiceFile").files[0];
+  const videoFile = $("#editVideoFile").files[0];
 
-  const {error} = await sb
-    .from("orders")
-    .update(changes)
-    .eq("id",id);
-
-  button.disabled = false;
-  button.textContent = "حفظ التعديلات";
-
-  if(error){
-    alert("تعذر حفظ التعديلات: " + error.message);
+  if(photoFiles.length > 20){
+    alert("الحد الأقصى 20 صورة.");
     return;
   }
 
-  Object.assign(order,changes);
-  closeEdit();
-  renderOrders();
-  showToast("تم تعديل الهدية ✓");
+  if(photoFiles.some(file => file.size > 12 * 1024 * 1024)){
+    alert("كل صورة لازم تكون أقل من 12MB.");
+    return;
+  }
+
+  const button = $("#saveEdit");
+  button.disabled = true;
+  button.textContent = "جاري رفع التعديلات...";
+
+  const token = order.gift_token || id;
+  const uploadedPaths = [];
+  const removeAfterSave = [];
+
+  try{
+
+    if(photoFiles.length){
+      const paths = [];
+
+      for(let index=0; index<photoFiles.length; index++){
+        const file = photoFiles[index];
+        button.textContent = `رفع الصور ${index+1}/${photoFiles.length}...`;
+        const path = `${token}/photos/admin-${String(index+1).padStart(2,"0")}-${adminUuid()}.${fileExtension(file)}`;
+        await uploadAdminFile(file,path);
+        uploadedPaths.push(path);
+        paths.push(path);
+      }
+
+      changes.photos = paths;
+      changes.featured_photo = null;
+      removeAfterSave.push(...extractStoragePaths({
+        photos:order.photos,
+        featured_photo:order.featured_photo
+      }));
+
+    }else if($("#removePhotos").checked){
+      changes.photos = [];
+      changes.featured_photo = null;
+      removeAfterSave.push(...extractStoragePaths({
+        photos:order.photos,
+        featured_photo:order.featured_photo
+      }));
+    }
+
+    if(musicFile){
+      button.textContent = "رفع الأغنية...";
+      const path = `${token}/media/admin-${adminUuid()}.${fileExtension(musicFile)}`;
+      await uploadAdminFile(musicFile,path);
+      uploadedPaths.push(path);
+      changes.audio_url = String(musicFile.type || "").startsWith("video/")
+        ? "storage-video:" + path
+        : "storage-audio:" + path;
+      removeAfterSave.push(...extractStoragePaths({audio_url:order.audio_url}));
+
+    }else if(musicUrl){
+      const youtubeId = youtubeVideoId(musicUrl);
+      changes.audio_url = youtubeId
+        ? "youtube:" + youtubeId
+        : "external:" + musicUrl;
+      removeAfterSave.push(...extractStoragePaths({audio_url:order.audio_url}));
+
+    }else if($("#removeMusic").checked){
+      changes.audio_url = null;
+      removeAfterSave.push(...extractStoragePaths({audio_url:order.audio_url}));
+    }
+
+    if(voiceFile){
+      button.textContent = "رفع الفويس...";
+      const path = `${token}/voice/admin-${adminUuid()}.${fileExtension(voiceFile)}`;
+      await uploadAdminFile(voiceFile,path);
+      uploadedPaths.push(path);
+      changes.voice_url = path;
+      removeAfterSave.push(...extractStoragePaths({voice_url:order.voice_url}));
+
+    }else if($("#removeVoice").checked){
+      changes.voice_url = null;
+      removeAfterSave.push(...extractStoragePaths({voice_url:order.voice_url}));
+    }
+
+    if(videoFile){
+      button.textContent = "رفع الفيديو...";
+      const path = `${token}/video/admin-${adminUuid()}.${fileExtension(videoFile)}`;
+      await uploadAdminFile(videoFile,path);
+      uploadedPaths.push(path);
+      changes.video_url = path;
+      removeAfterSave.push(...extractStoragePaths({video_url:order.video_url}));
+
+    }else if($("#removeVideo").checked){
+      changes.video_url = null;
+      removeAfterSave.push(...extractStoragePaths({video_url:order.video_url}));
+    }
+
+    button.textContent = "جاري الحفظ...";
+
+    const {error} = await sb
+      .from("orders")
+      .update(changes)
+      .eq("id",id);
+
+    if(error){
+      throw error;
+    }
+
+    const oldPaths = [...new Set(removeAfterSave)]
+      .filter(path => !uploadedPaths.includes(path));
+
+    if(oldPaths.length){
+      const {error:removeError} = await sb.storage
+        .from("gift-media")
+        .remove(oldPaths);
+
+      if(removeError){
+        console.warn("تعذر حذف بعض الملفات القديمة:",removeError.message);
+      }
+    }
+
+    Object.assign(order,changes);
+    closeEdit();
+    renderOrders();
+    showToast("تم تعديل الهدية ✓");
+
+  }catch(error){
+
+    if(uploadedPaths.length){
+      await sb.storage.from("gift-media").remove(uploadedPaths);
+    }
+
+    alert("تعذر حفظ التعديلات: " + (error?.message || error));
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "حفظ التعديلات";
+
+  }
 
 }
 
@@ -2130,6 +2447,36 @@ async function confirmPayment(id){
   renderOrders();
 
   showToast("تم تأكيد الدفع ✓");
+
+}
+
+
+async function markUnpaid(id){
+
+  const order = orders.find(item => item.id === id);
+
+  if(!order){
+    return;
+  }
+
+  if(!confirm(`تحويل الطلب ${order.order_number || ""} إلى غير مدفوع؟`)){
+    return;
+  }
+
+  const {error} = await sb
+    .from("orders")
+    .update({status:"pending",paid_at:null})
+    .eq("id",id);
+
+  if(error){
+    alert("تعذر تغيير حالة الدفع: " + error.message);
+    return;
+  }
+
+  order.status = "pending";
+  order.paid_at = null;
+  renderOrders();
+  showToast("تم تحويل الطلب لغير مدفوع");
 
 }
 
@@ -2429,9 +2776,7 @@ async function archiveOrder(id){
 
   renderOrders();
 
-  showToast(
-    "تم إخفاء الطلب من لوحة الإدارة"
-  );
+  showUndoToast([id]);
 
 }
 
@@ -2836,9 +3181,7 @@ async function archiveSelectedOrders(){
 
   renderOrders();
 
-  showToast(
-    "تم إخفاء الطلبات من لوحة الإدارة"
-  );
+  showUndoToast(ids);
 
 }
 
@@ -3211,6 +3554,15 @@ $("#editForm")
   .addEventListener(
     "submit",
     saveGiftEdit
+  );
+
+
+$("#editPrice")
+  .addEventListener(
+    "input",
+    event => {
+      event.target.value = normalizeArabicNumber(event.target.value);
+    }
   );
 
 
