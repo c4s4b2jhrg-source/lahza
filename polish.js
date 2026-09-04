@@ -27,11 +27,12 @@
       surprise:{label:'بدون مناسبة',api:'surprise',scenes:[['surprise_gift','هدية مفاجأة','هدية بدون سبب'],['flowers','ورد','لقطة ناعمة'],['elegant_portrait','بورتريه فاخر','صورة مرتبة'],['cozy_moment','لحظة عفوية','جو دافئ']]}
     };
     const cfg=occasionMap[occasionValue]||occasionMap.surprise;
+    const needsTwo=occasionValue==='love'||occasionValue==='friend';
     let sceneKey=cfg.scenes[0][0],lastBase64='',busy=false;
 
     const box=document.createElement('div');
     box.id='lahzaAiBox';box.className='lahza-ai-box';
-    box.innerHTML=`<div class="lahza-ai-head"><div><b>✨ توليد صورة AI</b><small>اختر الشكل، ارفع صور الأشخاص، وبعد التوليد أضف الصورة مباشرة للهدية.</small></div><span class="lahza-ai-badge">${cfg.label}</span></div><div id="lahzaAiScenes" class="lahza-ai-scenes"></div><div class="lahza-ai-controls"><div><label>الصور المرجعية</label><input id="lahzaAiRefs" type="file" accept="image/*" multiple><div id="lahzaAiRefList" class="lahza-ai-refs"></div></div><div><label>ستايل الصورة</label><select id="lahzaAiStyle"><option value="واقعي دافئ">واقعي دافئ</option><option value="سينمائي فاخر">سينمائي فاخر</option><option value="ناعم حالم">ناعم حالم</option><option value="كرتوني لطيف">كرتوني لطيف</option></select></div></div><div class="lahza-ai-actions"><button id="lahzaAiGenerate" type="button" class="lahza-ai-btn primary">توليد الصورة</button><button id="lahzaAiUse" type="button" class="lahza-ai-btn secondary lahza-ai-hide">إضافة للهدية</button></div><div id="lahzaAiStatus" class="lahza-ai-status"></div><div id="lahzaAiResult" class="lahza-ai-result lahza-ai-hide"><img id="lahzaAiImg" alt="صورة مولدة بالذكاء الاصطناعي"></div>`;
+    box.innerHTML=`<div class="lahza-ai-head"><div><b>✨ توليد صورة AI</b><small>${needsTwo?'ارفع صورتين بالضبط — صورة لكل شخص.':'تقدر ترفع أكثر من صورة لنفس الشخص من زوايا مختلفة لتثبيت الوجه أكثر.'}</small></div><span class="lahza-ai-badge">${cfg.label}</span></div><div id="lahzaAiScenes" class="lahza-ai-scenes"></div><div class="lahza-ai-controls"><div><label>الصور المرجعية</label><input id="lahzaAiRefs" type="file" accept="image/*" multiple><div class="lahza-ai-status" style="margin-top:6px">${needsTwo?'الصورة الأولى للشخص الأول، والثانية للشخص الثاني.':'كل الصور المرفوعة تعتبر لنفس الشخص.'}</div><div id="lahzaAiRefList" class="lahza-ai-refs"></div></div><div><label>ستايل الصورة</label><select id="lahzaAiStyle"><option value="واقعي دافئ">واقعي دافئ</option><option value="ناعم حالم">ناعم حالم</option><option value="سينمائي فاخر">سينمائي فاخر</option></select></div></div><div class="lahza-ai-actions"><button id="lahzaAiGenerate" type="button" class="lahza-ai-btn primary">توليد الصورة</button><button id="lahzaAiUse" type="button" class="lahza-ai-btn secondary lahza-ai-hide">إضافة للهدية</button></div><div id="lahzaAiStatus" class="lahza-ai-status"></div><div id="lahzaAiResult" class="lahza-ai-result lahza-ai-hide"><img id="lahzaAiImg" alt="صورة مولدة بالذكاء الاصطناعي"></div>`;
     photoInput.parentNode.insertBefore(box,photoInput);
 
     const scenesEl=box.querySelector('#lahzaAiScenes'),refsInput=box.querySelector('#lahzaAiRefs'),refList=box.querySelector('#lahzaAiRefList'),generateBtn=box.querySelector('#lahzaAiGenerate'),useBtn=box.querySelector('#lahzaAiUse'),status=box.querySelector('#lahzaAiStatus'),result=box.querySelector('#lahzaAiResult'),img=box.querySelector('#lahzaAiImg'),style=box.querySelector('#lahzaAiStyle');
@@ -39,16 +40,26 @@
     function renderScenes(){scenesEl.innerHTML='';cfg.scenes.forEach(([key,title,desc])=>{const b=document.createElement('button');b.type='button';b.className='lahza-ai-scene'+(key===sceneKey?' active':'');b.innerHTML=`<b>${title}</b><small>${desc}</small>`;b.onclick=()=>{sceneKey=key;renderScenes()};scenesEl.appendChild(b)})}
     renderScenes();
 
-    refsInput.addEventListener('change',()=>{refList.innerHTML='';[...refsInput.files].slice(0,4).forEach(file=>{const d=document.createElement('div');d.className='lahza-ai-ref';const p=document.createElement('img');p.src=URL.createObjectURL(file);d.appendChild(p);refList.appendChild(d)});if(refsInput.files.length>4)status.textContent='الحد الأقصى 4 صور مرجعية.'});
+    refsInput.addEventListener('change',()=>{
+      refList.innerHTML='';
+      const files=[...refsInput.files].slice(0,4);
+      files.forEach((file,i)=>{const d=document.createElement('div');d.className='lahza-ai-ref';const p=document.createElement('img');p.src=URL.createObjectURL(file);p.alt=needsTwo?`الشخص ${i+1}`:`مرجع ${i+1}`;d.appendChild(p);refList.appendChild(d)});
+      if(refsInput.files.length>4){status.textContent='الحد الأقصى 4 صور مرجعية.';return}
+      if(needsTwo){status.textContent=files.length===2?'ممتاز — صورة لكل شخص ✓':'لهذي المناسبة لازم صورتين بالضبط.'}
+      else if(files.length){status.textContent='الأفضل تكون الصور واضحة للوجه ومن زوايا قريبة. كل الصور تعتبر لنفس الشخص.'}
+      else status.textContent='';
+    });
 
     function setLocal(msg,type=''){status.textContent=msg||'';status.style.color=type==='error'?'#ffabb8':type==='success'?'#9ce4ba':'';try{if(typeof setStatus==='function')setStatus(msg,type)}catch{}}
     function base64ToFile(base64){const raw=atob(base64),bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new File([bytes],`lahza-ai-${Date.now()}.png`,{type:'image/png'})}
 
     generateBtn.onclick=async()=>{
       if(busy)return;
-      const files=[...refsInput.files].slice(0,4);
-      if(!files.length){setLocal('ارفع صورة مرجعية أول.','error');return}
-      if((occasionValue==='love')&&files.length<2){setLocal('للحب الأفضل ترفع صورتين عشان يطلع الشخصين مع بعض.','error');return}
+      const all=[...refsInput.files];
+      if(!all.length){setLocal('ارفع صورة مرجعية أول.','error');return}
+      if(all.length>4){setLocal('الحد الأقصى 4 صور مرجعية.','error');return}
+      if(needsTwo&&all.length!==2){setLocal('لهذي المناسبة لازم ترفع صورتين بالضبط — صورة لكل شخص.','error');return}
+      const files=all.slice(0,4);
       busy=true;generateBtn.disabled=true;useBtn.classList.add('lahza-ai-hide');result.classList.add('lahza-ai-hide');setLocal('قاعد نولد الصورة…');
       try{
         const fd=new FormData();fd.append('occasion',cfg.api);fd.append('sceneKey',sceneKey);fd.append('style',style.value);fd.append('imageCount',String(files.length));files.forEach((f,i)=>fd.append(`image${i+1}`,f));
